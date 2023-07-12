@@ -1,7 +1,7 @@
 import React from "react";
 import {Card, Icon} from "semantic-ui-react";
-import toast from "react-hot-toast";
 import "./card.css"
+import {showToast} from "../../App";
 
 export const DashboardCard = ({iconName, colorName, cardHeader, cardDesc, count}) => {
 
@@ -27,7 +27,7 @@ export const DashboardCard = ({iconName, colorName, cardHeader, cardDesc, count}
                         </Card.Meta>
                     </Card.Content>
                     <Card.Content extra onClick={() => {
-                        toast.success(`${count} Estimations`);
+                        showToast(`${count} Estimations`, "success");
                     }}>
                         <a>
                             <Icon name='calculator'/>
