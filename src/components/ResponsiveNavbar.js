@@ -4,6 +4,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 
 import {Button, Dropdown} from "semantic-ui-react";
+import {SiAntdesign} from "react-icons/si";
 
 
 function NavScrollExample() {
@@ -11,7 +12,7 @@ function NavScrollExample() {
         <Navbar expand="lg" className="bg-body-tertiary">
             <Container fluid>
 
-                <Navbar.Brand href="#">Creative Production Management</Navbar.Brand>
+                <Navbar.Brand className='ms-4'><SiAntdesign size='1.5em' className='me-2'/>Creative Production Management</Navbar.Brand>
 
                 <Navbar.Toggle aria-controls="navbarScroll"/>
                 <Navbar.Collapse id="navbarScroll">
@@ -44,7 +45,9 @@ function NavScrollExample() {
                     >
                         <Dropdown.Menu>
 
-                            <Dropdown.Item text='Azitech Soft'/>
+                            <center>
+                            <Dropdown.Item className='m-3' text='Azitech Soft'/>
+                            </center>
 
 
                             <Dropdown.Divider/>
