@@ -30,13 +30,17 @@ export const HomePage = () => {
                 <div className="col-sm-2 col-md-2"><CollapsibleSidebar/></div>
 
                 <div className="col-sm-10 col-md-10">
+                    <div className="me-5">
                     <Routes>
                         <Route exact path="/" element={<Dashboard/>}/>
                         <Route exact path="/archive" element={<Archive/>}/>
                         <Route exact path="/add-estimation" element={<EstimationPage/>}/>
 
                     </Routes>
+                    </div>
                 </div>
+
+
 
             </div>
         </div>

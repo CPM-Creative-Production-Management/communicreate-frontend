@@ -23,7 +23,7 @@ export const Dashboard = () => {
 
                     <Grid.Column>
 
-                        <DashboardCard iconName='handshake' colorName='green' cardHeader='Finalized Estimations'
+                        <DashboardCard iconName='check' colorName='green' cardHeader='Finalized Estimations'
                                        cardDesc='These are the estimations that have been accepted.
                                     You can now start working on the projects.'
                                        count='3'/>
