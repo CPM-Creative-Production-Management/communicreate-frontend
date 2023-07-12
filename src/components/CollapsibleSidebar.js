@@ -7,12 +7,15 @@ import {BsArchive} from "react-icons/bs";
 import {LuCalculator} from "react-icons/lu";
 import {IoCloudDoneOutline} from "react-icons/io5";
 import {TbFolderCancel} from "react-icons/tb";
+import {AiOutlineInfoCircle} from "react-icons/ai";
+import {HiOutlineMail} from "react-icons/hi";
+import {Divider} from "semantic-ui-react";
 
 
 export const CollapsibleSidebar = () => {
 
     return (
-        <div style={{display: 'flex', height: '92vh'}}>
+        <div style={{display: 'flex', height: '93vh'}}>
             <Sidebar>
                 <Menu
                     menuItemStyles={{
@@ -25,9 +28,9 @@ export const CollapsibleSidebar = () => {
                     }}
                 >
 
-                    <MenuItem component={<Link to="/" />} icon={<RxDashboard/>}> Dashboard </MenuItem>
+                    <MenuItem component={<Link to="/"/>} icon={<RxDashboard/>}> Dashboard </MenuItem>
                     <SubMenu icon={<BsArchive/>} label="Archive">
-                        <MenuItem component={<Link to="/archive" />} icon={<IoCloudDoneOutline/>}> Completed </MenuItem>
+                        <MenuItem component={<Link to="/archive"/>} icon={<IoCloudDoneOutline/>}> Completed </MenuItem>
 
                         <MenuItem icon={<TbFolderCancel/>}> Rejected </MenuItem>
                     </SubMenu>
@@ -35,6 +38,11 @@ export const CollapsibleSidebar = () => {
                         <MenuItem icon={<IoCloudDoneOutline/>}> Completed </MenuItem>
                         <MenuItem icon={<TbFolderCancel/>}> Rejected </MenuItem>
                     </SubMenu>
+
+                    <Divider/>
+
+                    <MenuItem icon={<AiOutlineInfoCircle/>}> About Us </MenuItem>
+                    <MenuItem icon={<HiOutlineMail/>}> Contact Us </MenuItem>
 
 
                 </Menu>

@@ -1,0 +1,12 @@
+.box {
+
+    background-color: #bed2ff;
+    transition: box-shadow 0.4s ease;
+
+}
+
+.box:hover {
+    box-shadow: 0 0 10px 5px rgba(195, 221, 255, 0.22);
+}
+
+
