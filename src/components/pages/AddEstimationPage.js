@@ -13,7 +13,7 @@ import {Avatar, Chip} from "@mui/material";
 
 
 
-export const EstimationPage = () => {
+export const AddEstimationPage = () => {
 
 
 

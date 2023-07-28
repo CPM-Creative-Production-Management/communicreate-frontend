@@ -5,9 +5,12 @@ import Navbar from 'react-bootstrap/Navbar';
 
 import {Button, Dropdown} from "semantic-ui-react";
 import {SiAntdesign} from "react-icons/si";
+import {useNavigate} from "react-router-dom";
 
 
 function NavScrollExample() {
+
+    const navigate = useNavigate();
     return (
         <Navbar expand="lg" className="bg-body-tertiary">
             <Container fluid>
@@ -58,7 +61,7 @@ function NavScrollExample() {
                             <Dropdown.Item icon='tag'  text='Leads'/>
 
                             <Dropdown.Divider/>
-                            <Dropdown.Item icon='log out' color='red' text='Logout'/>
+                            <Dropdown.Item onClick={()=>{navigate('/auth')}} icon='log out' color='red' text='Logout'/>
                         </Dropdown.Menu>
                     </Dropdown>
 

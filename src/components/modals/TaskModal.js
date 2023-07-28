@@ -3,6 +3,7 @@ import Modal from 'react-bootstrap/Modal';
 import React, {useEffect} from "react";
 import {Button} from "semantic-ui-react";
 import {SingleTaskCard} from "../cards/SingleTaskCard";
+import {AddSingleTaskCard} from "../cards/AddSingleTaskCard";
 
  const TaskModal = (props) => {
      // used for both editing and adding new task
@@ -27,17 +28,25 @@ import {SingleTaskCard} from "../cards/SingleTaskCard";
                 </Modal.Title>
             </Modal.Header>
 
-            <SingleTaskCard show={props.show}
-                            setShow={props.setShow} is_adding_task={props.is_adding_task} set_is_adding_task = {props.set_is_adding_task}/>
+            {props.is_adding_task?<AddSingleTaskCard show={props.show}
+                                                  setShow={props.setShow} is_adding_task={props.is_adding_task} set_is_adding_task = {props.set_is_adding_task}/>:
+                <SingleTaskCard show={props.show}
+                                setShow={props.setShow} is_adding_task={props.is_adding_task} set_is_adding_task = {props.set_is_adding_task}/>}
+
+
 
             <Modal.Footer>
 
                 <Button.Group>
                     <Button onClick={()=> {
                         props.setShow(false)
+                        props.set_is_adding_task(false)
                     }}>Cancel</Button>
                     <Button.Or />
-                    <Button positive>Save</Button>
+                    <Button onClick={()=> {
+                        props.setShow(false)
+                        props.set_is_adding_task(false)
+                    }} positive>Save</Button>
                 </Button.Group>
 
             </Modal.Footer>

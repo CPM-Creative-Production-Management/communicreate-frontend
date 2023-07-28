@@ -32,13 +32,15 @@ export const SingleTaskCard = (props) => {
 
 
                     </Grid.Column>
-                    <Grid.Column width={2}>
+
+                    {props.show === false?<Grid.Column width={2}>
                         <Button onClick={()=> {
                             props.setShow(true)
                             props.set_is_adding_task(false)
                         }} fluid>
                             <Icon name='edit'/> Edit
-                        </Button></Grid.Column>
+                        </Button></Grid.Column> : <Grid.Column width={2}/>}
+
                 </Grid.Row>
 
 
