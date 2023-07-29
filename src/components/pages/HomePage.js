@@ -9,6 +9,7 @@ import Fab from '@mui/material/Fab';
 import CreateNewFolderOutlinedIcon from '@mui/icons-material/CreateNewFolderOutlined';
 import "./pages.css"
 import {AddEstimationPage} from "./AddEstimationPage";
+import {Estimations} from "../fragments/Estimations";
 
 export const HomePage = () => {
 
@@ -34,6 +35,7 @@ export const HomePage = () => {
                     <Routes>
                         <Route exact path="/" element={<Dashboard/>}/>
                         <Route exact path="/archive" element={<Archive/>}/>
+                        <Route exact path="/estimations" element={<Estimations/>}/>
                         <Route exact path="/add-estimation" element={<AddEstimationPage/>}/>
 
                     </Routes>

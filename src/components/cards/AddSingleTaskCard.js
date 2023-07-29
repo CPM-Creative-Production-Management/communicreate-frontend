@@ -7,11 +7,11 @@ import {showToast} from "../../App";
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 
 export const AddSingleTaskCard = (props) => {
-
+    const imgUrl = 'https://react.semantic-ui.com/images/wireframe/square-image.png'
     const tableData = [
-        {name: 'John', age: 15, gender: 'Male'},
-        {name: 'Amber', age: 40, gender: 'Female'},
-
+        {id: 1, assigneeImgUrl:imgUrl, assignee: 'John', rating: 4.5, cost: 500},
+        {id: 2, assigneeImgUrl: imgUrl, assignee: 'Amber', rating: 4.0, cost: 500},
+        {id: 3, assigneeImgUrl:imgUrl, assignee: 'Leslie', rating: 3.4, cost: 500},
     ]
 
     const allTags = [

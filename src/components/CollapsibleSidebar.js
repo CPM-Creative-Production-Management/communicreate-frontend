@@ -2,7 +2,7 @@ import React from "react";
 import {Sidebar, Menu, MenuItem, SubMenu} from 'react-pro-sidebar';
 import {Link} from 'react-router-dom';
 import {RxDashboard} from "react-icons/rx";
-import {BsArchive} from "react-icons/bs";
+import {BsArchive, BsPersonAdd, BsPersonWorkspace} from "react-icons/bs";
 
 import {LuCalculator} from "react-icons/lu";
 import {IoCloudDoneOutline} from "react-icons/io5";
@@ -10,6 +10,7 @@ import {TbFolderCancel} from "react-icons/tb";
 import {AiOutlineInfoCircle} from "react-icons/ai";
 import {HiOutlineMail} from "react-icons/hi";
 import {Divider} from "semantic-ui-react";
+import {RiTeamLine} from "react-icons/ri";
 
 
 export const CollapsibleSidebar = () => {
@@ -29,15 +30,15 @@ export const CollapsibleSidebar = () => {
                 >
 
                     <MenuItem component={<Link to="/"/>} icon={<RxDashboard/>}> Dashboard </MenuItem>
-                    <SubMenu icon={<BsArchive/>} label="Archive">
-                        <MenuItem component={<Link to="/archive"/>} icon={<IoCloudDoneOutline/>}> Completed </MenuItem>
+                    <SubMenu label="Employees" icon={<BsPersonWorkspace/>}>
+                        <MenuItem icon={<RiTeamLine/>} component={<Link to="/"/>}> All Employees </MenuItem>
+                        <MenuItem icon={<BsPersonAdd/>} component={<Link to="/"/>}> Add Employee </MenuItem>
+                    </SubMenu>
+                    <MenuItem component={<Link to="/archive"/>} icon={<BsArchive/>}> Archive </MenuItem>
+                    <MenuItem component={<Link to="/estimations"/>} icon={<LuCalculator/>}> Estimations </MenuItem>
 
-                        <MenuItem icon={<TbFolderCancel/>}> Rejected </MenuItem>
-                    </SubMenu>
-                    <SubMenu icon={<LuCalculator/>} label="Estimations">
-                        <MenuItem icon={<IoCloudDoneOutline/>}> Completed </MenuItem>
-                        <MenuItem icon={<TbFolderCancel/>}> Rejected </MenuItem>
-                    </SubMenu>
+
+
 
                     <Divider/>
 

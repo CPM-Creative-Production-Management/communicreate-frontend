@@ -58,7 +58,7 @@ function NavScrollExample() {
                                 // navigate("profile/")
                             }
                             }/>
-                            <Dropdown.Item icon='tag'  text='Leads'/>
+                            <Dropdown.Item icon='tag' text='Leads'/>
 
                             <Dropdown.Divider/>
                             <Dropdown.Item onClick={()=>{navigate('/auth')}} icon='log out' color='red' text='Logout'/>
