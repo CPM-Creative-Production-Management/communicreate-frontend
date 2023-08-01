@@ -8,7 +8,6 @@ export const DashboardCard = ({iconName, colorName, cardHeader, cardDesc, count}
         return (
             <div>
 
-
                 <Card style={{height: '300px'}} fluid>
                     <Card.Content>
                         <br/>

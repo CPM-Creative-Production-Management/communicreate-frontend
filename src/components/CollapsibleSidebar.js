@@ -37,9 +37,6 @@ export const CollapsibleSidebar = () => {
                     <MenuItem component={<Link to="/archive"/>} icon={<BsArchive/>}> Archive </MenuItem>
                     <MenuItem component={<Link to="/estimations"/>} icon={<LuCalculator/>}> Estimations </MenuItem>
 
-
-
-
                     <Divider/>
 
                     <MenuItem icon={<AiOutlineInfoCircle/>}> About Us </MenuItem>

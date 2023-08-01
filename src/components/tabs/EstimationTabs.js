@@ -4,8 +4,13 @@ import {ArchiveCompleted} from "../fragments/ArchiveCompleted";
 import {ArchiveRejected} from "../fragments/ArchiveRejected";
 import {EstimationsCompleted} from "../fragments/EstimationsCompleted";
 import {EstimationsRejected} from "../fragments/EstimationsRejected";
+import {EstimationsOngoing} from "../fragments/EstimationsOngoing";
 
 const panes = [
+    {
+        menuItem: 'Ongoing Estimations',
+        render: () => <Tab.Pane attached={false}><EstimationsOngoing/></Tab.Pane>,
+    },
     {
         menuItem: 'Completed Estimations',
         render: () => <Tab.Pane attached={false}><EstimationsCompleted/></Tab.Pane>,

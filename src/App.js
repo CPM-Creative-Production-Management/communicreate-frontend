@@ -1,5 +1,5 @@
 import './App.css';
-import React from "react";
+import React, {useState} from "react";
 import 'font-awesome/css/font-awesome.min.css';
 import toast, {Toaster} from "react-hot-toast";
 import {HomePage} from "./components/pages/HomePage";
@@ -8,8 +8,11 @@ import {Route, Routes} from "react-router-dom";
 import {Dashboard} from "./components/fragments/Dashboard";
 import {Archive} from "./components/fragments/Archive";
 import {AddEstimationPage} from "./components/pages/AddEstimationPage";
+import {Dialog, DialogContent} from "@mui/material";
+import {BarLoader} from "react-spinners";
 
 let showToast
+let setLoading
 
 function App() {
 
@@ -21,8 +24,31 @@ function App() {
         }
     }
 
+    const [loading, setL] = useState(false)
+    setLoading = setL
+
     return (
         <div>
+
+            <Dialog PaperProps={{
+                style: {
+                    backgroundColor: 'transparent',
+                    boxShadow: 'none',
+                },
+            }} open={loading}>
+                <DialogContent>
+                    <BarLoader
+                        color={'#ffffff'}
+                        loading={true}
+
+                        size={150}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                    />
+
+                </DialogContent>
+            </Dialog>
+
             <Toaster />
 
             {/*check cookies for logged in*/}
@@ -40,4 +66,4 @@ function App() {
 }
 
 export default App;
-export {showToast};
+export {showToast, setLoading};

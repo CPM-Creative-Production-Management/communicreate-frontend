@@ -6,16 +6,27 @@ import Navbar from 'react-bootstrap/Navbar';
 import {Button, Dropdown} from "semantic-ui-react";
 import {SiAntdesign} from "react-icons/si";
 import {useNavigate} from "react-router-dom";
+import Cookies from "universal-cookie";
+import {showToast} from "../App";
 
 
 function NavScrollExample() {
-
+    const cookies = new Cookies();
     const navigate = useNavigate();
+
+
+    const logout = () => {
+        cookies.remove('token');
+        showToast('Logged out successfully', 'success');
+        navigate('/auth');
+    }
+
     return (
         <Navbar expand="lg" className="bg-body-tertiary">
             <Container fluid>
 
-                <Navbar.Brand className='ms-4'><SiAntdesign size='1.5em' className='me-2'/>Creative Production Management</Navbar.Brand>
+                <Navbar.Brand className='ms-4'><SiAntdesign size='1.5em' className='me-2'/>Creative Production
+                    Management</Navbar.Brand>
 
                 <Navbar.Toggle aria-controls="navbarScroll"/>
                 <Navbar.Collapse id="navbarScroll">
@@ -38,6 +49,8 @@ function NavScrollExample() {
                         <Button variant="outline-success">Search</Button>
                     </Form>
 
+                    <Button className='ms-3' icon={'bell outline'}/>
+
                     <Dropdown pointing
                               text='Anup Bhowmik'
                               icon='user circle'
@@ -49,7 +62,7 @@ function NavScrollExample() {
                         <Dropdown.Menu>
 
                             <center>
-                            <Dropdown.Item className='m-3' text='Azitech Soft'/>
+                                <Dropdown.Item className='m-3' text='Azitech Soft'/>
                             </center>
 
 
@@ -61,7 +74,7 @@ function NavScrollExample() {
                             <Dropdown.Item icon='tag' text='Leads'/>
 
                             <Dropdown.Divider/>
-                            <Dropdown.Item onClick={()=>{navigate('/auth')}} icon='log out' color='red' text='Logout'/>
+                            <Dropdown.Item onClick={logout} icon='log out' color='red' text='Logout'/>
                         </Dropdown.Menu>
                     </Dropdown>
 

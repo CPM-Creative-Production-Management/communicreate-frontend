@@ -38,6 +38,7 @@ export const HomePage = () => {
                         <Route exact path="/estimations" element={<Estimations/>}/>
                         <Route exact path="/add-estimation" element={<AddEstimationPage/>}/>
 
+
                     </Routes>
                     </div>
                 </div>

@@ -7,6 +7,8 @@ import {DashboardCard} from "../cards/DashboardCard";
 
 export const Dashboard = () => {
 
+
+
     return (
         <div>
 
@@ -15,7 +17,7 @@ export const Dashboard = () => {
             <Grid className='ms-2' columns={4}>
                 <Grid.Row>
                     <Grid.Column>
-                        <DashboardCard iconName='play' colorName='teal' cardHeader='Unfinished Estimations'
+                        <DashboardCard iconName='play' colorName='teal' cardHeader='Ongoing Estimations'
                                        cardDesc='These are the estimations that you have started but not yet completed. Negotiation is going on with the clients.'
                                        count='5'/>
 
