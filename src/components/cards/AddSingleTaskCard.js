@@ -115,6 +115,6 @@ export const AddSingleTaskCard = (props) => {
 
 
     )
-        ;
+
 
 }

@@ -46,6 +46,7 @@ import {AddSingleTaskCard} from "../cards/AddSingleTaskCard";
                     <Button onClick={()=> {
                         props.setShow(false)
                         props.set_is_adding_task(false)
+                        props.setAllTasks()
                     }} positive>Save</Button>
                 </Button.Group>
 

@@ -12,10 +12,10 @@ import {SingleTaskCard} from "../cards/SingleTaskCard";
 import {Avatar, Chip} from "@mui/material";
 
 
-
 export const AddEstimationPage = () => {
 
 
+    const [allTasks, setAllTasks] = React.useState([])
 
 
     const [openAddTaskModal, setOpenAddTaskModal] = React.useState(false)
@@ -60,32 +60,39 @@ export const AddEstimationPage = () => {
 
                 </Card.Content>
 
+                <Divider/>
 
-            <Divider/>
-            <SingleTaskCard show={openAddTaskModal}
-                            setShow={setOpenAddTaskModal} is_adding_task={isAddingTask} set_is_adding_task = {setIsAddingTask}/>
+                {allTasks ?
+                    allTasks.map((task, index) => {
+                        <SingleTaskCard show={openAddTaskModal}
+                                        setShow={setOpenAddTaskModal} is_adding_task={isAddingTask}
+                                        set_is_adding_task={setIsAddingTask} singleTask={task}/>
+                    })
+                    : <div className='text-center'> <h4>No tasks added yet </h4> <br/></div>}
+
 
             </Card>
 
-            <Button onClick={()=> {
+            <Button onClick={() => {
                 setOpenAddTaskModal(true)
                 setIsAddingTask(true)
             }} positive animated>
                 <Button.Content visible>Add task</Button.Content>
                 <Button.Content hidden>
-                    <Icon name='add' />
+                    <Icon name='add'/>
                 </Button.Content>
             </Button>
 
             <Button animated>
                 <Button.Content visible>Save</Button.Content>
                 <Button.Content hidden>
-                    <Icon name='save' />
+                    <Icon name='save'/>
                 </Button.Content>
             </Button>
 
             <TaskModal show={openAddTaskModal}
-                       setShow={setOpenAddTaskModal} is_adding_task={isAddingTask} set_is_adding_task = {setIsAddingTask}/>
+                       setShow={setOpenAddTaskModal} is_adding_task={isAddingTask} set_is_adding_task={setIsAddingTask}
+                       setAllTasks={setAllTasks}/>
 
         </div>
     );
