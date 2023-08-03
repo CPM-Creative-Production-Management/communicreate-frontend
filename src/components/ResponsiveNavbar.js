@@ -9,10 +9,13 @@ import {useNavigate} from "react-router-dom";
 import Cookies from "universal-cookie";
 import {showToast} from "../App";
 
+import {useSelector, useDispatch} from "react-redux";
+import {decrement, increment} from "../actions";
 
 function NavScrollExample() {
     const cookies = new Cookies();
     const navigate = useNavigate();
+
 
 
     const logout = () => {
@@ -20,6 +23,9 @@ function NavScrollExample() {
         showToast('Logged out successfully', 'success');
         navigate('/auth');
     }
+
+    const counter = useSelector(state => state.counter)
+    const dispatch = useDispatch()
 
     return (
         <Navbar expand="lg" className="bg-body-tertiary">
@@ -50,6 +56,10 @@ function NavScrollExample() {
                     </Form>
 
                     <Button className='ms-3' icon={'bell outline'}/>
+
+
+                    <Button onClick={()=>{dispatch(decrement(2))}}>-</Button> count: {counter}  <Button  onClick={()=>{dispatch(increment(2))}}>+</Button>
+
 
                     <Dropdown pointing
                               text='Anup Bhowmik'
