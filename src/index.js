@@ -7,7 +7,8 @@ import {BrowserRouter} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'semantic-ui-css/semantic.min.css'
 
-export const base_url = 'https://cpm-backend.onrender.com/'
+// export const base_url = 'https://cpm-backend.onrender.com/'
+export const base_url = 'http://localhost:3000/'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

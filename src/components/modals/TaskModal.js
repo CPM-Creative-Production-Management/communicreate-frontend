@@ -8,6 +8,8 @@ import {AddSingleTaskCard} from "../cards/AddSingleTaskCard";
  const TaskModal = (props) => {
      // used for both editing and adding new task
 
+
+
      useEffect(() => {
          console.log(props.is_adding_task)
      },[])

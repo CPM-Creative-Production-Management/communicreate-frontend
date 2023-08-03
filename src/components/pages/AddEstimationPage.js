@@ -15,7 +15,7 @@ import {Avatar, Chip} from "@mui/material";
 export const AddEstimationPage = () => {
 
 
-    const [allTasks, setAllTasks] = React.useState([])
+    const [allTasks, setAllTasks] = React.useState(null)
 
 
     const [openAddTaskModal, setOpenAddTaskModal] = React.useState(false)
@@ -92,7 +92,7 @@ export const AddEstimationPage = () => {
 
             <TaskModal show={openAddTaskModal}
                        setShow={setOpenAddTaskModal} is_adding_task={isAddingTask} set_is_adding_task={setIsAddingTask}
-                       setAllTasks={setAllTasks}/>
+                       setAllTasks={setAllTasks} />
 
         </div>
     );

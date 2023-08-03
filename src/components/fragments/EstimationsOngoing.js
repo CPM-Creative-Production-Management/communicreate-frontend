@@ -1,19 +1,13 @@
 import React from 'react';
-import {usePublicGetReq} from "../api/usePublicGetReq";
+import {useApiRequest} from "../api/useApiRequest";
 import {base_url} from "../../index";
-import Cookies from "universal-cookie";
 
 export const EstimationsOngoing = () => {
-    const cookies = new Cookies();
+    
 
-    const requestHeaders = {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${cookies.get("token")}`
-    }
-
-    const {data, loading, error} = usePublicGetReq({
+    const {data, loading, error} = useApiRequest({
         url: base_url + 'estimation/ongoing',
-        requestHeaders : requestHeaders
+        method: 'GET'
     })
 
     return (

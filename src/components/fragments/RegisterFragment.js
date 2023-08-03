@@ -68,6 +68,8 @@ export const RegisterFragment = () => {
                    size='large' placeholder='Full Name'/>
 
 
+            <div className={'text-left'}>
+            I am registering as
             <Radio
                 label='Company Client'
                 name='radioGroup'
@@ -84,6 +86,8 @@ export const RegisterFragment = () => {
                 checked={companyType === '2'}
                 onChange={handleChange}
             /> Agency Manager
+
+            </div>
 
 
             <Dropdown

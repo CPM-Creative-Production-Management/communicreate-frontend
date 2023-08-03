@@ -26,7 +26,7 @@ export const LoginFragment = () => {
 
         if (email.length === 0 || !validateEmail(email)) {
             showToast("Please enter a valid email", "error")
-            // return
+            return
         } else if (password.length < 5) {
             console.log("Password must be at least 5 characters long")
             showToast("Password must be at least 5 characters long", "error")

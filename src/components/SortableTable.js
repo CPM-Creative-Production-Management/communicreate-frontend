@@ -71,7 +71,7 @@ function SortableTable({tableData}) {
                 {data.map((currItem, index) => (
                     <Table.Row key={currItem.id}>
                         <Table.Cell width={1}>
-                            <Button negative onClick={() => {
+                            <Button onClick={() => {
                                 removeEmployeeFromTask(index)
                             }} size={"tiny"} circular icon='close'/>
 
