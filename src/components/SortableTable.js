@@ -2,6 +2,7 @@ import _ from 'lodash'
 import React from 'react'
 import {Button, Table, Image, Header} from 'semantic-ui-react'
 import {Stack} from "@mui/material";
+import {showToast} from "../App";
 
 function employeeReducer(state, action) {
     switch (action.type) {
@@ -26,15 +27,18 @@ function employeeReducer(state, action) {
 }
 
 function SortableTable({tableData}) {
-    const [state, dispatch] = React.useReducer(employeeReducer, {
+    let [state, dispatch] = React.useReducer(employeeReducer, {
         column: null,
         data: tableData,
         direction: null,
     })
-    const {column, data, direction} = state
+    let {column, data, direction} = state
 
     const removeEmployeeFromTask = (index) => {
         console.log(index)
+        data.splice(index, 1)
+
+
 
     }
 
@@ -44,7 +48,7 @@ function SortableTable({tableData}) {
                 <Table.Row>
                     <Table.HeaderCell
                     >
-                        Remove
+
                     </Table.HeaderCell>
 
                     <Table.HeaderCell
@@ -63,7 +67,7 @@ function SortableTable({tableData}) {
                         sorted={column === 'cost' ? direction : null}
                         onClick={() => dispatch({type: 'CHANGE_SORT', column: 'cost'})}
                     >
-                        Cost
+                        Salary
                     </Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
@@ -86,16 +90,16 @@ function SortableTable({tableData}) {
 
                         <Table.Cell>
                             <Header as='h4' image>
-                                <Image src={currItem.assigneeImgUrl} size='mini'
+                                <Image src={currItem.image} size='mini'
                                        circular/><Header.Content>
                                 {currItem.assignee}
-                                    <Header.Subheader>Graphic Design</Header.Subheader>
-                                </Header.Content>
+                                <Header.Subheader>Graphic Design</Header.Subheader>
+                            </Header.Content>
                             </Header>
                         </Table.Cell>
 
                         <Table.Cell singleLine width={3}>{currItem.rating}</Table.Cell>
-                        <Table.Cell singleLine width={3}>{currItem.cost} ৳</Table.Cell>
+                        <Table.Cell singleLine width={3}>{currItem.salary} ৳</Table.Cell>
                     </Table.Row>
                 ))}
             </Table.Body>

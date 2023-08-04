@@ -1,22 +1,19 @@
-
 import Modal from 'react-bootstrap/Modal';
 import React, {useEffect} from "react";
 import {Button} from "semantic-ui-react";
 import {SingleTaskCard} from "../cards/SingleTaskCard";
 import {AddSingleTaskCard} from "../cards/AddSingleTaskCard";
 
- const TaskModal = (props) => {
-     // used for both editing and adding new task
+const TaskModal = (props) => {
+    // used for both editing and adding new task
 
 
-
-     useEffect(() => {
-         console.log(props.is_adding_task)
-     },[])
-
+    useEffect(() => {
+        console.log(props.is_adding_task)
+    }, [])
 
 
-     return (
+    return (
         <Modal
             {...props}
             size="lg"
@@ -30,25 +27,26 @@ import {AddSingleTaskCard} from "../cards/AddSingleTaskCard";
                 </Modal.Title>
             </Modal.Header>
 
-            {props.is_adding_task?<AddSingleTaskCard show={props.show}
-                                                  setShow={props.setShow} is_adding_task={props.is_adding_task} set_is_adding_task = {props.set_is_adding_task}/>:
+            {props.is_adding_task ? <AddSingleTaskCard show={props.show}
+                                                       setShow={props.setShow} is_adding_task={props.is_adding_task}
+                                                       set_is_adding_task={props.set_is_adding_task}/> :
                 <SingleTaskCard show={props.show}
-                                setShow={props.setShow} is_adding_task={props.is_adding_task} set_is_adding_task = {props.set_is_adding_task}/>}
+                                setShow={props.setShow} is_adding_task={props.is_adding_task}
+                                set_is_adding_task={props.set_is_adding_task}/>}
 
 
-
-            <Modal.Footer>
+            <Modal.Footer className={'me-2'}>
 
                 <Button.Group>
-                    <Button onClick={()=> {
+                    <Button onClick={() => {
                         props.setShow(false)
                         props.set_is_adding_task(false)
                     }}>Cancel</Button>
-                    <Button.Or />
-                    <Button onClick={()=> {
+                    <Button.Or/>
+                    <Button onClick={() => {
                         props.setShow(false)
                         props.set_is_adding_task(false)
-                        props.setAllTasks()
+
                     }} positive>Save</Button>
                 </Button.Group>
 

@@ -9,6 +9,7 @@ import {useNavigate} from "react-router-dom";
 import Cookies from "universal-cookie";
 import {showToast} from "../App";
 
+// need these for redux
 import {useSelector, useDispatch} from "react-redux";
 import {decrement, increment} from "../actions";
 
@@ -24,7 +25,9 @@ function NavScrollExample() {
         navigate('/auth');
     }
 
+    // get the state from redux store
     const counter = useSelector(state => state.counter)
+    // dispatch an action to the reducer
     const dispatch = useDispatch()
 
     return (
@@ -58,7 +61,6 @@ function NavScrollExample() {
                     <Button className='ms-3' icon={'bell outline'}/>
 
 
-                    <Button onClick={()=>{dispatch(decrement(2))}}>-</Button> count: {counter}  <Button  onClick={()=>{dispatch(increment(2))}}>+</Button>
 
 
                     <Dropdown pointing

@@ -1,0 +1,64 @@
+import React from 'react'
+import {Button, Header, Image, Table} from "semantic-ui-react";
+
+const TableEmpList = ({tableData, isDisplaying}) => {
+
+    const removeEmployeeFromTask = (index) => {
+        console.log(index)
+        tableData.splice(index, 1)
+
+    }
+
+    return (
+        <Table celled padded>
+
+            <thead>
+            <tr>
+                {isDisplaying? null:
+                <th scope="col"></th>}
+                <th scope={"col"}>#</th>
+                <th scope="col">Assignee</th>
+                <th scope="col">Rating</th>
+                <th scope="col">Salary</th>
+            </tr>
+            </thead>
+
+            <Table.Body>
+                {tableData.map((currItem, index) => (
+                    <Table.Row key={currItem.id}>
+
+                        {isDisplaying? null:
+                        <Table.Cell width={1}>
+                            <Button onClick={() => {
+                                removeEmployeeFromTask(index)
+                            }} size={"tiny"} circular icon='close'/>
+
+                        </Table.Cell>
+                        }
+
+                        <Table.Cell width={1}>
+                            #{index + 1}
+
+                        </Table.Cell>
+
+
+                        <Table.Cell>
+                            <Header as='h4' image>
+                                <Image src={currItem.image} size='mini'
+                                       circular/><Header.Content>
+                                {currItem.name}
+
+                            </Header.Content>
+                            </Header>
+                        </Table.Cell>
+
+                        <Table.Cell singleLine width={3}>{currItem.rating}</Table.Cell>
+                        <Table.Cell singleLine width={3}>{currItem.salary} ৳</Table.Cell>
+                    </Table.Row>
+                ))}
+            </Table.Body>
+
+        </Table>
+    )
+}
+export default TableEmpList
