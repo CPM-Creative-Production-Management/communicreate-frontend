@@ -4,9 +4,7 @@ import {Button, Header, Image, Table} from "semantic-ui-react";
 const TableEmpList = ({tableData, isDisplaying}) => {
 
     const removeEmployeeFromTask = (index) => {
-        console.log(index)
-        tableData.splice(index, 1)
-
+        console.log('need to delete: ', index)
     }
 
     return (

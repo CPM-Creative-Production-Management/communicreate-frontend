@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import SortableTable from "../SortableTable";
 import {Button, Dropdown, Form, Grid, Icon, Input, Label, Message} from "semantic-ui-react";
 import {Autocomplete, Avatar, Chip, CircularProgress, Stack, TextField} from "@mui/material";
-import TaskModal from "../modals/TaskModal";
+import AddTaskModal from "../modals/AddTaskModal";
 import {showToast} from "../../App";
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import {useApiRequest} from "../api/useApiRequest";
@@ -10,19 +10,10 @@ import {base_url} from "../../index";
 import {AiOutlineFileSearch} from "react-icons/ai";
 import TableEmpList from "../TableEmpList";
 
-export const AddSingleTaskCard = () => {
-    const [selectedTaskTags, setSelectedTaskTags] = useState([])
-    // const [selectedEmployees, setSelectedEmployees] = useState([])
 
-    let [currTask, setCurrTask] = useState(
-        {
-            name: "",
-            description: "",
-            cost: 0,
-            employees: [],
-            tags: [],
-        });
-    currTask.tags = selectedTaskTags
+export const AddSingleTaskCard = ({currTask, setCurrTask}) => {
+
+
 
     const updateCurrTask = (event) => {
         setCurrTask({
@@ -30,13 +21,6 @@ export const AddSingleTaskCard = () => {
         })
         console.log('curr task', currTask)
     }
-
-    const imgUrl = 'https://react.semantic-ui.com/images/wireframe/square-image.png'
-    const tableData = [
-        {id: 1, image: imgUrl, assignee: 'John', rating: 4.5, cost: 500},
-        {id: 2, image: imgUrl, assignee: 'Amber', rating: 4.0, cost: 500},
-        {id: 3, image: imgUrl, assignee: 'Leslie', rating: 3.4, cost: 500},
-    ]
 
     // let {data: allTaskTags, dataLoading, error} = useApiRequest({
     //     url: base_url + 'tasktag',
@@ -52,32 +36,32 @@ export const AddSingleTaskCard = () => {
 
     useEffect(() => {
 
-        console.log('selected tags', selectedTaskTags)
+        console.log('selected tags', currTask.tags)
         // showToast(allTags, {toastType: 'success'})
 
-    }, [selectedTaskTags]);
+    }, [currTask.tags]);
 
     const handleDeleteTag = (index) => {
         console.log('delete tag', index)
         // showToast(index, {toastType: 'success'})
-        setSelectedTaskTags(selectedTaskTags.filter((currTag, currIndex) => {
-            return currIndex !== index
-        }))
+
+        setCurrTask({...currTask, tags: currTask.tags.filter((tag, i) => i !== index)})
     }
 
     const addTag = (tag_id) => {
         console.log('add tag', tag_id)
         // showToast(tag_id, {toastType: 'success'})
         // do not add if the item already exists
-        if (selectedTaskTags.includes(allTaskTags[tag_id])) {
-            showToast('Tag already exists', 'error')
+        if (currTask.tags.includes(allTaskTags[tag_id])) {
+            showToast('Tag already added', 'error')
 
         } else {
-            setSelectedTaskTags([...selectedTaskTags, allTaskTags[tag_id]])
+            setCurrTask({...currTask, tags: [...currTask.tags, allTaskTags[tag_id]]})
         }
     }
 
 
+    // todo: need to call backend to get all Employees
     const [employeeList, setEmployeeList] = useState([
         {
             "id": 1,
@@ -128,22 +112,31 @@ export const AddSingleTaskCard = () => {
         console.log('index:', index)
         // showToast(tag_id, {toastType: 'success'})
         // do not add if the item already exists
-        if (currTask.employees.includes(employeeList[index])) {
+        if (currTask.Employees.includes(employeeList[index])) {
             showToast('Employee already exists', 'error')
 
         } else {
-            setCurrTask({...currTask, employees: [...currTask.employees, employeeList[index]]})
+            setCurrTask({...currTask, Employees: [...currTask.Employees, employeeList[index]]})
         }
 
     }
 
     useEffect(() => {
-        console.log('curr task emp:', currTask.employees)
+        console.log('curr task:', currTask)
     }, [currTask]);
 
     useEffect(() => {
-        console.log('selected emp:', currTask.employees)
-    },[currTask.employees]);
+        console.log('selected emp:', currTask.Employees)
+        calculateTaskCost()
+    }, [currTask.Employees]);
+
+    const calculateTaskCost = () => {
+        let totalCost = 0
+        currTask.Employees.map((currEmp) => {
+            totalCost += currEmp.salary
+        })
+        setCurrTask({...currTask, cost: totalCost})
+    }
 
 
     return (
@@ -163,7 +156,7 @@ export const AddSingleTaskCard = () => {
 
                 <Stack direction="row" spacing={1}>
 
-                    {selectedTaskTags?.map((currTag, index) => (
+                    {currTask.tags?.map((currTag, index) => (
                         <Chip key={currTag.id} label={currTag.name} onDelete={() => {
                             handleDeleteTag(index)
                         }}/>
@@ -191,7 +184,7 @@ export const AddSingleTaskCard = () => {
             </Dropdown>
 
 
-            <TableEmpList tableData={currTask.employees}/>
+            <TableEmpList tableData={currTask.Employees} isDisplaying={false}/>
 
             <Dropdown placeholder='Search Employee...'
                       fluid
@@ -213,8 +206,8 @@ export const AddSingleTaskCard = () => {
 
             <Message
                 icon='money bill alternate outline'
-                header='200'
-                content='Estimated from the assigned employees salary'
+                header={currTask.cost}
+                content='Estimated from the assigned Employees salary'
             />
 
 

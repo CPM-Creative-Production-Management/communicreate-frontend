@@ -5,18 +5,23 @@ import {Route, Routes} from "react-router-dom";
 import {Dashboard} from "../fragments/Dashboard";
 import {Archive} from "../fragments/Archive";
 import {Card, Grid, Input, Label, Segment, Form, Button, Icon, Divider, Message} from "semantic-ui-react";
-import TaskModal from "../modals/TaskModal";
+import AddTaskModal from "../modals/AddTaskModal";
 import {AddTask} from "@mui/icons-material";
 import SortableTable from "../SortableTable";
 import {SingleTaskCard} from "../cards/SingleTaskCard";
 import {Avatar, Chip} from "@mui/material";
 
 import {useSelector, useDispatch} from "react-redux";
-import {decrement, increment} from "../../actions";
 import {updateEstimation} from "../../actions";
 import {Textarea} from "@nextui-org/react";
+import {showToast} from "../../App";
+
 
 export const AddEstimationPage = () => {
+    // todo: only process the global estimation object when the user clicks save
+    //  and then send it to the backend
+
+    const navigate = useNavigate()
 
     // get the global Estimation from redux store
     const globalEstimation = useSelector(state => state.currEstimation)
@@ -32,6 +37,24 @@ export const AddEstimationPage = () => {
 
     const [openAddTaskModal, setOpenAddTaskModal] = useState(false)
     const [isAddingTask, setIsAddingTask] = useState(false)
+
+    const sendEstimation = () => {
+        console.log('sending estimation to backend', globalEstimation)
+
+        // reset the global estimation
+        dispatch(updateEstimation({
+            title: "",
+            company: "",
+            deadline: "",
+            description: "",
+            tasks: [],
+        }));
+
+        showToast('Estimation sent successfully', 'success')
+        navigate('/dashboard')
+
+    }
+
 
     return (
         <div>
@@ -102,7 +125,7 @@ export const AddEstimationPage = () => {
             <Button onClick={() => {
                 setOpenAddTaskModal(true)
                 setIsAddingTask(true)
-            }} positive animated>
+            }} animated>
                 <Button.Content visible>Add task</Button.Content>
                 <Button.Content hidden>
                     <Icon name='add'/>
@@ -116,10 +139,18 @@ export const AddEstimationPage = () => {
                 </Button.Content>
             </Button>
 
+            <Button onClick={sendEstimation} positive animated>
+                <Button.Content visible>Send Estimation</Button.Content>
+                <Button.Content hidden>
+                    <Icon name='send'/>
+                </Button.Content>
+            </Button>
+
             <br/><br/>
 
-            <TaskModal show={openAddTaskModal}
-                       setShow={setOpenAddTaskModal} is_adding_task={isAddingTask} set_is_adding_task={setIsAddingTask}
+            <AddTaskModal show={openAddTaskModal}
+                          setShow={setOpenAddTaskModal} is_adding_task={isAddingTask}
+                          set_is_adding_task={setIsAddingTask}
             />
 
         </div>
