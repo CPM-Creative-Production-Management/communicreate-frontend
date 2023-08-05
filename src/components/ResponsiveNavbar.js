@@ -73,7 +73,7 @@ function NavScrollExample() {
                         <Dropdown.Menu>
 
                             <center>
-                                <Dropdown.Item className='m-3' text='Azitech Soft'/>
+                                <Dropdown.Item className='m-3' text={userProfile.association.name}/>
                             </center>
 
 

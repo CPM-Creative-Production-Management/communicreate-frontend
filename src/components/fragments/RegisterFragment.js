@@ -62,8 +62,8 @@ export const RegisterFragment = () => {
 
         axios.post(base_url + 'account/signup', registerBody).then((res) => {
             console.log(res)
-            showToast("Account created successfully", "success")
-            navigate('/');
+            showToast("Account created successfully, please login", "success")
+
         }).catch((err) => {
             console.log(err)
             showToast("Account creation failed", "error")
