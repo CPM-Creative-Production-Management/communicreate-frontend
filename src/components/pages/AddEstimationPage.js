@@ -16,6 +16,8 @@ import {updateEstimation} from "../../actions";
 import {Textarea} from "@nextui-org/react";
 import {showToast} from "../../App";
 
+import {useNavigate} from "react-router-dom";
+
 
 export const AddEstimationPage = () => {
     // todo: only process the global estimation object when the user clicks save
@@ -38,10 +40,7 @@ export const AddEstimationPage = () => {
     const [openAddTaskModal, setOpenAddTaskModal] = useState(false)
     const [isAddingTask, setIsAddingTask] = useState(false)
 
-    const sendEstimation = () => {
-        console.log('sending estimation to backend', globalEstimation)
-
-        // reset the global estimation
+    const resetCurrEstimation = () => {
         dispatch(updateEstimation({
             title: "",
             company: "",
@@ -49,10 +48,26 @@ export const AddEstimationPage = () => {
             description: "",
             tasks: [],
         }));
+    }
+
+    useEffect(()=> {
+        resetCurrEstimation()
+    },[])
+
+    const sendEstimation = () => {
+        console.log('sending estimation to backend', globalEstimation)
+
+        // reset the global estimation
+        resetCurrEstimation()
+
 
         showToast('Estimation sent successfully', 'success')
         navigate('/dashboard')
 
+    }
+
+    const finalizeEstimation = () =>{
+        navigate('/payment')
     }
 
 
@@ -145,6 +160,8 @@ export const AddEstimationPage = () => {
                     <Icon name='send'/>
                 </Button.Content>
             </Button>
+
+
 
             <br/><br/>
 

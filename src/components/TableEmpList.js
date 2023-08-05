@@ -1,10 +1,21 @@
 import React from 'react'
 import {Button, Header, Image, Table} from "semantic-ui-react";
 
+import {useSelector, useDispatch} from "react-redux";
+import {updateCurrTask} from "../actions";
+
 const TableEmpList = ({tableData, isDisplaying}) => {
+
+    const currTask = useSelector(state => state.currTask)
+    const dispatch = useDispatch()
 
     const removeEmployeeFromTask = (index) => {
         console.log('need to delete: ', index)
+        dispatch(updateCurrTask({
+            ...currTask, Employees: currTask.Employees.filter((emp, i) => i !== index)
+        }))
+
+
     }
 
     return (

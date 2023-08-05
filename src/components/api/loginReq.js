@@ -3,8 +3,10 @@ import {base_url} from "../../index";
 import Cookies from "universal-cookie";
 import {setLoading, showToast} from "../../App";
 
+import {updateCurrProfile} from "../../actions";
 
-export const LoginReq = (reqBody, navigate) => {
+
+export const LoginReq = (reqBody, navigate, dispatch) => {
     const cookies = new Cookies();
 
 
@@ -14,6 +16,8 @@ export const LoginReq = (reqBody, navigate) => {
         try {
             const response = await axios.post(base_url + 'account/login', reqBody)
             console.log('resp', response.data)
+
+            dispatch(updateCurrProfile(response.data.user))
 
             cookies.set('token', response.data.token, {path: '/'});
             showToast("Logged in successfully", "success")

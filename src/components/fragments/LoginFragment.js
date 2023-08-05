@@ -4,9 +4,11 @@ import {Button, Input} from "semantic-ui-react";
 import {useNavigate} from "react-router-dom";
 import {showToast} from "../../App";
 import {LoginReq} from "../api/loginReq";
+import {useDispatch} from "react-redux";
 
 export const LoginFragment = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch()
 
     const emailRef = React.useRef('');
     const passwordRef = React.useRef('');
@@ -34,11 +36,11 @@ export const LoginFragment = () => {
         }
 
         const loginBody = {
-            username: email,
+            email: email,
             password: password
         }
 
-        LoginReq(loginBody, navigate)
+        LoginReq(loginBody, navigate, dispatch)
 
     }
 

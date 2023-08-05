@@ -10,6 +10,7 @@ const currEstimationReducer = (state = {
             "name": "Logo Illustration",
             "description": "A logo with the letter B",
             "cost": 5000,
+
             "tags": [
                 {id: 1, name: 'tag1'},
                 {id: 2, name: 'tag2'},

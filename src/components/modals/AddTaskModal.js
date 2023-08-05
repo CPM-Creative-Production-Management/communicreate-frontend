@@ -6,22 +6,40 @@ import {AddSingleTaskCard} from "../cards/AddSingleTaskCard";
 
 
 import {useSelector, useDispatch} from "react-redux";
-import {updateEstimation} from "../../actions";
+import {updateCurrTask, updateEstimation} from "../../actions";
+
 const AddTaskModal = (props) => {
 
     // get the global Estimation from redux store
     const globalEstimation = useSelector(state => state.currEstimation)
+    const currTask = useSelector(state => state.currTask)
     // dispatch an action to the reducer
     const dispatch = useDispatch()
 
-    let [currTask, setCurrTask] = useState(
-        {
+    // let [currTask, setCurrTask] = useState(
+    //     {
+    //         name: "",
+    //         description: "",
+    //         cost: 0,
+    //         Employees: [],
+    //         tags: [],
+    //     });
+
+    useEffect(() => {
+        resetCurrTask()
+
+    },[])
+
+    const resetCurrTask = () => {
+        dispatch(updateCurrTask({
             name: "",
             description: "",
             cost: 0,
             Employees: [],
             tags: [],
-        });
+        }))
+    }
+
 
     const addTask = () => {
         console.log('adding task', currTask)
@@ -29,13 +47,15 @@ const AddTaskModal = (props) => {
             ...globalEstimation, tasks: [...globalEstimation.tasks, currTask]
         }))
         console.log('updated estimation', globalEstimation)
-        setCurrTask({
-            name: "",
-                description: "",
-                cost: 0,
-                Employees: [],
-                tags: [],
-        })
+        // set the global redux currtask to empty
+        resetCurrTask()
+
+    }
+
+
+    const cancelTask = () => {
+        resetCurrTask()
+
     }
 
 
@@ -53,7 +73,7 @@ const AddTaskModal = (props) => {
                 </Modal.Title>
             </Modal.Header>
 
-            <AddSingleTaskCard currTask={currTask} setCurrTask={setCurrTask}/> :
+            <AddSingleTaskCard /> :
 
 
             <Modal.Footer className={'me-2'}>
@@ -62,6 +82,7 @@ const AddTaskModal = (props) => {
                     <Button onClick={() => {
                         props.setShow(false)
                         props.set_is_adding_task(false)
+                        cancelTask()
                     }}>Cancel</Button>
                     <Button.Or/>
                     <Button onClick={() => {

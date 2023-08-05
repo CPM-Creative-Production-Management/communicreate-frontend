@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 
 import RegImg from '../../assets/create_account.svg'
@@ -6,7 +6,9 @@ import {Button, Input, Form, Dropdown} from "semantic-ui-react";
 import {showToast} from "../../App";
 import {useNavigate} from "react-router-dom";
 import Radio from '@mui/material/Radio';
-import {FormControl, FormLabel, RadioGroup} from "@mui/material";
+import {useApiRequest} from "../api/useApiRequest";
+import {base_url} from "../../index";
+import axios from "axios";
 
 export const RegisterFragment = () => {
     const navigate = useNavigate();
@@ -16,12 +18,13 @@ export const RegisterFragment = () => {
     const confirmPasswordRef = React.useRef('');
     const nameRef = React.useRef('');
 
-    const [companyType, setCompanyType] = React.useState('1');
+
+    const [associationType, setAssociationType] = React.useState(null);
+    const [associatedId, setAssociatedId] = React.useState(null);
 
     const handleChange = (event) => {
-        setCompanyType(event.target.value);
+        setAssociationType(event.target.value);
     };
-
 
     const validateEmail = (email) => {
         let re = /\S+@\S+\.\S+/;
@@ -45,16 +48,51 @@ export const RegisterFragment = () => {
             return
         }
 
-        navigate('/');
+        const registerBody = {
+            name: nameRef.current.inputRef.current.value,
+            email: emailRef.current.inputRef.current.value,
+            password: passwordRef.current.inputRef.current.value,
+            type: associationType,
+            associatedId: associatedId,
+
+        }
+
+        console.log('reg body', registerBody)
+
+
+        axios.post(base_url + 'account/signup', registerBody).then((res) => {
+            console.log(res)
+            showToast("Account created successfully", "success")
+            navigate('/');
+        }).catch((err) => {
+            console.log(err)
+            showToast("Account creation failed", "error")
+        })
+
 
     }
 
-    const companyOptions = [
-        {key: 'Azitech', text: 'Azitech Soft Ltd.'},
-        {key: 'B', text: 'B Soft Ltd.'},
-        {key: 'C', text: 'C Soft Ltd.'},
+    const {data: companyOptions, loading: companyLoading, error: companyErr} = useApiRequest({
+        url: base_url + 'company',
+        method: 'GET',
+    })
 
-    ]
+    const {data: agencyOptions, loading: agencyLoading, error: agencyErr} = useApiRequest({
+        url: base_url + 'agency',
+        method: 'GET',
+    })
+
+    useEffect(() => {
+        console.log('companyOptions', companyOptions)
+        console.log('agencyOptions', agencyOptions)
+    }, [companyOptions, agencyOptions]);
+
+    // const companyOptions = [
+    //     {key: 'Azitech', text: 'Azitech Soft Ltd.', value: 1},
+    //     {key: 'B', text: 'B Soft Ltd.', value: 2},
+    //     {key: 'C', text: 'C Soft Ltd.', value: 3},
+    //
+    // ]
 
     return (
         <div className={'ms-3 me-3'}>
@@ -69,35 +107,56 @@ export const RegisterFragment = () => {
 
 
             <div className={'text-left'}>
-            I am registering as
-            <Radio
-                label='Company Client'
-                name='radioGroup'
-                value='1'
-                checked={companyType === '1'}
-                onChange={handleChange}
-            /> Company Client
+
+                <Radio
+                    label='Company Client'
+                    name='radioGroup'
+                    value='1'
+                    checked={associationType === '1'}
+                    onChange={handleChange}
+                /> Company Client
 
 
-            <Radio
-                label='Agency Manager'
-                name='radioGroup'
-                value='2'
-                checked={companyType === '2'}
-                onChange={handleChange}
-            /> Agency Manager
+                <Radio
+                    label='Agency Manager'
+                    name='radioGroup'
+                    value='2'
+                    checked={associationType === '2'}
+                    onChange={handleChange}
+                /> Agency Manager
 
             </div>
 
 
-            <Dropdown
-                className='mt-3'
-                placeholder='Select Your Company'
-                fluid
-                search
-                selection
-                options={companyOptions}
-            />
+            {associationType === '1' ?
+                <Dropdown
+                    className='mt-3'
+                    placeholder='Select Your Company'
+                    fluid
+                    search
+                    selection
+                    onChange={(e, data) => {
+                        console.log('selected', data.value)
+                        setAssociatedId(data.value)
+
+                    }}
+                    options={companyOptions}
+                /> :
+                <Dropdown
+                    className='mt-3'
+                    placeholder='Select Your Company'
+                    fluid
+                    onChange={(e, data) => {
+                        console.log('selected', data.value)
+                        setAssociatedId(data.value)
+
+                    }}
+                    search
+                    selection
+                    options={agencyOptions}
+                />
+            }
+
 
             <Input iconPosition={'left'} icon={'mail'} required ref={emailRef} type='email' className='mt-3' fluid
                    size='large' placeholder='Email'/>

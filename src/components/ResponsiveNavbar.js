@@ -11,7 +11,6 @@ import {showToast} from "../App";
 
 // need these for redux
 import {useSelector, useDispatch} from "react-redux";
-import {decrement, increment} from "../actions";
 
 function NavScrollExample() {
     const cookies = new Cookies();
@@ -26,7 +25,7 @@ function NavScrollExample() {
     }
 
     // get the state from redux store
-    const counter = useSelector(state => state.counter)
+    const userProfile = useSelector(state => state.userProfile)
     // dispatch an action to the reducer
     const dispatch = useDispatch()
 
@@ -64,7 +63,7 @@ function NavScrollExample() {
 
 
                     <Dropdown pointing
-                              text='Anup Bhowmik'
+                              text={userProfile.name}
                               icon='user circle'
                               floating
                               labeled

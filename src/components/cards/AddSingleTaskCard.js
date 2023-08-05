@@ -10,15 +10,26 @@ import {base_url} from "../../index";
 import {AiOutlineFileSearch} from "react-icons/ai";
 import TableEmpList from "../TableEmpList";
 
+import {useSelector, useDispatch} from "react-redux";
+import {updateCurrTask} from "../../actions";
 
-export const AddSingleTaskCard = ({currTask, setCurrTask}) => {
+
+export const AddSingleTaskCard = () => {
 
 
 
-    const updateCurrTask = (event) => {
-        setCurrTask({
+    const currTask = useSelector(state => state.currTask)
+    // dispatch an action to the reducer
+    const dispatch = useDispatch()
+
+
+    const handleUpdateCurrTask = (event) => {
+        dispatch(updateCurrTask({
             ...currTask, [event.target.name]: event.target.value
-        })
+        }))
+        // setCurrTask({
+        //     ...currTask, [event.target.name]: event.target.value
+        // })
         console.log('curr task', currTask)
     }
 
@@ -44,8 +55,10 @@ export const AddSingleTaskCard = ({currTask, setCurrTask}) => {
     const handleDeleteTag = (index) => {
         console.log('delete tag', index)
         // showToast(index, {toastType: 'success'})
+        dispatch(updateCurrTask({...currTask, tags: currTask.tags.filter((tag, i) => i !== index)}))
 
-        setCurrTask({...currTask, tags: currTask.tags.filter((tag, i) => i !== index)})
+
+        // setCurrTask({...currTask, tags: currTask.tags.filter((tag, i) => i !== index)})
     }
 
     const addTag = (tag_id) => {
@@ -56,7 +69,8 @@ export const AddSingleTaskCard = ({currTask, setCurrTask}) => {
             showToast('Tag already added', 'error')
 
         } else {
-            setCurrTask({...currTask, tags: [...currTask.tags, allTaskTags[tag_id]]})
+            dispatch(updateCurrTask({...currTask, tags: [...currTask.tags, allTaskTags[tag_id]]}))
+            // setCurrTask({...currTask, tags: [...currTask.tags, allTaskTags[tag_id]]})
         }
     }
 
@@ -116,7 +130,8 @@ export const AddSingleTaskCard = ({currTask, setCurrTask}) => {
             showToast('Employee already exists', 'error')
 
         } else {
-            setCurrTask({...currTask, Employees: [...currTask.Employees, employeeList[index]]})
+            dispatch(updateCurrTask({...currTask, Employees: [...currTask.Employees, employeeList[index]]}))
+            // setCurrTask({...currTask, Employees: [...currTask.Employees, employeeList[index]]})
         }
 
     }
@@ -135,7 +150,9 @@ export const AddSingleTaskCard = ({currTask, setCurrTask}) => {
         currTask.Employees.map((currEmp) => {
             totalCost += currEmp.salary
         })
-        setCurrTask({...currTask, cost: totalCost})
+
+        // setCurrTask({...currTask, cost: totalCost})
+        dispatch(updateCurrTask({...currTask, cost: totalCost}))
     }
 
 
@@ -145,7 +162,7 @@ export const AddSingleTaskCard = ({currTask, setCurrTask}) => {
             <div>
                 <Form>
                     <Form.Group widths='equal'>
-                        <Form.Input onChange={updateCurrTask} fluid placeholder='Task Name' name='name'
+                        <Form.Input onChange={handleUpdateCurrTask} fluid placeholder='Task Name' name='name'
                                     value={currTask.name}/>
                     </Form.Group>
                 </Form>
