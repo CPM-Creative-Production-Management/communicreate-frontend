@@ -10,8 +10,8 @@ import {Archive} from "./components/fragments/Archive";
 import {AddEstimationPage} from "./components/pages/AddEstimationPage";
 import {Dialog, DialogContent} from "@mui/material";
 import {BarLoader} from "react-spinners";
-import {LoginFragment} from "./components/fragments/LoginFragment";
-import {RegisterFragment} from "./components/fragments/RegisterFragment";
+import {LoginPage} from "./components/pages/LoginPage";
+import {RegisterPage} from "./components/pages/RegisterPage";
 
 let showToast
 let setLoading
@@ -53,12 +53,11 @@ function App() {
 
             <Toaster />
 
-            {/*check cookies for logged in*/}
 
             <Routes>
                 <Route exact path="*" element={ <HomePage/>}/>
-                <Route exact path="/login" element={<LoginFragment/>}/>
-                <Route exact path="/register" element={<RegisterFragment/>}/>
+                <Route exact path="/login" element={<LoginPage/>}/>
+                <Route exact path="/register" element={<RegisterPage/>}/>
             </Routes>
 
 

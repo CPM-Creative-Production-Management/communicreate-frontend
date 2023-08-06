@@ -8,7 +8,7 @@ import {useDispatch} from "react-redux";
 import {SiAntdesign} from "react-icons/si";
 
 
-export const LoginFragment = () => {
+export const LoginPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch()
 
@@ -61,7 +61,7 @@ export const LoginFragment = () => {
                     <h1>
                         Welcome back to Creative Production Management</h1>
                 </center>
-                <div className={'col-xs-11 col-sm-3 col-md-3 mb-4 mt-5'}>
+                <div className={'col-xs-12 col-sm-3 col-md-3 mb-4 mt-5'}>
 
                     <center>
                         <h2>Login to your account</h2>
@@ -85,9 +85,9 @@ export const LoginFragment = () => {
                     {/*<img width='60%' src={LoginImg} alt="LoginImg"/>*/}
 
                     Don't have an account?
-                    <a onClick={()=>{
+                    <a className={'link-text'} onClick={()=>{
                         navigate('/register')
-                    }}> &nbsp;&nbsp;&nbsp;Register Now </a>
+                    }}> &nbsp;&nbsp;Register Now </a>
 
 
                 </div>

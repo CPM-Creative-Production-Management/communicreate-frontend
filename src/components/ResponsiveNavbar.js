@@ -11,10 +11,19 @@ import {showToast} from "../App";
 
 // need these for redux
 import {useSelector, useDispatch} from "react-redux";
+import {useEffect, useState} from "react";
 
 function NavScrollExample() {
     const cookies = new Cookies();
     const navigate = useNavigate();
+
+    const [userName, setUserName] = useState('')
+    const [userAssociation, setUserAssociation] = useState('')
+
+    useEffect(() => {
+        setUserName(cookies.get('userName'))
+        setUserAssociation((cookies.get('userAssoc')))
+    }, []);
 
 
 
@@ -63,7 +72,7 @@ function NavScrollExample() {
 
 
                     <Dropdown pointing
-                              text={userProfile.name}
+                              text={userName}
                               icon='user circle'
                               floating
                               labeled
@@ -73,7 +82,7 @@ function NavScrollExample() {
                         <Dropdown.Menu>
 
                             <center>
-                                <Dropdown.Item className='m-3' text={userProfile.association.name}/>
+                                <Dropdown.Item className='m-3' text={userAssociation}/>
                             </center>
 
 

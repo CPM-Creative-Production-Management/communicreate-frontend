@@ -4,9 +4,9 @@ import {
     Grid,
     Segment,
 } from 'semantic-ui-react'
-import {LoginFragment} from "../fragments/LoginFragment";
+import {LoginPage} from "./LoginPage";
 import {SiAntdesign} from "react-icons/si";
-import {RegisterFragment} from "../fragments/RegisterFragment";
+import {RegisterPage} from "./RegisterPage";
 
 
 
@@ -34,14 +34,14 @@ const AuthPage = () => {
                             <Grid.Row verticalAlign='top'>
                                 <Grid.Column>
 
-                                    <LoginFragment/>
+                                    <LoginPage/>
 
 
                                 </Grid.Column>
 
 
                                 <Grid.Column>
-                                    <RegisterFragment/>
+                                    <RegisterPage/>
                                 </Grid.Column>
                             </Grid.Row>
                         </Grid>
