@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {Button, Header, Image, Table} from "semantic-ui-react";
 
 import {useSelector, useDispatch} from "react-redux";
@@ -18,7 +18,12 @@ const TableEmpList = ({tableData, isDisplaying}) => {
 
     }
 
+    // useEffect(() => {
+    //     console.log('currTask: ', tableData)
+    // }, [tableData])
+
     return (
+
         <Table celled padded>
 
             <thead>
@@ -26,14 +31,14 @@ const TableEmpList = ({tableData, isDisplaying}) => {
                 {isDisplaying? null:
                 <th scope="col"></th>}
                 <th scope={"col"}>#</th>
-                <th scope="col">Assignee</th>
+                <th scope="col">Employee</th>
                 <th scope="col">Rating</th>
                 <th scope="col">Salary</th>
             </tr>
             </thead>
 
             <Table.Body>
-                {tableData.map((currItem, index) => (
+                {tableData?.map((currItem, index) => (
                     <Table.Row key={currItem.id}>
 
                         {isDisplaying? null:
