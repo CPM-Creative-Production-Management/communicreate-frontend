@@ -32,7 +32,7 @@ export const CollapsibleSidebar = () => {
                     <MenuItem component={<Link to="/"/>} icon={<RxDashboard/>}> Dashboard </MenuItem>
                     <SubMenu label="Employees" icon={<BsPersonWorkspace/>}>
                         <MenuItem icon={<RiTeamLine/>} component={<Link to="/my-employees"/>}> All Employees </MenuItem>
-                        <MenuItem icon={<BsPersonAdd/>} component={<Link to="/"/>}> Add Employee </MenuItem>
+                        <MenuItem icon={<BsPersonAdd/>} component={<Link to="/add-employee"/>}> Add Employee </MenuItem>
                     </SubMenu>
                     <MenuItem component={<Link to="/archive"/>} icon={<BsArchive/>}> Archive </MenuItem>
                     <MenuItem component={<Link to="/estimations"/>} icon={<LuCalculator/>}> Estimations </MenuItem>

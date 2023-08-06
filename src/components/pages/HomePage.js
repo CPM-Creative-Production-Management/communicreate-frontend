@@ -12,6 +12,7 @@ import {AddEstimationPage} from "./AddEstimationPage";
 import {Estimations} from "../fragments/Estimations";
 import PaymentPage from "./PaymentPage";
 import MyEmployeesPage from './MyEmployeesPage';
+import AddEmployeePage from './AddEmployeePage';
 
 export const HomePage = () => {
 
@@ -41,6 +42,7 @@ export const HomePage = () => {
                         <Route exact path="/add-estimation" element={<AddEstimationPage/>}/>
                         <Route exact path="/my-employees" element={<MyEmployeesPage/>}/>
                         <Route exact path="/payment" element={<PaymentPage/>}/>
+                        <Route exact path="/add-employee" element={<AddEmployeePage/>}/>
                     </Routes>
                     </div>
                 </div>
