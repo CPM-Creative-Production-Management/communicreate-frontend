@@ -35,6 +35,7 @@ export const RegisterFragment = () => {
         // check for valid email (regex)
         let password = passwordRef.current.inputRef.current.value;
         let email = emailRef.current.inputRef.current.value
+        let confirmPassword = confirmPasswordRef.current.inputRef.current.value
 
         console.log('email', email)
         console.log('password', password)
@@ -45,6 +46,10 @@ export const RegisterFragment = () => {
         } else if (password.length < 5) {
             console.log("Password must be at least 5 characters long")
             showToast("Password must be at least 5 characters long", "error")
+            return
+        } else if (password !== confirmPassword){
+            console.log("passwords do not match")
+            showToast("passwords do not match", "error")
             return
         }
 

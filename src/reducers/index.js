@@ -8,8 +8,6 @@ import userProfileReducer from "./userProfile";
 import { combineReducers } from "redux";
 
 const allReducers = combineReducers({
-    counter: counterReducer,
-    isLogged: loggedReducer,
     currEstimation: currEstimationReducer,
     currTask: currTaskAddingReducer,
 
