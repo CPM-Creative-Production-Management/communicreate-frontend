@@ -8,7 +8,7 @@ import {useDispatch} from "react-redux";
 import {SiAntdesign} from "react-icons/si";
 
 
-export const LoginFragment = () => {
+export const LoginPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch()
 
@@ -85,9 +85,9 @@ export const LoginFragment = () => {
                     {/*<img width='60%' src={LoginImg} alt="LoginImg"/>*/}
 
                     Don't have an account?
-                    <a onClick={()=>{
+                    <a className={'link-text'} onClick={()=>{
                         navigate('/register')
-                    }}> &nbsp;&nbsp;&nbsp;Register Now </a>
+                    }}> &nbsp;&nbsp;Register Now </a>
 
 
                 </div>

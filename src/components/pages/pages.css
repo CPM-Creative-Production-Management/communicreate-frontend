@@ -3,3 +3,8 @@
     bottom: 40px;
     right: 40px;
 }
+
+.link-text {
+    text-decoration: blue;
+    cursor: pointer;
+}

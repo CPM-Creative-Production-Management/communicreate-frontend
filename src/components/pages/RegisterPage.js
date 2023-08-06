@@ -11,7 +11,10 @@ import {base_url} from "../../index";
 import axios from "axios";
 import {SiAntdesign} from "react-icons/si";
 
-export const RegisterFragment = () => {
+import './pages.css'
+
+
+export const RegisterPage = () => {
     const navigate = useNavigate();
 
     const emailRef = React.useRef('');
@@ -192,7 +195,7 @@ export const RegisterFragment = () => {
                     <br/>
 
                     Already have an account?
-                    <a onClick={()=> {navigate('/login')}}>&nbsp;&nbsp;&nbsp; Login</a>
+                    <a className={'link-text'} onClick={()=> {navigate('/login')}}>&nbsp;&nbsp; Login</a>
 
                 </div>
             </center>
