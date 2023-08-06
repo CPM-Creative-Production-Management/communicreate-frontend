@@ -1,14 +1,17 @@
 import React from 'react';
 import LoginImg from '../../assets/login.svg'
-import {Button, Input} from "semantic-ui-react";
+import {Button, Card, Icon, Input} from "semantic-ui-react";
 import {useNavigate} from "react-router-dom";
 import {showToast} from "../../App";
 import {LoginReq} from "../api/loginReq";
 import {useDispatch} from "react-redux";
+import {SiAntdesign} from "react-icons/si";
+
 
 export const LoginFragment = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch()
+
 
     const emailRef = React.useRef('');
     const passwordRef = React.useRef('');
@@ -45,25 +48,56 @@ export const LoginFragment = () => {
     }
 
     return (
+        <div className={'row'}>
 
-        <div className={'ms-3 me-3'}>
-            <h3>Login to your Account</h3>
-            <br/>
-            <img width='60%' src={LoginImg} alt="LoginImg"/>
+            <center>
+                <br/>
+                <br/>
+                <br/>
+
+                <center>
+                    <SiAntdesign className='mt-3' size="10em"/>
+                    <br/>
+                    <h1>
+                        Welcome back to Creative Production Management</h1>
+                </center>
+                <div className={'col-xs-11 col-sm-3 col-md-3 mb-4 mt-5'}>
+
+                    <center>
+                        <h2>Login to your account</h2>
+                    </center>
 
 
-            <Input iconPosition={'left'} icon={'mail'} required ref={emailRef} type='email' className='mt-5' fluid
-                   size='large' placeholder='Email'/>
-            <Input iconPosition={'left'} icon={'lock'} required ref={passwordRef} className='mt-3' fluid size='large'
-                   placeholder='Password'
-                   type='password'/>
+                    <Input iconPosition={'left'} icon={'mail'} required ref={emailRef} type='email' className='mt-4'
+                           fluid
+                           size='large' placeholder='Email'/>
+                    <Input iconPosition={'left'} icon={'lock'} required ref={passwordRef} className='mt-3' fluid
+                           size='large'
+                           placeholder='Password'
+                           type='password'/>
 
-            <Button onClick={() => {
-                login()
-            }} positive className='mt-3' size='large' fluid>Login</Button>
+                    <Button onClick={() => {
+                        login()
+                    }} primary className='mt-3' size='large' fluid>Login</Button>
 
-            <br/>
+                    <br/>
+
+                    {/*<img width='60%' src={LoginImg} alt="LoginImg"/>*/}
+
+                    Don't have an account?
+                    <a onClick={()=>{
+                        navigate('/register')
+                    }}> &nbsp;&nbsp;&nbsp;Register Now </a>
+
+
+                </div>
+
+
+            </center>
+
 
         </div>
+
+
     )
 }

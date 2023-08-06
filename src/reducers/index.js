@@ -1,5 +1,3 @@
-import counterReducer from "./counter";
-import loggedReducer from "./isLogged";
 import currEstimationReducer from "./currEstimation";
 import currTaskAddingReducer from "./currTaskAdding";
 import userProfileReducer from "./userProfile";

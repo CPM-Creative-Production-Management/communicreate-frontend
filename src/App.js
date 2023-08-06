@@ -10,6 +10,8 @@ import {Archive} from "./components/fragments/Archive";
 import {AddEstimationPage} from "./components/pages/AddEstimationPage";
 import {Dialog, DialogContent} from "@mui/material";
 import {BarLoader} from "react-spinners";
+import {LoginFragment} from "./components/fragments/LoginFragment";
+import {RegisterFragment} from "./components/fragments/RegisterFragment";
 
 let showToast
 let setLoading
@@ -55,7 +57,8 @@ function App() {
 
             <Routes>
                 <Route exact path="*" element={ <HomePage/>}/>
-                <Route exact path="/auth" element={<AuthPage/>}/>
+                <Route exact path="/login" element={<LoginFragment/>}/>
+                <Route exact path="/register" element={<RegisterFragment/>}/>
             </Routes>
 
 

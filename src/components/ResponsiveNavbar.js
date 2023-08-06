@@ -21,7 +21,7 @@ function NavScrollExample() {
     const logout = () => {
         cookies.remove('token');
         showToast('Logged out successfully', 'success');
-        navigate('/auth');
+        navigate('/login');
     }
 
     // get the state from redux store

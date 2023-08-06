@@ -9,6 +9,7 @@ import Radio from '@mui/material/Radio';
 import {useApiRequest} from "../api/useApiRequest";
 import {base_url} from "../../index";
 import axios from "axios";
+import {SiAntdesign} from "react-icons/si";
 
 export const RegisterFragment = () => {
     const navigate = useNavigate();
@@ -47,7 +48,7 @@ export const RegisterFragment = () => {
             console.log("Password must be at least 5 characters long")
             showToast("Password must be at least 5 characters long", "error")
             return
-        } else if (password !== confirmPassword){
+        } else if (password !== confirmPassword) {
             console.log("passwords do not match")
             showToast("passwords do not match", "error")
             return
@@ -92,94 +93,109 @@ export const RegisterFragment = () => {
         console.log('agencyOptions', agencyOptions)
     }, [companyOptions, agencyOptions]);
 
-    // const companyOptions = [
-    //     {key: 'Azitech', text: 'Azitech Soft Ltd.', value: 1},
-    //     {key: 'B', text: 'B Soft Ltd.', value: 2},
-    //     {key: 'C', text: 'C Soft Ltd.', value: 3},
-    //
-    // ]
 
     return (
-        <div className={'ms-3 me-3'}>
-            <h3>Create a new Account</h3>
-            <br/>
+        <div className={'row'}>
 
-            <img width='50%' src={RegImg} alt="RegImg"/>
+            <center>
+                <br/>
+                <br/>
 
-            <Input iconPosition={'left'} icon={'pencil alternate'} required ref={nameRef} type='text' className='mt-5'
-                   fluid
-                   size='large' placeholder='Full Name'/>
-
-
-            <div className={'text-left'}>
-
-                <Radio
-                    label='Company Client'
-                    name='radioGroup'
-                    value='1'
-                    checked={associationType === '1'}
-                    onChange={handleChange}
-                /> Company Client
+                <center>
+                    <SiAntdesign className='mt-3' size="10em"/>
+                    <br/>
+                    <h1>
+                        Welcome to Creative Production Management</h1>
+                </center>
+                <div className={'col-xs-11 col-sm-3 col-md-3 mb-4 mt-5'}>
+                    <center>
+                        <h2>Create a new Account</h2>
+                    </center>
 
 
-                <Radio
-                    label='Agency Manager'
-                    name='radioGroup'
-                    value='2'
-                    checked={associationType === '2'}
-                    onChange={handleChange}
-                /> Agency Manager
-
-            </div>
+                    <Input iconPosition={'left'} icon={'pencil alternate'} required ref={nameRef} type='text'
+                           className='mt-4'
+                           fluid
+                           size='large' placeholder='Full Name'/>
 
 
-            {associationType === '1' ?
-                <Dropdown
-                    className='mt-3'
-                    placeholder='Select Your Company'
-                    fluid
-                    search
-                    selection
-                    onChange={(e, data) => {
-                        console.log('selected', data.value)
-                        setAssociatedId(data.value)
+                    <div className={'text-left'}>
 
-                    }}
-                    options={companyOptions}
-                /> :
-                <Dropdown
-                    className='mt-3'
-                    placeholder='Select Your Company'
-                    fluid
-                    onChange={(e, data) => {
-                        console.log('selected', data.value)
-                        setAssociatedId(data.value)
-
-                    }}
-                    search
-                    selection
-                    options={agencyOptions}
-                />
-            }
+                        <Radio
+                            label='Company Client'
+                            name='radioGroup'
+                            value='1'
+                            checked={associationType === '1'}
+                            onChange={handleChange}
+                        /> Company Client
 
 
-            <Input iconPosition={'left'} icon={'mail'} required ref={emailRef} type='email' className='mt-3' fluid
-                   size='large' placeholder='Email'/>
-            <Input iconPosition={'left'} icon={'lock'} required ref={passwordRef} className='mt-3' fluid size='large'
-                   placeholder='Choose a Password'
-                   type='password'/>
+                        <Radio
+                            label='Agency Manager'
+                            name='radioGroup'
+                            value='2'
+                            checked={associationType === '2'}
+                            onChange={handleChange}
+                        /> Agency Manager
 
-            <Input iconPosition={'left'} icon={'sync alternate'} required ref={confirmPasswordRef} className='mt-3'
-                   fluid size='large'
-                   placeholder='Confirm Password'
-                   type='password'/>
+                    </div>
 
-            <Button onClick={() => {
-                register()
-            }} positive className='mt-3' size='large' fluid>Register</Button>
 
-            <br/>
+                    {associationType === '1' ?
+                        <Dropdown
+                            className='mt-3'
+                            placeholder='Select Your Company'
+                            fluid
+                            search
+                            selection
+                            onChange={(e, data) => {
+                                console.log('selected', data.value)
+                                setAssociatedId(data.value)
 
+                            }}
+                            options={companyOptions}
+                        /> :
+                        <Dropdown
+                            className='mt-3'
+                            placeholder='Select Your Company'
+                            fluid
+                            onChange={(e, data) => {
+                                console.log('selected', data.value)
+                                setAssociatedId(data.value)
+
+                            }}
+                            search
+                            selection
+                            options={agencyOptions}
+                        />
+                    }
+
+
+                    <Input iconPosition={'left'} icon={'mail'} required ref={emailRef} type='email' className='mt-3'
+                           fluid
+                           size='large' placeholder='Email'/>
+                    <Input iconPosition={'left'} icon={'lock'} required ref={passwordRef} className='mt-3' fluid
+                           size='large'
+                           placeholder='Choose a Password'
+                           type='password'/>
+
+                    <Input iconPosition={'left'} icon={'sync alternate'} required ref={confirmPasswordRef}
+                           className='mt-3'
+                           fluid size='large'
+                           placeholder='Confirm Password'
+                           type='password'/>
+
+                    <Button onClick={() => {
+                        register()
+                    }} primary className='mt-3' size='large' fluid>Register</Button>
+
+                    <br/>
+
+                    Already have an account?
+                    <a onClick={()=> {navigate('/login')}}>&nbsp;&nbsp;&nbsp; Login</a>
+
+                </div>
+            </center>
 
         </div>
     )
