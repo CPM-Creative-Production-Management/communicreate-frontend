@@ -1,0 +1,35 @@
+import React from 'react'
+import { useNavigate } from 'react-router-dom';
+import ResponsiveNavbar from "../ResponsiveNavbar";
+import {CollapsibleSidebar} from "../CollapsibleSidebar";
+import "./pages.css"
+import { useApiRequest } from '../api/useApiRequest';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { base_url } from '../..'
+import TableEmpList from '../TableEmpList';
+
+const MyEmployeesPage = () => {
+
+    const {data, dataLoading, error} = useApiRequest({
+        url: base_url + 'employees',
+        method: 'GET',
+    })
+
+    useEffect(() => {
+        console.log('loading', dataLoading)
+        console.log('employeeData', data)
+    }, [dataLoading, data])
+
+  return (
+    <div>
+        <br></br>
+        
+        <h1>Employees</h1>
+        <TableEmpList tableData={data} isDisplaying={true}/>
+        {/* {dataLoading?<div/>:<TableEmpList tableData={data} isDisplaying={true}/>} */}
+    </div>
+  )
+}
+
+export default MyEmployeesPage
