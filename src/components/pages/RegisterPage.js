@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 
 
 import RegImg from '../../assets/create_account.svg'
-import {Button, Input, Form, Dropdown} from "semantic-ui-react";
+import {Button, Input, Form, Dropdown, Message} from "semantic-ui-react";
 import {showToast} from "../../App";
 import {useNavigate} from "react-router-dom";
 import Radio from '@mui/material/Radio';
@@ -23,7 +23,7 @@ export const RegisterPage = () => {
     const nameRef = React.useRef('');
 
 
-    const [associationType, setAssociationType] = React.useState(null);
+    const [associationType, setAssociationType] = React.useState('1');
     const [associatedId, setAssociatedId] = React.useState(null);
 
     const handleChange = (event) => {
@@ -122,26 +122,32 @@ export const RegisterPage = () => {
                            size='large' placeholder='Full Name'/>
 
 
-                    <div className={'text-left'}>
+                    <Message>
+                        <div className={'align-left'}>
 
-                        <Radio
-                            label='Company Client'
-                            name='radioGroup'
-                            value='1'
-                            checked={associationType === '1'}
-                            onChange={handleChange}
-                        /> Company Client
+                            <div>
+
+                                <Radio
+                                    label='Company Client'
+                                    name='radioGroup'
+                                    value='1'
+                                    checked={associationType === '1'}
+                                    onChange={handleChange}
+                                /> Company Client
+                            </div>
 
 
-                        <Radio
-                            label='Agency Manager'
-                            name='radioGroup'
-                            value='2'
-                            checked={associationType === '2'}
-                            onChange={handleChange}
-                        /> Agency Manager
-
-                    </div>
+                            <div>
+                                <Radio
+                                    label='Agency Manager'
+                                    name='radioGroup'
+                                    value='2'
+                                    checked={associationType === '2'}
+                                    onChange={handleChange}
+                                /> Agency Manager
+                            </div>
+                        </div>
+                    </Message>
 
 
                     {associationType === '1' ?
@@ -160,7 +166,7 @@ export const RegisterPage = () => {
                         /> :
                         <Dropdown
                             className='mt-3'
-                            placeholder='Select Your Company'
+                            placeholder='Select Your Agency'
                             fluid
                             onChange={(e, data) => {
                                 console.log('selected', data.value)
@@ -195,7 +201,12 @@ export const RegisterPage = () => {
                     <br/>
 
                     Already have an account?
-                    <a className={'link-text'} onClick={()=> {navigate('/login')}}>&nbsp;&nbsp; Login</a>
+                    <a className={'link-text'} onClick={() => {
+                        navigate('/login')
+                    }}>&nbsp;&nbsp; Login</a>
+
+                    <br/>
+                    <br/>
 
                 </div>
             </center>

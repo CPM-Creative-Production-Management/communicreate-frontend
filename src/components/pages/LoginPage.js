@@ -61,7 +61,7 @@ export const LoginPage = () => {
                     <h1>
                         Welcome back to Creative Production Management</h1>
                 </center>
-                <div className={'col-xs-11 col-sm-3 col-md-3 mb-4 mt-5'}>
+                <div className={'col-xs-12 col-sm-3 col-md-3 mb-4 mt-5'}>
 
                     <center>
                         <h2>Login to your account</h2>

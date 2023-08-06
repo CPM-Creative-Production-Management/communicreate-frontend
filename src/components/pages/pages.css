@@ -8,3 +8,7 @@
     text-decoration: blue;
     cursor: pointer;
 }
+
+.align-left {
+    text-align: start;
+}
