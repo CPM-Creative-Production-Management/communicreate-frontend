@@ -20,21 +20,21 @@ export const regularApiRequest = async ({url, method, reqBody={}}) => {
                 if(method.toUpperCase() === "GET") {
                     const response = await axios.get(url, {headers: requestHeaders})
                     console.log('resp', response.data)
-                    return response.data
+                    return response
 
                 } else if(method.toUpperCase() === "POST") {
                     const response = await axios.post(url, reqBody, {headers: requestHeaders})
                     console.log('resp', response.data)
-                    return response.data
+                    return response
 
                 } else if(method.toUpperCase() === "PUT") {
                     const response = await axios.put(url, reqBody, {headers: requestHeaders})
                     console.log('resp', response.data)
-                    return response.data
+                    return response
                 } else if(method.toUpperCase() === "DELETE") {
                     const response = await axios.delete(url, {headers: requestHeaders})
                     console.log('resp', response.data)
-                    return response.data
+                    return response
                 }
 
             } catch (error) {

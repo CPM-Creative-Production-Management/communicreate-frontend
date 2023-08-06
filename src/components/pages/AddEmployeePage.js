@@ -8,6 +8,7 @@ import { base_url } from '../..'
 import { useApiRequest } from '../api/useApiRequest'
 import { regularApiRequest } from '../api/regularApiRequest'
 import { showToast } from '../../App'
+import { useNavigate } from 'react-router-dom'
 
 const AddEmployeePage = () => {
     const firstNameRef = useRef('')
@@ -15,12 +16,16 @@ const AddEmployeePage = () => {
     const [date, setDate] = useState('')
     const addressRef = useRef('')
     const ratingRef = useRef('')
+    const salaryRef = useRef('')
+
+    let navigate = useNavigate()
 
     const addEmp = async () => {
         const firstName = firstNameRef.current.inputRef.current.value
         const lastName = lastNameRef.current.inputRef.current.value
         const address = addressRef.current.inputRef.current.value
         const rating = ratingRef.current.inputRef.current.value
+        const salary = salaryRef.current.inputRef.current.value
         const dob = date
         
         const reqBody = {
@@ -28,7 +33,7 @@ const AddEmployeePage = () => {
             address: address,
             rating: rating,
             dob: dob,
-            salary: 1000
+            salary: salary
         }
 
         const response = await regularApiRequest({
@@ -36,8 +41,12 @@ const AddEmployeePage = () => {
             method: 'POST',
             reqBody: reqBody
         })
-
+        if (response.status === 200) {
         showToast('Employee added succesfully', 'success')
+        navigate('/my-employees')
+        } else {
+        showToast('Error adding employee', 'error')
+        }
     }
 
     const dateChange = (event, data) => {
@@ -76,6 +85,11 @@ const AddEmployeePage = () => {
             <Input required ref={ratingRef} type='number' className='mt-4'
                             fluid
                             size='large' placeholder='Rating'/>
+            </Grid.Column>
+            <Grid.Column>
+            <Input required ref={salaryRef} type='number' className='mt-4'
+                            fluid
+                            size='large' placeholder='Salary'/>
             </Grid.Column>
         </Grid>
         
