@@ -75,29 +75,30 @@ const AddEmployeePage = () => {
         </Grid>
         <Grid columns={1}>
             <Grid.Column>
-            <Input required ref={addressRef} type='text' className='mt-4'
+            <Input required ref={addressRef} type='text' className='mt-0'
                             fluid
                             size='large' placeholder='Address'/>
             </Grid.Column>
         </Grid>
-        <Grid columns={1}>
+        <Grid columns={2}>
             <Grid.Column>
-            <Input required ref={ratingRef} type='number' className='mt-4'
+            <Input required ref={ratingRef} type='number' className='mt-0'
                             fluid
                             size='large' placeholder='Rating'/>
             </Grid.Column>
             <Grid.Column>
-            <Input required ref={salaryRef} type='number' className='mt-4'
+            <Input required ref={salaryRef} type='number' className='mt-0'
                             fluid
                             size='large' placeholder='Salary'/>
             </Grid.Column>
         </Grid>
         
         <br></br>
-        <SemanticDatepicker label="Date of Birth:  " onChange={dateChange}></SemanticDatepicker>
+        Date of Birth <br/>
+        <SemanticDatepicker className={'mt-2'}  onChange={dateChange}></SemanticDatepicker>
         <br></br>
         <br></br>
-        <Button onClick={addEmp}>Submit</Button>
+        <Button primary onClick={addEmp}>Add Employee</Button>
     </div>
   )
 }
