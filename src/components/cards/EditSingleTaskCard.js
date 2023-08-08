@@ -110,8 +110,11 @@ export const EditSingleTaskCard = (props) => {
         if (currTask.Employees.includes(emp)) {
             showToast('Employee already exists', 'error')
 
+        
         } else {
-            console.log('#######'); dispatch(updateCurrTask({ ...currTask, Employees: [...currTask.Employees, emp]}))
+            //console.log('#######'); dispatch(updateCurrTask({ ...currTask, Employees: [...currTask.Employees, emp]}))
+            calculateTaskCost({ ...currTask, Employees: [...currTask.Employees, emp]})
+
         }
     }
 
@@ -119,18 +122,18 @@ export const EditSingleTaskCard = (props) => {
         console.log('curr task:', currTask)
     }, [currTask]);
 
-    useEffect(() => {
-        console.log('selected emp:', currTask.Employees)
-        calculateTaskCost()
-    }, [currTask.Employees]);
+    // useEffect(() => {
+    //     console.log('selected emp:', currTask.Employees)
+    //     calculateTaskCost()
+    // }, [currTask.Employees]);
 
-    const calculateTaskCost = () => {
+    const calculateTaskCost = cT => {
         let totalCost = 0
-        currTask.Employees?.map((currEmp) => {
+        cT.Employees?.map((currEmp) => {
             totalCost += currEmp.salary
         })
 
-        // console.log('#######'); dispatch(updateCurrTask({ ...currTask, cost: totalCost}))
+        console.log('#######'); dispatch(updateCurrTask({ ...cT, cost: totalCost}))
     }
 
 

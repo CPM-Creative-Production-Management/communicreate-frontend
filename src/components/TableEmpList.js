@@ -9,11 +9,22 @@ const TableEmpList = ({tableData, isDisplaying}) => {
     const currTask = useSelector(state => state.currTask)
     const dispatch = useDispatch()
 
+    const calculateTaskCost = cT => {
+        let totalCost = 0
+        cT.Employees?.map((currEmp) => {
+            totalCost += currEmp.salary
+        })
+
+        console.log('#######'); dispatch(updateCurrTask({ ...cT, cost: totalCost}))
+    }
+
     const removeEmployeeFromTask = (index) => {
         console.log('need to delete: ', index)
-        console.log('#######'); dispatch(updateCurrTask({ 
+        // console.log('#######'); dispatch(updateCurrTask())
+
+        calculateTaskCost({ 
             ...currTask, Employees: currTask.Employees.filter((emp, i) => i !== index)
-        }))
+        })
 
 
     }

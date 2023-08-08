@@ -27,22 +27,20 @@ export const AddSingleTaskCard = () => {
         console.log('#######'); dispatch(updateCurrTask({ 
             ...currTask, [event.target.name]: event.target.value
         }))
-        // setCurrTask({
-        //     ...currTask, [event.target.name]: event.target.value
-        // })
+
         console.log('curr task', currTask)
     }
 
-    // let {data: allTaskTags, dataLoading, error} = useApiRequest({
-    //     url: base_url + 'tasktag',
-    //     method: 'GET',
-    // });
-    // allTaskTags = allTaskTags?.name
+    let {data: allTaskTags, dataLoading: tagDataLoading, error: tagError} = useApiRequest({
+        url: base_url + 'tasktag',
+        method: 'GET',
+    });
+    allTaskTags = allTaskTags?.name
 
-    const [allTaskTags, setAllTaskTags] = useState([
-        {id: 1, name: 'tag1'},
-        {id: 2, name: 'tag2'},
-    ]);
+    // const [allTaskTags, setAllTaskTags] = useState([
+    //     {id: 1, name: 'tag1'},
+    //     {id: 2, name: 'tag2'},
+    // ]);
 
 
     useEffect(() => {

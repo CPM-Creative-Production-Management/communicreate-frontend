@@ -14,7 +14,7 @@ const EditTaskModal = (props) => {
     // get the global Estimation from redux store
     const globalEstimation = useSelector(state => state.currEstimation)
     // const currTask = useSelector(state => state.currTask)
-    const currTask = props.singleTask
+    const currTask = useSelector(state => state.currTask)
     // dispatch an action to the reducer
     const dispatch = useDispatch()
 
@@ -39,7 +39,27 @@ const EditTaskModal = (props) => {
 
 
     const editTask = () => {
-        console.log('editing task', currTask)
+        // console.log('editing task', currTask)
+        // console.log('editing task index',  props.editTaskIndex)
+        // console.log({
+        //     ...globalEstimation, tasks: globalEstimation.tasks.map((task, index) => {
+        //         if (index === props.editTaskIndex) {
+        //             return currTask
+        //         }
+        //         return task
+        //     })
+        // })
+        // update the global estimation with the edited task, make sure to replace the old task with the new one
+        dispatch(updateEstimation({
+            ...globalEstimation, tasks: globalEstimation.tasks.map((task, index) => {
+                if (index === props.editTaskIndex) {
+                    return currTask
+                }
+                return task
+            })
+        }))
+
+        props.setShow(false)
 
 
     }
@@ -67,7 +87,7 @@ const EditTaskModal = (props) => {
                 </Modal.Title>
             </Modal.Header>
 
-            <EditSingleTaskCard singleTask={props.singleTask} editTaskIndex={props.editTaskIndex-1}/>
+            <EditSingleTaskCard singleTask={props.singleTask} editTaskIndex={props.editTaskIndex}/>
 
 
             <Modal.Footer className={'me-2'}>

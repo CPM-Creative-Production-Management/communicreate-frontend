@@ -6,9 +6,15 @@ import AddTaskModal from "../modals/AddTaskModal";
 import TableEmpList from "../TableEmpList";
 import EditTaskModal from "../modals/EditTaskModal";
 
+import { useSelector, useDispatch } from "react-redux";
+import { updateEstimation } from "../../actions";
+import { showToast } from "../../App";
+
 export const SingleTaskCard = (props) => {
 
     const [openEditTaskModal, setOpenEditTaskModal] = useState(false)
+    const globalEstimation = useSelector(state => state.currEstimation)
+    const dispatch = useDispatch()
 
     useEffect(() => {
         console.log('single task card', props)
@@ -20,6 +26,27 @@ export const SingleTaskCard = (props) => {
 
     }
 
+    const deleteTask = () => {
+        console.log('deleting task', props.taskIndex)
+        console.log('deleting task', globalEstimation.tasks[props.taskIndex])
+        // update the globalEstimation via redux
+        dispatch(updateEstimation({
+            ...globalEstimation, tasks: globalEstimation.tasks.filter((task, index) => {
+                if (index !== props.taskIndex) {
+                    return task
+                }
+            })
+        }))
+
+        showToast('Task deleted successfully', 'success')
+            
+
+    }
+
+        
+        
+
+
 
     return (
 
@@ -30,10 +57,10 @@ export const SingleTaskCard = (props) => {
                 <Grid.Row>
                     <Grid.Column width={12}>
                         <div className={'mb-2'}>
-                            <h3>#{props.taskIndex} {props.singleTask.name}</h3>
+                            <h3>#{props.taskIndex + 1} {props.singleTask.name}</h3>
                         </div>
 
-                        <div className={'mt-3'}>
+                        <div className={'mt-3 mb-2'}>
                             <Stack direction="row" >
                                 {props.singleTask.tags?.map((currTag, index) => (
                                     <Label className={'me-2'}>
@@ -54,8 +81,7 @@ export const SingleTaskCard = (props) => {
                             <Icon name='edit' /> Edit
                         </Button>
 
-                        <Button onClick={() => {
-                        }} >
+                        <Button onClick={deleteTask}>
                             <Icon name='trash alternate outline' /> Delete
                         </Button>
                     </Stack>
