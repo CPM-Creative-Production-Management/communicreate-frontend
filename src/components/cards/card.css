@@ -9,4 +9,9 @@
     box-shadow: 0 0 10px 5px rgba(195, 221, 255, 0.22);
 }
 
-
+.icon-bg{
+    background-color: #282c34;
+    color: white;
+    border-radius: 12px;
+    padding: 10px;
+}

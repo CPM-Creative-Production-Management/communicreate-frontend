@@ -33,13 +33,9 @@ function NavScrollExample() {
         navigate('/login');
     }
 
-    // get the state from redux store
-    const userProfile = useSelector(state => state.userProfile)
-    // dispatch an action to the reducer
-    const dispatch = useDispatch()
 
     return (
-        <Navbar expand="lg" className="bg-body-tertiary">
+        <Navbar expand="lg" className="bg-body-tertiary nav-style">
             <Container fluid>
 
                 <Navbar.Brand className='ms-4'><SiAntdesign size='1.5em' className='me-2'/>Creative Production
@@ -67,8 +63,6 @@ function NavScrollExample() {
                     </Form>
 
                     <Button className='ms-3' icon={'bell outline'}/>
-
-
 
 
                     <Dropdown pointing

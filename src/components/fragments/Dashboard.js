@@ -1,9 +1,11 @@
 import React from 'react';
 import {Card, Grid, Icon} from "semantic-ui-react";
-import toast from "react-hot-toast";
+
 
 import '../../global.css'
 import {DashboardCard} from "../cards/DashboardCard";
+
+
 
 export const Dashboard = () => {
 
@@ -14,10 +16,10 @@ export const Dashboard = () => {
 
             <br/>
 
-            <Grid className='ms-2' columns={4}>
+            <Grid className='ms-2' columns={5}>
                 <Grid.Row>
                     <Grid.Column>
-                        <DashboardCard iconName='play' colorName='teal' cardHeader='Ongoing Estimations'
+                        <DashboardCard iconName='forward' colorName='teal' cardHeader='Ongoing Estimations'
                                        cardDesc='These are the estimations that you have started but not yet completed. Negotiation is going on with the clients.'
                                        count='5'/>
 

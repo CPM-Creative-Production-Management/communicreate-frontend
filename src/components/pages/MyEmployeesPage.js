@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import ResponsiveNavbar from "../ResponsiveNavbar";
-import {CollapsibleSidebar} from "../CollapsibleSidebar";
+import {SidebarPro} from "../SidebarPro";
 import "./pages.css"
 import { useApiRequest } from '../api/useApiRequest';
 import { useEffect } from 'react';

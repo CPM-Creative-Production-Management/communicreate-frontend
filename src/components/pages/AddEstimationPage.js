@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import ResponsiveNavbar from "../ResponsiveNavbar";
-import {CollapsibleSidebar} from "../CollapsibleSidebar";
+import {SidebarPro} from "../SidebarPro";
 import {Route, Routes} from "react-router-dom";
 import {Dashboard} from "../fragments/Dashboard";
 import {Archive} from "../fragments/Archive";

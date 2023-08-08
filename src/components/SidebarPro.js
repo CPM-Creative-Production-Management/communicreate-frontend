@@ -5,19 +5,21 @@ import {RxDashboard} from "react-icons/rx";
 import {BsArchive, BsPersonAdd, BsPersonWorkspace} from "react-icons/bs";
 
 import {LuCalculator} from "react-icons/lu";
-import {IoCloudDoneOutline} from "react-icons/io5";
-import {TbFolderCancel} from "react-icons/tb";
 import {AiOutlineInfoCircle} from "react-icons/ai";
 import {HiOutlineMail} from "react-icons/hi";
 import {Divider} from "semantic-ui-react";
 import {RiTeamLine} from "react-icons/ri";
+import {SiAntdesign} from "react-icons/si";
+import Navbar from "react-bootstrap/Navbar";
 
 
-export const CollapsibleSidebar = () => {
+export const SidebarPro = () => {
+
+    const [collapsed, setCollapsed] = React.useState(false);
 
     return (
-        <div style={{display: 'flex', height: '93vh'}}>
-            <Sidebar>
+        <div style={{display: 'flex', position:"fixed", bottom:'0px', height: '100vh'}}>
+            <Sidebar collapsed={collapsed}>
                 <Menu
                     menuItemStyles={{
                         button: {
@@ -29,6 +31,7 @@ export const CollapsibleSidebar = () => {
                     }}
                 >
 
+                    <MenuItem component={<Link to="/"/>} icon={<SiAntdesign/>} disabled> CPM </MenuItem>
                     <MenuItem component={<Link to="/"/>} icon={<RxDashboard/>}> Dashboard </MenuItem>
                     <SubMenu label="Employees" icon={<BsPersonWorkspace/>}>
                         <MenuItem icon={<RiTeamLine/>} component={<Link to="/my-employees"/>}> All Employees </MenuItem>

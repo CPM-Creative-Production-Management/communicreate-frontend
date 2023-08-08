@@ -72,6 +72,7 @@ export const RegisterPage = () => {
         axios.post(base_url + 'account/signup', registerBody).then((res) => {
             console.log(res)
             showToast("Account created successfully, please login", "success")
+            navigate('/login')
 
         }).catch((err) => {
             console.log(err)

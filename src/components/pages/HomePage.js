@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import ResponsiveNavbar from "../ResponsiveNavbar";
-import {CollapsibleSidebar} from "../CollapsibleSidebar";
+import {SidebarPro} from "../SidebarPro";
 import {Route, Routes, useNavigate} from "react-router-dom";
 import {Dashboard} from "../fragments/Dashboard";
 import {Archive} from "../fragments/Archive";
@@ -17,6 +17,7 @@ import AddEmployeePage from './AddEmployeePage';
 
 import Cookies from "universal-cookie";
 import {showToast} from "../../App";
+import SidebarNew from "../SidebarNew";
 
 const cookies = new Cookies();
 
@@ -50,9 +51,9 @@ export const HomePage = () => {
             </div>
 
             <div className="row">
-                <div className="col-sm-2 col-md-2"><CollapsibleSidebar/></div>
+                <div className="col-xs-1 col-sm-1 col-md-2"><SidebarPro/></div>
 
-                <div className="col-sm-10 col-md-10">
+                <div className="col-xs-11 col-sm-11 col-md-10">
                     <div className="me-5">
 
                     <Routes>
