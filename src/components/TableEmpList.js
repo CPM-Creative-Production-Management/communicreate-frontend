@@ -70,7 +70,7 @@ const TableEmpList = ({tableData, isDisplaying}) => {
                         <Table.Cell>
                             <Header as='h4' image>
                               
-                                <Image src={currItem.image? currItem.image : 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'} size='mini'
+                                <Image src={currItem.profile_picture? currItem.profile_picture : 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'} size='mini'
                                        circular/><Header.Content>
                                 {currItem.name}
 
