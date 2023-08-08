@@ -18,6 +18,19 @@ export const updateCurrTask = (task) => {
     }
 }
 
+export const resetCurrTask = () => {
+    return {
+        type: 'RESET_CURR_TASK',
+        payload: {
+            name: "",
+            description: "",
+            cost: 0,
+            Employees: [],
+            tags: [],
+        }
+    }
+}
+
 // for profile
 export const updateCurrProfile = (profile) => {
     return {
@@ -28,26 +41,3 @@ export const updateCurrProfile = (profile) => {
 
 
 
-export const addTask = (task) => {
-    return {
-        type: 'ADD',
-        payload: task
-    }
-
-}
-
-export const updateTask = (index, item) => {
-    return {
-        type: 'UPDATE',
-        index: index,
-        item: item
-    }
-
-}
-
-export const deleteTask = (index) => {
-    return {
-        type: 'DELETE',
-        index: index
-    }
-}

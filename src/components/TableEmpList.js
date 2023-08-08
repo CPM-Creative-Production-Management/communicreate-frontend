@@ -19,7 +19,7 @@ const TableEmpList = ({tableData, isDisplaying}) => {
 
     const removeEmployeeFromTask = (index) => {
         console.log('need to delete: ', index)
-        dispatch(updateCurrTask({
+        console.log('#######'); dispatch(updateCurrTask({ 
             ...currTask, Employees: currTask.Employees.filter((emp, i) => i !== index)
         }))
     }
@@ -69,8 +69,9 @@ const TableEmpList = ({tableData, isDisplaying}) => {
 
                         <Table.Cell>
                             <Header as='h4' image>
-                                <Image src={currItem.image} size='mini'
-                                    circular/><Header.Content>
+                              
+                                <Image src={currItem.image? currItem.image : 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'} size='mini'
+                                       circular/><Header.Content>
                                 {currItem.name}
 
                             </Header.Content>

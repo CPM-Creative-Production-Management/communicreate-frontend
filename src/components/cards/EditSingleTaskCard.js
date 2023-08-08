@@ -14,22 +14,42 @@ import {useSelector, useDispatch} from "react-redux";
 import {updateCurrTask} from "../../actions";
 
 
-export const AddSingleTaskCard = () => {
+export const EditSingleTaskCard = (props) => {
 
-
-
+    const globalEstimation = useSelector(state => state.currEstimation)
     const currTask = useSelector(state => state.currTask)
-    // dispatch an action to the reducer
+
     const dispatch = useDispatch()
+
+    // useEffect(() => {
+
+    //     // set the current task from the global estimation using props.editTaskIndex
+    //    console.log(globalEstimation.tasks[props.editTaskIndex])
+
+    // }, []);
+
+    
+
+    useEffect(() => {
+
+        // set the current task from the global estimation using props.editTaskIndex
+        console.log('#######'); dispatch(updateCurrTask({ ...globalEstimation.tasks[props.editTaskIndex]}))
+        
+        //console.log('in edit task, index', props.editTaskIndex)
+        //console.log('in edit task, globalEstimation', globalEstimation)
+
+        console.log({...globalEstimation.tasks[props.editTaskIndex]})
+
+    }, [props.editTaskIndex]);
+
+    // dispatch an action to the reducer
 
 
     const handleUpdateCurrTask = (event) => {
         console.log('#######'); dispatch(updateCurrTask({ 
             ...currTask, [event.target.name]: event.target.value
         }))
-        // setCurrTask({
-        //     ...currTask, [event.target.name]: event.target.value
-        // })
+ 
         console.log('curr task', currTask)
     }
 
@@ -45,12 +65,7 @@ export const AddSingleTaskCard = () => {
     ]);
 
 
-    useEffect(() => {
-
-        console.log('selected tags', currTask.tags)
-        // showToast(allTags, {toastType: 'success'})
-
-    }, [currTask.tags]);
+    
 
     const handleDeleteTag = (index) => {
         console.log('delete tag', index)
@@ -115,7 +130,7 @@ export const AddSingleTaskCard = () => {
             totalCost += currEmp.salary
         })
 
-        console.log('#######'); dispatch(updateCurrTask({ ...currTask, cost: totalCost}))
+        // console.log('#######'); dispatch(updateCurrTask({ ...currTask, cost: totalCost}))
     }
 
 

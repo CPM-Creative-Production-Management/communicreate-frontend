@@ -1,15 +1,24 @@
-import React, {useEffect} from "react";
+import React, { useEffect, useState } from "react";
 import SortableTable from "../SortableTable";
-import {Button, Grid, Icon, Label} from "semantic-ui-react";
-import {Avatar, Chip, Stack} from "@mui/material";
+import { Button, Grid, Icon, Label } from "semantic-ui-react";
+import { Avatar, Chip, Stack } from "@mui/material";
 import AddTaskModal from "../modals/AddTaskModal";
 import TableEmpList from "../TableEmpList";
+import EditTaskModal from "../modals/EditTaskModal";
 
 export const SingleTaskCard = (props) => {
+
+    const [openEditTaskModal, setOpenEditTaskModal] = useState(false)
 
     useEffect(() => {
         console.log('single task card', props)
     }, [props]);
+
+    const editTask = () => {
+        setOpenEditTaskModal(true)
+        // props.set_is_adding_task(false)
+
+    }
 
 
     return (
@@ -37,22 +46,20 @@ export const SingleTaskCard = (props) => {
 
                     </Grid.Column>
 
-                    {props.show === false ? <Grid.Column width={4}>
-                        <Stack direction="row" spacing={1}>
-                            {/*<Button onClick={() => {*/}
-                            {/*    props.setShow(true)*/}
-                            {/*    props.set_is_adding_task(false)*/}
-                            {/*}} fluid>*/}
-                            {/*    <Icon name='edit'/> Edit*/}
-                            {/*</Button>*/}
-                            {/* todo: we have the index, we can edit dont worry*/}
 
-                            <Button onClick={() => {
-                            }} fluid>
-                                <Icon name='delete'/> Delete
-                            </Button>
-                        </Stack>
-                    </Grid.Column> : <Grid.Column width={2}/>}
+                    <Stack direction="row" spacing={2}>
+                        <Button onClick={() => {
+                            editTask()
+                        }} >
+                            <Icon name='edit' /> Edit
+                        </Button>
+
+                        <Button onClick={() => {
+                        }} >
+                            <Icon name='trash alternate outline' /> Delete
+                        </Button>
+                    </Stack>
+
 
                 </Grid.Row>
 
@@ -60,8 +67,10 @@ export const SingleTaskCard = (props) => {
             </Grid>
 
 
-            <TableEmpList tableData={props.singleTask.Employees} isDisplaying={true}/>
+            <TableEmpList tableData={props.singleTask.Employees} isDisplaying={true} />
 
+            <EditTaskModal show={openEditTaskModal} editTaskIndex={props.taskIndex} singleTask={props.singleTask}
+                setShow={setOpenEditTaskModal}/>
 
         </div>
 

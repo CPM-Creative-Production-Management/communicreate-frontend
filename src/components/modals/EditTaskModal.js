@@ -7,12 +7,14 @@ import { AddSingleTaskCard } from "../cards/AddSingleTaskCard";
 import { useSelector, useDispatch } from "react-redux";
 import { updateCurrTask, updateEstimation, resetCurrTask } from "../../actions";
 import { showToast } from '../../App';
+import { EditSingleTaskCard } from '../cards/EditSingleTaskCard';
 
-const AddTaskModal = (props) => {
+const EditTaskModal = (props) => {
 
     // get the global Estimation from redux store
     const globalEstimation = useSelector(state => state.currEstimation)
-    const currTask = useSelector(state => state.currTask)
+    // const currTask = useSelector(state => state.currTask)
+    const currTask = props.singleTask
     // dispatch an action to the reducer
     const dispatch = useDispatch()
 
@@ -26,24 +28,19 @@ const AddTaskModal = (props) => {
     //     });
 
 
-    
 
 
-    const addTask = () => {
-        console.log('adding task', currTask)
-        if (currTask.name === '') {
-            showToast('Task name cannot be empty', 'error')
-            return
-        }
-        dispatch(updateEstimation({
-            ...globalEstimation, tasks: [...globalEstimation.tasks, currTask]
-        }))
-        console.log('updated estimation', globalEstimation)
-        // set the global redux currtask to empty
-        dispatch(resetCurrTask())
+    useEffect(() => {
+        // get the current task from the global estimation using props.taskIndex
+        // console.log('#######'); dispatch(updateCurrTask({  ...globalEstimation.tasks[props.taskIndex] }))
+        console.log('currTask: ', currTask)
+    }, [currTask])
 
-        props.setShow(false)
-        // props.set_is_adding_task(false)
+
+
+    const editTask = () => {
+        console.log('editing task', currTask)
+
 
     }
 
@@ -65,12 +62,12 @@ const AddTaskModal = (props) => {
         >
             <Modal.Header>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    Add a new Task
+                    Edit Task
 
                 </Modal.Title>
             </Modal.Header>
 
-            <AddSingleTaskCard />
+            <EditSingleTaskCard singleTask={props.singleTask} editTaskIndex={props.editTaskIndex-1}/>
 
 
             <Modal.Footer className={'me-2'}>
@@ -82,9 +79,9 @@ const AddTaskModal = (props) => {
                     }}>Cancel</Button>
                     <Button.Or />
                     <Button onClick={() => {
-                        addTask()
+                        editTask()
 
-                    }} positive>Add Task</Button>
+                    }} positive>Save</Button>
                 </Button.Group>
 
             </Modal.Footer>
@@ -92,4 +89,4 @@ const AddTaskModal = (props) => {
     );
 }
 
-export default AddTaskModal
+export default EditTaskModal
