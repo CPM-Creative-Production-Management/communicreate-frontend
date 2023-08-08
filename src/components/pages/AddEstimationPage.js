@@ -1,22 +1,22 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import ResponsiveNavbar from "../ResponsiveNavbar";
-import {SidebarPro} from "../SidebarPro";
-import {Route, Routes} from "react-router-dom";
-import {Dashboard} from "../fragments/Dashboard";
-import {Archive} from "../fragments/Archive";
-import {Card, Grid, Input, Label, Segment, Form, Button, Icon, Divider, Message} from "semantic-ui-react";
+import { SidebarPro } from "../SidebarPro";
+import { Route, Routes } from "react-router-dom";
+import { Dashboard } from "../fragments/Dashboard";
+import { Archive } from "../fragments/Archive";
+import { Card, Grid, Input, Label, Segment, Form, Button, Icon, Divider, Message } from "semantic-ui-react";
 import AddTaskModal from "../modals/AddTaskModal";
-import {AddTask} from "@mui/icons-material";
+import { AddTask } from "@mui/icons-material";
 import SortableTable from "../SortableTable";
-import {SingleTaskCard} from "../cards/SingleTaskCard";
-import {Avatar, Chip} from "@mui/material";
+import { SingleTaskCard } from "../cards/SingleTaskCard";
+import { Avatar, Chip } from "@mui/material";
 
-import {useSelector, useDispatch} from "react-redux";
-import {updateEstimation} from "../../actions";
-import {Textarea} from "@nextui-org/react";
-import {showToast} from "../../App";
+import { useSelector, useDispatch } from "react-redux";
+import { updateEstimation } from "../../actions";
+import { Textarea } from "@nextui-org/react";
+import { showToast } from "../../App";
 
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 export const AddEstimationPage = () => {
@@ -50,9 +50,9 @@ export const AddEstimationPage = () => {
         }));
     }
 
-    useEffect(()=> {
+    useEffect(() => {
         resetCurrEstimation()
-    },[])
+    }, [])
 
     const sendEstimation = () => {
         console.log('sending estimation to backend', globalEstimation)
@@ -66,14 +66,14 @@ export const AddEstimationPage = () => {
 
     }
 
-    const finalizeEstimation = () =>{
+    const finalizeEstimation = () => {
         navigate('/payment')
     }
 
 
     return (
         <div>
-            <br/>
+            <br />
 
             <h1>{globalEstimation.title}</h1>
 
@@ -89,9 +89,9 @@ export const AddEstimationPage = () => {
                                 <Form>
                                     <Form.Group widths='equal'>
                                         <Form.Input name='title' onChange={handleUpdateEstimation}
-                                                    value={globalEstimation.title} fluid placeholder='Title'/>
+                                            value={globalEstimation.title} fluid placeholder='Title' />
                                         <Form.Input name='company' onChange={handleUpdateEstimation}
-                                                    value={globalEstimation.company} fluid placeholder='Company'/>
+                                            value={globalEstimation.company} fluid placeholder='Company' />
                                     </Form.Group>
                                 </Form>
 
@@ -99,7 +99,7 @@ export const AddEstimationPage = () => {
 
                             <Grid.Column width={3}>
                                 <Label fluid size={"large"} content={globalEstimation.deadline}
-                                       icon='clock outline'/>
+                                    icon='clock outline' />
                             </Grid.Column>
 
                             <Grid.Column width={4}>
@@ -110,29 +110,27 @@ export const AddEstimationPage = () => {
 
                     </Grid>
 
-                    <Message className='ms-1 me-1'
-                             icon='hand point right outline'
-                             header='Description'
-                             content={globalEstimation.description}
-                    />
+                    <Message className='ms-1 me-3'
+                        icon='hand point right outline'
+                        header='Description'
+                        content={globalEstimation.description} />
 
 
                 </Card.Content>
 
-                <Divider/>
+                <Divider />
 
                 {globalEstimation.tasks ?
-                    globalEstimation.tasks.map((task, index) => {
+                    globalEstimation.tasks?.map((task, index) => {
                         return (<div>
-                                <SingleTaskCard show={openAddTaskModal} singleTask={task} taskIndex={index + 1}
-                                                setShow={setOpenAddTaskModal} is_adding_task={isAddingTask}
-                                                set_is_adding_task={setIsAddingTask}/>
-                                {index < globalEstimation.tasks.length - 1 ? <Divider/> : null}
+                            <SingleTaskCard show={openAddTaskModal} singleTask={task} taskIndex={index + 1}
+                                setShow={setOpenAddTaskModal}/>
+                            {index < globalEstimation.tasks.length - 1 ? <Divider /> : null}
 
-                            </div>
+                        </div>
                         )
                     })
-                    : <div className='text-center'><h4>No tasks added yet </h4> <br/></div>}
+                    :<div className='text-center'><h4>No tasks added yet </h4> <br /></div>}
 
 
             </Card>
@@ -143,31 +141,30 @@ export const AddEstimationPage = () => {
             }} animated>
                 <Button.Content visible>Add task</Button.Content>
                 <Button.Content hidden>
-                    <Icon name='add'/>
+                    <Icon name='add' />
                 </Button.Content>
             </Button>
 
-            <Button animated>
+            {/* <Button animated>
                 <Button.Content visible>Save</Button.Content>
                 <Button.Content hidden>
-                    <Icon name='save'/>
+                    <Icon name='save' />
                 </Button.Content>
-            </Button>
+            </Button> */}
 
             <Button onClick={sendEstimation} positive animated>
                 <Button.Content visible>Send Estimation</Button.Content>
                 <Button.Content hidden>
-                    <Icon name='send'/>
+                    <Icon name='send' />
                 </Button.Content>
             </Button>
 
 
 
-            <br/><br/>
+            <br /><br />
 
             <AddTaskModal show={openAddTaskModal}
-                          setShow={setOpenAddTaskModal} is_adding_task={isAddingTask}
-                          set_is_adding_task={setIsAddingTask}
+                setShow={setOpenAddTaskModal}
             />
 
         </div>

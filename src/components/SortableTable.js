@@ -72,7 +72,7 @@ function SortableTable({tableData}) {
                 </Table.Row>
             </Table.Header>
             <Table.Body>
-                {data.map((currItem, index) => (
+                {data?.map((currItem, index) => (
                     <Table.Row key={currItem.id}>
                         <Table.Cell width={1}>
                             <Button onClick={() => {
