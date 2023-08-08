@@ -11,7 +11,7 @@ const TableEmpList = ({tableData, isDisplaying}) => {
 
     const removeEmployeeFromTask = (index) => {
         console.log('need to delete: ', index)
-        dispatch(updateCurrTask({
+        console.log('#######'); dispatch(updateCurrTask({ 
             ...currTask, Employees: currTask.Employees.filter((emp, i) => i !== index)
         }))
 

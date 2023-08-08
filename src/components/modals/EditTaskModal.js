@@ -32,7 +32,7 @@ const EditTaskModal = (props) => {
 
     useEffect(() => {
         // get the current task from the global estimation using props.taskIndex
-        // dispatch(updateCurrTask({ ...globalEstimation.tasks[props.taskIndex] }))
+        // console.log('#######'); dispatch(updateCurrTask({  ...globalEstimation.tasks[props.taskIndex] }))
         console.log('currTask: ', currTask)
     }, [currTask])
 
