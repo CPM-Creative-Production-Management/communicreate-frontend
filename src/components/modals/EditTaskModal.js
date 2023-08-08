@@ -5,7 +5,7 @@ import { AddSingleTaskCard } from "../cards/AddSingleTaskCard";
 
 
 import { useSelector, useDispatch } from "react-redux";
-import { updateCurrTask, updateEstimation } from "../../actions";
+import { updateCurrTask, updateEstimation, resetCurrTask } from "../../actions";
 import { showToast } from '../../App';
 import { EditSingleTaskCard } from '../cards/EditSingleTaskCard';
 
@@ -28,15 +28,7 @@ const EditTaskModal = (props) => {
     //     });
 
 
-    const resetCurrTask = () => {
-        dispatch(updateCurrTask({
-            name: "",
-            description: "",
-            cost: 0,
-            Employees: [],
-            tags: [],
-        }))
-    }
+
 
     useEffect(() => {
         // get the current task from the global estimation using props.taskIndex
@@ -54,7 +46,7 @@ const EditTaskModal = (props) => {
 
 
     const cancelTask = () => {
-        resetCurrTask()
+        dispatch(resetCurrTask())
         props.setShow(false)
         // props.set_is_adding_task(false)
 

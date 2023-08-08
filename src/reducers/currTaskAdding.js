@@ -8,7 +8,8 @@ const currTaskAddingReducer = (state = {
     switch (action.type) {
         case 'UPDATE_CURR_TASK':
             return action.payload
-
+        case 'RESET_CURR_TASK':
+            return action.payload
         default:
             return state
     }

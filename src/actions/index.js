@@ -18,6 +18,19 @@ export const updateCurrTask = (task) => {
     }
 }
 
+export const resetCurrTask = () => {
+    return {
+        type: 'RESET_CURR_TASK',
+        payload: {
+            name: "",
+            description: "",
+            cost: 0,
+            Employees: [],
+            tags: [],
+        }
+    }
+}
+
 // for profile
 export const updateCurrProfile = (profile) => {
     return {

@@ -89,17 +89,17 @@ export const EditSingleTaskCard = (props) => {
         }
     }
 
-    const employeeList = [
-        {key: '1', text: 'Employee 1', value: '1'},
-        {key: '2', text: 'Employee 2', value: '2'},
-    ]
+    // const employeeList = [
+    //     {key: '1', text: 'Employee 1', value: '1'},
+    //     {key: '2', text: 'Employee 2', value: '2'},
+    // ]
 
     // todo uncomment below
 
-    // const {data: employeeList, dataLoading, error} = useApiRequest({
-    //     url: base_url + 'employees',
-    //     method: 'GET',
-    // })
+    const {data: employeeList, dataLoading, error} = useApiRequest({
+        url: base_url + 'employees',
+        method: 'GET',
+    })
 
 
     const addEmpToTask = (empId) => {

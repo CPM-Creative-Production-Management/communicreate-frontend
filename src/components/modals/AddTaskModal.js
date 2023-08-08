@@ -5,7 +5,7 @@ import { AddSingleTaskCard } from "../cards/AddSingleTaskCard";
 
 
 import { useSelector, useDispatch } from "react-redux";
-import { updateCurrTask, updateEstimation } from "../../actions";
+import { updateCurrTask, updateEstimation, resetCurrTask } from "../../actions";
 import { showToast } from '../../App';
 
 const AddTaskModal = (props) => {
@@ -26,15 +26,7 @@ const AddTaskModal = (props) => {
     //     });
 
 
-    const resetCurrTask = () => {
-        dispatch(updateCurrTask({
-            name: "",
-            description: "",
-            cost: 0,
-            Employees: [],
-            tags: [],
-        }))
-    }
+    
 
 
     const addTask = () => {
@@ -48,7 +40,7 @@ const AddTaskModal = (props) => {
         }))
         console.log('updated estimation', globalEstimation)
         // set the global redux currtask to empty
-        resetCurrTask()
+        dispatch(resetCurrTask())
 
         props.setShow(false)
         // props.set_is_adding_task(false)
@@ -57,7 +49,7 @@ const AddTaskModal = (props) => {
 
 
     const cancelTask = () => {
-        resetCurrTask()
+        dispatch(resetCurrTask())
         props.setShow(false)
         // props.set_is_adding_task(false)
 
