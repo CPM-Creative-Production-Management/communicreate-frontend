@@ -1,5 +1,5 @@
 import './App.css';
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import 'font-awesome/css/font-awesome.min.css';
 import toast, {Toaster} from "react-hot-toast";
 import {HomePage} from "./components/pages/HomePage";
@@ -12,9 +12,14 @@ import {Dialog, DialogContent} from "@mui/material";
 import {BarLoader} from "react-spinners";
 import {LoginPage} from "./components/pages/LoginPage";
 import {RegisterPage} from "./components/pages/RegisterPage";
+import { useNavigate } from 'react-router-dom';
+import Cookies from "universal-cookie";
+
 
 let showToast
 let setLoading
+
+const cookies = new Cookies();
 
 function App() {
 
@@ -28,6 +33,17 @@ function App() {
 
     const [loading, setL] = useState(false)
     setLoading = setL
+
+    let navigate = useNavigate();
+
+    useEffect(() => {
+        // check cookies for logged in
+        if (cookies.get("token") === undefined || cookies.get("token") == null) {
+            showToast('You must log in to continue', 'error')
+            navigate('/login')
+        } 
+
+    }, []);
 
     return (
         <div>

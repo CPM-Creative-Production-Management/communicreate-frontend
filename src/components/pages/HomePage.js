@@ -19,22 +19,21 @@ import AddEmployeePage from './AddEmployeePage';
 import Cookies from "universal-cookie";
 import {showToast} from "../../App";
 import SidebarNew from "../SidebarNew";
+import ClientDashboard from './ClientDashboard';
 
 const cookies = new Cookies();
 
 
 export const HomePage = () => {
 
-    let navigate = useNavigate();
+    const [userType, setUserType] = React.useState(1);
 
     useEffect(() => {
-        // check cookies for logged in
-        if (cookies.get("token") === undefined || cookies.get("token") == null) {
-            showToast('You must log in to continue', 'error')
-            navigate('/login')
+        if (cookies.get("userType") === 1){
+            setUserType(1)
+        } else if (cookies.get("userType") === 2){
+            setUserType(2)
         }
-
-
     }, []);
 
 
@@ -50,7 +49,11 @@ export const HomePage = () => {
                     <div className="me-5">
 
                     <Routes>
-                        <Route exact path="/" element={<Dashboard/>}/>
+                        {userType === 1? 
+                            <Route exact path="/" element={<Dashboard/>}/> : 
+                            <Route exact path="/" element={<ClientDashboard/>}/>
+                        }
+                        
                         <Route exact path="/archive" element={<Archive/>}/>
                         <Route exact path="/estimations" element={<Estimations/>}/>
                         <Route exact path="/add-estimation" element={<AddEstimationPage/>}/>

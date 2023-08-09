@@ -21,18 +21,19 @@ export const LoginReq = (reqBody, navigate, dispatch) => {
             dispatch(updateCurrProfile(response.data.user))
 
             cookies.set('token', response.data.token, {path: '/'});
-            // cookies.set('userName', response.data.user.name, {path: '/'})
-
             cookies.set('userName', response.data.user.name, {path: '/'})
             cookies.set('userAssoc', response.data.user.association.name, {path: '/'})
+            cookies.set('userType', response.data.user.type, {path: '/'})
 
             showToast("Logged in successfully", "success")
             setLoading(false)
             navigate('/')
+
         } catch (error) {
             console.log(error)
             setLoading(false)
             showToast("Error logging in", "error")
+
         }
 
 
