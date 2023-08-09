@@ -93,7 +93,7 @@ export const SingleTaskCard = (props) => {
             </Grid>
 
 
-            <TableEmpList tableData={props.singleTask.Employees} isDisplaying={true} />
+            <TableEmpList tableData={props.singleTask.Employees} onAddTaskList={true} />
 
             <EditTaskModal show={openEditTaskModal} editTaskIndex={props.taskIndex} singleTask={props.singleTask}
                 setShow={setOpenEditTaskModal}/>

@@ -24,7 +24,7 @@ export const AddSingleTaskCard = () => {
 
 
     const handleUpdateCurrTask = (event) => {
-        console.log('#######'); dispatch(updateCurrTask({ 
+        dispatch(updateCurrTask({ 
             ...currTask, [event.target.name]: event.target.value
         }))
 
@@ -53,7 +53,7 @@ export const AddSingleTaskCard = () => {
     const handleDeleteTag = (index) => {
         console.log('delete tag', index)
         // showToast(index, {toastType: 'success'})
-        console.log('#######'); dispatch(updateCurrTask({ ...currTask, tags: currTask.tags.filter((tag, i) => i !== index)}))
+        dispatch(updateCurrTask({ ...currTask, tags: currTask.tags.filter((tag, i) => i !== index)}))
 
 
         // setCurrTask({...currTask, tags: currTask.tags.filter((tag, i) => i !== index)})
@@ -67,7 +67,7 @@ export const AddSingleTaskCard = () => {
             showToast('Tag already added', 'error')
 
         } else {
-            console.log('#######'); dispatch(updateCurrTask({ ...currTask, tags: [...currTask.tags, allTaskTags[tag_id]]}))
+            dispatch(updateCurrTask({ ...currTask, tags: [...currTask.tags, allTaskTags[tag_id]]}))
             // setCurrTask({...currTask, tags: [...currTask.tags, allTaskTags[tag_id]]})
         }
     }
@@ -94,7 +94,7 @@ export const AddSingleTaskCard = () => {
             showToast('Employee already exists', 'error')
 
         } else {
-            console.log('#######'); dispatch(updateCurrTask({ ...currTask, Employees: [...currTask.Employees, emp]}))
+            dispatch(updateCurrTask({ ...currTask, Employees: [...currTask.Employees, emp]}))
         }
     }
 
@@ -113,7 +113,7 @@ export const AddSingleTaskCard = () => {
             totalCost += currEmp.salary
         })
 
-        console.log('#######'); dispatch(updateCurrTask({ ...currTask, cost: totalCost}))
+        dispatch(updateCurrTask({ ...currTask, cost: totalCost}))
     }
 
 
@@ -162,7 +162,7 @@ export const AddSingleTaskCard = () => {
             </Dropdown>
 
 
-            <TableEmpList tableData={currTask.Employees} isDisplaying={false}/>
+            <TableEmpList tableData={currTask.Employees} onAddTaskModal={true}/>
 
             <Dropdown
                 className='mt-3'

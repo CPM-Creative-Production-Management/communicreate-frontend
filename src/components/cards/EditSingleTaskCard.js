@@ -33,7 +33,7 @@ export const EditSingleTaskCard = (props) => {
     useEffect(() => {
 
         // set the current task from the global estimation using props.editTaskIndex
-        console.log('#######'); dispatch(updateCurrTask({ ...globalEstimation.tasks[props.editTaskIndex]}))
+        dispatch(updateCurrTask({ ...globalEstimation.tasks[props.editTaskIndex]}))
         
         //console.log('in edit task, index', props.editTaskIndex)
         //console.log('in edit task, globalEstimation', globalEstimation)
@@ -46,7 +46,7 @@ export const EditSingleTaskCard = (props) => {
 
 
     const handleUpdateCurrTask = (event) => {
-        console.log('#######'); dispatch(updateCurrTask({ 
+        dispatch(updateCurrTask({ 
             ...currTask, [event.target.name]: event.target.value
         }))
  
@@ -70,7 +70,7 @@ export const EditSingleTaskCard = (props) => {
     const handleDeleteTag = (index) => {
         console.log('delete tag', index)
         // showToast(index, {toastType: 'success'})
-        console.log('#######'); dispatch(updateCurrTask({ ...currTask, tags: currTask.tags.filter((tag, i) => i !== index)}))
+        dispatch(updateCurrTask({ ...currTask, tags: currTask.tags.filter((tag, i) => i !== index)}))
 
 
         // setCurrTask({...currTask, tags: currTask.tags.filter((tag, i) => i !== index)})
@@ -84,7 +84,7 @@ export const EditSingleTaskCard = (props) => {
             showToast('Tag already added', 'error')
 
         } else {
-            console.log('#######'); dispatch(updateCurrTask({ ...currTask, tags: [...currTask.tags, allTaskTags[tag_id]]}))
+            dispatch(updateCurrTask({ ...currTask, tags: [...currTask.tags, allTaskTags[tag_id]]}))
             // setCurrTask({...currTask, tags: [...currTask.tags, allTaskTags[tag_id]]})
         }
     }
@@ -112,7 +112,7 @@ export const EditSingleTaskCard = (props) => {
 
         
         } else {
-            //console.log('#######'); dispatch(updateCurrTask({ ...currTask, Employees: [...currTask.Employees, emp]}))
+            //dispatch(updateCurrTask({ ...currTask, Employees: [...currTask.Employees, emp]}))
             calculateTaskCost({ ...currTask, Employees: [...currTask.Employees, emp]})
 
         }
@@ -133,7 +133,7 @@ export const EditSingleTaskCard = (props) => {
             totalCost += currEmp.salary
         })
 
-        console.log('#######'); dispatch(updateCurrTask({ ...cT, cost: totalCost}))
+        dispatch(updateCurrTask({ ...cT, cost: totalCost}))
     }
 
 
@@ -182,7 +182,7 @@ export const EditSingleTaskCard = (props) => {
             </Dropdown>
 
 
-            <TableEmpList tableData={currTask.Employees} isDisplaying={false}/>
+            <TableEmpList tableData={currTask.Employees} onAddTaskModal={true}/>
 
             <Dropdown
                 className='mt-3'

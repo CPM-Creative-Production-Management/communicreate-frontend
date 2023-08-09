@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react'
-import {Button, Header, Image, Table} from "semantic-ui-react";
+import { Button, Header, Image, Table } from "semantic-ui-react";
 import { Rating } from 'react-simple-star-rating'
 import { useState } from 'react';
 import EditEmployeeModal from './modals/EditEmployeeModal';
 import EditButton from './custom/EditButton';
 
-import {useSelector, useDispatch} from "react-redux";
-import {updateCurrTask} from "../actions";
+import { useSelector, useDispatch } from "react-redux";
+import { updateCurrTask } from "../actions";
 
-const TableEmpList = ({tableData, isDisplaying}) => {
+const TableEmpList = ({ tableData, onAddTaskModal, onAddTaskList, onEmpList }) => {
 
     const handleEdit = (index) => {
         console.log(index)
@@ -23,14 +23,14 @@ const TableEmpList = ({tableData, isDisplaying}) => {
             totalCost += currEmp.salary
         })
 
-        console.log('#######'); dispatch(updateCurrTask({ ...cT, cost: totalCost}))
+        dispatch(updateCurrTask({ ...cT, cost: totalCost }))
     }
 
     const removeEmployeeFromTask = (index) => {
         console.log('need to delete: ', index)
-        // console.log('#######'); dispatch(updateCurrTask())
+        // dispatch(updateCurrTask())
 
-        calculateTaskCost({ 
+        calculateTaskCost({
             ...currTask, Employees: currTask.Employees.filter((emp, i) => i !== index)
         })
 
@@ -46,69 +46,74 @@ const TableEmpList = ({tableData, isDisplaying}) => {
 
     return (
         <div>
-            <Table celled padded>
 
-            <thead>
-            <tr>
-                {isDisplaying? null:
-                <th scope="col"></th>}
-                <th scope={"col"}>#</th>
-                <th scope="col">Employee</th>
-                <th scope="col">Rating</th>
-                <th scope="col">Salary</th>
-                <th scope="col">Address</th>
-                <th scope="col">Action</th>
-            </tr>
-            </thead>
+            <Table celled padded className='mt-3'>
 
-            <Table.Body>
-                {tableData?.map((currItem, index) => (
-                    <Table.Row key={currItem.id}>
+                <thead>
+                    <tr>
+                        {onAddTaskModal ? <th scope="col"></th> : null}
+                        <th scope={"col"}>#</th>
+                        <th scope="col">Employee</th>
+                        <th scope="col">Rating</th>
+                        <th scope="col">Salary</th>
 
-                        {isDisplaying? null:
-                        <Table.Cell width={1}>
-                            <Button onClick={() => {
-                                removeEmployeeFromTask(index)
-                            }} size={"tiny"} circular icon='close'/>
+                        {onEmpList ? <th scope="col">Address</th> : null}
+                        {onEmpList ? <th scope="col">Action</th> : null}
 
-                        </Table.Cell>
-                        }
+                    </tr>
+                </thead>
 
-                        <Table.Cell width={1}>
-                            #{index + 1}
+                <Table.Body>
+                    {tableData?.map((currItem, index) => (
+                        <Table.Row key={currItem.id}>
 
-                        </Table.Cell>
+                            {onAddTaskModal ? <Table.Cell width={1}>
+                                    <Button onClick={() => {
+                                        removeEmployeeFromTask(index)
+                                    }} size={"tiny"} circular icon='close' />
+
+                                </Table.Cell> :
+                                null
+                            }
+
+                            <Table.Cell width={1}>
+                                #{index + 1}
+
+                            </Table.Cell>
 
 
-                        <Table.Cell>
-                            <Header as='h4' image>
-                              
-                                <Image src={currItem.profile_picture? currItem.profile_picture : 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'} size='mini'
-                                       circular/><Header.Content>
-                                {currItem.name}
+                            <Table.Cell>
+                                <Header as='h4' image>
 
-                            </Header.Content>
-                            </Header>
-                        </Table.Cell>
+                                    <Image src={currItem.profile_picture ? currItem.profile_picture : 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'} size='mini'
+                                        circular /><Header.Content>
+                                        {currItem.name}
 
-                        <Table.Cell singleLine width={3}><Rating initialValue={currItem.rating} readonly allowFraction size={25}/></Table.Cell>
-                        <Table.Cell singleLine width={3}>{currItem.salary} ৳</Table.Cell>
-                        <Table.Cell singleLine width={3}>{currItem.address}</Table.Cell>
-                        <Table.Cell singleLine width={3}><center><EditButton 
-                        data={editData} 
-                        setEditData={setEditData}
-                        name={currItem.name} 
-                        id={currItem.id} 
-                        salary={currItem.salary}
-                        address={currItem.address}
-                        onClick={() => setEditEmployeeModal(true)}
-                        /></center></Table.Cell>
-                    </Table.Row>
-                ))}
-            </Table.Body>
+                                    </Header.Content>
+                                </Header>
+                            </Table.Cell>
+
+                            <Table.Cell singleLine width={3}><Rating initialValue={currItem.rating} readonly allowFraction size={25} /></Table.Cell>
+                            <Table.Cell singleLine width={3}>{currItem.salary} ৳</Table.Cell>
+
+                            {onEmpList? <Table.Cell singleLine width={3}>{currItem.address}</Table.Cell> : null}
+                            
+                            {onEmpList? <Table.Cell singleLine width={3}><center><EditButton
+                                data={editData}
+                                setEditData={setEditData}
+                                name={currItem.name}
+                                id={currItem.id}
+                                salary={currItem.salary}
+                                address={currItem.address}
+                                onClick={() => setEditEmployeeModal(true)}
+                            /></center></Table.Cell> : null}
+                            
+                        </Table.Row>
+                    ))}
+                </Table.Body>
             </Table>
 
-            <EditEmployeeModal show={editEmployeeModal} setShow={setEditEmployeeModal} editData={editData} setEditData={setEditData}/>
+            <EditEmployeeModal show={editEmployeeModal} setShow={setEditEmployeeModal} editData={editData} setEditData={setEditData} />
         </div>
     )
 }
