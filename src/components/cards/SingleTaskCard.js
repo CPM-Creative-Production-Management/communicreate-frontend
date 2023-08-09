@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import SortableTable from "../SortableTable";
-import { Button, Grid, Icon, Label } from "semantic-ui-react";
+import { Button, Grid, Icon, Label, Message } from "semantic-ui-react";
 import { Avatar, Chip, Stack } from "@mui/material";
 import AddTaskModal from "../modals/AddTaskModal";
 import TableEmpList from "../TableEmpList";
@@ -51,7 +51,7 @@ export const SingleTaskCard = (props) => {
     return (
 
 
-        <div className='ms-4 me-4 mb-4'>
+        <div className=' mb-4'>
 
             <Grid className={'ms-0'} columns={2}>
                 <Grid.Row>
@@ -92,8 +92,16 @@ export const SingleTaskCard = (props) => {
 
             </Grid>
 
+            
+
 
             <TableEmpList tableData={props.singleTask.Employees} onAddTaskList={true} />
+
+            <Message
+                icon='money bill alternate outline'
+                header={props.singleTask.cost + ' ৳'} 
+                content='Estimated from the assigned Employees salary'
+            />
 
             <EditTaskModal show={openEditTaskModal} editTaskIndex={props.taskIndex} singleTask={props.singleTask}
                 setShow={setOpenEditTaskModal}/>

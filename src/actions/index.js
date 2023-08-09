@@ -17,6 +17,7 @@ export const resetCurrEstimation = () => {
             company: "",
             deadline: "",
             description: "",
+            tags: [],
             tasks: [],
         }
     }

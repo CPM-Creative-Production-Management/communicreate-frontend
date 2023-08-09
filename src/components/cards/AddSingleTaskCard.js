@@ -11,12 +11,13 @@ import {AiOutlineFileSearch} from "react-icons/ai";
 import TableEmpList from "../TableEmpList";
 
 import {useSelector, useDispatch} from "react-redux";
-import {updateCurrTask} from "../../actions";
+import {updateCurrTask, updateEstimation} from "../../actions";
 
 
 export const AddSingleTaskCard = () => {
 
 
+    const globalEstimation = useSelector(state => state.currEstimation)
 
     const currTask = useSelector(state => state.currTask)
     // dispatch an action to the reducer
@@ -36,12 +37,6 @@ export const AddSingleTaskCard = () => {
         method: 'GET',
     });
     allTaskTags = allTaskTags?.name
-
-    // const [allTaskTags, setAllTaskTags] = useState([
-    //     {id: 1, name: 'tag1'},
-    //     {id: 2, name: 'tag2'},
-    // ]);
-
 
     useEffect(() => {
 
@@ -71,11 +66,6 @@ export const AddSingleTaskCard = () => {
             // setCurrTask({...currTask, tags: [...currTask.tags, allTaskTags[tag_id]]})
         }
     }
-
-    // const employeeList = [
-    //     {key: '1', text: 'Employee 1', value: '1'},
-    //     {key: '2', text: 'Employee 2', value: '2'},
-    // ]
 
     // todo uncomment below
 
@@ -114,6 +104,8 @@ export const AddSingleTaskCard = () => {
         })
 
         dispatch(updateCurrTask({ ...currTask, cost: totalCost}))
+        
+    
     }
 
 
@@ -181,7 +173,7 @@ export const AddSingleTaskCard = () => {
 
             <Message
                 icon='money bill alternate outline'
-                header={currTask.cost}
+                header={currTask.cost  + ' ৳'}
                 content='Estimated from the assigned Employees salary'
             />
 

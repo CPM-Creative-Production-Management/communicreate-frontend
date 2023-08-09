@@ -9,14 +9,18 @@ import AddTaskModal from "../modals/AddTaskModal";
 import { AddTask } from "@mui/icons-material";
 import SortableTable from "../SortableTable";
 import { SingleTaskCard } from "../cards/SingleTaskCard";
-import { Avatar, Chip } from "@mui/material";
+import { Avatar, Chip, Stack } from "@mui/material";
+import { Dropdown } from "semantic-ui-react";
 
 import { useSelector, useDispatch } from "react-redux";
 import { updateEstimation, resetCurrEstimation } from "../../actions";
 import { Textarea } from "@nextui-org/react";
 import { showToast } from "../../App";
 
+
 import { useNavigate } from "react-router-dom";
+import { useApiRequest } from '../api/useApiRequest';
+import { base_url } from '../..';
 
 
 export const AddEstimationPage = () => {
@@ -52,9 +56,48 @@ export const AddEstimationPage = () => {
 
     }
 
-    const finalizeEstimation = () => {
-        navigate('/payment')
+    let { data: allEstimationTags, dataLoading: tagDataLoading, error: tagError } = useApiRequest({
+        url: base_url + 'tag',
+        method: 'GET',
+    });
+    allEstimationTags = allEstimationTags?.tags
+
+    useEffect(() => {
+
+        console.log('all tags', allEstimationTags)
+
+    }, [allEstimationTags]);
+
+    const handleDeleteTag = (index) => {
+        console.log('delete tag', index)
+        // showToast(index, {toastType: 'success'})
+
+        dispatch(updateEstimation({ ...globalEstimation, tags: globalEstimation.tags.filter((tag, i) => i !== index) }))
+
     }
+
+    const addTag = (tag_id) => {
+        console.log('add tag', tag_id)
+        // showToast(tag_id, {toastType: 'success'})
+        // do not add if the item already exists
+        if (globalEstimation.tags.includes(allEstimationTags[tag_id])) {
+            showToast('Tag already added', 'error')
+
+        } else {
+            dispatch(updateEstimation({ ...globalEstimation, tags: [...globalEstimation.tags, allEstimationTags[tag_id]] }))
+        }
+    }
+
+    useEffect(() => {
+        // update the globalEstimation cost via redux by looping over all tasks
+        let totalEstimationCost = 0
+        globalEstimation.tasks?.map((currTask) => {
+            totalEstimationCost += currTask.cost
+        })
+        dispatch(updateEstimation({
+            ...globalEstimation, cost: totalEstimationCost
+        }))
+    }, [globalEstimation.tasks]);
 
 
     return (
@@ -63,46 +106,68 @@ export const AddEstimationPage = () => {
 
             <h1>{globalEstimation.title}</h1>
 
-            <Card fluid>
-                <Card.Meta className='m-3'>
+            <Card className='p-4' fluid>
+                <Card.Meta >
                     <h3>Project Overview</h3>
                 </Card.Meta>
 
-                <Card.Content>
-                    <Grid className='ms-1' columns={3}>
-                        <Grid.Row>
-                            <Grid.Column width={9}>
-                                <Form>
-                                    <Form.Group widths='equal'>
-                                        <Form.Input name='title' onChange={handleUpdateEstimation}
-                                            value={globalEstimation.title} fluid placeholder='Title' />
-                                        <Form.Input name='company' onChange={handleUpdateEstimation}
-                                            value={globalEstimation.company} fluid placeholder='Company' />
-                                    </Form.Group>
-                                </Form>
+                <div className={'mb-2 mt-4'}>
 
-                            </Grid.Column>
+                    <Stack direction="row" spacing={1}>
 
-                            <Grid.Column width={3}>
-                                <Label fluid size={"large"} content={globalEstimation.deadline}
-                                    icon='clock outline' />
-                            </Grid.Column>
+                        {globalEstimation.tags?.map((currTag, index) => (
+                            <Chip key={currTag.id} label={currTag.tag} onDelete={() => {
+                                handleDeleteTag(index)
+                            }} />
+                        ))}
 
-                            <Grid.Column width={4}>
-                                images
-                            </Grid.Column>
+                    </Stack>
+                </div>
 
-                        </Grid.Row>
+                <div className='md-2 xs-2 mb-3'>
 
-                    </Grid>
+                    <Dropdown icon='filter'
+                        floating
+                        labeled
+                        button
 
-                    <Message className='ms-1 me-3'
-                        icon='hand point right outline'
-                        header='Description'
-                        content={globalEstimation.description} />
+                        className='icon' text='Add tag'>
+                        <Dropdown.Menu>
+
+                            {allEstimationTags?.map((currTag, index) => (
+                                <Dropdown.Item onClick={() => {
+                                    addTag(index)
+                                }} key={currTag.id} icon='tag' text={currTag.tag} />
+                            ))}
+
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </div>
+
+                <Form>
+                    <Form.Group widths='equal'>
+                        <Form.Input name='title' onChange={handleUpdateEstimation}
+                            value={globalEstimation.title} fluid placeholder='Title' />
+                        <Form.Input name='company' onChange={handleUpdateEstimation}
+                            value={globalEstimation.company} fluid placeholder='Company' />
+                        <Form.Input name='deadline' onChange={handleUpdateEstimation}
+                            value={globalEstimation.deadline} fluid placeholder='Deadline' />
+                    </Form.Group>
+                </Form>
 
 
-                </Card.Content>
+                <Message
+                    icon='hand point right outline'
+                    header='Description'
+                    content={globalEstimation.description} />
+
+                <Message
+                    icon='money bill alternate outline'
+                    header={globalEstimation.cost + ' ৳'}
+                    content='Total Estimated cost of the project'
+                />
+
+
 
                 <Divider />
 

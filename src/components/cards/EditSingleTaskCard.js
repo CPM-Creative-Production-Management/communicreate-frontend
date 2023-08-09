@@ -11,7 +11,7 @@ import {AiOutlineFileSearch} from "react-icons/ai";
 import TableEmpList from "../TableEmpList";
 
 import {useSelector, useDispatch} from "react-redux";
-import {updateCurrTask} from "../../actions";
+import {updateCurrTask, updateEstimation} from "../../actions";
 
 
 export const EditSingleTaskCard = (props) => {
@@ -20,15 +20,6 @@ export const EditSingleTaskCard = (props) => {
     const currTask = useSelector(state => state.currTask)
 
     const dispatch = useDispatch()
-
-    // useEffect(() => {
-
-    //     // set the current task from the global estimation using props.editTaskIndex
-    //    console.log(globalEstimation.tasks[props.editTaskIndex])
-
-    // }, []);
-
-    
 
     useEffect(() => {
 
@@ -53,19 +44,12 @@ export const EditSingleTaskCard = (props) => {
         console.log('curr task', currTask)
     }
 
-    // let {data: allTaskTags, dataLoading, error} = useApiRequest({
-    //     url: base_url + 'tasktag',
-    //     method: 'GET',
-    // });
-    // allTaskTags = allTaskTags?.name
+    let {data: allTaskTags, dataLoading: tagLoading, error: tagEror} = useApiRequest({
+        url: base_url + 'tasktag',
+        method: 'GET',
+    });
+    allTaskTags = allTaskTags?.name
 
-    const [allTaskTags, setAllTaskTags] = useState([
-        {id: 1, name: 'tag1'},
-        {id: 2, name: 'tag2'},
-    ]);
-
-
-    
 
     const handleDeleteTag = (index) => {
         console.log('delete tag', index)
@@ -134,6 +118,8 @@ export const EditSingleTaskCard = (props) => {
         })
 
         dispatch(updateCurrTask({ ...cT, cost: totalCost}))
+
+        
     }
 
 
