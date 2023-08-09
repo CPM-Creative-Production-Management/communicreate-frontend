@@ -4,15 +4,21 @@ import {Card, Grid, Icon} from "semantic-ui-react";
 
 import '../../global.css'
 import {DashboardCard} from "../cards/DashboardCard";
-
+import { useNavigate } from 'react-router-dom';
+import {Button} from 'semantic-ui-react'
 
 
 export const Dashboard = () => {
 
 
+    let navigate = useNavigate();
+
 
     return (
         <div>
+            <Button onClick={() => {
+                        navigate("/add-estimation")
+                    }} primary className='mt-3 fab' size='large' >Add new Estimation</Button>
 
             <br/>
 

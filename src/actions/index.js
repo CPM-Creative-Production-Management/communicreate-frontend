@@ -1,7 +1,7 @@
 
 
 
-// for adding estimation
+// for estimation
 export const updateEstimation = (updatedEstimation) => {
     return {
         type: 'UPDATE_ESTIMATION',
@@ -9,6 +9,18 @@ export const updateEstimation = (updatedEstimation) => {
     }
 }
 
+export const resetCurrEstimation = () => {
+    return {
+        type: 'RESET_ESTIMATION',
+        payload: {
+            title: "",
+            company: "",
+            deadline: "",
+            description: "",
+            tasks: [],
+        }
+    }
+}
 
 // for tasks
 export const updateCurrTask = (task) => {

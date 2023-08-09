@@ -12,7 +12,7 @@ import { SingleTaskCard } from "../cards/SingleTaskCard";
 import { Avatar, Chip } from "@mui/material";
 
 import { useSelector, useDispatch } from "react-redux";
-import { updateEstimation } from "../../actions";
+import { updateEstimation, resetCurrEstimation } from "../../actions";
 import { Textarea } from "@nextui-org/react";
 import { showToast } from "../../App";
 
@@ -40,25 +40,11 @@ export const AddEstimationPage = () => {
     const [openAddTaskModal, setOpenAddTaskModal] = useState(false)
     const [isAddingTask, setIsAddingTask] = useState(false)
 
-    const resetCurrEstimation = () => {
-        dispatch(updateEstimation({
-            title: "",
-            company: "",
-            deadline: "",
-            description: "",
-            tasks: [],
-        }));
-    }
-
-    useEffect(() => {
-        resetCurrEstimation()
-    }, [])
-
     const sendEstimation = () => {
         console.log('sending estimation to backend', globalEstimation)
 
         // reset the global estimation
-        resetCurrEstimation()
+        dispatch(resetCurrEstimation())
 
 
         showToast('Estimation sent successfully', 'success')

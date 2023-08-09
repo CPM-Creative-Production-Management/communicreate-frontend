@@ -5,6 +5,7 @@ import {Route, Routes, useNavigate} from "react-router-dom";
 import {Dashboard} from "../fragments/Dashboard";
 import {Archive} from "../fragments/Archive";
 
+import {Button, Card, Icon, Input} from "semantic-ui-react";
 import Fab from '@mui/material/Fab';
 import CreateNewFolderOutlinedIcon from '@mui/icons-material/CreateNewFolderOutlined';
 import "./pages.css"
@@ -40,15 +41,7 @@ export const HomePage = () => {
     return (
         <div>
             <ResponsiveNavbar/>
-
-            <div className='fab' onClick={() => {
-                navigate("/add-estimation")
-            }}>
-                <Fab color="primary" variant="extended">
-                    <CreateNewFolderOutlinedIcon/>
-                    &nbsp;&nbsp;&nbsp;Add new Estimation
-                </Fab>
-            </div>
+            
 
             <div className="row">
                 <div className="col-xs-1 col-sm-1 col-md-2"><SidebarPro/></div>
