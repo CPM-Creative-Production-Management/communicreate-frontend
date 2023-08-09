@@ -120,17 +120,17 @@ export const AddEstimationPage = () => {
 
                 <Divider />
 
-                {globalEstimation.tasks ?
+                {globalEstimation.tasks.length > 0 ?
                     globalEstimation.tasks?.map((task, index) => {
                         return (<div>
                             <SingleTaskCard show={openAddTaskModal} singleTask={task} taskIndex={index}
-                                setShow={setOpenAddTaskModal}/>
+                                setShow={setOpenAddTaskModal} />
                             {index < globalEstimation.tasks.length - 1 ? <Divider /> : null}
 
                         </div>
                         )
                     })
-                    :<div className='text-center'><h4>No tasks added yet </h4> <br /></div>}
+                    : <div className='text-center'><h4>No tasks added yet </h4> <br /></div>}
 
 
             </Card>
