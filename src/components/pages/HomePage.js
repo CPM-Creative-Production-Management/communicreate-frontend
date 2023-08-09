@@ -19,7 +19,9 @@ import AddEmployeePage from './AddEmployeePage';
 import Cookies from "universal-cookie";
 import {showToast} from "../../App";
 import SidebarNew from "../SidebarNew";
-import ClientDashboard from './ClientDashboard';
+import ClientDashboard from './client/ClientDashboard';
+import {SidebarClient} from '../SidebarClient'
+import AddRequestPage from './client/AddRequestPage';
 
 const cookies = new Cookies();
 
@@ -43,15 +45,15 @@ export const HomePage = () => {
             
 
             <div className="row">
-                <div className="col-xs-1 col-sm-1 col-md-2"><SidebarPro/></div>
+                <div className="col-xs-1 col-sm-1 col-md-2">{ userType === 1 ? <SidebarClient /> : <SidebarPro/>}</div>
 
                 <div className="col-xs-11 col-sm-11 col-md-10">
                     <div className="me-5">
 
                     <Routes>
                         {userType === 1? 
-                            <Route exact path="/" element={<Dashboard/>}/> : 
-                            <Route exact path="/" element={<ClientDashboard/>}/>
+                            <Route exact path="/" element={<ClientDashboard/>}/> : 
+                            <Route exact path="/" element={<Dashboard/>}/>
                         }
                         
                         <Route exact path="/archive" element={<Archive/>}/>
@@ -60,6 +62,8 @@ export const HomePage = () => {
                         <Route exact path="/my-employees" element={<MyEmployeesPage/>}/>
                         <Route exact path="/payment" element={<PaymentPage/>}/>
                         <Route exact path="/add-employee" element={<AddEmployeePage/>}/>
+
+                        <Route exact path="/new-request" element={<AddRequestPage/>}/>
                     </Routes>
 
                      

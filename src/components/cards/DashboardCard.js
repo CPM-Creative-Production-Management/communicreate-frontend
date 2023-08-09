@@ -4,7 +4,7 @@ import {Card, Icon} from "semantic-ui-react";
 import {showToast} from "../../App";
 // import {Card, CardActionArea, CardContent, CardMedia, Typography} from "@mui/material";
 
-export const DashboardCard = ({iconName, colorName, cardHeader, cardDesc, count}) => {
+export const DashboardCard = ({iconName, colorName, cardHeader, cardDesc, count, entity}) => {
 
     return (
         <div>
@@ -55,7 +55,7 @@ export const DashboardCard = ({iconName, colorName, cardHeader, cardDesc, count}
                 }}>
                     <a>
                         <Icon name='calculator'/>
-                        {count} Estimations
+                        {count} {entity ? entity : "Estimations"}
 
 
                         {/*<Icon style={{ 'text-align': 'end'}} name={'arrow right'}/>*/}
