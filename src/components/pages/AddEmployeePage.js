@@ -9,6 +9,7 @@ import { useApiRequest } from '../api/useApiRequest'
 import { regularApiRequest } from '../api/regularApiRequest'
 import { showToast } from '../../App'
 import { useNavigate } from 'react-router-dom'
+import s3 from '../../config/s3'
 
 const AddEmployeePage = () => {
     const firstNameRef = useRef('')
@@ -17,8 +18,14 @@ const AddEmployeePage = () => {
     const addressRef = useRef('')
     const ratingRef = useRef('')
     const salaryRef = useRef('')
+    const imageRef = useRef('')
 
     let navigate = useNavigate()
+
+    const handleFile = (e) => {
+        const file = e.target.files[0]
+        
+    }
 
     const addEmp = async () => {
         const firstName = firstNameRef.current.inputRef.current.value
@@ -41,6 +48,23 @@ const AddEmployeePage = () => {
             method: 'POST',
             reqBody: reqBody
         })
+
+        const file = imageRef.current.inputRef.current.files[0]
+
+        try {
+            const params = {
+                Bucket: 'cpm-backend',
+                Key: 'profile_pictures/employees/' + response.data.id + '.jpg',
+                Body: file
+            }
+    
+            s3.putObject(params, function(err, data) {
+                if (err) console.log(err); // an error occurred
+            });
+        } catch (err) {
+            console.log(err)
+        }
+
         if (response.status === 200) {
         showToast('Employee added succesfully', 'success')
         navigate('/my-employees')
@@ -54,6 +78,21 @@ const AddEmployeePage = () => {
         const offset = date.getTimezoneOffset()
         const dateOffset = new Date(date.getTime() - (offset*60*1000))
         setDate(dateOffset.toISOString().split('T')[0])
+    }
+
+    const fileUpload = async () => {
+
+        // const params = {
+        //     Bucket: 'cpm-backend',
+        //     Key: 'test.txt',
+        //     Body: 'Hello!'
+        // }
+        // s3.putObject(params, function(err, data) {
+        //     if (err) console.log(err); // an error occurred
+        //     else     console.log(data);           // successful response
+        //   });
+
+        console.log(imageRef.current.inputRef.current.files[0])
     }
 
   return (
@@ -92,6 +131,12 @@ const AddEmployeePage = () => {
                             size='large' placeholder='Salary'/>
             </Grid.Column>
         </Grid>
+
+        <Grid>
+            <Grid.Column>
+                <Input type="file" onChange={handleFile} ref={imageRef} />
+            </Grid.Column>
+        </Grid>
         
         <br></br>
         Date of Birth <br/>
@@ -99,6 +144,7 @@ const AddEmployeePage = () => {
         <br></br>
         <br></br>
         <Button primary onClick={addEmp}>Add Employee</Button>
+        <Button primary onClick={fileUpload}>Dummy</Button>
     </div>
   )
 }
