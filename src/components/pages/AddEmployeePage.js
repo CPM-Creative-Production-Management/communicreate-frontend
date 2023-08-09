@@ -144,7 +144,6 @@ const AddEmployeePage = () => {
         <br></br>
         <br></br>
         <Button primary onClick={addEmp}>Add Employee</Button>
-        <Button primary onClick={fileUpload}>Dummy</Button>
     </div>
   )
 }
