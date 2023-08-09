@@ -15,7 +15,8 @@ export const resetCurrEstimation = () => {
         payload: {
             title: "",
             company: "",
-            deadline: "",
+            deadline: "1 month",
+            cost: 0,
             description: "",
             tags: [],
             tasks: [],

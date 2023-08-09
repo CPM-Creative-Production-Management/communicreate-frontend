@@ -78,8 +78,6 @@ export const EditSingleTaskCard = (props) => {
     //     {key: '2', text: 'Employee 2', value: '2'},
     // ]
 
-    // todo uncomment below
-
     const {data: employeeList, dataLoading, error} = useApiRequest({
         url: base_url + 'employees',
         method: 'GET',

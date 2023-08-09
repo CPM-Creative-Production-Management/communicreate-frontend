@@ -21,11 +21,11 @@ import { showToast } from "../../App";
 import { useNavigate } from "react-router-dom";
 import { useApiRequest } from '../api/useApiRequest';
 import { base_url } from '../..';
+import { regularApiRequest } from '../api/regularApiRequest';
 
 
 export const AddEstimationPage = () => {
-    // todo: only process the global estimation object when the user clicks save
-    //  and then send it to the backend
+
 
     const navigate = useNavigate()
 
@@ -42,13 +42,45 @@ export const AddEstimationPage = () => {
     }
 
     const [openAddTaskModal, setOpenAddTaskModal] = useState(false)
-    const [isAddingTask, setIsAddingTask] = useState(false)
+    // const [isAddingTask, setIsAddingTask] = useState(false)
 
-    const sendEstimation = () => {
+    const sendEstimation = async () => {
         console.log('sending estimation to backend', globalEstimation)
 
+        // generate the estimation body
+        let estimationBody = {
+            title: globalEstimation.title,
+            description: globalEstimation.description,
+            company: globalEstimation.company,
+            deadline: globalEstimation.deadline,
+            cost: globalEstimation.cost + extraCost,
+            // todo: resolve
+            ReqAgencyId: 4,
+
+            // get only the ids of the tags
+            tags: globalEstimation.tags.map((tag) => tag.id),
+            tasks: globalEstimation.tasks.map((task) => {
+                return {
+                    name: task.name,
+                    // description: task.description,
+                    cost: task.cost,
+                    // get only the ids of the employees
+                    Employees: task.Employees.map((emp) => emp.id),
+                    // get only the ids of the tags
+                    tags: task.tags.map((tag) => tag.id),
+                }
+            })
+        }
+
+        console.log('estimation body', estimationBody)
+        await regularApiRequest({
+            url: base_url + 'estimation',
+            method: 'POST',
+            body: estimationBody
+        })
+
         // reset the global estimation
-        dispatch(resetCurrEstimation())
+        // dispatch(resetCurrEstimation())
 
 
         showToast('Estimation sent successfully', 'success')
@@ -98,6 +130,17 @@ export const AddEstimationPage = () => {
             ...globalEstimation, cost: totalEstimationCost
         }))
     }, [globalEstimation.tasks]);
+
+    const [extraCost, setExtraCost] = useState(0)
+
+    const handleExtraCost = (event) => {
+        if (event.target.value < 0) {
+            showToast('Extra cost cannot be negative', 'error')
+            return
+        }
+        setExtraCost(event.target.value)
+
+    }
 
 
     return (
@@ -157,15 +200,21 @@ export const AddEstimationPage = () => {
 
 
                 <Message
-                    icon='hand point right outline'
+                    icon='clipboard outline'
                     header='Description'
                     content={globalEstimation.description} />
 
                 <Message
                     icon='money bill alternate outline'
-                    header={globalEstimation.cost + ' ৳'}
-                    content='Total Estimated cost of the project'
+                    header={globalEstimation.cost + ' + ' + extraCost + ' ৳'}
+                    content='Total Estimated Cost of the Project'
                 />
+
+
+                <Input fluid name='extraCost' onChange={handleExtraCost} value={extraCost} className='mt-2' label='Extra Cost' icon='money bill alternate outline' type='number' placeholder='Amount' />
+
+
+
 
 
 
@@ -188,7 +237,6 @@ export const AddEstimationPage = () => {
 
             <Button onClick={() => {
                 setOpenAddTaskModal(true)
-                setIsAddingTask(true)
             }} animated>
                 <Button.Content visible>Add task</Button.Content>
                 <Button.Content hidden>

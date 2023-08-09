@@ -67,8 +67,6 @@ export const AddSingleTaskCard = () => {
         }
     }
 
-    // todo uncomment below
-
     const {data: employeeList, dataLoading, error} = useApiRequest({
         url: base_url + 'employees',
         method: 'GET',
