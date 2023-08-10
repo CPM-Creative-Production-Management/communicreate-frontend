@@ -53,5 +53,9 @@ export const updateCurrProfile = (profile) => {
     }
 }
 
-
-
+export const updateRequest = (request) => {
+    return {
+        type: 'UPDATE_REQUEST',
+        payload: request
+    }
+}

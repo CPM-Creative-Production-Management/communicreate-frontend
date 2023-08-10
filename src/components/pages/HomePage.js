@@ -31,13 +31,12 @@ export const HomePage = () => {
     const [userType, setUserType] = React.useState(1);
 
     useEffect(() => {
-        if (cookies.get("userType") === 1){
+        if (cookies.get("userType") === '1'){
             setUserType(1)
-        } else if (cookies.get("userType") === 2){
+        } else if (cookies.get("userType") === '2'){
             setUserType(2)
         }
     }, []);
-
 
     return (
         <div>
@@ -45,7 +44,7 @@ export const HomePage = () => {
             
 
             <div className="row">
-                <div className="col-xs-1 col-sm-1 col-md-2">{ userType === 1 ? <SidebarClient /> : <SidebarPro/>}</div>
+                <div className="col-xs-1 col-sm-1 col-md-2">{ userType === 1 ? <SidebarClient /> : <SidebarPro />}</div>
 
                 <div className="col-xs-11 col-sm-11 col-md-10">
                     <div className="me-5">
