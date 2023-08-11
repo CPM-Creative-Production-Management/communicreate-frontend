@@ -73,7 +73,8 @@ const MyRequestsPage = () => {
                                 </div>}
                             </Table.Cell>
                             <Table.Cell width={2}>
-                                    <Button disabled={request.responses === 0}>View Responses</Button>
+                                <div style={containerStyle}><Button disabled={request.responses === 0}>View Responses</Button></div>
+                                    
                             </Table.Cell>
                         </Table.Row>
                     ))}
