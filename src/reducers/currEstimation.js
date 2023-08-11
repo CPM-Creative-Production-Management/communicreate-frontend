@@ -15,8 +15,8 @@ const currEstimationReducer = (state = {
 
         case 'RESET_ESTIMATION':
             return action.payload
+            
         default:
-
             return state
     }
 }

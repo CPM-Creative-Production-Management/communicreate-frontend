@@ -18,6 +18,7 @@ import Cookies from "universal-cookie";
 
 let showToast
 let setLoading
+let globalLoading
 
 const cookies = new Cookies();
 
@@ -33,6 +34,7 @@ function App() {
 
     const [loading, setL] = useState(false)
     setLoading = setL
+    globalLoading = loading
 
     let navigate = useNavigate();
 
@@ -41,7 +43,7 @@ function App() {
         if (cookies.get("token") === undefined || cookies.get("token") == null) {
             showToast('You must log in to continue', 'error')
             navigate('/login')
-        } 
+        }
 
     }, []);
 
@@ -84,4 +86,4 @@ function App() {
 }
 
 export default App;
-export {showToast, setLoading};
+export {showToast, setLoading, globalLoading};

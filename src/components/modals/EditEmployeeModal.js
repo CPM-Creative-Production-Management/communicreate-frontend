@@ -6,7 +6,7 @@ import { Input } from 'semantic-ui-react'
 import {Button} from 'semantic-ui-react'
 import { regularApiRequest } from '../api/regularApiRequest'
 import { base_url } from '../..'
-import { showToast } from '../../App'
+import { globalLoading, showToast } from '../../App'
 
 const EditEmployeeModal = (props) => {
 
@@ -40,10 +40,12 @@ const EditEmployeeModal = (props) => {
             reqBody: reqBody
         })
         
-        if (response.status === 200) {
-            showToast('Employee updated succesfully', 'success')
-        } else {
-            showToast('Error updating employee', 'error')
+        if(!globalLoading) {
+          if (response.status === 200) {
+              showToast('Employee updated successfully', 'success')
+          } else {
+              showToast('Error updating employee', 'error')
+          }
         }
 
         props.setShow(false)
@@ -59,7 +61,7 @@ const EditEmployeeModal = (props) => {
                 method: 'DELETE'
             })
             if (response.status === 200) {
-                showToast('Employee deleted succesfully', 'success')
+                showToast('Employee deleted successfully', 'success')
             } else {
                 showToast('Error deleting employee', 'error')
             }
@@ -73,17 +75,17 @@ const EditEmployeeModal = (props) => {
     <Modal {...props} size="lg"
     aria-labelledby="contained-modal-title-vcenter"
     centered>
-        <Modal.Header closeButton>
+        <Modal.Header >
           <Modal.Title>{props.editData.name}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
             <Input type="text" label='Name' placeholder='Name' defaultValue={props.editData.name} ref={nameRef} />
-            <Input label='Salary' placeholder='Salary' defaultValue={props.editData.salary} ref={salaryRef} />
+            <Input label='Salary' type='number' placeholder='Salary' defaultValue={props.editData.salary} ref={salaryRef} />
             <Input type="text" label='Address' placeholder='Address' defaultValue={props.editData.address} ref={addressRef} />
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={() => {
-            props.setShow(false)}} primary>
+            props.setShow(false)}}>
             Close
           </Button>
           <Button primary onClick={handleSave}>
