@@ -120,7 +120,7 @@ const AddRequestPage = () => {
                 <SemanticDatepicker onChange={handleUpdateRequestResponseDate} />
                 <h4>Completion Deadline</h4>
                 <SemanticDatepicker onChange={handleUpdateRequestCompleteDate} />
-                <Button className='mt-3' onClick={handleAddTask}>Add Task</Button>
+                <Button className='mt-3' primary onClick={handleAddTask}>Add Task</Button>
                 {globalRequest.tasks.map((currTask, index) => (
                     <Card className='p-4' fluid>
                         <Card.Meta className='mb-3'>
@@ -131,10 +131,10 @@ const AddRequestPage = () => {
                             <TextArea name={'task-description-' + index} value={currTask.description} placeholder="A detailed description of your task..." onChange={handleUpdateTask} />
                         </Form>
 
-                        <Button className='mt-3' name={index} onClick={handleDeleteTask}>Delete</Button>
+                        <Button className='mt-3' primary name={index} onClick={handleDeleteTask}>Delete</Button>
                     </Card>
                 ))}
-                <Button onClick={submitRequest} className='mt-3'>Submit</Button>
+                <Button primary onClick={submitRequest} className='mt-3'>Submit</Button>
             </Card>
         </div>
     )

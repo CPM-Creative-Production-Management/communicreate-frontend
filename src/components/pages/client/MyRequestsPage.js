@@ -4,15 +4,19 @@ import { useApiRequest } from '../../api/useApiRequest';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { base_url } from '../../..';
+import RequestDetailsModal from '../../modals/RequestDetailsModal';
+import { regularApiRequest } from '../../api/regularApiRequest';
+
 
 const MyRequestsPage = () => {
+
+    const [showDetailsModal, setShowDetailsModal] = useState(false)
+    const [detailsData, setDetailsData] = useState({})
 
     const {data, loading, error} = useApiRequest({
         url: base_url + 'request/company',
         method: 'GET'
     })
-
-    console.log(data)
 
     const redCircleStyle = {
         width: '8px',
@@ -35,6 +39,18 @@ const MyRequestsPage = () => {
         alignItems: 'center',
     };
 
+    const handleDetails = async (e) => {
+        const index = e.target.name.split('-')[1]
+        const request_id = data[index].id
+        const response = await regularApiRequest({
+            url: base_url + 'request/' + request_id,
+            method: 'GET'
+        })
+        console.log(response)
+        setDetailsData(response.data)
+        setShowDetailsModal(true)
+    }
+
   return (
     <div>
         <br/>
@@ -47,12 +63,13 @@ const MyRequestsPage = () => {
                         <th scope="col">Response Deadline</th>
                         <th scope="col">Completion Deadline</th>
                         <th scope="col">Status</th>
-                        <th scope="col">Actions</th>
+                        <th scope="col">Responses</th>
+                        <th scope="col">Details</th>
                     </tr>
                 </thead>
 
                 <Table.Body>
-                    {data?.map(request => (
+                    {data?.map((request, index) => (
                         <Table.Row>
                             <Table.Cell>
                                 {request.name}
@@ -73,13 +90,17 @@ const MyRequestsPage = () => {
                                 </div>}
                             </Table.Cell>
                             <Table.Cell width={2}>
-                                <div style={containerStyle}><Button disabled={request.responses === 0}>View Responses</Button></div>
-                                    
+                                    <Button name={'r-' + index} className='mr-3' disabled={request.responses === 0}>View Responses</Button>
+                            </Table.Cell>
+                            <Table.Cell width={2}>
+                                <Button name={'d-' + index} onClick={handleDetails} className='mr-3'>View Details</Button>
                             </Table.Cell>
                         </Table.Row>
                     ))}
                 </Table.Body>
             </Table>
+            
+            <RequestDetailsModal show={showDetailsModal} setShow={setShowDetailsModal} detailsData={detailsData} setDetailsData={setDetailsData} />
     </div>
   )
 }
