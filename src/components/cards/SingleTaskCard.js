@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import SortableTable from "../SortableTable";
 import { Button, Grid, Icon, Label, Message } from "semantic-ui-react";
-import { Avatar, Chip, Stack } from "@mui/material";
-import AddTaskModal from "../modals/AddTaskModal";
-import TableEmpList from "../TableEmpList";
+import { Stack } from "@mui/material";
+import TableEmpList from "../utils/TableEmpList";
 import EditTaskModal from "../modals/EditTaskModal";
 
 import { useSelector, useDispatch } from "react-redux";

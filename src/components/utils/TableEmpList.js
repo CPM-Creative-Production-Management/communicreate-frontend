@@ -2,11 +2,11 @@ import React, { useEffect } from 'react'
 import { Button, Header, Image, Table } from "semantic-ui-react";
 import { Rating } from 'react-simple-star-rating'
 import { useState } from 'react';
-import EditEmployeeModal from './modals/EditEmployeeModal';
-import EditButton from './custom/EditButton';
+import EditEmployeeModal from '../modals/EditEmployeeModal';
+import EditButton from '../custom/EditButton';
 
 import { useSelector, useDispatch } from "react-redux";
-import { updateCurrTask } from "../actions";
+import { updateCurrTask } from "../../actions";
 
 const TableEmpList = ({ tableData, onAddTaskModal, onAddTaskList, onEmpList }) => {
 

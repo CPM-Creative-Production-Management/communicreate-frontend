@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import SortableTable from "../SortableTable";
 import {Button, Dropdown, Form, Grid, Icon, Input, Label, Message} from "semantic-ui-react";
 import {Autocomplete, Avatar, Chip, CircularProgress, Stack, TextField} from "@mui/material";
 import AddTaskModal from "../modals/AddTaskModal";
@@ -8,7 +7,7 @@ import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOu
 import {useApiRequest} from "../api/useApiRequest";
 import {base_url} from "../../index";
 import {AiOutlineFileSearch} from "react-icons/ai";
-import TableEmpList from "../TableEmpList";
+import TableEmpList from "../utils/TableEmpList";
 
 import {useSelector, useDispatch} from "react-redux";
 import {updateCurrTask, updateEstimation} from "../../actions";

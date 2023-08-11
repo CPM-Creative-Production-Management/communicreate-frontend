@@ -1,11 +1,11 @@
 import React from 'react';
 import {Message, Step} from "semantic-ui-react";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import { Dashboard } from "../fragments/Dashboard";
-import {Estimations} from "../fragments/Estimations";
+import { Dashboard } from "../../fragments/Dashboard";
+import {Estimations} from "../../fragments/Estimations";
 import Fab from '@mui/material/Fab';
 import CreateNewFolderOutlinedIcon from '@mui/icons-material/CreateNewFolderOutlined';
-import "./pages.css"
+import "../pages.css"
 
 const PaymentPage = () => {
 

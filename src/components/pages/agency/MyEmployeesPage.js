@@ -1,8 +1,8 @@
 import React from 'react'
-import { useApiRequest } from '../api/useApiRequest';
+import { useApiRequest } from '../../api/useApiRequest';
 import { useEffect } from 'react';
-import TableEmpList from '../TableEmpList';
-import { base_url } from '../../index';
+import TableEmpList from '../../utils/TableEmpList';
+import { base_url } from '../../../index';
 
 const MyEmployeesPage = () => {
 

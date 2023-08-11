@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
-import ResponsiveNavbar from "../ResponsiveNavbar";
-import {SidebarPro} from "../SidebarPro";
+import ResponsiveNavbar from '../utils/ResponsiveNavbar';
+import {SidebarPro} from "../utils/SidebarPro";
 import {Route, Routes, useNavigate} from "react-router-dom";
 import {Dashboard} from "../fragments/Dashboard";
 import {Archive} from "../fragments/Archive";
@@ -9,20 +9,20 @@ import {Button, Card, Icon, Input} from "semantic-ui-react";
 import Fab from '@mui/material/Fab';
 import CreateNewFolderOutlinedIcon from '@mui/icons-material/CreateNewFolderOutlined';
 import "./pages.css"
-import {AddEstimationPage} from "./AddEstimationPage";
+import {AddEstimationPage} from "./agency/AddEstimationPage";
 import {Estimations} from "../fragments/Estimations";
-import PaymentPage from "./PaymentPage";
-import MyEmployeesPage from './MyEmployeesPage';
+import PaymentPage from "./agency/PaymentPage";
+import MyEmployeesPage from './agency/MyEmployeesPage';
 
-import AddEmployeePage from './AddEmployeePage';
+import AddEmployeePage from './agency/AddEmployeePage';
 
 import Cookies from "universal-cookie";
 import {showToast} from "../../App";
-import SidebarNew from "../SidebarNew";
 import ClientDashboard from './client/ClientDashboard';
-import {SidebarClient} from '../SidebarClient'
+import {SidebarClient} from  '../utils/SidebarClient'
 import AddRequestPage from './client/AddRequestPage';
 import MyRequestsPage from './client/MyRequestsPage';
+import Requests from "./agency/Requests";
 
 const cookies = new Cookies();
 
@@ -57,6 +57,7 @@ export const HomePage = () => {
                         }
                         
                         <Route exact path="/archive" element={<Archive/>}/>
+                        <Route exact path="/requests" element={<Requests/>}/>
                         <Route exact path="/estimations" element={<Estimations/>}/>
                         <Route exact path="/add-estimation" element={<AddEstimationPage/>}/>
                         <Route exact path="/my-employees" element={<MyEmployeesPage/>}/>

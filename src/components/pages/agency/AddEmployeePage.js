@@ -4,12 +4,12 @@ import { useState } from 'react'
 import { Form, Grid } from 'semantic-ui-react'
 import SemanticDatepicker from 'react-semantic-ui-datepickers'
 import {Input, Button} from 'semantic-ui-react'
-import { base_url } from '../..'
-import { useApiRequest } from '../api/useApiRequest'
-import { regularApiRequest } from '../api/regularApiRequest'
-import { showToast } from '../../App'
+import { base_url } from '../../../index'
+import { useApiRequest } from '../../api/useApiRequest'
+import { regularApiRequest } from '../../api/regularApiRequest'
+import { showToast } from '../../../App'
 import { useNavigate } from 'react-router-dom'
-import s3 from '../../config/s3'
+import s3 from '../../../config/s3'
 
 const AddEmployeePage = () => {
     const firstNameRef = useRef('')

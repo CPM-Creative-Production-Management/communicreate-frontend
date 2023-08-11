@@ -7,7 +7,7 @@ import {Button, Dropdown} from "semantic-ui-react";
 import {SiAntdesign} from "react-icons/si";
 import {useNavigate} from "react-router-dom";
 import Cookies from "universal-cookie";
-import {showToast} from "../App";
+import {showToast} from "../../App";
 
 // need these for redux
 import {useSelector, useDispatch} from "react-redux";

@@ -11,6 +11,7 @@ import {Divider} from "semantic-ui-react";
 import {RiTeamLine} from "react-icons/ri";
 import {SiAntdesign} from "react-icons/si";
 import Navbar from "react-bootstrap/Navbar";
+import {BiGitPullRequest} from "react-icons/bi";
 
 
 export const SidebarPro = () => {
@@ -33,6 +34,9 @@ export const SidebarPro = () => {
 
                     <MenuItem component={<Link to="/"/>} icon={<SiAntdesign/>} disabled> CPM </MenuItem>
                     <MenuItem component={<Link to="/"/>} icon={<RxDashboard/>}> Dashboard </MenuItem>
+
+                    <MenuItem component={<Link to="/requests"/>} icon={<BiGitPullRequest/>}> My Requests </MenuItem>
+
                     <SubMenu label="Employees" icon={<BsPersonWorkspace/>}>
                         <MenuItem icon={<RiTeamLine/>} component={<Link to="/my-employees"/>}> All Employees </MenuItem>
                         <MenuItem icon={<BsPersonAdd/>} component={<Link to="/add-employee"/>}> Add Employee </MenuItem>

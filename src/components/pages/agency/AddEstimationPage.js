@@ -1,27 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import ResponsiveNavbar from "../ResponsiveNavbar";
-import { SidebarPro } from "../SidebarPro";
 import { Route, Routes } from "react-router-dom";
-import { Dashboard } from "../fragments/Dashboard";
-import { Archive } from "../fragments/Archive";
+import { Dashboard } from "../../fragments/Dashboard";
+import { Archive } from "../../fragments/Archive";
 import { Card, Grid, Input, Label, Segment, Form, Button, Icon, Divider, Message } from "semantic-ui-react";
-import AddTaskModal from "../modals/AddTaskModal";
-import { AddTask } from "@mui/icons-material";
-import SortableTable from "../SortableTable";
-import { SingleTaskCard } from "../cards/SingleTaskCard";
+import AddTaskModal from "../../modals/AddTaskModal";
+import { SingleTaskCard } from "../../cards/SingleTaskCard";
 import { Avatar, Chip, Stack } from "@mui/material";
 import { Dropdown } from "semantic-ui-react";
 
 import { useSelector, useDispatch } from "react-redux";
-import { updateEstimation, resetCurrEstimation } from "../../actions";
+import { updateEstimation, resetCurrEstimation } from "../../../actions";
 import { Textarea } from "@nextui-org/react";
-import { showToast } from "../../App";
+import { showToast } from "../../../App";
 
 
 import { useNavigate } from "react-router-dom";
-import { useApiRequest } from '../api/useApiRequest';
-import { base_url } from '../..';
-import { regularApiRequest } from '../api/regularApiRequest';
+import { useApiRequest } from '../../api/useApiRequest';
+import { base_url } from '../../../index';
+import { regularApiRequest } from '../../api/regularApiRequest';
 
 
 export const AddEstimationPage = () => {
