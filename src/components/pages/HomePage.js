@@ -22,6 +22,7 @@ import SidebarNew from "../SidebarNew";
 import ClientDashboard from './client/ClientDashboard';
 import {SidebarClient} from '../SidebarClient'
 import AddRequestPage from './client/AddRequestPage';
+import MyRequestsPage from './client/MyRequestsPage';
 
 const cookies = new Cookies();
 
@@ -63,6 +64,7 @@ export const HomePage = () => {
                         <Route exact path="/add-employee" element={<AddEmployeePage/>}/>
 
                         <Route exact path="/new-request" element={<AddRequestPage/>}/>
+                        <Route exact path="/my-requests" element={<MyRequestsPage/>}/>
                     </Routes>
 
                      
