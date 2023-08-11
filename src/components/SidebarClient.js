@@ -34,7 +34,7 @@ export const SidebarClient = () => {
                     <MenuItem component={<Link to="/"/>} icon={<SiAntdesign/>} disabled> CPM </MenuItem>
                     <MenuItem component={<Link to="/"/>} icon={<RxDashboard/>}> Dashboard </MenuItem>
                     <SubMenu label="Requests" icon={<BsFillFileRuledFill/>}>
-                        <MenuItem icon={<BsCardList/>} component={<Link to="/all-requests"/>}> All Requests </MenuItem>
+                        <MenuItem icon={<BsCardList/>} component={<Link to="/my-requests"/>}> All Requests </MenuItem>
                         <MenuItem icon={<BsFillPatchPlusFill/>} component={<Link to="/new-request"/>}> Create New Request </MenuItem>
                     </SubMenu>
                     {/* <MenuItem component={<Link to="/archive"/>} icon={<BsArchive/>}> Requests </MenuItem> */}
