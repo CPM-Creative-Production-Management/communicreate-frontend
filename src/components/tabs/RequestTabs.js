@@ -1,9 +1,6 @@
 import React from 'react'
 import {Tab} from 'semantic-ui-react'
-import {ArchiveCompleted} from "../fragments/ArchiveCompleted";
-import {ArchiveRejected} from "../fragments/ArchiveRejected";
 import {OfferedRequests} from "../fragments/OfferedRequests";
-import {AcceptedRequests} from "../fragments/AcceptedRequests";
 
 const panes = [
     {

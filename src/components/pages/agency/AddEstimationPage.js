@@ -14,21 +14,45 @@ import { Textarea } from "@nextui-org/react";
 import { showToast } from "../../../App";
 
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useApiRequest } from '../../api/useApiRequest';
 import { base_url } from '../../../index';
 import { regularApiRequest } from '../../api/regularApiRequest';
 
 
 export const AddEstimationPage = () => {
-
-
     const navigate = useNavigate()
+
+    const {id} = useParams()
 
     // get the global Estimation from redux store
     const globalEstimation = useSelector(state => state.currEstimation)
     // dispatch an action to the reducer
     const dispatch = useDispatch()
+
+    const {data: reqData, dataLoading, error} = useApiRequest({
+        url: base_url + 'request/' + id,
+        method: 'GET',
+    })
+
+    useEffect(() => {
+        if(!dataLoading && reqData){
+
+            dispatch(updateEstimation({
+                ...globalEstimation, title: reqData.name, description: reqData.description, company: 'sun'
+            }))
+
+            console.log('req data', reqData)
+        }
+
+
+    }, [dataLoading])
+
+
+
+    
+
+
 
     const handleUpdateEstimation = (event) => {
         dispatch(updateEstimation({

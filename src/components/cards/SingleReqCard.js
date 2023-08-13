@@ -5,9 +5,11 @@ import {Dialog, DialogContent, DialogTitle} from "@mui/material";
 import { regularApiRequest } from '../api/regularApiRequest';
 import { base_url } from '../..';
 import { showToast } from '../../App';
+import { useNavigate } from 'react-router-dom';
 
 const SingleReqCard = ({reqData, isAccepted, isOffered}) => {
     const [showDetails, setShowDetails] = React.useState(false)
+    const navigate = useNavigate()
 
     const acceptReq = async (reqId) => {
         const res = await regularApiRequest({
@@ -47,9 +49,9 @@ const SingleReqCard = ({reqData, isAccepted, isOffered}) => {
                     </Button>
 }
 
-                    {isAccepted && <Button primary icon labelPosition='left' floated='right'>
-                        <Icon name= {false? 'ban' : 'add'}/>
-                        {false ? 'View Estimation' : 'Add Estimation'} 
+                    {isAccepted  && <Button onClick={()=> {navigate(`/add-estimation/${reqData.id}`)}} primary icon labelPosition='left' floated='right'>
+                        <Icon name= 'add'/>
+                         Add Estimation
                     </Button>}
 
 
