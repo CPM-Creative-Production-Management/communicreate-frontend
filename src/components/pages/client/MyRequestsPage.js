@@ -6,12 +6,16 @@ import { useEffect } from 'react';
 import { base_url } from '../../..';
 import RequestDetailsModal from '../../modals/RequestDetailsModal';
 import { regularApiRequest } from '../../api/regularApiRequest';
+import ResponsePage from './ResponsePage';
+import ResponsesModal from '../../modals/ResponsesModal';
 
 
 const MyRequestsPage = () => {
 
     const [showDetailsModal, setShowDetailsModal] = useState(false)
     const [detailsData, setDetailsData] = useState({})
+    const [responses, setResponses] = useState({})
+    const [showResponsesModal, setShowResponsesModal] = useState(false)
 
     const {data, loading, error} = useApiRequest({
         url: base_url + 'request/company',
@@ -51,6 +55,19 @@ const MyRequestsPage = () => {
         setShowDetailsModal(true)
     }
 
+    const handleRequests = async (e) => {
+        const index = e.target.name.split('-')[1]
+        console.log(data[index].id)
+        const response = await regularApiRequest({
+            url: base_url + 'request/company/' + data[index].id + '/responses',
+            method: 'GET'
+        })
+        console.log(response)
+        setResponses(response.data)
+        setShowResponsesModal(true)
+        console.log(showResponsesModal)
+    }
+
   return (
     <div>
         <br/>
@@ -83,14 +100,14 @@ const MyRequestsPage = () => {
                             <Table.Cell>
                                 {request.responses === 0 ? <div style={containerStyle}>
                                     <div style={redCircleStyle}></div>
-                                    <p>Pending</p>
+                                    <p>{request.responses} responses</p>
                                 </div> : <div style={containerStyle}>
                                     <div style={greenCircleStyle}></div>
-                                    <p>Responded</p>
+                                    <p>{request.responses} responses </p>
                                 </div>}
                             </Table.Cell>
                             <Table.Cell width={2}>
-                                    <Button name={'r-' + index} className='mr-3' disabled={request.responses === 0}>View Responses</Button>
+                                    <Button name={'r-' + index} onClick={handleRequests} className='mr-3' disabled={request.responses === 0}>View Responses</Button>
                             </Table.Cell>
                             <Table.Cell width={2}>
                                 <Button name={'d-' + index} onClick={handleDetails} className='mr-3'>View Details</Button>
@@ -101,6 +118,7 @@ const MyRequestsPage = () => {
             </Table>
             
             <RequestDetailsModal show={showDetailsModal} setShow={setShowDetailsModal} detailsData={detailsData} setDetailsData={setDetailsData} />
+            <ResponsesModal show={showResponsesModal} setShow={setShowResponsesModal} responses={responses} setResponses={setResponses} />
     </div>
   )
 }
