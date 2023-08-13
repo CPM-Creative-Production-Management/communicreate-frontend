@@ -13,7 +13,7 @@ export const regularApiRequest = async ({ url, method, reqBody = {} }) => {
     }
 
     console.log('url', url)
-    console.log('reqBody', reqBody)
+    console.log('reqBody in regular api req' , reqBody) 
     console.log('requestHeaders', requestHeaders)
 
     setLoading(true)

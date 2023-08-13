@@ -1,7 +1,7 @@
 import React from 'react'
 import {Button, Card, Divider, Icon, Image, Label, List} from "semantic-ui-react";
 import Modal from "react-bootstrap/Modal";
-import {Dialog, DialogContent, DialogTitle} from "@mui/material";
+import {Dialog, DialogContent, DialogTitle, SwipeableDrawer} from "@mui/material";
 import { regularApiRequest } from '../api/regularApiRequest';
 import { base_url } from '../..';
 import { showToast } from '../../App';
@@ -40,18 +40,23 @@ const SingleReqCard = ({reqData, isAccepted, isOffered}) => {
                     </Button>
 }
 
-{isOffered &&
+
                     <Button onClick={() => {
                         setShowDetails(true)
                     }} icon labelPosition='left' floated='right' primary>
                         <Icon name='list alternate outline'/>
                         View Details
                     </Button>
-}
 
-                    {isAccepted  && <Button onClick={()=> {navigate(`/add-estimation/${reqData.id}`)}} primary icon labelPosition='left' floated='right'>
+
+                    {isAccepted && !reqData.estimationExists  && <Button positive onClick={()=> {navigate(`/add-estimation/${reqData.id}`)}} primary icon labelPosition='left' floated='right'>
                         <Icon name= 'add'/>
                          Add Estimation
+                    </Button>}
+
+                    {isAccepted && reqData.estimationExists  && <Button positive onClick={()=> {navigate(`/add-estimation/${reqData.id}`)}} primary icon labelPosition='left' floated='right'>
+                        <Icon name= 'add'/>
+                         View Estimation
                     </Button>}
 
 
@@ -74,7 +79,20 @@ const SingleReqCard = ({reqData, isAccepted, isOffered}) => {
                 </Card.Content>
             </Card>
 
-            <Dialog open={showDetails}>
+            {/* <SwipeableDrawer
+        // container={container}
+        anchor="bottom"
+        open={showDetails}
+        
+        swipeAreaWidth='56'
+        disableSwipeToOpen={false}
+        ModalProps={{
+          keepMounted: true,
+        }}
+      ></SwipeableDrawer> */}
+
+
+             <Dialog open={showDetails}>
 
                 <DialogContent>
 
@@ -127,7 +145,7 @@ const SingleReqCard = ({reqData, isAccepted, isOffered}) => {
 
                         <Card.Content extra>
 
-                            <Button icon labelPosition='left'>
+                             {/* <Button icon labelPosition='left'>
                                 <Icon name='ban'/>
                                 Irrelevant
                             </Button>
@@ -135,11 +153,10 @@ const SingleReqCard = ({reqData, isAccepted, isOffered}) => {
                             <Button onClick={()=>{acceptReq(reqData.RequestId)}} icon labelPosition='left' floated='right' positive>
                             <Icon name='check circle outline'/>
                                 Accept
-                            </Button>
+                            </Button>  */}
 
-                            <Button onClick={()=>{setShowDetails(false)}} icon labelPosition='left'>
-                                <Icon name='cancel'/>
-                                Close
+                           <Button fluid onClick={()=>{setShowDetails(false)}} > Close
+                                
                             </Button>
                             </Card.Content>
 
@@ -148,7 +165,7 @@ const SingleReqCard = ({reqData, isAccepted, isOffered}) => {
                     </Card>
 
                 </DialogContent>
-            </Dialog>
+            </Dialog> 
 
 
         </div>

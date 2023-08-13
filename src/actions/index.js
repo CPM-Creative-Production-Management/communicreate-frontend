@@ -20,6 +20,7 @@ export const resetCurrEstimation = () => {
             description: "",
             tags: [],
             tasks: [],
+            RequestTasks: [],
         }
     }
 }

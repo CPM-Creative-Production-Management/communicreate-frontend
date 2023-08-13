@@ -1,12 +1,13 @@
 const currEstimationReducer = (state = {
     title: "",
     company: "",
-    deadline: "1 month",
+    deadline: "",
     cost: 0,
     description: "",
     ReqAgencyId: null,
     tags: [],
     tasks: [],
+    RequestTasks: [],
 }, action) => {
     switch (action.type) {
 

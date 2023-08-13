@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Route, Routes } from "react-router-dom";
 import { Dashboard } from "../../fragments/Dashboard";
 import { Archive } from "../../fragments/Archive";
-import { Card, Grid, Input, Label, Segment, Form, Button, Icon, Divider, Message } from "semantic-ui-react";
+import { Card, Grid, Input, Label, Segment, Form, Button, Icon, Divider, Message, List } from "semantic-ui-react";
 import AddTaskModal from "../../modals/AddTaskModal";
 import { SingleTaskCard } from "../../cards/SingleTaskCard";
 import { Avatar, Chip, Stack } from "@mui/material";
@@ -19,11 +19,14 @@ import { useApiRequest } from '../../api/useApiRequest';
 import { base_url } from '../../../index';
 import { regularApiRequest } from '../../api/regularApiRequest';
 
+const drawerBleeding = 56;
+
 
 export const AddEstimationPage = () => {
     const navigate = useNavigate()
 
     const {id} = useParams()
+
 
     // get the global Estimation from redux store
     const globalEstimation = useSelector(state => state.currEstimation)
@@ -39,7 +42,7 @@ export const AddEstimationPage = () => {
         if(!dataLoading && reqData){
 
             dispatch(updateEstimation({
-                ...globalEstimation, title: reqData.name, description: reqData.description, company: 'sun'
+                ...globalEstimation, title: reqData.name, description: reqData.description, company: reqData.company, deadline: reqData.res_deadline, RequestTasks: reqData.RequestTasks, ReqAgencyId: reqData.id
             }))
 
             console.log('req data', reqData)
@@ -47,11 +50,6 @@ export const AddEstimationPage = () => {
 
 
     }, [dataLoading])
-
-
-
-    
-
 
 
     const handleUpdateEstimation = (event) => {
@@ -74,8 +72,9 @@ export const AddEstimationPage = () => {
             company: globalEstimation.company,
             deadline: globalEstimation.deadline,
             cost: globalEstimation.cost + extraCost,
-            // todo: resolve
-            ReqAgencyId: 4,
+
+       
+            ReqAgencyId: globalEstimation.ReqAgencyId,
 
             // get only the ids of the tags
             tags: globalEstimation.tags.map((tag) => tag.id),
@@ -93,18 +92,26 @@ export const AddEstimationPage = () => {
         }
 
         console.log('estimation body', estimationBody)
-        await regularApiRequest({
+        const response = await regularApiRequest({
             url: base_url + 'estimation',
             method: 'POST',
-            body: estimationBody
+            reqBody: estimationBody
         })
 
+        console.log('estimation body', estimationBody)
+
         // reset the global estimation
-        // dispatch(resetCurrEstimation())
+        
 
+        if(response.status == 200) {
+            showToast('Estimation sent successfully', 'success')
+            dispatch(resetCurrEstimation())
+            navigate('/')
+        } else {
+            showToast('Estimation could not be sent', 'error')
+        }
 
-        showToast('Estimation sent successfully', 'success')
-        navigate('/dashboard')
+        
 
     }
 
@@ -167,12 +174,27 @@ export const AddEstimationPage = () => {
         <div>
             <br />
 
-            <h1>{globalEstimation.title}</h1>
+            
 
             <Card className='p-4' fluid>
                 <Card.Meta >
                     <h3>Project Overview</h3>
                 </Card.Meta>
+
+                <h1>{globalEstimation.title}</h1>
+                
+                <Card.Meta>
+
+                <Label>
+                                <Icon name='clock outline'/>Company
+                                <Label.Detail>{globalEstimation.company.name}</Label.Detail>
+                            </Label>
+
+                            <Label>
+                                <Icon name='clock outline'/>Submission Deadline
+                                <Label.Detail>{globalEstimation.deadline}</Label.Detail>
+                            </Label>
+                            </Card.Meta>
 
                 <div className={'mb-2 mt-4'}>
 
@@ -207,22 +229,38 @@ export const AddEstimationPage = () => {
                     </Dropdown>
                 </div>
 
-                <Form>
-                    <Form.Group widths='equal'>
-                        <Form.Input name='title' onChange={handleUpdateEstimation}
-                            value={globalEstimation.title} fluid placeholder='Title' />
-                        <Form.Input name='company' onChange={handleUpdateEstimation}
-                            value={globalEstimation.company} fluid placeholder='Company' />
-                        <Form.Input name='deadline' onChange={handleUpdateEstimation}
-                            value={globalEstimation.deadline} fluid placeholder='Deadline' />
-                    </Form.Group>
-                </Form>
+    
 
 
                 <Message
                     icon='clipboard outline'
                     header='Description'
                     content={globalEstimation.description} />
+
+                
+                
+                    <Card.Description>
+                                <h4> Task List </h4>
+                                <List ordered animated verticalAlign='middle'>
+                                    {globalEstimation.RequestTasks?.map((task, index) => {
+                                        return (
+
+                                            <List.Item>
+                                                <List.Content>
+                                                    <List.Header>{task.name}</List.Header>
+                                                    {task.description}
+                                                </List.Content>
+                                            </List.Item>
+
+
+                                        )
+                                    })}
+                                </List>
+                            </Card.Description>
+
+
+                
+
 
                 <Message
                     icon='money bill alternate outline'
@@ -231,7 +269,7 @@ export const AddEstimationPage = () => {
                 />
 
 
-                <Input fluid name='extraCost' onChange={handleExtraCost} value={extraCost} className='mt-2' label='Extra Cost' icon='money bill alternate outline' type='number' placeholder='Amount' />
+                <Input fluid name='extraCost' onChange={handleExtraCost} value={extraCost} className='mt-2' label='Extra Cost' type='number' placeholder='Amount' />
 
 
 
