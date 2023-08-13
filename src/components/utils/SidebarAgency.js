@@ -12,15 +12,18 @@ import {RiTeamLine} from "react-icons/ri";
 import {SiAntdesign} from "react-icons/si";
 import Navbar from "react-bootstrap/Navbar";
 import {BiGitPullRequest} from "react-icons/bi";
+import {mobile} from "../../App";
 
 
-export const SidebarPro = () => {
+export const SidebarAgency = () => {
 
     const [collapsed, setCollapsed] = React.useState(false);
 
+
+
     return (
         <div style={{display: 'flex', position:"fixed", bottom:'0px', height: '100vh'}}>
-            <Sidebar collapsed={collapsed}>
+            <Sidebar collapsed={mobile}>
                 <Menu
                     menuItemStyles={{
                         button: {

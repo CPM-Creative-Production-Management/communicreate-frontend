@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { Route, Routes } from "react-router-dom";
-import { Dashboard } from "../../fragments/Dashboard";
-import { Archive } from "../../fragments/Archive";
-import { Card, Grid, Input, Label, Segment, Form, Button, Icon, Divider, Message, List } from "semantic-ui-react";
+import React, {useEffect, useState} from 'react';
+import {Route, Routes} from "react-router-dom";
+import {Dashboard} from "../../fragments/Dashboard";
+import {Archive} from "../../fragments/Archive";
+import {Card, Grid, Input, Label, Segment, Form, Button, Icon, Divider, Message, List} from "semantic-ui-react";
 import AddTaskModal from "../../modals/AddTaskModal";
-import { SingleTaskCard } from "../../cards/SingleTaskCard";
-import { Avatar, Chip, Stack } from "@mui/material";
-import { Dropdown } from "semantic-ui-react";
+import {SingleTaskCard} from "../../cards/SingleTaskCard";
+import {Avatar, Chip, Stack} from "@mui/material";
+import {Dropdown} from "semantic-ui-react";
 
-import { useSelector, useDispatch } from "react-redux";
-import { updateEstimation, resetCurrEstimation } from "../../../actions";
-import { Textarea } from "@nextui-org/react";
-import { showToast } from "../../../App";
+import {useSelector, useDispatch} from "react-redux";
+import {updateEstimation, resetCurrEstimation} from "../../../actions";
+import {Textarea} from "@nextui-org/react";
+import {showToast} from "../../../App";
 
 
-import { useNavigate, useParams } from "react-router-dom";
-import { useApiRequest } from '../../api/useApiRequest';
-import { base_url } from '../../../index';
-import { regularApiRequest } from '../../api/regularApiRequest';
+import {useNavigate, useParams} from "react-router-dom";
+import {useApiRequest} from '../../api/useApiRequest';
+import {base_url} from '../../../index';
+import {regularApiRequest} from '../../api/regularApiRequest';
 
 const drawerBleeding = 56;
 
@@ -39,10 +39,16 @@ export const AddEstimationPage = () => {
     })
 
     useEffect(() => {
-        if(!dataLoading && reqData){
+        if (!dataLoading && reqData) {
 
             dispatch(updateEstimation({
-                ...globalEstimation, title: reqData.name, description: reqData.description, company: reqData.company, deadline: reqData.res_deadline, RequestTasks: reqData.RequestTasks, ReqAgencyId: reqData.id
+                ...globalEstimation,
+                title: reqData.name,
+                description: reqData.description,
+                company: reqData.company,
+                deadline: reqData.res_deadline,
+                RequestTasks: reqData.RequestTasks,
+                ReqAgencyId: reqData.id
             }))
 
             console.log('req data', reqData)
@@ -73,7 +79,7 @@ export const AddEstimationPage = () => {
             deadline: globalEstimation.deadline,
             cost: globalEstimation.cost + extraCost,
 
-       
+
             ReqAgencyId: globalEstimation.ReqAgencyId,
 
             // get only the ids of the tags
@@ -101,9 +107,9 @@ export const AddEstimationPage = () => {
         console.log('estimation body', estimationBody)
 
         // reset the global estimation
-        
 
-        if(response.status == 200) {
+
+        if (response.status === 200) {
             showToast('Estimation sent successfully', 'success')
             dispatch(resetCurrEstimation())
             navigate('/')
@@ -111,11 +117,10 @@ export const AddEstimationPage = () => {
             showToast('Estimation could not be sent', 'error')
         }
 
-        
 
     }
 
-    let { data: allEstimationTags, dataLoading: tagDataLoading, error: tagError } = useApiRequest({
+    let {data: allEstimationTags, dataLoading: tagDataLoading, error: tagError} = useApiRequest({
         url: base_url + 'tag',
         method: 'GET',
     });
@@ -131,7 +136,7 @@ export const AddEstimationPage = () => {
         console.log('delete tag', index)
         // showToast(index, {toastType: 'success'})
 
-        dispatch(updateEstimation({ ...globalEstimation, tags: globalEstimation.tags.filter((tag, i) => i !== index) }))
+        dispatch(updateEstimation({...globalEstimation, tags: globalEstimation.tags.filter((tag, i) => i !== index)}))
 
     }
 
@@ -143,7 +148,10 @@ export const AddEstimationPage = () => {
             showToast('Tag already added', 'error')
 
         } else {
-            dispatch(updateEstimation({ ...globalEstimation, tags: [...globalEstimation.tags, allEstimationTags[tag_id]] }))
+            dispatch(updateEstimation({
+                ...globalEstimation,
+                tags: [...globalEstimation.tags, allEstimationTags[tag_id]]
+            }))
         }
     }
 
@@ -172,29 +180,28 @@ export const AddEstimationPage = () => {
 
     return (
         <div>
-            <br />
+            <br/>
 
-            
 
             <Card className='p-4' fluid>
-                <Card.Meta >
+                <Card.Meta>
                     <h3>Project Overview</h3>
                 </Card.Meta>
 
                 <h1>{globalEstimation.title}</h1>
-                
+
                 <Card.Meta>
 
-                <Label>
-                                <Icon name='clock outline'/>Company
-                                <Label.Detail>{globalEstimation.company.name}</Label.Detail>
-                            </Label>
+                    <Label>
+                        <Icon name='clock outline'/>Company
+                        <Label.Detail>{globalEstimation.company.name}</Label.Detail>
+                    </Label>
 
-                            <Label>
-                                <Icon name='clock outline'/>Submission Deadline
-                                <Label.Detail>{globalEstimation.deadline}</Label.Detail>
-                            </Label>
-                            </Card.Meta>
+                    <Label>
+                        <Icon name='clock outline'/>Submission Deadline
+                        <Label.Detail>{globalEstimation.deadline}</Label.Detail>
+                    </Label>
+                </Card.Meta>
 
                 <div className={'mb-2 mt-4'}>
 
@@ -203,7 +210,7 @@ export const AddEstimationPage = () => {
                         {globalEstimation.tags?.map((currTag, index) => (
                             <Chip key={currTag.id} label={currTag.tag} onDelete={() => {
                                 handleDeleteTag(index)
-                            }} />
+                            }}/>
                         ))}
 
                     </Stack>
@@ -212,54 +219,48 @@ export const AddEstimationPage = () => {
                 <div className='md-2 xs-2 mb-3'>
 
                     <Dropdown icon='filter'
-                        floating
-                        labeled
-                        button
+                              floating
+                              labeled
+                              button
 
-                        className='icon' text='Add tag'>
+                              className='icon' text='Add tag'>
                         <Dropdown.Menu>
 
                             {allEstimationTags?.map((currTag, index) => (
                                 <Dropdown.Item onClick={() => {
                                     addTag(index)
-                                }} key={currTag.id} icon='tag' text={currTag.tag} />
+                                }} key={currTag.id} icon='tag' text={currTag.tag}/>
                             ))}
 
                         </Dropdown.Menu>
                     </Dropdown>
                 </div>
 
-    
-
 
                 <Message
                     icon='clipboard outline'
                     header='Description'
-                    content={globalEstimation.description} />
-
-                
-                
-                    <Card.Description>
-                                <h4> Task List </h4>
-                                <List ordered animated verticalAlign='middle'>
-                                    {globalEstimation.RequestTasks?.map((task, index) => {
-                                        return (
-
-                                            <List.Item>
-                                                <List.Content>
-                                                    <List.Header>{task.name}</List.Header>
-                                                    {task.description}
-                                                </List.Content>
-                                            </List.Item>
+                    content={globalEstimation.description}/>
 
 
-                                        )
-                                    })}
-                                </List>
-                            </Card.Description>
+                <Card.Description>
+                    <h4> Task List </h4>
+                    <List ordered animated verticalAlign='middle'>
+                        {globalEstimation.RequestTasks?.map((task, index) => {
+                            return (
+
+                                <List.Item>
+                                    <List.Content>
+                                        <List.Header>{task.name}</List.Header>
+                                        {task.description}
+                                    </List.Content>
+                                </List.Item>
 
 
-                
+                            )
+                        })}
+                    </List>
+                </Card.Description>
 
 
                 <Message
@@ -269,26 +270,23 @@ export const AddEstimationPage = () => {
                 />
 
 
-                <Input fluid name='extraCost' onChange={handleExtraCost} value={extraCost} className='mt-2' label='Extra Cost' type='number' placeholder='Amount' />
+                <Input fluid name='extraCost' onChange={handleExtraCost} value={extraCost} className='mt-2'
+                       label='Extra Cost' type='number' placeholder='Amount'/>
 
 
-
-
-
-
-                <Divider />
+                <Divider/>
 
                 {globalEstimation.tasks.length > 0 ?
                     globalEstimation.tasks?.map((task, index) => {
                         return (<div>
-                            <SingleTaskCard show={openAddTaskModal} singleTask={task} taskIndex={index}
-                                setShow={setOpenAddTaskModal} />
-                            {index < globalEstimation.tasks.length - 1 ? <Divider /> : null}
+                                <SingleTaskCard show={openAddTaskModal} singleTask={task} taskIndex={index}
+                                                setShow={setOpenAddTaskModal}/>
+                                {index < globalEstimation.tasks.length - 1 ? <Divider/> : null}
 
-                        </div>
+                            </div>
                         )
                     })
-                    : <div className='text-center'><h4>No tasks added yet </h4> <br /></div>}
+                    : <div className='text-center'><h4>No tasks added yet </h4> <br/></div>}
 
 
             </Card>
@@ -298,7 +296,7 @@ export const AddEstimationPage = () => {
             }} animated>
                 <Button.Content visible>Add task</Button.Content>
                 <Button.Content hidden>
-                    <Icon name='add' />
+                    <Icon name='add'/>
                 </Button.Content>
             </Button>
 
@@ -312,16 +310,15 @@ export const AddEstimationPage = () => {
             <Button onClick={sendEstimation} positive animated>
                 <Button.Content visible>Send Estimation</Button.Content>
                 <Button.Content hidden>
-                    <Icon name='send' />
+                    <Icon name='send'/>
                 </Button.Content>
             </Button>
 
 
-
-            <br /><br />
+            <br/><br/>
 
             <AddTaskModal show={openAddTaskModal}
-                setShow={setOpenAddTaskModal}
+                          setShow={setOpenAddTaskModal}
             />
 
         </div>

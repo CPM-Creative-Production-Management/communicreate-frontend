@@ -1,23 +1,39 @@
 import React from 'react'
 import {Button, Card, Divider, Icon, Image, Label, List} from "semantic-ui-react";
-import Modal from "react-bootstrap/Modal";
 import {Dialog, DialogContent, DialogTitle, SwipeableDrawer} from "@mui/material";
-import { regularApiRequest } from '../api/regularApiRequest';
-import { base_url } from '../..';
-import { showToast } from '../../App';
-import { useNavigate } from 'react-router-dom';
+import {regularApiRequest} from '../api/regularApiRequest';
+import {base_url} from '../..';
+import {showToast} from '../../App';
+import {useNavigate} from 'react-router-dom';
+import {useDispatch} from "react-redux";
+import {updateEstimation} from "../../actions";
 
 const SingleReqCard = ({reqData, isAccepted, isOffered}) => {
     const [showDetails, setShowDetails] = React.useState(false)
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const acceptReq = async (reqId) => {
-        const res = await regularApiRequest({
+        await regularApiRequest({
             url: `${base_url}request/${reqId}/accept`,
             method: 'POST'
         })
         showToast('Request accepted', 'success')
         window.location.reload()
+    }
+
+    const editEstimation = async () => {
+        // need to get current estimation and update the globalEstimation with the received data
+        // todo
+        const currEstimation = await regularApiRequest({
+            url: `${base_url}estimation/${reqData.id}`,
+            method: 'GET'
+        })
+
+        console.log('curr estimation to edit', currEstimation)
+
+        // dispatch(updateEstimation(currEstimation))
+        // navigate(`/add-estimation/${reqData.id}`)
     }
 
     return (
@@ -27,18 +43,20 @@ const SingleReqCard = ({reqData, isAccepted, isOffered}) => {
 
                     {isOffered &&
 
-                    <Button icon labelPosition='left' floated='right'>
-                        <Icon name='ban'/>
-                        Irrelevant
-                    </Button>
+                        <Button icon labelPosition='left' floated='right'>
+                            <Icon name='ban'/>
+                            Irrelevant
+                        </Button>
                     }
 
-{isOffered &&
-                    <Button onClick={()=>{acceptReq(reqData.RequestId)}} icon labelPosition='left' floated='right' positive>
-                        <Icon name='check circle outline'/>
-                        Accept
-                    </Button>
-}
+                    {isOffered &&
+                        <Button onClick={() => {
+                            acceptReq(reqData.RequestId)
+                        }} icon labelPosition='left' floated='right' positive>
+                            <Icon name='check circle outline'/>
+                            Accept
+                        </Button>
+                    }
 
 
                     <Button onClick={() => {
@@ -49,15 +67,18 @@ const SingleReqCard = ({reqData, isAccepted, isOffered}) => {
                     </Button>
 
 
-                    {isAccepted && !reqData.estimationExists  && <Button positive onClick={()=> {navigate(`/add-estimation/${reqData.id}`)}} primary icon labelPosition='left' floated='right'>
-                        <Icon name= 'add'/>
-                         Add Estimation
+                    {isAccepted && !reqData.estimationExists && <Button positive onClick={() => {
+                        navigate(`/add-estimation/${reqData.id}`)
+                    }} primary icon labelPosition='left' floated='right'>
+                        <Icon name='add'/>
+                        Add Estimation
                     </Button>}
 
-                    {isAccepted && reqData.estimationExists  && <Button positive onClick={()=> {navigate(`/add-estimation/${reqData.id}`)}} primary icon labelPosition='left' floated='right'>
-                        <Icon name= 'add'/>
-                         View Estimation
-                    </Button>}
+                    {isAccepted && reqData.estimationExists &&
+                        <Button positive onClick={editEstimation} primary icon labelPosition='left' floated='right'>
+                            <Icon name='add'/>
+                            View Estimation
+                        </Button>}
 
 
                     <Card.Header>{reqData.Request.name}</Card.Header>
@@ -79,20 +100,8 @@ const SingleReqCard = ({reqData, isAccepted, isOffered}) => {
                 </Card.Content>
             </Card>
 
-            {/* <SwipeableDrawer
-        // container={container}
-        anchor="bottom"
-        open={showDetails}
-        
-        swipeAreaWidth='56'
-        disableSwipeToOpen={false}
-        ModalProps={{
-          keepMounted: true,
-        }}
-      ></SwipeableDrawer> */}
 
-
-             <Dialog open={showDetails}>
+            <Dialog open={showDetails}>
 
                 <DialogContent>
 
@@ -145,7 +154,7 @@ const SingleReqCard = ({reqData, isAccepted, isOffered}) => {
 
                         <Card.Content extra>
 
-                             {/* <Button icon labelPosition='left'>
+                            {/* <Button icon labelPosition='left'>
                                 <Icon name='ban'/>
                                 Irrelevant
                             </Button>
@@ -155,20 +164,21 @@ const SingleReqCard = ({reqData, isAccepted, isOffered}) => {
                                 Accept
                             </Button>  */}
 
-                           <Button fluid onClick={()=>{setShowDetails(false)}} > Close
-                                
-                            </Button>
-                            </Card.Content>
+                            <Button fluid onClick={() => {
+                                setShowDetails(false)
+                            }}> Close
 
+                            </Button>
+                        </Card.Content>
 
 
                     </Card>
 
                 </DialogContent>
-            </Dialog> 
+            </Dialog>
 
 
         </div>
-)
+    )
 }
 export default SingleReqCard

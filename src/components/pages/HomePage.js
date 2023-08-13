@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import ResponsiveNavbar from '../utils/ResponsiveNavbar';
-import {SidebarPro} from "../utils/SidebarPro";
+import {SidebarAgency} from "../utils/SidebarAgency";
 import {Route, Routes, useNavigate} from "react-router-dom";
 import {Dashboard} from "../fragments/Dashboard";
 import {Archive} from "../fragments/Archive";
@@ -46,7 +46,7 @@ export const HomePage = () => {
             
 
             <div className="row">
-                <div className="col-xs-1 col-sm-1 col-md-2">{ userType === 1 ? <SidebarClient /> : <SidebarPro />}</div>
+                <div className="col-xs-1 col-sm-1 col-md-2">{ userType === 1 ? <SidebarClient /> : <SidebarAgency />}</div>
 
                 <div className="col-xs-11 col-sm-11 col-md-10">
                     <div className="me-5">

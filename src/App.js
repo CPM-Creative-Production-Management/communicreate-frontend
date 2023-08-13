@@ -16,6 +16,8 @@ let showToast
 let setLoading
 let globalLoading
 
+let mobile, setMobile
+
 const cookies = new Cookies();
 
 function App() {
@@ -42,6 +44,19 @@ function App() {
         }
 
     }, []);
+
+    [mobile, setMobile] = useState(false)
+
+    function handleResize() {
+        if (window.innerWidth <= 1600) setMobile(true)
+        else setMobile(false)
+    }
+
+    useEffect(() => {
+        if (window.innerWidth <= 1600) setMobile(true)
+        else setMobile(false)
+        window.addEventListener('resize', handleResize)
+    }, [])
 
     return (
         <div>
@@ -82,4 +97,4 @@ function App() {
 }
 
 export default App;
-export {showToast, setLoading, globalLoading};
+export {showToast, setLoading, globalLoading, mobile, setMobile};
