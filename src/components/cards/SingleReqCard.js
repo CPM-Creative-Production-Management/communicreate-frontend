@@ -2,31 +2,55 @@ import React from 'react'
 import {Button, Card, Divider, Icon, Image, Label, List} from "semantic-ui-react";
 import Modal from "react-bootstrap/Modal";
 import {Dialog, DialogContent, DialogTitle} from "@mui/material";
-import {BarLoader} from "react-spinners";
+import { regularApiRequest } from '../api/regularApiRequest';
+import { base_url } from '../..';
+import { showToast } from '../../App';
 
-const SingleReqCard = ({reqData, isAccepted}) => {
+const SingleReqCard = ({reqData, isAccepted, isOffered}) => {
     const [showDetails, setShowDetails] = React.useState(false)
+
+    const acceptReq = async (reqId) => {
+        const res = await regularApiRequest({
+            url: `${base_url}request/${reqId}/accept`,
+            method: 'POST'
+        })
+        showToast('Request accepted', 'success')
+        window.location.reload()
+    }
+
     return (
         <div>
             <Card fluid>
                 <Card.Content>
 
+                    {isOffered &&
+
                     <Button icon labelPosition='left' floated='right'>
                         <Icon name='ban'/>
                         Irrelevant
                     </Button>
+                    }
 
-                    <Button icon labelPosition='left' floated='right' positive>
+{isOffered &&
+                    <Button onClick={()=>{acceptReq(reqData.RequestId)}} icon labelPosition='left' floated='right' positive>
                         <Icon name='check circle outline'/>
                         Accept
                     </Button>
+}
 
+{isOffered &&
                     <Button onClick={() => {
                         setShowDetails(true)
                     }} icon labelPosition='left' floated='right' primary>
                         <Icon name='list alternate outline'/>
                         View Details
                     </Button>
+}
+
+                    {isAccepted && <Button primary icon labelPosition='left' floated='right'>
+                        <Icon name= {false? 'ban' : 'add'}/>
+                        {false ? 'View Estimation' : 'Add Estimation'} 
+                    </Button>}
 
 
                     <Card.Header>{reqData.Request.name}</Card.Header>
@@ -106,8 +130,8 @@ const SingleReqCard = ({reqData, isAccepted}) => {
                                 Irrelevant
                             </Button>
 
-                            <Button icon labelPosition='left' positive>
-                                <Icon name='check circle outline'/>
+                            <Button onClick={()=>{acceptReq(reqData.RequestId)}} icon labelPosition='left' floated='right' positive>
+                            <Icon name='check circle outline'/>
                                 Accept
                             </Button>
 
