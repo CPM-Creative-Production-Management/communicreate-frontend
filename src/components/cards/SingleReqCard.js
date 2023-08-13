@@ -26,7 +26,7 @@ const SingleReqCard = ({reqData, isAccepted, isOffered}) => {
         // need to get current estimation and update the globalEstimation with the received data
         // todo
         const currEstimation = await regularApiRequest({
-            url: `${base_url}estimation/${reqData.id}`,
+            url: `${base_url}estimation/${reqData.Estimation.id}`,
             method: 'GET'
         })
 
@@ -68,7 +68,7 @@ const SingleReqCard = ({reqData, isAccepted, isOffered}) => {
 
 
                     {isAccepted && !reqData.estimationExists && <Button positive onClick={() => {
-                        navigate(`/add-estimation/${reqData.id}`)
+                        navigate(`/add-estimation/${reqData.Request.id}`)
                     }} primary icon labelPosition='left' floated='right'>
                         <Icon name='add'/>
                         Add Estimation
