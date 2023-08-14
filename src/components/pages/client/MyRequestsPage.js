@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { base_url } from '../../..';
 import RequestDetailsModal from '../../modals/RequestDetailsModal';
 import { regularApiRequest } from '../../api/regularApiRequest';
-import ResponsePage from './ResponsePage';
+import ResponsePage from './EstimationPage';
 import ResponsesModal from '../../modals/ResponsesModal';
 
 

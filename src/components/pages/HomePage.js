@@ -23,10 +23,15 @@ import {SidebarClient} from  '../utils/SidebarClient'
 import AddRequestPage from './client/AddRequestPage';
 import MyRequestsPage from './client/MyRequestsPage';
 import Requests from "./agency/Requests";
+<<<<<<< HEAD
 import ResponsePage from './client/ResponsePage';
 import FinalizePage from './client/FinalizePage';
 import PaymentPage from './client/PaymentPage';
 import DuesPage from './client/DuesPage';
+=======
+import EstimationPage from './client/EstimationPage';
+
+>>>>>>> b7022e8c3b1f5d69527672694b99aed8f226f6ed
 const cookies = new Cookies();
 
 
@@ -69,6 +74,7 @@ export const HomePage = () => {
 
                         <Route exact path="/new-request" element={<AddRequestPage/>}/>
                         <Route exact path="/my-requests" element={<MyRequestsPage/>}/>
+<<<<<<< HEAD
                         <Route exact path="/estimation/:id" element={<ResponsePage/>}/>
 
                         {
@@ -84,6 +90,9 @@ export const HomePage = () => {
                                 <Route exact path="/dues" element={<DuesPage/>}/> : <Route exact path="/dues" element={<DuesPage/>}/>
                         }
 
+=======
+                        <Route exact path="/estimation/:id" element={<EstimationPage/>}/>
+>>>>>>> b7022e8c3b1f5d69527672694b99aed8f226f6ed
                     </Routes>
 
                      
