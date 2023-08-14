@@ -48,7 +48,7 @@ export const AddEstimationPage = () => {
                 company: reqData.company,
                 deadline: reqData.res_deadline,
                 RequestTasks: reqData.RequestTasks,
-                ReqAgencyId: reqData.id
+                ReqAgencyId: reqData.ReqAgency.id
             }))
 
             console.log('req data', reqData)
@@ -90,7 +90,7 @@ export const AddEstimationPage = () => {
                     // description: task.description,
                     cost: task.cost,
                     // get only the ids of the employees
-                    Employees: task.Employees.map((emp) => emp.id),
+                    employees: task.Employees.map((emp) => emp.id),
                     // get only the ids of the tags
                     tags: task.tags.map((tag) => tag.id),
                 }

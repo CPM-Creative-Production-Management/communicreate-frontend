@@ -27,6 +27,9 @@ import ResponsePage from './client/ResponsePage';
 import FinalizePage from './client/FinalizePage';
 import PaymentPage from './client/PaymentPage';
 import DuesPage from './client/DuesPage';
+import EstimationPage from './client/EstimationPage';
+
+
 const cookies = new Cookies();
 
 
@@ -84,6 +87,7 @@ export const HomePage = () => {
                                 <Route exact path="/dues" element={<DuesPage/>}/> : <Route exact path="/dues" element={<DuesPage/>}/>
                         }
 
+                        <Route exact path="/estimation/:id" element={<EstimationPage/>}/>
                     </Routes>
 
                      
