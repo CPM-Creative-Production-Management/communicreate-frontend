@@ -3,7 +3,7 @@ import {Button, Card, Divider, Icon, Image, Label, List} from "semantic-ui-react
 import {Dialog, DialogContent, DialogTitle, SwipeableDrawer} from "@mui/material";
 import {regularApiRequest} from '../api/regularApiRequest';
 import {base_url} from '../..';
-import {showToast} from '../../App';
+import {globalLoading, showToast} from '../../App';
 import {useNavigate} from 'react-router-dom';
 import {useDispatch} from "react-redux";
 import {updateEstimation} from "../../actions";
@@ -12,6 +12,8 @@ const SingleReqCard = ({reqData, isAccepted, isOffered}) => {
     const [showDetails, setShowDetails] = React.useState(false)
     const navigate = useNavigate()
     const dispatch = useDispatch()
+
+    const [loading, setLoading] = React.useState(false)
 
     const acceptReq = async (reqId) => {
         await regularApiRequest({
@@ -23,14 +25,22 @@ const SingleReqCard = ({reqData, isAccepted, isOffered}) => {
     }
 
     const editEstimation = async () => {
-        // need to get current estimation and update the globalEstimation with the received data
-        // todo
+
         const currEstimation = await regularApiRequest({
             url: `${base_url}estimation/${reqData.Estimation.id}`,
-            method: 'GET'
+            method: 'GET',
+            loadingState: {loading}
         })
 
-        console.log('curr estimation to edit', currEstimation)
+        if (!loading) {
+            if (currEstimation.status === 200) {
+                console.log('curr estimation to edit', currEstimation.data)
+                // don't dispatch, call backend in the AddEstimationPage component and set the globalEstimation there
+                navigate(`/add-estimation/${reqData.Request.id}`)
+            } else {
+                showToast('Error getting estimation', 'error')
+            }
+        }
 
         // dispatch(updateEstimation(currEstimation))
         // navigate(`/add-estimation/${reqData.id}`)

@@ -1,29 +1,23 @@
 import React, {useEffect} from 'react';
 import ResponsiveNavbar from '../utils/ResponsiveNavbar';
 import {SidebarAgency} from "../utils/SidebarAgency";
-import {Route, Routes, useNavigate} from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 import {Dashboard} from "../fragments/Dashboard";
 import {Archive} from "../fragments/Archive";
-
-import {Button, Card, Icon, Input} from "semantic-ui-react";
-import Fab from '@mui/material/Fab';
-import CreateNewFolderOutlinedIcon from '@mui/icons-material/CreateNewFolderOutlined';
 import "./pages.css"
 import {AddEstimationPage} from "./agency/AddEstimationPage";
 import {Estimations} from "../fragments/Estimations";
-//import PaymentPage from "./agency/PaymentPage";
 import MyEmployeesPage from './agency/MyEmployeesPage';
 
 import AddEmployeePage from './agency/AddEmployeePage';
 
 import Cookies from "universal-cookie";
-import {showToast} from "../../App";
 import ClientDashboard from './client/ClientDashboard';
 import {SidebarClient} from  '../utils/SidebarClient'
 import AddRequestPage from './client/AddRequestPage';
 import MyRequestsPage from './client/MyRequestsPage';
 import Requests from "./agency/Requests";
-import ResponsePage from './client/ResponsePage';
+// import ResponsePage from './client/ResponsePage';
 import FinalizePage from './client/FinalizePage';
 import PaymentPage from './client/PaymentPage';
 import DuesPage from './client/DuesPage';
@@ -72,19 +66,19 @@ export const HomePage = () => {
 
                         <Route exact path="/new-request" element={<AddRequestPage/>}/>
                         <Route exact path="/my-requests" element={<MyRequestsPage/>}/>
-                        <Route exact path="/estimation/:id" element={<ResponsePage/>}/>
+                        {/*<Route exact path="/estimation/:id" element={<ResponsePage/>}/>*/}
 
                         {
                             userType === 1 ?
-                                <Route exact path="/finalize" element={<FinalizePage/>}/> : <Route exact path="/finalize" element={<FinalizePage/>}/>
+                                <Route exact path="/finalize" element={<FinalizePage/>}/> : null
                         }
                         {
                             userType === 1 ?
-                                <Route exact path="/payment" element={<PaymentPage/>}/> : <Route exact path="/payment" element={<PaymentPage/>}/>
+                                <Route exact path="/payment" element={<PaymentPage/>}/> : null
                         }
                         {
                             userType === 1 ?
-                                <Route exact path="/dues" element={<DuesPage/>}/> : <Route exact path="/dues" element={<DuesPage/>}/>
+                                <Route exact path="/dues" element={<DuesPage/>}/> : null
                         }
 
                         <Route exact path="/estimation/:id" element={<EstimationPage/>}/>

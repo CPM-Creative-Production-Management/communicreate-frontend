@@ -9,6 +9,10 @@ const FinalizePage = () => {
 
     let navigate = useNavigate()
 
+    const initializePayment = () => {
+
+    }
+
     const newPayment = async () => {
         const reqBody = {
             amount: 120000,

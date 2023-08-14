@@ -24,7 +24,7 @@ export const OfferedRequests = ({isOffered, isAccepted}) => {
                     return (
                         <div>
                             <SingleReqCard isOffered={isOffered} isAccepted={isAccepted}
-                                key={currReq.id}
+                                key={index}
                                 reqData={currReq}
                             />
                             <br/>
