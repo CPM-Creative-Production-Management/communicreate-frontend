@@ -74,15 +74,15 @@ export const HomePage = () => {
 
                         {
                             userType === 1 ?
-                                <Route exact path="/finalize" element={<FinalizePage/>}/> : <Route exact path="/finalize" element={<FinalizePage/>}/>
+                                <Route exact path="/finalize" element={<FinalizePage/>}/> : <Route exact path="/" element={<Dashboard/>}/>
                         }
                         {
                             userType === 1 ?
-                                <Route exact path="/payment" element={<PaymentPage/>}/> : <Route exact path="/payment" element={<PaymentPage/>}/>
+                                <Route exact path="/payment/:id" element={<PaymentPage/>}/> : <Route exact path="/" element={<Dashboard/>}/>
                         }
                         {
                             userType === 1 ?
-                                <Route exact path="/dues" element={<DuesPage/>}/> : <Route exact path="/dues" element={<DuesPage/>}/>
+                                <Route exact path="/dues" element={<DuesPage/>}/> : <Route exact path="/" element={<Dashboard/>}/>
                         }
 
                         <Route exact path="/estimation/:id" element={<EstimationPage/>}/>

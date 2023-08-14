@@ -20,19 +20,20 @@ const SingleDueCard = ({ data }) => {
                             </div>
                             <div class="description">
                                 <pre class="dues-background">
-                                    <b>Total: </b> {currItem.total_amount} {currItem.currency}<br />
-                                    <b>Paid: </b> {currItem.paid_amount} {currItem.currency}<br />
-                                    <b>Due: </b> {currItem.dueAmount} {currItem.currency}<br />
+                                    <b>Total: </b> {currItem.total_amount}  ৳<br />
+                                    <b>Paid: </b> {currItem.paid_amount}  ৳<br />
+                                    <b>Due: </b> {currItem.dueAmount}  ৳<br />
                                     <b>Total Installments: </b> {currItem.emi_installment_choice}<br />
                                     <b>Installments Completed: </b> {currItem.installments_completed}<br />
                                     <b>Installments Remaining: </b> {currItem.remaining_installments}<br />
                                 </pre>
                             </div>
                         </div>
+                        <br/>
                         <div class="extra content">
                             <span class="floated time"><b>{currItem.days}</b></span>
                             <div class="right floated author">
-                                <Button type="button" primary="true" onClick={() => { navigate('/payment') }} >Clear Dues</Button>
+                                <Button type="button" primary="true" onClick={() => { navigate('/payment/' + currItem.id) }} >Clear Dues</Button>
                             </div>
                         </div>
                     </div>

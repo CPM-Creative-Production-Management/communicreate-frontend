@@ -25,8 +25,8 @@ const store = createStore(allReducers,
 // DISPATCH -> Sends ACTION to REDUCER
 
 
-export const base_url = 'https://cpm-backend.onrender.com/'
-// export const base_url = 'http://localhost:3000/'
+//export const base_url = 'https://cpm-backend.onrender.com/'
+ export const base_url = 'http://localhost:3000/'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
