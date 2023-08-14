@@ -15,3 +15,18 @@
     border-radius: 12px;
     padding: 10px;
 }
+
+.dues-background {
+    background-color: #c5f0fc;
+    padding: 5px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+.dues-background:hover {
+    background-color: #a8ecff;
+    padding: 5px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    box-shadow: 0 0 5px #97adb4;
+}

@@ -11,7 +11,7 @@ import CreateNewFolderOutlinedIcon from '@mui/icons-material/CreateNewFolderOutl
 import "./pages.css"
 import {AddEstimationPage} from "./agency/AddEstimationPage";
 import {Estimations} from "../fragments/Estimations";
-import PaymentPage from "./agency/PaymentPage";
+//import PaymentPage from "./agency/PaymentPage";
 import MyEmployeesPage from './agency/MyEmployeesPage';
 
 import AddEmployeePage from './agency/AddEmployeePage';
@@ -24,7 +24,9 @@ import AddRequestPage from './client/AddRequestPage';
 import MyRequestsPage from './client/MyRequestsPage';
 import Requests from "./agency/Requests";
 import ResponsePage from './client/ResponsePage';
-
+import FinalizePage from './client/FinalizePage';
+import PaymentPage from './client/PaymentPage';
+import DuesPage from './client/DuesPage';
 const cookies = new Cookies();
 
 
@@ -62,12 +64,26 @@ export const HomePage = () => {
                         <Route exact path="/estimations" element={<Estimations/>}/>
                         <Route exact path="/add-estimation/:id" element={<AddEstimationPage/>}/>
                         <Route exact path="/my-employees" element={<MyEmployeesPage/>}/>
-                        <Route exact path="/payment" element={<PaymentPage/>}/>
+                        {/* <Route exact path="/payment" element={<PaymentPage/>}/> */}
                         <Route exact path="/add-employee" element={<AddEmployeePage/>}/>
 
                         <Route exact path="/new-request" element={<AddRequestPage/>}/>
                         <Route exact path="/my-requests" element={<MyRequestsPage/>}/>
                         <Route exact path="/estimation/:id" element={<ResponsePage/>}/>
+
+                        {
+                            userType === 1 ?
+                                <Route exact path="/finalize" element={<FinalizePage/>}/> : <Route exact path="/finalize" element={<FinalizePage/>}/>
+                        }
+                        {
+                            userType === 1 ?
+                                <Route exact path="/payment" element={<PaymentPage/>}/> : <Route exact path="/payment" element={<PaymentPage/>}/>
+                        }
+                        {
+                            userType === 1 ?
+                                <Route exact path="/dues" element={<DuesPage/>}/> : <Route exact path="/dues" element={<DuesPage/>}/>
+                        }
+
                     </Routes>
 
                      
