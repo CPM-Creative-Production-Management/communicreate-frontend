@@ -18,6 +18,7 @@ const FinalizePage = () => {
             company_id: 1,
             agency_id: 1
         }
+
         const response = await regularApiRequest({
             url: 'http://localhost:3000/payment/new',
             method: 'POST',
@@ -137,7 +138,7 @@ const FinalizePage = () => {
                             <input placeholder="14,460 BDT" readonly="" type="text" />
                         </div>
                         <div class="row">
-                            <Button onClick={initializePayment} positive animated>
+                            <Button onClick={newPayment} positive animated>
                                 <Button.Content visible>Proceed To Payment</Button.Content>
                                 <Button.Content hidden>
                                     <Icon name='newPayment' />

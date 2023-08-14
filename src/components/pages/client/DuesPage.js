@@ -14,13 +14,13 @@ const DuesPage =  () => {
         url: base_url + 'company/dues',
         method: 'GET',
     })
-    console.log("Here response : ", response.responseData)
+    // console.log("Here response : ", response.responseData)
 
         return (
             <div>
                 <br></br>
                 <h1>Dues</h1>
-                <SingleDueCard data={response.responseData} />
+                {response && <SingleDueCard data={response.responseData} />}
             </div>
         )
     }
