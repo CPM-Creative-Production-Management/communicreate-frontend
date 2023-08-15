@@ -81,7 +81,7 @@ export const HomePage = () => {
                                 <Route exact path="/dues" element={<DuesPage/>}/> : null
                         }
 
-                        <Route exact path="/estimation/:id" element={<EstimationPage/>}/>
+                        <Route exact path="/request/:rid/agency/:aid/estimation" element={<EstimationPage/>}/>
                     </Routes>
 
                      

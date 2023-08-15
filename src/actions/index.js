@@ -21,6 +21,7 @@ export const resetCurrEstimation = () => {
             tags: [],
             tasks: [],
             RequestTasks: [],
+            extraCost: 0
         }
     }
 }

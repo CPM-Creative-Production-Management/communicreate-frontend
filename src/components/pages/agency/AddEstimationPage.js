@@ -66,17 +66,20 @@ export const AddEstimationPage = () => {
         url: base_url + 'request/' + id,
         method: 'GET',
     })
+    const [extraCost, setExtraCost] = useState(0)
 
     useEffect(() => {
         if (!dataLoadingReq && reqData) {
+            console.log('request data', requestData.ReqAgency.Estimation)
+            dispatch(updateEstimation(reqData.ReqAgency.Estimation))
+            console.log('global estimation', globalEstimation)
             setRequestData(reqData)
         }
-        console.log('request data', requestData)
     }, [dataLoadingReq])
 
-
-
-
+    useEffect(() => {
+        setExtraCost(globalEstimation.extraCost)
+    }, [globalEstimation])
 
 const handleUpdateEstimation = (event) => {
     dispatch(updateEstimation({
@@ -91,6 +94,11 @@ const [openAddTaskModal, setOpenAddTaskModal] = useState(false)
 const sendEstimation = async () => {
     console.log('sending estimation to backend', globalEstimation)
 
+    if (globalEstimation.tasks.length === 0) {
+        showToast('Please add at least one task', 'error')
+        return
+    }
+
     // generate the estimation body
     let estimationBody = {
         title: globalEstimation.title,
@@ -100,7 +108,7 @@ const sendEstimation = async () => {
         cost: globalEstimation.cost + extraCost,
 
 
-        ReqAgencyId: globalEstimation.ReqAgencyId,
+        ReqAgencyId: requestData.ReqAgency.id,
 
         // get only the ids of the tags
         tags: globalEstimation.tags.map((tag) => tag.id),
@@ -186,14 +194,12 @@ useEffect(() => {
     }))
 }, [globalEstimation.tasks]);
 
-const [extraCost, setExtraCost] = useState(0)
-
 const handleExtraCost = (event) => {
     if (event.target.value < 0) {
         showToast('Extra cost cannot be negative', 'error')
         return
     }
-    setExtraCost(event.target.value)
+    setExtraCost(parseInt(event.target.value))
 
 }
 
