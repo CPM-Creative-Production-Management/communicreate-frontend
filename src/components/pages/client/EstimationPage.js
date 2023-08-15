@@ -6,9 +6,10 @@ import { Card, Table, Button, TextArea } from 'semantic-ui-react'
 
 
 const EstimationPage = (params) => {
-  const { id } = useParams()
+  const { rid, aid } = useParams()
+
   const {data, loading, error} = useApiRequest({
-    url: base_url + 'estimation/' + id,
+    url: base_url + 'estimation/request/' + rid + '/agency/' + aid,
     method: 'GET'
   })
   return (
@@ -53,9 +54,9 @@ const EstimationPage = (params) => {
       </Table>
 
       <Card className='p-4' fluid>
-        <div className='d-flex justify-content-between'>
+        <div>
+          <h3>Extra Cost: {data?.extraCost}</h3>
           <h3>Total Cost: {data?.cost}</h3>
-
           
         </div>
       </Card>
