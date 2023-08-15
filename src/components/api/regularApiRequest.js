@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Cookies from "universal-cookie";
 
 
-export const regularApiRequest = async ({ url, method, reqBody = {} }) => {
+export const regularApiRequest = async ({ url, method, reqBody = {} , loadingState}) => {
     const cookies = new Cookies();
 
     const requestHeaders = {
