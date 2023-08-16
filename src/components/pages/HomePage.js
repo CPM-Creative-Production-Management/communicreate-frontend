@@ -42,7 +42,8 @@ export const HomePage = () => {
     return (
         <div>
             <ResponsiveNavbar/>
-            
+            <br />
+            <br />
 
             <div className="row">
                 <div className="col-xs-1 col-sm-1 col-md-2">{ userType === 1 ? <SidebarClient /> : <SidebarAgency />}</div>
@@ -70,7 +71,7 @@ export const HomePage = () => {
 
                         {
                             userType === 1 ?
-                                <Route exact path="/finalize" element={<FinalizePage/>}/> : null
+                                <Route exact path="/request/:rid/agency/:aid/finalize" element={<FinalizePage/>}/> : null
                         }
                         {
                             userType === 1 ?
