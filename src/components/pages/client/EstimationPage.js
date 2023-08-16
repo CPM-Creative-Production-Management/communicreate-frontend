@@ -1,17 +1,23 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { useApiRequest } from '../../api/useApiRequest'
 import { base_url } from '../../..'
 import { Card, Table, Button, TextArea } from 'semantic-ui-react'
+import { showToast } from '../../../App'
 
 
 const EstimationPage = (params) => {
   const { rid, aid } = useParams()
-
+  const navigate = useNavigate()
   const {data, loading, error} = useApiRequest({
     url: base_url + 'estimation/request/' + rid + '/agency/' + aid,
     method: 'GET'
   })
+
+  const handleFinalize = () => {
+    navigate('/request/' + rid + '/agency/' + aid + '/finalize')
+  }
+
   return (
     <div>
       <br/>
@@ -19,7 +25,7 @@ const EstimationPage = (params) => {
       <Card className='p-4' fluid>
         <center>
           <h2>{data?.title}</h2>
-          <h3>Estimation by: {data?.ReqAgency.Company.name}</h3>
+          <h3>Estimation by: {data?.ReqAgency.Agency.name}</h3>
         </center>
       </Card>
 
@@ -61,7 +67,7 @@ const EstimationPage = (params) => {
         </div>
       </Card>
 
-      <Button primary>Finalize</Button>
+      <Button onClick={handleFinalize} primary>Finalize</Button>
 
       <hr/>
       <h4>Don't like the estimation? Write a comment below to contact the agency further.</h4>
