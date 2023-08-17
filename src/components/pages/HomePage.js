@@ -22,6 +22,7 @@ import FinalizePage from './client/FinalizePage';
 import PaymentPage from './client/PaymentPage';
 import DuesPage from './client/DuesPage';
 import EstimationPage from './client/EstimationPage';
+import AgencyPage from './client/AgencyPage';
 
 
 const cookies = new Cookies();
@@ -42,7 +43,8 @@ export const HomePage = () => {
     return (
         <div>
             <ResponsiveNavbar/>
-            
+            <br />
+            <br />
 
             <div className="row">
                 <div className="col-xs-1 col-sm-1 col-md-2">{ userType === 1 ? <SidebarClient /> : <SidebarAgency />}</div>
@@ -70,7 +72,7 @@ export const HomePage = () => {
 
                         {
                             userType === 1 ?
-                                <Route exact path="/finalize" element={<FinalizePage/>}/> : null
+                                <Route exact path="/request/:rid/agency/:aid/finalize" element={<FinalizePage/>}/> : null
                         }
                         {
                             userType === 1 ?
@@ -81,7 +83,8 @@ export const HomePage = () => {
                                 <Route exact path="/dues" element={<DuesPage/>}/> : null
                         }
 
-                        <Route exact path="/estimation/:id" element={<EstimationPage/>}/>
+                        <Route exact path="/request/:rid/agency/:aid/estimation" element={<EstimationPage/>}/>
+                        <Route exact path="/agencies" element={<AgencyPage/>} />
                     </Routes>
 
                      

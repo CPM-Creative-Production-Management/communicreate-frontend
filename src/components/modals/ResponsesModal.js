@@ -24,7 +24,7 @@ const ResponsesModal = (props) => {
                         <h3>Email: {currAgency.Agency.email}</h3>
                     </Card.Meta>
                     {currAgency.cost? <h3>Suggested Cost: {currAgency.cost}</h3> : <h3>Estimation Not Received</h3>}
-                    {currAgency.cost ? <Button onClick={() => navigate('/estimation/' + currAgency.estimationId)}>View Estimation</Button>: <Button disabled>View Estimation</Button>}
+                    {currAgency.cost ? <Button onClick={() => navigate('/request/' + responses.id + '/agency/' + currAgency.Agency.id + '/estimation')}>View Estimation</Button>: <Button disabled>View Estimation</Button>}
                     
                 </Card> 
             )

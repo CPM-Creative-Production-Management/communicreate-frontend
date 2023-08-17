@@ -7,6 +7,7 @@ import SingleDueCard from '../../cards/SingleDueCard';
 import { showToast } from '../../../App'
 import { base_url } from '../../../index';
 import { useApiRequest } from '../../api/useApiRequest';
+import { CircularProgress } from '@mui/material';
 
 const DuesPage =  () => {
 
@@ -14,13 +15,12 @@ const DuesPage =  () => {
         url: base_url + 'company/dues',
         method: 'GET',
     })
-    // console.log("Here response : ", response.responseData)
 
         return (
             <div>
                 <br></br>
                 <h1>Dues</h1>
-                {response && <SingleDueCard data={response.responseData} />}
+               { dataLoading ? <center><CircularProgress /></center> : <SingleDueCard data={response?.responseData} />}
             </div>
         )
     }
