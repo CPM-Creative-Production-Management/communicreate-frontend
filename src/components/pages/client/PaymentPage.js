@@ -35,7 +35,7 @@ const PaymentPage = () => {
         console.log("Response2 : ", response2)
     }
 
-    const initializePayment = async () =>{
+    const initializePayment = async () => {
         const reqBody = {
         };
 
@@ -50,50 +50,91 @@ const PaymentPage = () => {
 
     return (
         <div>
-            <div class="title">
-                <br />
-                <h1>{response && response.payment.projectName}</h1>
-                <div class="ui raised very padded text container segment">
-                    <h2 class="ui header">Payment Brief</h2>
-                    <h3 class="ui header">Agency : {response2 && response2.agencyName}</h3>
+            <div>
+                <h1 style={{ textAlign: "center" }}>{response && response.payment.projectName}</h1>
+                <h2 style={{ textAlign: "center" }}>Agency : {response2 && response2.agencyName}</h2>
+                <div class="ui raised text container segment" style={{ backgroundColor: "#dad7fa" }}>
+                    <h2 class="ui header" style={{ textAlign: "center" }}>Payment Brief</h2>
                     <div class="content">
                         <div class="description">
-                            <div class="ui segment">
-                                <div class="ui two column very relaxed grid">
-                                    <div class="column">
-                                        <pre>
-                                            <b>Total: </b> {response2 && response2.total_amount} ৳<br />
-                                            <b>Paid: </b> {response2 && response2.paid_amount} ৳<br />
-                                            <b>Due: </b> {response2 && response2.dueAmount} ৳<br />
-                                        </pre>
+                            <div class="ui segment" style={{ backgroundColor: "#ffe6fb" }}>
+                                {response2 && response2.category === "EMI" &&
+                                    <div>
+                                        <div class="ui two column very relaxed grid">
+                                            <div class="column" style={{ textAlign: "center" }}>
+                                                <pre>
+                                                    <b>Total: </b> {response2 && response2.total_amount} ৳<br />
+                                                    <b>Paid: </b> {response2 && response2.paid_amount} ৳<br />
+                                                    <b>Total Due: </b> {response2 && response2.dueAmount} ৳<br />
+                                                    <b>Due Now: </b> {response2 && response2.due_to_pay_now} ৳<br />
+                                                </pre>
+                                            </div>
+
+                                            <div class="column" style={{ textAlign: "center" }}>
+                                                <pre>
+                                                    <b>{response2 && response2.message}</b><br />
+                                                    <b>Total Installments: </b> {response2 && response2.emi_installment_choice}<br />
+                                                    <b>Installments Completed: </b> {response2 && response2.installments_completed}<br />
+                                                    <b>Installments Remaining: </b> {response2 && response2.remaining_installments}<br />
+                                                </pre>
+                                            </div>
+                                        </div>
+                                        <div class="ui vertical divider">and</div>
                                     </div>
-                                    <div class="column">
-                                        <pre>
-                                            <b>Total Installments: </b> {response2 && response2.emi_installment_choice}<br />
-                                            <b>Installments Completed: </b> {response2 && response2.installments_completed}<br />
-                                            <b>Installments Remaining: </b> {response2 && response2.remaining_installments}<br />
-                                        </pre>
+                                }
+                                {response2 && response2.category === "FULL" &&
+                                    <div>
+                                        <div class="ui two column very relaxed grid">
+                                            <div class="column" style={{ textAlign: "center" }}>
+                                                <br />
+                                                <pre>
+                                                    <b>Total: </b> {response2 && response2.total_amount} ৳<br />
+                                                    <b>Paid: </b> {response2 && response2.paid_amount} ৳<br />
+                                                    <b>Due: </b> {response2 && response2.dueAmount} ৳<br />
+                                                    <b>{response2 && response2.message}</b><br />
+                                                </pre>
+                                            </div>
+
+                                            <div class="column" style={{ textAlign: "center" }}>
+                                                <pre>
+                                                    You had chosen FULL Payment <br />
+                                                    earlier, so you need to pay <br />
+                                                    the total due at once. <br />
+                                                    You can do transaction of <br />
+                                                    at most 50,000 BDT at a time.
+                                                </pre>
+                                            </div>
+                                        </div>
+                                        <div class="ui vertical divider"></div>
                                     </div>
-                                </div>
-                                <div class="ui vertical divider">
-                                    and
-                                </div>
+                                }
                             </div>
                         </div>
                     </div>
                 </div>
+                <br />
+                {response2 && response2.category === "EMI" &&
+                    <div class="fluid ui animated blue button" tabindex="0" primary="true" onClick={() => {initializePayment()}}>
+                        <div class="visible content">Proceed to Payment</div>
+                        <div class="hidden content">{response2 && response2.due_to_pay_now} ৳</div>
+                    </div>
+                }
+                {response2 && response2.category === "FULL" &&
+                    <div class="fluid ui animated blue button" tabindex="0" primary="true" onClick={() => {initializePayment()}}>
+                        <div class="visible content">Proceed to Payment</div>
+                        <div class="hidden content">{response2 && response2.dueAmount} ৳</div>
+                    </div>
+                }
+                <br /><br />
                 <div>
                     <div class="row">
                         <hr /><br />
-                        <h1>All Transaction Histories</h1>
+                        <h1 style={{ textAlign: "center" }}>All Transaction Histories</h1>
                         {response && <TableTransactionList tableData={response} />}
                     </div>
                 </div>
-                <br/>
-                <br/>
-                <Button primary onClick={initializePayment}>Proceed to Payment</Button>
-                <br/>
-                <br/>
+                <br />
+                <br />
             </div>
         </div>
     )
