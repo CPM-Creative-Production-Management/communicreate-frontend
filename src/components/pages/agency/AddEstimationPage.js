@@ -26,9 +26,6 @@ export const AddEstimationPage = () => {
     const navigate = useNavigate()
 
     const {id} = useParams()
-    // todo: if there is something in useparams, we know that we are editing an existing estimation
-    //  otherwise, we are creating a new one
-
 
     // get the global Estimation from redux store
     const globalEstimation = useSelector(state => state.currEstimation)
@@ -70,8 +67,15 @@ export const AddEstimationPage = () => {
 
     useEffect(() => {
         if (!dataLoadingReq && reqData) {
-            console.log('request data', requestData.ReqAgency.Estimation)
-            dispatch(updateEstimation(reqData.ReqAgency.Estimation))
+            console.log('request data', reqData)
+
+            if (reqData.estimationExists) {
+                dispatch(updateEstimation(reqData.ReqAgency.Estimation))
+
+            } else {
+                dispatch(resetCurrEstimation())
+            }
+
             console.log('global estimation', globalEstimation)
             setRequestData(reqData)
         }
@@ -81,20 +85,13 @@ export const AddEstimationPage = () => {
         setExtraCost(globalEstimation.extraCost)
     }, [globalEstimation])
 
-const handleUpdateEstimation = (event) => {
-    dispatch(updateEstimation({
-        ...globalEstimation, [event.target.name]: event.target.value
-    }))
-    console.log('updated estimation', globalEstimation)
-}
 
 const [openAddTaskModal, setOpenAddTaskModal] = useState(false)
-// const [isAddingTask, setIsAddingTask] = useState(false)
 
 const sendEstimation = async () => {
     console.log('sending estimation to backend', globalEstimation)
 
-    if (globalEstimation.tasks.length === 0) {
+    if (globalEstimation.tasks?.length === 0) {
         showToast('Please add at least one task', 'error')
         return
     }
@@ -107,12 +104,11 @@ const sendEstimation = async () => {
         deadline: globalEstimation.deadline,
         cost: globalEstimation.cost + extraCost,
 
-
         ReqAgencyId: requestData.ReqAgency.id,
 
         // get only the ids of the tags
         tags: globalEstimation.tags.map((tag) => tag.id),
-        tasks: globalEstimation.tasks.map((task) => {
+        tasks: globalEstimation.tasks?.map((task) => {
             return {
                 name: task.name,
                 // description: task.description,
@@ -266,16 +262,16 @@ return (
             <Message
                 icon='clipboard outline'
                 header='Description'
-                content={globalEstimation.description}/>
+                content={requestData.description}/>
 
 
             <Card.Description>
                 <h4> Task List </h4>
                 <List ordered animated verticalAlign='middle'>
-                    {globalEstimation.RequestTasks?.map((task, index) => {
+                    {requestData.RequestTasks?.map((task, index) => {
                         return (
 
-                            <List.Item>
+                            <List.Item key={index}>
                                 <List.Content>
                                     <List.Header>{task.name}</List.Header>
                                     {task.description}
@@ -307,7 +303,7 @@ return (
                     return (<div>
                             <SingleTaskCard show={openAddTaskModal} singleTask={task} taskIndex={index}
                                             setShow={setOpenAddTaskModal}/>
-                            {index < globalEstimation.tasks.length - 1 ? <Divider/> : null}
+                            {index < globalEstimation.tasks?.length - 1 ? <Divider/> : null}
 
                         </div>
                     )

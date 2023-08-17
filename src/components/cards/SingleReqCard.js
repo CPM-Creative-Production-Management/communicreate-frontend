@@ -11,9 +11,6 @@ import {updateEstimation} from "../../actions";
 const SingleReqCard = ({reqData, isAccepted, isOffered}) => {
     const [showDetails, setShowDetails] = React.useState(false)
     const navigate = useNavigate()
-    const dispatch = useDispatch()
-
-    const [loading, setLoading] = React.useState(false)
 
     const acceptReq = async (reqId) => {
         await regularApiRequest({
@@ -24,27 +21,6 @@ const SingleReqCard = ({reqData, isAccepted, isOffered}) => {
         window.location.reload()
     }
 
-    const editEstimation = async () => {
-
-        const currEstimation = await regularApiRequest({
-            url: `${base_url}estimation/${reqData.Estimation.id}`,
-            method: 'GET',
-            loadingState: {loading}
-        })
-
-        if (!loading) {
-            if (currEstimation.status === 200) {
-                console.log('curr estimation to edit', currEstimation.data)
-                // don't dispatch, call backend in the AddEstimationPage component and set the globalEstimation there
-                navigate(`/add-estimation/${reqData.Request.id}`)
-            } else {
-                showToast('Error getting estimation', 'error')
-            }
-        }
-
-        // dispatch(updateEstimation(currEstimation))
-        // navigate(`/add-estimation/${reqData.id}`)
-    }
 
     return (
         <div>
@@ -85,8 +61,10 @@ const SingleReqCard = ({reqData, isAccepted, isOffered}) => {
                     </Button>}
 
                     {isAccepted && reqData.estimationExists &&
-                        <Button positive onClick={editEstimation} primary icon labelPosition='left' floated='right'>
-                            <Icon name='add'/>
+                        <Button positive onClick={() => {
+                            navigate(`/add-estimation/${reqData.Request.id}`)
+                        }} primary icon labelPosition='left' floated='right'>
+                            <Icon name='edit'/>
                             View Estimation
                         </Button>}
 
@@ -152,12 +130,12 @@ const SingleReqCard = ({reqData, isAccepted, isOffered}) => {
 
                         <Card.Content fluid extra>
                             <Label>
-                                <Icon name='clock outline'/>Submission Deadline
+                                <Icon name='clock outline'/> Submission Deadline
                                 <Label.Detail>{reqData.Request.res_deadline}</Label.Detail>
                             </Label>
 
                             <Label>
-                                <Icon name='cloud upload'/>Completion Deadline
+                                <Icon name='cloud upload'/> Completion Deadline
                                 <Label.Detail>{reqData.Request.comp_deadline}</Label.Detail>
                             </Label>
                         </Card.Content>
