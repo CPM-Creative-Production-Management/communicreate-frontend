@@ -76,7 +76,7 @@ export const HomePage = () => {
                         }
                         {
                             userType === 1 ?
-                                <Route exact path="/payment" element={<PaymentPage/>}/> : null
+                                <Route exact path="/payment/:id" element={<PaymentPage/>}/> : null
                         }
                         {
                             userType === 1 ?
