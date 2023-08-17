@@ -112,12 +112,9 @@ const SingleReqCard = ({reqData, isAccepted, isOffered}) => {
                                 <List ordered animated verticalAlign='middle'>
                                     {reqData.Request.RequestTasks?.map((task, index) => {
                                         return (
-
                                             <List.Item>
-                                                <List.Content>
-                                                    <List.Header>{task.name}</List.Header>
-                                                    {task.description}
-                                                </List.Content>
+                                                <List.Header>{task.name}</List.Header>
+                                                {task.description}
                                             </List.Item>
 
 

@@ -21,3 +21,24 @@ code {
   top: 0;
   display: flex;
 }
+
+.estimation-summary{
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  background-color: white;
+}
+
+.collapsible-div {
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+  max-height: 40px;
+}
+
+.collapsible-div.expanded {
+  max-height: 300px;
+}
+
+.content {
+  padding: 10px;
+}
