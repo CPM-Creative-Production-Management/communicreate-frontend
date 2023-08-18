@@ -32,11 +32,13 @@ const PaymentPage = () => {
     })
     if (dataDues) {
         response2 = dataDues.responseData
-        console.log("Response2 : ", response2)
+        console.log('Response2 : ', response2)
     }
 
-    const initializePayment = async () => {
+    const initializePayment = async (amount) => {
+        console.log("Amount inside initializePayment() is : ", amount)
         const reqBody = {
+            amount: amount
         };
 
         const response = await regularApiRequest({
@@ -110,22 +112,14 @@ const PaymentPage = () => {
                                 }
                             </div>
                         </div>
+                        
                     </div>
+                    <div class="fluid ui vertical animated green button" tabindex="0" onClick={() => { initializePayment(response2 && response2.due_to_pay_now) }}>
+                            <div class="visible content">Proceed to Payment</div>
+                            <div class="hidden content">{response2 && response2.due_to_pay_now} ৳</div>
+                        </div>
                 </div>
                 <br />
-                {response2 && response2.category === "EMI" &&
-                    <div class="fluid ui animated blue button" tabindex="0" primary="true" onClick={() => {initializePayment()}}>
-                        <div class="visible content">Proceed to Payment</div>
-                        <div class="hidden content">{response2 && response2.due_to_pay_now} ৳</div>
-                    </div>
-                }
-                {response2 && response2.category === "FULL" &&
-                    <div class="fluid ui animated blue button" tabindex="0" primary="true" onClick={() => {initializePayment()}}>
-                        <div class="visible content">Proceed to Payment</div>
-                        <div class="hidden content">{response2 && response2.dueAmount} ৳</div>
-                    </div>
-                }
-                <br /><br />
                 <div>
                     <div class="row">
                         <hr /><br />
