@@ -120,7 +120,6 @@ const AddRequestPage = () => {
                 <SemanticDatepicker onChange={handleUpdateRequestResponseDate} />
                 <h4>Completion Deadline</h4>
                 <SemanticDatepicker onChange={handleUpdateRequestCompleteDate} />
-                <Button className='mt-3' primary onClick={handleAddTask}>Add Task</Button>
                 {globalRequest.tasks.map((currTask, index) => (
                     <Card className='p-4' fluid>
                         <Card.Meta className='mb-3'>
@@ -134,6 +133,7 @@ const AddRequestPage = () => {
                         <Button className='mt-3' primary name={index} onClick={handleDeleteTask}>Delete</Button>
                     </Card>
                 ))}
+                <Button className='mt-3' primary onClick={handleAddTask}>Add Task</Button>
                 <Button primary onClick={submitRequest} className='mt-3'>Submit</Button>
             </Card>
         </div>
