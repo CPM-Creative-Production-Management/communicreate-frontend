@@ -8,7 +8,7 @@ import { base_url } from '../../../index';
 import TableTransactionList from '../../utils/TableTransactionList';
 import { useParams } from 'react-router-dom';
 
-const PaymentPage = () => {
+const PaymentPageAgency = () => {
 
     let navigate = useNavigate()
 
@@ -35,26 +35,11 @@ const PaymentPage = () => {
         console.log('Response2 : ', response2)
     }
 
-    const initializePayment = async (amount) => {
-        console.log("Amount inside initializePayment() is : ", amount)
-        const reqBody = {
-            amount: amount
-        };
-
-        const response = await regularApiRequest({
-            url: base_url + 'payment/' + id + '/init',
-            method: 'POST',
-            reqBody: reqBody
-        })
-        console.log("response URL was : ", response.data);
-        window.location.replace(response.data);
-    }
-
     return (
         <div>
             <div>
                 <h1 style={{ textAlign: "center" }}>{response && response.payment.projectName}</h1>
-                <h2 style={{ textAlign: "center" }}>Agency : {response2 && response2.agencyName}</h2>
+                <h2 style={{ textAlign: "center" }}>Company : {response2 && response2.companyName}</h2>
                 <div class="ui raised text container segment" style={{ backgroundColor: "#dad7fa" }}>
                     <h2 class="ui header" style={{ textAlign: "center" }}>Payment Brief</h2>
                     <div class="content">
@@ -99,11 +84,9 @@ const PaymentPage = () => {
 
                                             <div class="column" style={{ textAlign: "center" }}>
                                                 <pre>
-                                                    You had chosen FULL Payment <br />
-                                                    earlier, so you need to pay <br />
-                                                    the total due at once. <br />
-                                                    You can do transaction of <br />
-                                                    at most 50,000 BDT at a time.
+                                                    No EMI information available<br/> 
+                                                    because Client opted for a<br/>
+                                                    full payment.
                                                 </pre>
                                             </div>
                                         </div>
@@ -112,12 +95,7 @@ const PaymentPage = () => {
                                 }
                             </div>
                         </div>
-                        
                     </div>
-                    <div class="fluid ui vertical animated green button" tabindex="0" onClick={() => { initializePayment(response2 && response2.due_to_pay_now) }}>
-                            <div class="visible content">Proceed to Payment</div>
-                            <div class="hidden content">{response2 && response2.due_to_pay_now} ৳</div>
-                        </div>
                 </div>
                 <br />
                 <div>
@@ -133,4 +111,4 @@ const PaymentPage = () => {
         </div>
     )
 }
-export default PaymentPage
+export default PaymentPageAgency
