@@ -8,8 +8,9 @@ import "./pages.css"
 import {AddEstimationPage} from "./agency/AddEstimationPage";
 import {Estimations} from "../fragments/Estimations";
 import MyEmployeesPage from './agency/MyEmployeesPage';
-
+import DuesPageAgency from './agency/DuesPageAgency';
 import AddEmployeePage from './agency/AddEmployeePage';
+import PaymentPageAgency from './agency/PaymentPageAgency';
 
 import Cookies from "universal-cookie";
 import ClientDashboard from './client/ClientDashboard';
@@ -76,11 +77,11 @@ export const HomePage = () => {
                         }
                         {
                             userType === 1 ?
-                                <Route exact path="/payment/:id" element={<PaymentPage/>}/> : null
+                                <Route exact path="/payment/:id" element={<PaymentPage/>}/> : <Route exact path="/payment/:id" element={<PaymentPageAgency/>}/>
                         }
                         {
                             userType === 1 ?
-                                <Route exact path="/dues" element={<DuesPage/>}/> : null
+                                <Route exact path="/dues" element={<DuesPage/>}/> : <Route exact path="/dues" element={<DuesPageAgency/>}/>
                         }
 
                         <Route exact path="/request/:rid/agency/:aid/estimation" element={<EstimationPage/>}/>
