@@ -1,4 +1,5 @@
 const currEstimationReducer = (state = {
+    id: null,
     title: "",
     company: "",
     deadline: "",

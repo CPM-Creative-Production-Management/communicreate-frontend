@@ -131,9 +131,6 @@ export const AddEstimationPage = () => {
 
         console.log('estimation body', estimationBody)
 
-        // reset the global estimation
-
-
         if (response.status === 200) {
             showToast('Estimation sent successfully', 'success')
             dispatch(resetCurrEstimation())
@@ -304,7 +301,10 @@ export const AddEstimationPage = () => {
 
             </Card>
 
-            <Comments/>
+
+            {globalEstimation.id ?
+                <Comments estimationId={globalEstimation?.id}/>
+                : null}
 
             <div className='estimation-summary'>
                 <Card raised fluid>
@@ -358,8 +358,6 @@ export const AddEstimationPage = () => {
 
                 </Card>
             </div>
-
-
 
 
             <Divider/>
