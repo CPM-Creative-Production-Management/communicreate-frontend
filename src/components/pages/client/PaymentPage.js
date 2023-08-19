@@ -55,11 +55,11 @@ const PaymentPage = () => {
             <div>
                 <h1 style={{ textAlign: "center" }}>{response && response.payment.projectName}</h1>
                 <h2 style={{ textAlign: "center" }}>Agency : {response2 && response2.agencyName}</h2>
-                <div class="ui raised text container segment" style={{ backgroundColor: "#dad7fa" }}>
+                <div class="ui raised text container segment" style={{ backgroundColor: "#dee0fa" }}>
                     <h2 class="ui header" style={{ textAlign: "center" }}>Payment Brief</h2>
                     <div class="content">
                         <div class="description">
-                            <div class="ui segment" style={{ backgroundColor: "#ffe6fb" }}>
+                            <div class="ui segment" style={{ backgroundColor: "#a9e5fc" }}>
                                 {response2 && response2.category === "EMI" &&
                                     <div>
                                         <div class="ui two column very relaxed grid">
@@ -68,7 +68,7 @@ const PaymentPage = () => {
                                                     <b>Total: </b> {response2 && response2.total_amount} ৳<br />
                                                     <b>Paid: </b> {response2 && response2.paid_amount} ৳<br />
                                                     <b>Total Due: </b> {response2 && response2.dueAmount} ৳<br />
-                                                    <b>Due Now: </b> {response2 && response2.due_to_pay_now} ৳<br />
+                                                    <b>Due for Current Month: </b> {response2 && response2.due_to_pay_now} ৳<br />
                                                 </pre>
                                             </div>
 
@@ -112,12 +112,19 @@ const PaymentPage = () => {
                                 }
                             </div>
                         </div>
-                        
+
                     </div>
-                    <div class="fluid ui vertical animated green button" tabindex="0" onClick={() => { initializePayment(response2 && response2.due_to_pay_now) }}>
+                    {response2 && response2.due_to_pay_now !== 0 &&
+                        <div class="fluid ui vertical animated green button" tabindex="0" onClick={() => { initializePayment(response2 && response2.due_to_pay_now) }}>
                             <div class="visible content">Proceed to Payment</div>
                             <div class="hidden content">{response2 && response2.due_to_pay_now} ৳</div>
                         </div>
+                    } 
+                    {response2 && response2.due_to_pay_now === 0 &&
+                        <div class="fluid ui disabled grey button" tabindex="0" onClick={() => { initializePayment(response2 && response2.due_to_pay_now) }}>
+                            <div class="visible content">Dues Already Cleared</div>
+                        </div>
+                    }
                 </div>
                 <br />
                 <div>
