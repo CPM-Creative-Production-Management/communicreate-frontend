@@ -2,7 +2,7 @@ import React from 'react'
 import { Card, Icon, Image, Label } from 'semantic-ui-react'
 import { useNavigate } from 'react-router-dom'
 
-const AgencyCard = ({name, address, details, website, tags, id}) => {
+const AgencyCard = ({name, address, details, website, tags, id, logo}) => {
 
     const colors = ['teal', 'orange', 'blue']
     const navigate = useNavigate()
@@ -15,7 +15,7 @@ const AgencyCard = ({name, address, details, website, tags, id}) => {
   return (
     <div>
         <Card link fluid onClick={() => {navigate('/agency/' + id)}}>
-        <Image src='https://react.semantic-ui.com/images/avatar/large/matthew.png' wrapped ui={false} />
+        <Image src={logo || 'https://react.semantic-ui.com/images/avatar/large/matthew.png'} wrapped ui={false} />
             <Card.Content>
                 <Card.Header>
                     {name}

@@ -25,6 +25,7 @@ const AgenciesPage = () => {
                             website={agency.website} 
                             tags={agency.Tags} 
                             id={agency.id}   
+                            logo={agency.logo}
                             />
                         </Grid.Column>
                         </>

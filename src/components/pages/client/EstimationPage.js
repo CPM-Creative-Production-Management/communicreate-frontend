@@ -1,6 +1,7 @@
 import React from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useApiRequest } from '../../api/useApiRequest'
+import {regularApiRequest} from '../../api/regularApiRequest'
 import { base_url } from '../../..'
 import { Card, Table, Button, TextArea } from 'semantic-ui-react'
 import { showToast } from '../../../App'
@@ -14,7 +15,11 @@ const EstimationPage = (params) => {
     method: 'GET'
   })
 
-  const handleFinalize = () => {
+  const handleFinalize = async () => {
+    const response = await regularApiRequest({
+      url: base_url + 'request/' + rid + '/agency/' + aid + '/finalize',
+      method: 'POST'
+    })
     navigate('/request/' + rid + '/agency/' + aid + '/finalize')
   }
 
@@ -24,7 +29,7 @@ const EstimationPage = (params) => {
       <br/>
       <Card className='p-4' fluid>
         <center>
-          <h2>{data?.title}</h2>
+          <h2>{data?.ReqAgency.Request.name}</h2>
           <h3>Estimation by: {data?.ReqAgency.Agency.name}</h3>
         </center>
       </Card>
@@ -33,8 +38,6 @@ const EstimationPage = (params) => {
         <thead>
           <tr>
               <th scope="col">Task</th>
-              <th scope="col">Description</th>
-              <th scope="col">Status</th>
               <th scope="col">Cost</th>
           </tr>
         </thead>
@@ -44,12 +47,6 @@ const EstimationPage = (params) => {
             <Table.Row>
               <Table.Cell>
                 {task.name}
-              </Table.Cell>
-              <Table.Cell>
-                {task.description}
-              </Table.Cell>
-              <Table.Cell>
-                Incomplete
               </Table.Cell>
               <Table.Cell>
                 {task.cost}
@@ -69,30 +66,6 @@ const EstimationPage = (params) => {
 
       <Button onClick={handleFinalize} primary>Finalize</Button>
 
-      <hr/>
-      <h4>Don't like the estimation? Write a comment below to contact the agency further.</h4>
-      <hr/>
-
-      <h2>Comments</h2>
-
-      {data?.Comments.length === 0 && <h3>It seems like there are no comments yet. Start a conversation by writing a comment below!</h3>}
-
-      {data?.Comments.map((comment, index) => (
-        <Card className='p-4' fluid>
-          <Card.Meta className='mb-3'>
-            <h4>{comment.User.name}</h4>
-            <h5>Email: {comment.User.email}</h5>
-            <h5>Posted On: {comment.createdAt}</h5>
-          </Card.Meta>
-          <hr></hr>
-          <h3>{comment.body}</h3>
-        </Card>
-      ))}
-
-        <hr/>
-
-        <h3>Write a comment</h3>
-        <TextArea fluid placeholder='Write a comment...' style={{ "width": "100%" }} />
     </div>
   )
 }
