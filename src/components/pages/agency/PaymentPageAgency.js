@@ -40,11 +40,11 @@ const PaymentPageAgency = () => {
             <div>
                 <h1 style={{ textAlign: "center" }}>{response && response.payment.projectName}</h1>
                 <h2 style={{ textAlign: "center" }}>Company : {response2 && response2.companyName}</h2>
-                <div class="ui raised text container segment" style={{ backgroundColor: "#dad7fa" }}>
+                <div class="ui raised text container segment" style={{ backgroundColor: "#dee0fa" }}>
                     <h2 class="ui header" style={{ textAlign: "center" }}>Payment Brief</h2>
                     <div class="content">
                         <div class="description">
-                            <div class="ui segment" style={{ backgroundColor: "#ffe6fb" }}>
+                            <div class="ui segment" style={{ backgroundColor: "#a9e5fc" }}>
                                 {response2 && response2.category === "EMI" &&
                                     <div>
                                         <div class="ui two column very relaxed grid">
@@ -53,7 +53,7 @@ const PaymentPageAgency = () => {
                                                     <b>Total: </b> {response2 && response2.total_amount} ৳<br />
                                                     <b>Paid: </b> {response2 && response2.paid_amount} ৳<br />
                                                     <b>Total Due: </b> {response2 && response2.dueAmount} ৳<br />
-                                                    <b>Due Now: </b> {response2 && response2.due_to_pay_now} ৳<br />
+                                                    <b>Due for Current Month: </b> {response2 && response2.due_to_pay_now} ৳<br />
                                                 </pre>
                                             </div>
 
@@ -84,6 +84,7 @@ const PaymentPageAgency = () => {
 
                                             <div class="column" style={{ textAlign: "center" }}>
                                                 <pre>
+                                                    <br/>
                                                     No EMI information available<br/> 
                                                     because Client opted for a<br/>
                                                     full payment.
