@@ -16,7 +16,7 @@ const SingleDueCard = ({ data }) => {
                         <div class="content">
                             <div class="header" style={{ textAlign: "center" }}>{currItem.projectName}</div>
                             <div class="meta" style={{ textAlign: "center" }}>
-                                <span class="category">Agency : {currItem.agencyName}</span>
+                                <span class="category">{currItem.agencyName}</span>
                             </div>
                             <div class="description">
                                 <pre class="dues-background">

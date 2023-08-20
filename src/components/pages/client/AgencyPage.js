@@ -1,60 +1,71 @@
 import React from 'react'
-import AgencyCard from '../../cards/AgencyCard'
-import { Grid, Card } from 'semantic-ui-react'
+import { useParams } from 'react-router-dom'
 import { useApiRequest } from '../../api/useApiRequest'
 import { base_url } from '../../..'
-import { CircularProgress } from '@mui/material';
+import { Container, Image, Icon, Card, Label } from 'semantic-ui-react'
+import { Rating } from 'react-simple-star-rating'
 
 const AgencyPage = () => {
+    const { id } = useParams()
+
+    const containerStyle = {
+        display: 'inline-flex', 
+        alignItems: 'center',
+    }
+
     const {data: agencyData, dataLoading: agencyDataLoading, error} = useApiRequest({
-        url: base_url + 'agency',
+        url: base_url + 'agency/' + id + '/details',
         method: 'GET'
     })
 
   return (
     <div>
-        { agencyDataLoading ? <center><CircularProgress /></center>: <Grid className='ms-3' columns={5}>
-                {agencyData?.map((agency) => {
-                    return (
-                        <>
-                        <Grid.Column>
-                            <AgencyCard 
-                            name={agency.name} 
-                            address={agency.address} 
-                            details={agency.details} 
-                            website={agency.website} 
-                            tags={agency.Tags}    
-                            />
+        <Card className='p-4' fluid>
+        <div style={containerStyle}>
+                <Image src={agencyData?.logo} size='small' circular/>
+                <h1 className='ms-3'>{agencyData?.name}</h1>
+        </div>
+        <div style={containerStyle} className='mt-3'>
+            <Icon name='mail' size='3' /> <a className='ms-3'>{agencyData?.email}</a>
+        </div>
+        <div style={containerStyle} className='mt-3'>
+            <Icon name='address card' /> <h4 className='ms-3'>{agencyData?.address}</h4>
+        </div>
+        <div style={containerStyle} className='mt-3'>
+            <Icon name='phone' size='3' /> <h className='ms-3'>{agencyData?.phone}</h>
+        </div>
+            <a className='mt-3'>{agencyData?.website}</a>
+        <div style={containerStyle} className='mt-3'>
+            <Icon name='tags' />
+            {agencyData?.Tags?.map((tag, index) => (
+                <Label className='ms-2' as='a' color='teal' key={index}>{tag.tag}</Label>
+            ))}
 
-                        
-                        </Grid.Column>
-                        <Grid.Column>
-                        <AgencyCard 
-                        name={agency.name} 
-                        address={agency.address} 
-                        details={agency.details} 
-                        website={agency.website} 
-                        tags={agency.Tags}    
-                        />
+        </div>
+        </Card>
 
-                    
-                    </Grid.Column>
-                    <Grid.Column>
-                            <AgencyCard 
-                            name={agency.name} 
-                            address={agency.address} 
-                            details={agency.details} 
-                            website={agency.website} 
-                            tags={agency.Tags}    
-                            />
+        <Card className='p-4 mt-3' fluid>
+            <Card.Header className='p-4'>
+                <center>
+                <h3>Reviews</h3>
+                </center>
+            </Card.Header>
 
-                        
-                        </Grid.Column>
-
-                        </>
-                    )
-                })}
-        </Grid>}
+            <Card.Content className='p-4'>
+                {agencyData?.Reviews?.map((review, index) => (
+                    <Card fluid key={index} className='p-4'>
+                        <Card.Header className='p-4'>
+                            <h3>{review.Company.name}</h3>
+                            <Rating initialValue={review.rating} readonly />
+                        </Card.Header>
+                        <Card.Content>
+                            <h2>{review.title}</h2>
+                            <p>{review.description}</p>
+                        </Card.Content>
+                    </Card>
+                ))}
+            </Card.Content>
+        </Card>
     </div>
   )
 }
