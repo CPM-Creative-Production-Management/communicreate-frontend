@@ -64,7 +64,8 @@ const EstimationPage = (params) => {
         </div>
       </Card>
 
-      <Button onClick={handleFinalize} primary>Finalize</Button>
+      { data?.ReqAgency.finalized || <Button onClick={handleFinalize} primary>Finalize</Button>}
+      { data?.Payment && <Button onClick={() => navigate('/payment/' + data?.Payment?.id)} primary>View Payment Status</Button> }
 
     </div>
   )
