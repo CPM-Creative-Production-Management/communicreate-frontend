@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Route, Routes} from "react-router-dom";
 import {Dashboard} from "../../fragments/Dashboard";
 import {Archive} from "../../fragments/Archive";
-import {Card, Input, Label, Segment, Form, Button, Icon, Divider, Message, List, Header, Comment} from "semantic-ui-react";
+import {Card, Input, Label, Segment, Button, Icon, Divider, Message, List, Header, Comment} from "semantic-ui-react";
 import AddTaskModal from "../../modals/AddTaskModal";
 import {SingleTaskCard} from "../../cards/SingleTaskCard";
 import {Avatar, Chip, Stack, Grid} from "@mui/material";
@@ -10,7 +10,7 @@ import {Dropdown} from "semantic-ui-react";
 
 import {useSelector, useDispatch} from "react-redux";
 import {updateEstimation, resetCurrEstimation} from "../../../actions";
-import {Textarea} from "@nextui-org/react";
+import Textarea from '@mui/joy/Textarea';
 import {showToast} from "../../../App";
 
 
@@ -203,6 +203,40 @@ export const AddEstimationPage = () => {
         setIsExpanded(!isExpanded);
     };
 
+    // const commentRef = useRef('');
+    const [newComment, setNewComment] = useState('')
+    const addComment = async () => {
+        // check if comment is empty
+        if (newComment.length === 0) {
+            showToast('Comment cannot be empty', 'error')
+            return
+        }
+
+        let commentBody = {
+            body: newComment
+        }
+
+        console.log('comment body', commentBody)
+
+        const response = await regularApiRequest({
+            url: base_url + `estimation/${globalEstimation.id}/comment`,
+            method: 'POST',
+            reqBody: commentBody
+        })
+
+        console.log('comment response', response)
+
+        if (response && response.status === 200) {
+            showToast('Comment added successfully', 'success')
+            setNewComment('')
+            window.location.reload()
+        } else {
+            // showToast('Comment could not be added', 'error')
+        }
+
+
+    }
+
 
     return (
         <div>
@@ -217,12 +251,12 @@ export const AddEstimationPage = () => {
                 <Card.Meta>
 
                     <Label>
-                        <Icon name='clock outline'/>Company
+                        <Icon name='briefcase'/> Company
                         <Label.Detail>{requestData.company.name}</Label.Detail>
                     </Label>
 
                     <Label>
-                        <Icon name='clock outline'/>Submission Deadline
+                        <Icon name='clock outline'/> Submission Deadline
                         <Label.Detail>{requestData.res_deadline}</Label.Detail>
                     </Label>
                 </Card.Meta>
@@ -302,17 +336,22 @@ export const AddEstimationPage = () => {
             </Card>
 
 
-
             {/*todo: estimation na thakle comment korte diboi na*/}
             <Comment.Group threaded>
                 <Header as='h3' dividing>
                     Comments
                 </Header>
-            {globalEstimation.id ?
-                <Comments estimationId={globalEstimation?.id}/>
-                : null}
+                {globalEstimation.id ?
+                    <Comments estimationId={globalEstimation?.id}/>
+                    : null}
 
-                <span> <Input  placeholder='add a comment...' /> <Button icon='send' /> </span>
+                <span>
+                    <Textarea size="md" name='newComment' value={newComment} onChange={(e)=>{setNewComment(e.target.value)}} placeholder='add a comment...'/>
+
+                    <Button className='mt-3' onClick={addComment} primary>
+      <Icon name='send'/> Comment
+    </Button>
+                </span>
 
             </Comment.Group>
 

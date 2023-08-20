@@ -1,11 +1,11 @@
 import React, {useState, useRef} from 'react';
-import {Button, Comment, Input, TextArea} from "semantic-ui-react";
+import {Button, Comment, Icon, Input, TextArea} from "semantic-ui-react";
+import {regularApiRequest} from "../api/regularApiRequest";
+import {base_url} from "../../index";
+import {showToast} from "../../App";
+import Textarea from "@mui/joy/Textarea";
 
 const SingleComment = ({singleCommentData}) => {
-
-    const splitDate = (date) => {
-        return date.split('T')[0]
-    }
 
     const getTimeOrDayDifference = (dateString) => {
         const currentTime = new Date();
@@ -18,6 +18,9 @@ const SingleComment = ({singleCommentData}) => {
         if (daysDifference <= 7) {
             if (daysDifference < 1) {
                 if (hoursDifference < 1) {
+                    if (timeDifference / (1000 * 60) < 1) {
+                        return `just now`;
+                    }
                     const minutesDifference = Math.floor(timeDifference / (1000 * 60));
                     return `${minutesDifference} minutes ago`;
                 } else {
@@ -37,7 +40,41 @@ const SingleComment = ({singleCommentData}) => {
     }
 
     const [isReplying, setIsReplying] = useState(false)
-    const replyRef = useRef('')
+    // const replyRef = useRef('')
+
+    const [newReply, setNewReply] = useState('')
+    const addReply = async () => {
+
+        // check if reply is empty
+        if (newReply.length === 0) {
+            showToast('Reply cannot be empty', 'error')
+            return
+        }
+
+        const replyBody = {
+            body: newReply
+        }
+
+        console.log('replyBody', replyBody)
+        setIsReplying(false)
+
+        const response = await regularApiRequest({
+            url: base_url + `comment/${singleCommentData.id}/reply`,
+            method: 'POST',
+            reqBody: replyBody
+        })
+
+        console.log('comment response', response)
+
+        if (response && response.status === 200) {
+            showToast('Comment added successfully', 'success')
+            setNewReply('')
+            window.location.reload()
+        } else {
+            // showToast('Comment could not be added', 'error')
+        }
+
+    }
 
 
     return (
@@ -50,12 +87,23 @@ const SingleComment = ({singleCommentData}) => {
                     <div>{getTimeOrDayDifference(singleCommentData.createdAt)}</div>
                 </Comment.Metadata>
                 <Comment.Text>{singleCommentData.body}</Comment.Text>
-                <Comment.Actions>
-                    <a onClick={() => setIsReplying(true)}>Reply</a>
-                </Comment.Actions>
 
-                {isReplying && <span> <Input className={'mt-3'} placeholder='reply...' ref={replyRef}/> <Button icon='send' /> </span>}
+                {!isReplying &&
+                    <Comment.Actions>
+                        <a onClick={() => setIsReplying(true)}>Reply</a>
+                    </Comment.Actions>
+                }
 
+                {isReplying && <span>
+
+
+                    <Textarea size="md" name='newReply' value={newReply} onChange={(e)=>{setNewReply(e.target.value)}} placeholder='add a comment...'/>
+
+
+                    <Button className='mt-3' onClick={addReply} primary>
+                      <Icon name='send'/> Reply
+                    </Button>
+                </span>}
 
 
             </Comment.Content>
