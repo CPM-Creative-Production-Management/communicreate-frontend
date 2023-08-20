@@ -22,14 +22,14 @@ const SingleComment = ({singleCommentData}) => {
                         return `just now`;
                     }
                     const minutesDifference = Math.floor(timeDifference / (1000 * 60));
-                    return `${minutesDifference} minutes ago`;
+                    return `${minutesDifference} minute${minutesDifference>1 && 's'} ago`;
                 } else {
-                    return `${hoursDifference} hours ago`;
+                    return `${hoursDifference} hour${hoursDifference>1 && 's'} ago`;
                 }
             } else if (daysDifference === 1) {
                 return `1 day ago`;
             } else {
-                return `${daysDifference} days ago`;
+                return `${daysDifference} day${daysDifference>1 && 's'} ago`;
             }
         } else {
             const year = targetTime.getUTCFullYear();
@@ -80,7 +80,7 @@ const SingleComment = ({singleCommentData}) => {
     return (
 
         <Comment>
-            <Comment.Avatar src='https://react.semantic-ui.com/images/avatar/small/matt.jpg'/>
+            <Comment.Avatar src={ singleCommentData.User.profile_picture || 'https://react.semantic-ui.com/images/avatar/small/matt.jpg'}/>
             <Comment.Content>
                 <Comment.Author as='a'>{singleCommentData.User.name}</Comment.Author>
                 <Comment.Metadata>

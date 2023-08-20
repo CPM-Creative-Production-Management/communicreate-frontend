@@ -1,10 +1,12 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useApiRequest } from '../../api/useApiRequest'
 import {regularApiRequest} from '../../api/regularApiRequest'
 import { base_url } from '../../..'
-import { Card, Table, Button, TextArea } from 'semantic-ui-react'
+import {Card, Table, Button, TextArea, Comment, Header, Icon} from 'semantic-ui-react'
 import { showToast } from '../../../App'
+import Comments from "../../custom/Comments";
+import Textarea from "@mui/joy/Textarea";
 
 
 const EstimationPage = (params) => {
@@ -15,6 +17,7 @@ const EstimationPage = (params) => {
     method: 'GET'
   })
 
+
   const handleFinalize = async () => {
     const response = await regularApiRequest({
       url: base_url + 'request/' + rid + '/agency/' + aid + '/finalize',
@@ -22,6 +25,39 @@ const EstimationPage = (params) => {
     })
     navigate('/request/' + rid + '/agency/' + aid + '/finalize')
   }
+
+    const [newComment, setNewComment] = useState('')
+    const addComment = async () => {
+        // check if comment is empty
+        if (newComment.length === 0) {
+            showToast('Comment cannot be empty', 'error')
+            return
+        }
+
+        let commentBody = {
+            body: newComment
+        }
+
+        console.log('comment body', commentBody)
+
+        const response = await regularApiRequest({
+            url: base_url + `estimation/${data.ReqAgency.Estimation.id}/comment`,
+            method: 'POST',
+            reqBody: commentBody
+        })
+
+        console.log('comment response', response)
+
+        if (response && response.status === 200) {
+            showToast('Comment added successfully', 'success')
+            setNewComment('')
+            window.location.reload()
+        } else {
+            // showToast('Comment could not be added', 'error')
+        }
+
+
+    }
 
   return (
     <div>
@@ -66,6 +102,29 @@ const EstimationPage = (params) => {
 
       { data?.ReqAgency.finalized || <Button onClick={handleFinalize} primary>Finalize</Button>}
       { data?.Payment && <Button onClick={() => navigate('/payment/' + data?.Payment?.id)} primary>View Payment Status</Button> }
+
+
+            <Comment.Group threaded>
+                <Header as='h3' dividing>
+                    Comments
+                </Header>
+                {data?
+                    <Comments estimationId={data.ReqAgency.Estimation?.id}/>
+                    : null}
+
+                <span>
+                    <Textarea size="md" name='newComment' value={newComment} onChange={(e) => {
+                        setNewComment(e.target.value)
+                    }} placeholder='add a comment...'/>
+
+                    <Button className='mt-3' onClick={addComment} primary>
+                      <Icon name='send'/> Comment
+                    </Button>
+                </span>
+
+            </Comment.Group>
+
+        <br/><br/>
 
     </div>
   )

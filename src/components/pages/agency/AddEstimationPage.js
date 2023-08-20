@@ -347,26 +347,27 @@ export const AddEstimationPage = () => {
             </Card>
 
 
-            {/*todo: estimation na thakle comment korte diboi na*/}
-            <Comment.Group threaded>
-                <Header as='h3' dividing>
-                    Comments
-                </Header>
-                {globalEstimation.id ?
-                    <Comments estimationId={globalEstimation?.id}/>
-                    : null}
+            {requestData.estimationExists &&
+                <Comment.Group threaded>
+                    <Header as='h3' dividing>
+                        Comments
+                    </Header>
+                    {globalEstimation.id ?
+                        <Comments estimationId={globalEstimation?.id}/>
+                        : null}
 
-                <span>
+                    <span>
                     <Textarea size="md" name='newComment' value={newComment} onChange={(e) => {
                         setNewComment(e.target.value)
                     }} placeholder='add a comment...'/>
 
                     <Button className='mt-3' onClick={addComment} primary>
-      <Icon name='send'/> Comment
-    </Button>
+                      <Icon name='send'/> Comment
+                    </Button>
                 </span>
 
-            </Comment.Group>
+                </Comment.Group>
+            }
 
             <div className='estimation-summary'>
                 <Card raised fluid>
@@ -388,7 +389,8 @@ export const AddEstimationPage = () => {
                             />
 
 
-                            <Input fluid name='extraCost' onChange={handleExtraCost} value={parseInt( extraCost)} className='mt-2'
+                            <Input fluid name='extraCost' onChange={handleExtraCost} value={parseInt(extraCost)}
+                                   className='mt-2'
                                    label='Extra Cost' type='number' placeholder='Amount'/>
 
                             <br/>
