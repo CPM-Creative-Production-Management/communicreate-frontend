@@ -8,6 +8,7 @@ import RequestDetailsModal from '../../modals/RequestDetailsModal';
 import { regularApiRequest } from '../../api/regularApiRequest';
 import ResponsePage from './EstimationPage';
 import ResponsesModal from '../../modals/ResponsesModal';
+import { useNavigate } from 'react-router-dom';
 
 
 const MyRequestsPage = () => {
@@ -16,6 +17,8 @@ const MyRequestsPage = () => {
     const [detailsData, setDetailsData] = useState({})
     const [responses, setResponses] = useState({})
     const [showResponsesModal, setShowResponsesModal] = useState(false)
+
+    const navigate = useNavigate()
 
     const {data, loading, error} = useApiRequest({
         url: base_url + 'request/company',
@@ -33,10 +36,18 @@ const MyRequestsPage = () => {
     const greenCircleStyle = {
         width: '8px',
         height: '8px',
-        backgroundColor: 'green',
+        backgroundColor: 'orange',
         borderRadius: '50%',
         marginRight: '10px', // Add spacing between text and circle
     };
+
+    const blueCircleStyle = {
+        width: '8px',
+        height: '8px',
+        backgroundColor: 'green',
+        borderRadius: '50%',
+        marginRight: '10px', // Add spacing between text and circle
+    }
 
     const containerStyle = {
         display: 'inline-flex', // Change to inline-flex
@@ -66,6 +77,11 @@ const MyRequestsPage = () => {
         setResponses(response.data)
         setShowResponsesModal(true)
         console.log(showResponsesModal)
+    }
+
+    const viewEstimation = async (requestId, agencyId) => {
+        console.log(requestId, agencyId)
+        navigate('/request/' + requestId + '/agency/' + agencyId + '/estimation')
     }
 
   return (
@@ -98,16 +114,17 @@ const MyRequestsPage = () => {
                                 {request.comp_deadline}
                             </Table.Cell>
                             <Table.Cell>
-                                {request.responses === 0 ? <div style={containerStyle}>
+                                {request.finalized ? <div style={containerStyle}><div style={blueCircleStyle}></div><p>Finalized</p></div> : request.responses === 0 ? <div style={containerStyle}>
                                     <div style={redCircleStyle}></div>
                                     <p>{request.responses} responses</p>
                                 </div> : <div style={containerStyle}>
                                     <div style={greenCircleStyle}></div>
                                     <p>{request.responses} responses </p>
                                 </div>}
+                                
                             </Table.Cell>
                             <Table.Cell width={2}>
-                                    <Button name={'r-' + index} onClick={handleRequests} className='mr-3' disabled={request.responses === 0}>View Responses</Button>
+                                    {request.finalized ? <Button onClick={() => viewEstimation(request.id, request.agencyId)}>View Estimation</Button> : <Button name={'r-' + index} onClick={handleRequests} className='mr-3' disabled={request.responses === 0}>View Responses</Button>}
                             </Table.Cell>
                             <Table.Cell width={2}>
                                 <Button name={'d-' + index} onClick={handleDetails} className='mr-3'>View Details</Button>
