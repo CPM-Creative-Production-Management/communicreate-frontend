@@ -189,11 +189,22 @@ export const AddEstimationPage = () => {
     }, [globalEstimation.tasks]);
 
     const handleExtraCost = (event) => {
+
         if (event.target.value < 0) {
             showToast('Extra cost cannot be negative', 'error')
             return
         }
-        setExtraCost(parseInt(event.target.value))
+
+        if (event.target.value === '') {
+            setExtraCost(0)
+
+        } // if the input is a number
+        else if (!isNaN(event.target.value)) {
+            // setExtraCost('')
+            // remove the leading zeros from the string
+
+            setExtraCost(parseInt(event.target.value))
+        }
 
     }
 
@@ -346,7 +357,9 @@ export const AddEstimationPage = () => {
                     : null}
 
                 <span>
-                    <Textarea size="md" name='newComment' value={newComment} onChange={(e)=>{setNewComment(e.target.value)}} placeholder='add a comment...'/>
+                    <Textarea size="md" name='newComment' value={newComment} onChange={(e) => {
+                        setNewComment(e.target.value)
+                    }} placeholder='add a comment...'/>
 
                     <Button className='mt-3' onClick={addComment} primary>
       <Icon name='send'/> Comment
@@ -375,7 +388,7 @@ export const AddEstimationPage = () => {
                             />
 
 
-                            <Input fluid name='extraCost' onChange={handleExtraCost} value={extraCost} className='mt-2'
+                            <Input fluid name='extraCost' onChange={handleExtraCost} value={parseInt( extraCost)} className='mt-2'
                                    label='Extra Cost' type='number' placeholder='Amount'/>
 
                             <br/>
