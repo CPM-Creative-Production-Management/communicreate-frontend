@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Route, Routes} from "react-router-dom";
 import {Dashboard} from "../../fragments/Dashboard";
 import {Archive} from "../../fragments/Archive";
-import {Card, Input, Label, Segment, Form, Button, Icon, Divider, Message, List} from "semantic-ui-react";
+import {Card, Input, Label, Segment, Form, Button, Icon, Divider, Message, List, Header, Comment} from "semantic-ui-react";
 import AddTaskModal from "../../modals/AddTaskModal";
 import {SingleTaskCard} from "../../cards/SingleTaskCard";
 import {Avatar, Chip, Stack, Grid} from "@mui/material";
@@ -302,9 +302,19 @@ export const AddEstimationPage = () => {
             </Card>
 
 
+
+            {/*todo: estimation na thakle comment korte diboi na*/}
+            <Comment.Group threaded>
+                <Header as='h3' dividing>
+                    Comments
+                </Header>
             {globalEstimation.id ?
                 <Comments estimationId={globalEstimation?.id}/>
                 : null}
+
+                <span> <Input  placeholder='add a comment...' /> <Button icon='send' /> </span>
+
+            </Comment.Group>
 
             <div className='estimation-summary'>
                 <Card raised fluid>

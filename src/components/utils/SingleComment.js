@@ -1,5 +1,5 @@
-import React from 'react';
-import {Comment} from "semantic-ui-react";
+import React, {useState, useRef} from 'react';
+import {Button, Comment, Input, TextArea} from "semantic-ui-react";
 
 const SingleComment = ({singleCommentData}) => {
 
@@ -36,6 +36,9 @@ const SingleComment = ({singleCommentData}) => {
         }
     }
 
+    const [isReplying, setIsReplying] = useState(false)
+    const replyRef = useRef('')
+
 
     return (
 
@@ -48,20 +51,27 @@ const SingleComment = ({singleCommentData}) => {
                 </Comment.Metadata>
                 <Comment.Text>{singleCommentData.body}</Comment.Text>
                 <Comment.Actions>
-                    <a>Reply</a>
+                    <a onClick={() => setIsReplying(true)}>Reply</a>
                 </Comment.Actions>
+
+                {isReplying && <span> <Input className={'mt-3'} placeholder='reply...' ref={replyRef}/> <Button icon='send' /> </span>}
+
+
+
             </Comment.Content>
 
-            <Comment.Group>
-                {singleCommentData.replies?.map((currReply, index) => {
-                    return (
+            {singleCommentData.replies &&
+                <Comment.Group>
+                    {singleCommentData.replies?.map((currReply, index) => {
+                        return (
 
-                        <SingleComment key={index} singleCommentData={currReply}/>
+                            <SingleComment key={index} singleCommentData={currReply}/>
 
-                    )
-                })
-                }
-            </Comment.Group>
+                        )
+                    })
+                    }
+                </Comment.Group>
+            }
 
 
         </Comment>

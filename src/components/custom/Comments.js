@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react'
-import {Button, Comment, Form, Header} from 'semantic-ui-react'
+import {Button, Comment, Form, Header, Input} from 'semantic-ui-react'
 import {useApiRequest} from "../api/useApiRequest";
 import {base_url} from "../../index";
 import SingleComment from "../utils/SingleComment";
@@ -17,10 +17,8 @@ const Comments = ({estimationId}) => {
 
 
     return (
-        <Comment.Group threaded>
-            <Header as='h3' dividing>
-                Comments
-            </Header>
+        <div>
+
 
             {commentsData?.map((currComment, index) => {
                 return (
@@ -30,7 +28,9 @@ const Comments = ({estimationId}) => {
             }
 
 
-        </Comment.Group>
+
+        </div>
+
     )
 }
 
