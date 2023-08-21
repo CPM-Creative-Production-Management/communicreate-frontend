@@ -20,7 +20,8 @@ const DuesPageAgency =  () => {
             <div>
                 <br></br>
                 <h1>Dues</h1>
-               { dataLoading ? <center><CircularProgress /></center> : <SingleDueCardAgency data={response?.responseData} />}
+               <SingleDueCardAgency data={response?.responseData} />
+
             </div>
         )
     }

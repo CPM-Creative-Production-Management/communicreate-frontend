@@ -15,7 +15,7 @@ const ClientDashboard = () => {
 
   return (
     <div>
-      <br />
+
       { data && <Grid className='ms-2' columns={5}>
         <Grid.Row>
             <Grid.Column>

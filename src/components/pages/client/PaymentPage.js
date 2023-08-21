@@ -1,23 +1,23 @@
 import React from 'react'
-import { Button, Icon, Message, Step, Container } from "semantic-ui-react"
-import { Route, Routes, useNavigate } from "react-router-dom"
+import {Button, Icon, Message, Step, Container} from "semantic-ui-react"
+import {Route, Routes, useNavigate} from "react-router-dom"
 import "../pages.css"
-import { regularApiRequest } from "../../api/regularApiRequest";
-import { useApiRequest } from '../../api/useApiRequest';
-import { base_url } from '../../../index';
+import {regularApiRequest} from "../../api/regularApiRequest";
+import {useApiRequest} from '../../api/useApiRequest';
+import {base_url} from '../../../index';
 import TableTransactionList from '../../utils/TableTransactionList';
-import { useParams } from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 
 const PaymentPage = () => {
 
     let navigate = useNavigate()
 
-    const { id } = useParams();
+    const {id} = useParams();
     console.log("Id found to be ", id)
 
     var response, response2;
 
-    const { data: dataHistory, dataLoading: dataLoadingHistory, error: errorHistory } = useApiRequest({
+    const {data: dataHistory, dataLoading: dataLoadingHistory, error: errorHistory} = useApiRequest({
         url: base_url + 'payment/' + id + '/history',
         method: 'GET'
     })
@@ -26,7 +26,7 @@ const PaymentPage = () => {
         console.log("response is: ", response)
     }
 
-    const { data: dataDues, dataLoading: dataLoadingDues, error: errorDues } = useApiRequest({
+    const {data: dataDues, dataLoading: dataLoadingDues, error: errorDues} = useApiRequest({
         url: base_url + 'payment/' + id + '/dues',
         method: 'GET'
     })
@@ -53,89 +53,109 @@ const PaymentPage = () => {
     return (
         <div>
             <div>
-                <h1 style={{ textAlign: "center" }}>{response && response.payment.projectName}</h1>
-                <h2 style={{ textAlign: "center" }}>Agency : {response2 && response2.agencyName}</h2>
-                <div class="ui raised text container segment" style={{ backgroundColor: "#dee0fa" }}>
-                    <h2 class="ui header" style={{ textAlign: "center" }}>Payment Brief</h2>
-                    <div class="content">
-                        <div class="description">
-                            <div class="ui segment" style={{ backgroundColor: "#a9e5fc" }}>
+                <h1 style={{textAlign: "center"}}>{response && response.payment.projectName}</h1>
+                <h2 style={{textAlign: "center"}}>Agency : {response2 && response2.agencyName}</h2>
+                <div className="ui raised text container segment" style={{backgroundColor: "#dee0fa"}}>
+                    <h2 className="ui header" style={{textAlign: "center"}}>Payment Brief</h2>
+                    <div className="content">
+                        <div className="description">
+                            <div className="ui segment" style={{backgroundColor: "#a9e5fc"}}>
                                 {response2 && response2.category === "EMI" &&
                                     <div>
-                                        <div class="ui two column very relaxed grid">
-                                            <div class="column" style={{ textAlign: "center" }}>
+                                        <div className="ui two column very relaxed grid">
+                                            <div className="column" style={{textAlign: "center"}}>
                                                 <pre>
-                                                    <b>Total: </b> {response2 && response2.total_amount} ৳<br />
-                                                    <b>Paid: </b> {response2 && response2.paid_amount} ৳<br />
-                                                    <b>Total Due: </b> {response2 && response2.dueAmount} ৳<br />
-                                                    <b>Due for Current Month: </b> {response2 && response2.due_to_pay_now} ৳<br />
+                                                    <b>Total: </b> {response2 && response2.total_amount} ৳<br/>
+                                                    <b>Paid: </b> {response2 && response2.paid_amount} ৳<br/>
+                                                    <b>Total Due: </b> {response2 && response2.dueAmount} ৳<br/>
+                                                    <b>Due for Current Month: </b> {response2 && response2.due_to_pay_now} ৳<br/>
                                                 </pre>
                                             </div>
 
-                                            <div class="column" style={{ textAlign: "center" }}>
+                                            <div className="column" style={{textAlign: "center"}}>
                                                 <pre>
-                                                    <b>{response2 && response2.message}</b><br />
-                                                    <b>Total Installments: </b> {response2 && response2.emi_installment_choice}<br />
-                                                    <b>Installments Completed: </b> {response2 && response2.installments_completed}<br />
-                                                    <b>Installments Remaining: </b> {response2 && response2.remaining_installments}<br />
+                                                    <b>{response2 && response2.message}</b><br/>
+                                                    <b>Total Installments: </b> {response2 && response2.emi_installment_choice}<br/>
+                                                    <b>Installments Completed: </b> {response2 && response2.installments_completed}<br/>
+                                                    <b>Installments Remaining: </b> {response2 && response2.remaining_installments}<br/>
                                                 </pre>
                                             </div>
                                         </div>
-                                        <div class="ui vertical divider">and</div>
+                                        <div className="ui vertical divider">and</div>
                                     </div>
                                 }
                                 {response2 && response2.category === "FULL" &&
                                     <div>
-                                        <div class="ui two column very relaxed grid">
-                                            <div class="column" style={{ textAlign: "center" }}>
-                                                <br />
+                                        <div className="ui two column very relaxed grid">
+                                            <div className="column" style={{textAlign: "center"}}>
+                                                <br/>
                                                 <pre>
-                                                    <b>Total: </b> {response2 && response2.total_amount} ৳<br />
-                                                    <b>Paid: </b> {response2 && response2.paid_amount} ৳<br />
-                                                    <b>Due: </b> {response2 && response2.dueAmount} ৳<br />
-                                                    <b>{response2 && response2.message}</b><br />
+                                                    <b>Total: </b> {response2 && response2.total_amount} ৳<br/>
+                                                    <b>Paid: </b> {response2 && response2.paid_amount} ৳<br/>
+                                                    <b>Due: </b> {response2 && response2.dueAmount} ৳<br/>
+                                                    <b>{response2 && response2.message}</b><br/>
                                                 </pre>
                                             </div>
 
-                                            <div class="column" style={{ textAlign: "center" }}>
+                                            <div className="column" style={{textAlign: "center"}}>
                                                 <pre>
-                                                    You had chosen FULL Payment <br />
-                                                    earlier, so you need to pay <br />
-                                                    the total due at once. <br />
-                                                    You can do transaction of <br />
+                                                    You had chosen FULL Payment <br/>
+                                                    earlier, so you need to pay <br/>
+                                                    the total due at once. <br/>
+                                                    You can do transaction of <br/>
                                                     at most 50,000 BDT at a time.
                                                 </pre>
                                             </div>
                                         </div>
-                                        <div class="ui vertical divider"></div>
+                                        <div className="ui vertical divider"></div>
                                     </div>
                                 }
                             </div>
                         </div>
 
                     </div>
-                    {response2 && response2.due_to_pay_now !== 0 &&
-                        <div class="fluid ui vertical animated green button" tabindex="0" onClick={() => { initializePayment(response2 && response2.due_to_pay_now) }}>
-                            <div class="visible content">Proceed to Payment</div>
-                            <div class="hidden content">{response2 && response2.due_to_pay_now} ৳</div>
-                        </div>
-                    } 
+
+                    {response2 && response2.due_to_pay_now !== 0 ?
+                        <Button fluid positive onClick={() => {
+                            initializePayment(response2 && response2.due_to_pay_now)
+                        }} animated='vertical'>
+                            <Button.Content visible>Proceed to Payment</Button.Content>
+                            <Button.Content hidden>{response2?.due_to_pay_now} ৳</Button.Content>
+                        </Button> :
+
+                        <Button fluid disabled>
+                            Dues Already Cleared
+                        </Button>
+
+                    }
+
+                    {/*{response2 && response2.due_to_pay_now !== 0 &&*/}
+                    {/*    <div className="fluid ui vertical animated green button" tabindex="0" onClick={() => {*/}
+                    {/*        initializePayment(response2 && response2.due_to_pay_now)*/}
+                    {/*    }}>*/}
+                    {/*        <div className="visible content">Proceed to Payment</div>*/}
+                    {/*        <div className="hidden content">{response2 && response2.due_to_pay_now} ৳</div>*/}
+                    {/*    </div>*/}
+                    {/*}*/}
                     {response2 && response2.due_to_pay_now === 0 &&
-                        <div class="fluid ui disabled grey button" tabindex="0" onClick={() => { initializePayment(response2 && response2.due_to_pay_now) }}>
-                            <div class="visible content">Dues Already Cleared</div>
+                        <div className="fluid ui disabled grey button" tabindex="0" onClick={() => {
+                            initializePayment(response2 && response2.due_to_pay_now)
+                        }}>
+                            <div className="visible content">Dues Already Cleared</div>
                         </div>
                     }
                 </div>
-                <br />
+                <br/>
                 <div>
-                    <div class="row">
-                        <hr /><br />
-                        <h1 style={{ textAlign: "center" }}>All Transaction Histories</h1>
-                        {response && <TableTransactionList tableData={response} />}
+                    <div className="row">
+                        <hr/>
+                        <br/>
+                        <h1 style={{textAlign: "center"}}>All Transaction Histories</h1>
+                        {response && <TableTransactionList tableData={response}/>}
                     </div>
                 </div>
-                <br />
-                <br />
+                <br/>
+                <br/>
             </div>
         </div>
     )

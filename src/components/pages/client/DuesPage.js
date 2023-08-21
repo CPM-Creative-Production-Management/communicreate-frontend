@@ -20,7 +20,7 @@ const DuesPage =  () => {
             <div>
                 <br></br>
                 <h1>Dues</h1>
-               { dataLoading ? <center><CircularProgress /></center> : <SingleDueCard data={response?.responseData} />}
+             <SingleDueCard data={response?.responseData} />
             </div>
         )
     }
