@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Grid, Icon, Label, Message } from "semantic-ui-react";
+import { Button, Grid, Icon, Label, Message, Dropdown } from "semantic-ui-react";
 import { Stack } from "@mui/material";
 import TableEmpList from "../utils/TableEmpList";
 import EditTaskModal from "../modals/EditTaskModal";
@@ -82,6 +82,12 @@ export const SingleTaskCard = (props) => {
                         <Button onClick={deleteTask}>
                             <Icon name='trash alternate outline' /> Delete
                         </Button>
+
+                        {props.singleTask.status === 0 ? <Button onClick={deleteTask}>
+                            <Icon name='send' /> Request Approval
+                        </Button> : props.singleTask.status === 1 ? <Button disabled> Awaiting Approval </Button> : <Button disabled> Approved </Button>}
+
+
                     </Stack>
 
 

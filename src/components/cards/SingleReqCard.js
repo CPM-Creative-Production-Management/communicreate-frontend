@@ -62,7 +62,7 @@ const SingleReqCard = ({reqData, isAccepted, isOffered}) => {
 
                     {isAccepted && reqData.estimationExists &&
                         <Button positive onClick={() => {
-                            navigate(`/add-estimation/${reqData.Request.id}`)
+                            navigate(`/edit-estimation/${reqData.Request.id}`)
                         }} primary icon labelPosition='left' floated='right'>
                             <Icon name='edit'/>
                             View Estimation

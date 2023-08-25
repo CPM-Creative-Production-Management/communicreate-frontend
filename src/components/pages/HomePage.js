@@ -63,7 +63,8 @@ export const HomePage = () => {
                         <Route exact path="/archive" element={<Archive/>}/>
                         <Route exact path="/requests" element={<Requests/>}/>
                         <Route exact path="/estimations" element={<Estimations/>}/>
-                        <Route exact path="/add-estimation/:id" element={<AddEstimationPage/>}/>
+                        <Route exact path="/add-estimation/:id" element={<AddEstimationPage edit={false}/>}/>
+                        <Route exact path="/edit-estimation/:id" element={<AddEstimationPage edit={true}/>}/>
                         <Route exact path="/my-employees" element={<MyEmployeesPage/>}/>
                         {/* <Route exact path="/payment" element={<PaymentPage/>}/> */}
                         <Route exact path="/add-employee" element={<AddEmployeePage/>}/>

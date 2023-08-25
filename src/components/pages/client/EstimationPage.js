@@ -74,7 +74,9 @@ const EstimationPage = (params) => {
         <thead>
           <tr>
               <th scope="col">Task</th>
+              {data?.ReqAgency.fnalized && <th scope="col">Status</th>}
               <th scope="col">Cost</th>
+              {data?.ReqAgency.finalized && <th scope="col">Actions</th>}
           </tr>
         </thead>
 
@@ -84,9 +86,15 @@ const EstimationPage = (params) => {
               <Table.Cell>
                 {task.name}
               </Table.Cell>
+              {data?.ReqAgency.finalized && <Table.Cell>
+                {task.status === 0 ? 'Pending' : task.status === 1 ? 'Awaiting Approval' : 'Approved'}
+              </Table.Cell>}
               <Table.Cell>
                 {task.cost}
               </Table.Cell>
+              {data?.ReqAgency.finalized && <Table.Cell>
+                {task.status === 0 ? null : task.status === 1 ? <Button>Approve</Button> : <Button>Revise</Button>}
+              </Table.Cell>}
             </Table.Row>
           ))}
         </Table.Body>

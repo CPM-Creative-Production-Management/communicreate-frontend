@@ -23,7 +23,7 @@ import Comments from "../../custom/Comments";
 const drawerBleeding = 56;
 
 
-export const AddEstimationPage = () => {
+export const AddEstimationPage = (props) => {
     const navigate = useNavigate()
 
     const {id} = useParams()
@@ -111,6 +111,7 @@ export const AddEstimationPage = () => {
             tags: globalEstimation.tags.map((tag) => tag.id),
             tasks: globalEstimation.tasks?.map((task) => {
                 return {
+                    id: task.id ? task.id : 0,
                     name: task.name,
                     // description: task.description,
                     cost: task.cost,
@@ -123,11 +124,20 @@ export const AddEstimationPage = () => {
         }
 
         console.log('estimation body', estimationBody)
-        const response = await regularApiRequest({
-            url: base_url + 'estimation',
-            method: 'POST',
-            reqBody: estimationBody
-        })
+        let response, method        
+        if (props.edit) {
+            response = await regularApiRequest({
+                url: base_url + 'estimation/' + globalEstimation.id,
+                method: 'PUT',
+                reqBody: estimationBody
+            })
+        } else {
+            response = await regularApiRequest({
+                url: base_url + 'estimation',
+                method: 'POST',
+                reqBody: estimationBody
+            })
+        }
 
         console.log('estimation body', estimationBody)
 
