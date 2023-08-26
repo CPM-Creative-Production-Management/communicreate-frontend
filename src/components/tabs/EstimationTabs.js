@@ -9,13 +9,10 @@ import {Estimations} from "../fragments/Estimations";
 
 const panes = [
     {
-        menuItem: 'Ongoing EstimationsPage',
+        menuItem: 'Ongoing Estimation',
         render: () => <Tab.Pane attached={false}><Estimations isOngoing={true} /></Tab.Pane>,
     },
-    {
-        menuItem: 'Rejected EstimationsPage',
-        render: () => <Tab.Pane attached={false}><Estimations isOngoing={false}/></Tab.Pane>,
-    },
+
 
 ]
 

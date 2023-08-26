@@ -4,11 +4,11 @@ import {OfferedRequests} from "../fragments/OfferedRequests";
 
 const panes = [
     {
-        menuItem: 'Offered RequestPage',
+        menuItem: 'Offered Request',
         render: () => <Tab.Pane attached={false}><OfferedRequests isOffered={true}/></Tab.Pane>,
     },
     {
-        menuItem: 'Accepted RequestPage',
+        menuItem: 'Accepted Request',
         render: () => <Tab.Pane attached={false}><OfferedRequests isAccepted={true}/></Tab.Pane>,
     },
 

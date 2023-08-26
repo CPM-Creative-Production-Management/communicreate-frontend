@@ -21,36 +21,42 @@ export const SingleEstimationCard = ({estimationData, isRejected, isOngoing}) =>
         // window.location.reload()
     }
 
+    function getStatus(status) {
+        if (status === 0) {
+            return (
+                <Label as='a' basic color='red' pointing>
+                    Pending
+                </Label>
+            );
+        } else if (status === 1) {
+            return (
+                <Label as='a' basic color='blue' pointing>
+                    Pending Approval
+                </Label>
+            );
+        } else if (status === 2) {
+            return (
+                <Label as='a' basic color='green' pointing>
+                    Approved
+                </Label>
+            );
+        }
+        return null;
+    }
+
 
     return (
         <div>
             <Card fluid>
                 <Card.Content>
 
-                    {isOngoing &&
 
-                        <Button negative icon labelPosition='left' floated='right'>
-                            <Icon name='ban'/>
-                            Reject
-                        </Button>
-                    }
-
-                    {isOngoing &&
-                        <Button onClick={() => {
-                            acceptReq(estimationData.RequestId)
-                        }} icon labelPosition='left' floated='right' positive>
-                            <Icon name='check circle outline'/>
-                            Finalize (rakhbo eta?)
-                        </Button>
-                    }
-
-
-                    <Button onClick={() => {
-                        setShowDetails(true)
-                    }} icon labelPosition='left' floated='right' primary>
-                        <Icon name='list alternate outline'/>
-                        View Details
-                    </Button>
+                    {/*<Button onClick={() => {*/}
+                    {/*    setShowDetails(true)*/}
+                    {/*}} icon labelPosition='left' floated='right' primary>*/}
+                    {/*    <Icon name='list alternate outline'/>*/}
+                    {/*    View Details*/}
+                    {/*</Button>*/}
 
                     {isOngoing && estimationData.estimationExists &&
                         <Button positive onClick={() => {
@@ -61,109 +67,47 @@ export const SingleEstimationCard = ({estimationData, isRejected, isOngoing}) =>
                         </Button>}
 
 
-                    <Card.Header>{estimationData.title}</Card.Header>
+                    <Card.Header>{estimationData.Request.name}</Card.Header>
                     <Card.Meta>{estimationData.Company.name}</Card.Meta>
                     <Card.Description>
-                        {estimationData.description}
+                        {estimationData.Request.description}
                     </Card.Description>
                 </Card.Content>
                 <Card.Content extra>
                     <Label>
-                        <Icon name='clock outline'/> Estimation Submission Deadline
-                        <Label.Detail>{estimationData.deadline}</Label.Detail>
+                        <Icon name='clock outline'/> Deadline
+                        <Label.Detail>{estimationData.Request.comp_deadline}</Label.Detail>
                     </Label>
 
 
                 </Card.Content>
+
+                <Card.Content extra>
+                    <List.Icon name='list alternate outline' size='large' verticalAlign='middle'/>
+                    Task List
+                    <List divided animated relaxed>
+
+                        {estimationData.Estimation.Tasks?.map((task, index) => {
+                            return (
+                                <List.Item>
+                                    <List.Content>
+                                        <List.Header>{index+1}. {task.name}</List.Header>
+                                        <List.Description>{task.description}</List.Description>
+                                        <List.Description> {getStatus(task.status)}</List.Description>
+                                    </List.Content>
+                                </List.Item>
+                            )
+                        })
+
+                        }
+
+
+                    </List>
+
+                </Card.Content>
+
+
             </Card>
-
-
-
-            <List divided relaxed>
-                <List.Item>
-                    <List.Icon name='github' size='large' verticalAlign='middle' />
-                    <List.Content>
-                        <List.Header as='a'>Semantic-Org/Semantic-UI</List.Header>
-                        <List.Description as='a'>Updated 10 mins ago</List.Description>
-                    </List.Content>
-                </List.Item>
-
-            </List>
-
-
-
-            {/*<Dialog open={showDetails}>*/}
-
-            {/*    <DialogContent>*/}
-
-
-            {/*        <Card fluid>*/}
-            {/*            <Card.Content>*/}
-
-
-            {/*                <Card.Header>{estimationData.Request.name}</Card.Header>*/}
-            {/*                <Card.Meta>{estimationData.Company.name}</Card.Meta>*/}
-            {/*                <Card.Description>*/}
-            {/*                    {estimationData.Request.description}*/}
-            {/*                </Card.Description>*/}
-
-            {/*                <Divider/>*/}
-
-
-            {/*                <Card.Description>*/}
-            {/*                    <h4> Task List </h4>*/}
-            {/*                    <List ordered animated verticalAlign='middle'>*/}
-            {/*                        {estimationData.Request.RequestTasks?.map((task, index) => {*/}
-            {/*                            return (*/}
-            {/*                                <List.Item>*/}
-            {/*                                    <List.Header>{task.name}</List.Header>*/}
-            {/*                                    {task.description}*/}
-            {/*                                </List.Item>*/}
-
-
-            {/*                            )*/}
-            {/*                        })}*/}
-            {/*                    </List>*/}
-            {/*                </Card.Description>*/}
-            {/*            </Card.Content>*/}
-
-
-            {/*            <Card.Content fluid extra>*/}
-            {/*                <Label>*/}
-            {/*                    <Icon name='clock outline'/> Submission Deadline*/}
-            {/*                    <Label.Detail>{estimationData.Request.res_deadline}</Label.Detail>*/}
-            {/*                </Label>*/}
-
-            {/*                <Label>*/}
-            {/*                    <Icon name='cloud upload'/> Completion Deadline*/}
-            {/*                    <Label.Detail>{estimationData.Request.comp_deadline}</Label.Detail>*/}
-            {/*                </Label>*/}
-            {/*            </Card.Content>*/}
-
-            {/*            <Card.Content extra>*/}
-
-            {/*                /!* <Button icon labelPosition='left'>*/}
-            {/*                    <Icon name='ban'/>*/}
-            {/*                    Irrelevant*/}
-            {/*                </Button>*/}
-
-            {/*                <Button onClick={()=>{acceptReq(reqData.RequestId)}} icon labelPosition='left' floated='right' positive>*/}
-            {/*                <Icon name='check circle outline'/>*/}
-            {/*                    Accept*/}
-            {/*                </Button>  *!/*/}
-
-            {/*                <Button fluid onClick={() => {*/}
-            {/*                    setShowDetails(false)*/}
-            {/*                }}> Close*/}
-
-            {/*                </Button>*/}
-            {/*            </Card.Content>*/}
-
-
-            {/*        </Card>*/}
-
-            {/*    </DialogContent>*/}
-            {/*</Dialog>*/}
 
 
         </div>
