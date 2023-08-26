@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useApiRequest } from '../../api/useApiRequest'
 import {regularApiRequest} from '../../api/regularApiRequest'
@@ -7,17 +7,27 @@ import {Card, Table, Button, TextArea, Comment, Header, Icon} from 'semantic-ui-
 import { showToast } from '../../../App'
 import Comments from "../../custom/Comments";
 import Textarea from "@mui/joy/Textarea";
+import { set } from 'lodash'
 
 
 const EstimationPage = (params) => {
   const { rid, aid } = useParams()
   const navigate = useNavigate()
+
+  const [tasks, setTasks] = useState([]) // 0: pending, 1: approved, 2: reviewed
+
   const {data, loading, error} = useApiRequest({
     url: base_url + 'estimation/request/' + rid + '/agency/' + aid,
     method: 'GET'
   })
 
-
+  useEffect(() => {
+    if (data) {
+      setTasks(data.Tasks)
+      console.log(tasks)
+    }
+  }, [data])
+  
   const handleFinalize = async () => {
     const response = await regularApiRequest({
       url: base_url + 'request/' + rid + '/agency/' + aid + '/finalize',
@@ -60,27 +70,39 @@ const EstimationPage = (params) => {
 
     }
 
-    const handleApprove = async (id) => {
+    const handleApprove = async (task) => {
       const response = await regularApiRequest({
-        url: base_url + 'estimation/task/approve/' + id,
+        url: base_url + 'estimation/task/approve/' + task.id,
         method: 'PUT'
       })
 
       if (response.status === 200) {
         showToast('Task approved', 'success')
+        setTasks(tasks.map((t) => {
+          if (t.id === task.id) {
+            t.status = 2
+          }
+          return t
+        }))
       } else {
         showToast('Task could not be approved', 'error')
       }
     }
 
-    const handleRevise = async (id) => {
+    const handleRevise = async (task) => {
       const response = await regularApiRequest({
-        url: base_url + 'estimation/task/review/' + id,
+        url: base_url + 'estimation/task/review/' + task.id,
         method: 'PUT'
       })
       if (response.status === 200) {
         showToast('Task sent for reviewing', 'success')
-        window.location.reload()
+        setTasks(tasks.map((t) => {
+          if (t.id === task.id) {
+            t.status = 0
+          }
+          return t
+        }))
+
       } else {
         showToast('Task could not be reviewed', 'error')
       }
@@ -108,7 +130,7 @@ const EstimationPage = (params) => {
         </thead>
 
         <Table.Body>
-          {data?.Tasks?.map((task, index) => (
+          {tasks.map((task, index) => (
             <Table.Row>
               <Table.Cell>
                 {task.name}
@@ -120,7 +142,7 @@ const EstimationPage = (params) => {
                 {task.cost}
               </Table.Cell>
               {data?.ReqAgency.finalized && <Table.Cell>
-                {task.status === 0 ? null : task.status === 1 ? <Button positive onClick={() => handleApprove(task.id)}>Approve</Button> : <Button secondary onClick={() => {handleRevise(task.id)}}>Review</Button>}
+                {task.status === 0 ? null : task.status === 1 ? <span><Button positive onClick={() => handleApprove(task)}>Approve</Button> <Button negative onClick={() => handleRevise(task.id)}>Review</Button></span> : <Button negative onClick={() => {handleRevise(task)}}>Review</Button>}
               </Table.Cell>}
             </Table.Row>
           ))}

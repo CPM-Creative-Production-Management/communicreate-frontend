@@ -54,7 +54,7 @@ export const SingleTaskCard = (props) => {
             showToast('Approval request sent', 'success')
             dispatch(updateEstimation({
                 ...globalEstimation, tasks: globalEstimation.tasks.map((task, index) => {
-                    if (index === id) {
+                    if (task.id === id) {
                         return {
                             ...task, status: 1
                         }
@@ -107,7 +107,7 @@ export const SingleTaskCard = (props) => {
 
                         {props.edit && props.finalized && (props.singleTask.status === 0 ? <Button onClick={() => sendApprovalRequest(props.singleTask.id)}>
                             <Icon name='send' /> Request Approval
-                        </Button> : props.singleTask.status === 1 ? <Button disabled> Awaiting Approval </Button> : <Button disabled> Approved </Button>)}
+                        </Button> : props.singleTask.status === 1 ? <Button disabled> Awaiting Approval </Button> : (props.singleTask.status === 2 && <Button disabled> Approved </Button>))}
 
 
                     </Stack>
