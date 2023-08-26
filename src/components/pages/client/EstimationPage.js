@@ -59,6 +59,32 @@ const EstimationPage = (params) => {
 
     }
 
+    const handleApprove = async (id) => {
+      const response = await regularApiRequest({
+        url: base_url + 'estimation/task/approve/' + id,
+        method: 'PUT'
+      })
+
+      if (response.status === 200) {
+        showToast('Task approved', 'success')
+      } else {
+        showToast('Task could not be approved', 'error')
+      }
+    }
+
+    const handleRevise = async (id) => {
+      const response = await regularApiRequest({
+        url: base_url + 'estimation/task/review/' + id,
+        method: 'PUT'
+      })
+      if (response.status === 200) {
+        showToast('Task sent for reviewing', 'success')
+        window.location.reload()
+      } else {
+        showToast('Task could not be reviewed', 'error')
+      }
+    }
+
   return (
     <div>
       <br/>
@@ -74,7 +100,7 @@ const EstimationPage = (params) => {
         <thead>
           <tr>
               <th scope="col">Task</th>
-              {data?.ReqAgency.fnalized && <th scope="col">Status</th>}
+              {data?.ReqAgency.finalized && <th scope="col">Status</th>}
               <th scope="col">Cost</th>
               {data?.ReqAgency.finalized && <th scope="col">Actions</th>}
           </tr>
@@ -86,14 +112,14 @@ const EstimationPage = (params) => {
               <Table.Cell>
                 {task.name}
               </Table.Cell>
-              {data?.ReqAgency.finalized && <Table.Cell>
+              {data?.ReqAgency.finalized && (<Table.Cell>
                 {task.status === 0 ? 'Pending' : task.status === 1 ? 'Awaiting Approval' : 'Approved'}
-              </Table.Cell>}
+              </Table.Cell>)}
               <Table.Cell>
                 {task.cost}
               </Table.Cell>
               {data?.ReqAgency.finalized && <Table.Cell>
-                {task.status === 0 ? null : task.status === 1 ? <Button>Approve</Button> : <Button>Revise</Button>}
+                {task.status === 0 ? null : task.status === 1 ? <Button positive onClick={() => handleApprove(task.id)}>Approve</Button> : <Button secondary onClick={() => {handleRevise(task.id)}}>Review</Button>}
               </Table.Cell>}
             </Table.Row>
           ))}
