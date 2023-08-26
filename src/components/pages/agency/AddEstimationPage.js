@@ -346,7 +346,7 @@ export const AddEstimationPage = (props) => {
                     globalEstimation.tasks?.map((task, index) => {
                         return (<div>
                                 <SingleTaskCard show={openAddTaskModal} singleTask={task} taskIndex={index}
-                                                setShow={setOpenAddTaskModal}/>
+                                                setShow={setOpenAddTaskModal} edit={props.edit} finalized={reqData?.ReqAgency.finalized} />
                                 {index < globalEstimation.tasks?.length - 1 ? <Divider/> : null}
 
                             </div>

@@ -67,7 +67,7 @@ const FinalizePage = () => {
             if (response.status === 200) {
                 setStepNum(3)
                 if(response.data.responseCode === 1){
-                    setRedirectURL('payment/'+response.data.payment_id)
+                    setRedirectURL('/payment/'+response.data.payment_id)
                     showToast('Your choice is saved succesfully', 'success')
                 } else {
                     showToast('Your choice was confirmed already', 'error')
