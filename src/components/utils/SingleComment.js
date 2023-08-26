@@ -69,7 +69,8 @@ const SingleComment = ({singleCommentData}) => {
         if (response && response.status === 200) {
             showToast('Comment added successfully', 'success')
             setNewReply('')
-            window.location.reload()
+            // todo: update
+            // window.location.reload()
         } else {
             // showToast('Comment could not be added', 'error')
         }

@@ -1,35 +1,47 @@
-import React from 'react';
-import ArchiveTabs from "../tabs/ArchiveTabs";
-import EstimationTabs from "../tabs/EstimationTabs";
-import { Button, Icon } from "semantic-ui-react";
+import React, {useEffect} from 'react';
+import SingleReqCard from "../cards/SingleReqCard";
+import {base_url} from "../../index";
+import {useApiRequest} from "../api/useApiRequest";
+import {Divider} from "semantic-ui-react";
+import {SingleEstimationCard} from "../cards/SingleEstimationCard";
 
-import { showToast } from "../../App";
+export const Estimations = ({isOngoing, isRejected}) => {
+    let urlSuffix
 
-import { useNavigate } from "react-router-dom";
+    useEffect(() => {
+        urlSuffix = isOngoing ? 'estimation/ongoing' : 'estimation/rejected'
+    }, [])
 
-export const Estimations = () => {
+    const {data, dataLoading, error} = useApiRequest({
+        url: `${base_url}${isOngoing ? 'estimation/ongoing' : 'estimation/rejected'}`,
+        method: 'GET',
+    })
 
-    const navigate = useNavigate()
+    useEffect(() => {
+        console.log("estimation data : ", data)
+    }, [data])
 
-    const finalizeEstimation = () => {
-        navigate('/payment')
-    }
 
-    return (
-        <div>
-            <br />
-            <center>
-                <h1>Estimations</h1>
-            </center>
 
-            <EstimationTabs />
-            <br/>
-            <Button onClick={finalizeEstimation} positive animated>
-                <Button.Content visible>Continue To Payment</Button.Content>
-                <Button.Content hidden>
-                    <Icon name='finalizeEstimation' />
-                </Button.Content>
-            </Button>
-        </div>
-    );
+
+
+return (
+    <div>
+
+        {/*{data?.map((currEstimation, index) => {*/}
+        {/*        return (*/}
+        {/*            <div>*/}
+        {/*                <SingleEstimationCard isOngoing={isOngoing} isRejected={isRejected}*/}
+        {/*                    key={index}*/}
+        {/*                    estimationData={currEstimation}*/}
+        {/*                />*/}
+        {/*                <br/>*/}
+        {/*            </div>*/}
+        {/*        )*/}
+        {/*    }*/}
+        {/*)}*/}
+
+
+    </div>
+);
 }

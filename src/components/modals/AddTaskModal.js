@@ -55,6 +55,11 @@ const AddTaskModal = (props) => {
 
     }
 
+    useEffect(() => {
+        dispatch(resetCurrTask())
+
+    }, [])
+
 
     return (
         <Modal

@@ -25,7 +25,7 @@ export const Dashboard = () => {
             <Grid className='ms-2' columns={5}>
                 <Grid.Row>
                     <Grid.Column>
-                        <DashboardCard iconName='forward' colorName='teal' cardHeader='Ongoing Estimations'
+                        <DashboardCard iconName='forward' colorName='teal' cardHeader='Ongoing EstimationsPage'
                                        cardDesc='These are the estimations that you have started but not yet completed. Negotiation is going on with the clients.'
                                        count='5'/>
 
@@ -33,7 +33,7 @@ export const Dashboard = () => {
 
                     <Grid.Column>
 
-                        <DashboardCard iconName='check' colorName='green' cardHeader='Finalized Estimations'
+                        <DashboardCard iconName='check' colorName='green' cardHeader='Finalized EstimationsPage'
                                        cardDesc='These are the estimations that have been accepted.
                                     You can now start working on the projects.'
                                        count='3'/>
@@ -43,7 +43,7 @@ export const Dashboard = () => {
                     <Grid.Column>
 
 
-                        <DashboardCard iconName='close' colorName='red' cardHeader='Rejected Estimations'
+                        <DashboardCard iconName='close' colorName='red' cardHeader='Rejected EstimationsPage'
 
                                        cardDesc='These are the estimations that have been rejected by the clients or by you.'
                                        count='2'/>

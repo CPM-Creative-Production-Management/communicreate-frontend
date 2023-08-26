@@ -59,6 +59,8 @@ const EditTaskModal = (props) => {
             })
         }))
 
+        dispatch(resetCurrTask())
+
         props.setShow(false)
 
 

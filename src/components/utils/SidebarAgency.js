@@ -10,29 +10,28 @@ import {HiOutlineMail} from "react-icons/hi";
 import {Divider} from "semantic-ui-react";
 import {RiTeamLine} from "react-icons/ri";
 import {SiAntdesign} from "react-icons/si";
-import Navbar from "react-bootstrap/Navbar";
 import {BiGitPullRequest} from "react-icons/bi";
 import {mobile} from "../../App";
 
 
 export const SidebarAgency = () => {
 
-    const [collapsed, setCollapsed] = React.useState(false);
-
-
-
     return (
         <div style={{display: 'flex', position:"fixed", bottom:'0px', height: '100vh'}}>
+
             <Sidebar collapsed={mobile}>
                 <Menu
                     menuItemStyles={{
                         button: {
+                            // the active class will be added automatically by react router
+                            // so we can use it to style the active menu item
                             [`&.active`]: {
                                 backgroundColor: '#13395e',
                                 color: '#b6c8d9',
                             },
                         },
                     }}
+
                 >
 
                     <MenuItem component={<Link to="/"/>} icon={<SiAntdesign/>} disabled> CPM </MenuItem>
@@ -56,6 +55,7 @@ export const SidebarAgency = () => {
 
                 </Menu>
             </Sidebar>
+
         </div>
     );
 

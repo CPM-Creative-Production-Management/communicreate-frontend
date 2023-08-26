@@ -19,8 +19,8 @@ const ClientDashboard = () => {
       { data && <Grid className='ms-2' columns={5}>
         <Grid.Row>
             <Grid.Column>
-                <DashboardCard iconName='wait' colorName='blue' cardHeader='Requests'
-                                count={data.requests} entity='Requests'/>
+                <DashboardCard iconName='wait' colorName='blue' cardHeader='RequestPage'
+                                count={data.requests} entity='RequestPage'/>
 
             </Grid.Column>
 

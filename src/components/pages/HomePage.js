@@ -6,7 +6,7 @@ import {Dashboard} from "../fragments/Dashboard";
 import {Archive} from "../fragments/Archive";
 import "./pages.css"
 import {AddEstimationPage} from "./agency/AddEstimationPage";
-import {Estimations} from "../fragments/Estimations";
+import {EstimationsPage} from "./agency/EstimationsPage";
 import MyEmployeesPage from './agency/MyEmployeesPage';
 import DuesPageAgency from './agency/DuesPageAgency';
 import AddEmployeePage from './agency/AddEmployeePage';
@@ -17,7 +17,7 @@ import ClientDashboard from './client/ClientDashboard';
 import {SidebarClient} from  '../utils/SidebarClient'
 import AddRequestPage from './client/AddRequestPage';
 import MyRequestsPage from './client/MyRequestsPage';
-import Requests from "./agency/Requests";
+import RequestPage from "./agency/RequestPage";
 // import ResponsePage from './client/ResponsePage';
 import FinalizePage from './client/FinalizePage';
 import PaymentPage from './client/PaymentPage';
@@ -61,8 +61,8 @@ export const HomePage = () => {
                         }
                         
                         <Route exact path="/archive" element={<Archive/>}/>
-                        <Route exact path="/requests" element={<Requests/>}/>
-                        <Route exact path="/estimations" element={<Estimations/>}/>
+                        <Route exact path="/requests" element={<RequestPage/>}/>
+                        <Route exact path="/estimations" element={<EstimationsPage/>}/>
                         <Route exact path="/add-estimation/:id" element={<AddEstimationPage edit={false}/>}/>
                         <Route exact path="/edit-estimation/:id" element={<AddEstimationPage edit={true}/>}/>
                         <Route exact path="/my-employees" element={<MyEmployeesPage/>}/>

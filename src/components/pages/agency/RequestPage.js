@@ -1,7 +1,7 @@
 import React from 'react'
 import RequestTabs from "../../tabs/RequestTabs";
 
-const Requests = () => {
+const RequestPage = () => {
     return (
         <div>
             <br />
@@ -16,4 +16,4 @@ const Requests = () => {
         </div>
     )
 }
-export default Requests
+export default RequestPage

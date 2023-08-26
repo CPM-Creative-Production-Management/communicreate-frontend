@@ -4,11 +4,11 @@ import {OfferedRequests} from "../fragments/OfferedRequests";
 
 const panes = [
     {
-        menuItem: 'Offered Requests',
+        menuItem: 'Offered RequestPage',
         render: () => <Tab.Pane attached={false}><OfferedRequests isOffered={true}/></Tab.Pane>,
     },
     {
-        menuItem: 'Accepted Requests',
+        menuItem: 'Accepted RequestPage',
         render: () => <Tab.Pane attached={false}><OfferedRequests isAccepted={true}/></Tab.Pane>,
     },
 
@@ -16,11 +16,9 @@ const panes = [
 
 
 const RequestTabs = () => (
-    <div className="row">
-        {/*<div className="col-xs-0 col-sm-1 col-md-1"></div>*/}
-        <Tab className="col-xs-12 col-sm-12 col-md-12" menu={{secondary: true, pointing: true}} panes={panes}/>
-        {/*<div className="col-xs-0 col-sm-1 col-md-1"></div>*/}
-    </div>
+
+    <Tab className="col-xs-12 col-sm-12 col-md-12" menu={{secondary: true, pointing: true}} panes={panes}/>
+
 
 )
 
