@@ -67,7 +67,6 @@ const EstimationPage = (params) => {
 
       if (response.status === 200) {
         showToast('Task approved', 'success')
-        window.location.reload()
       } else {
         showToast('Task could not be approved', 'error')
       }
@@ -75,14 +74,14 @@ const EstimationPage = (params) => {
 
     const handleRevise = async (id) => {
       const response = await regularApiRequest({
-        url: base_url + 'estimation/task/revise/' + id,
+        url: base_url + 'estimation/task/review/' + id,
         method: 'PUT'
       })
       if (response.status === 200) {
-        showToast('Task revised', 'success')
+        showToast('Task sent for reviewing', 'success')
         window.location.reload()
       } else {
-        showToast('Task could not be revised', 'error')
+        showToast('Task could not be reviewed', 'error')
       }
     }
 
@@ -120,7 +119,7 @@ const EstimationPage = (params) => {
                 {task.cost}
               </Table.Cell>
               {data?.ReqAgency.finalized && <Table.Cell>
-                {task.status === 0 ? null : task.status === 1 ? <Button positive onClick={() => handleApprove(task.id)}>Approve</Button> : <Button secondary onClick={() => {handleRevise(task.id)}}>Revise</Button>}
+                {task.status === 0 ? null : task.status === 1 ? <Button positive onClick={() => handleApprove(task.id)}>Approve</Button> : <Button secondary onClick={() => {handleRevise(task.id)}}>Review</Button>}
               </Table.Cell>}
             </Table.Row>
           ))}
