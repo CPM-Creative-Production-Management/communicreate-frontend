@@ -50,9 +50,10 @@ export const HomePage = () => {
 
             <div className="row">
                 <div className="col-xs-1 col-sm-1 col-md-2">{ userType === 1 ? <SidebarClient /> : <SidebarAgency />}</div>
+                <center>
+                <div className="col-xs-11 col-sm-11 col-md-10 left-align">
 
-                <div className="col-xs-11 col-sm-11 col-md-10">
-                    <div className="me-5">
+
 
                     <Routes>
                         {userType === 1? 
@@ -91,9 +92,10 @@ export const HomePage = () => {
                         <Route exact path="/agency/:id" element={<AgencyPage/>}/>
                     </Routes>
 
-                     
-                    </div>
+
+
                 </div>
+                </center>
 
 
             </div>
