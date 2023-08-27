@@ -1,11 +1,7 @@
-import React, { useEffect } from 'react'
-import { Button, Header, Image, Table } from "semantic-ui-react";
-import { useState } from 'react';
-import { useSelector, useDispatch } from "react-redux";
+import React from 'react'
+import { Table } from "semantic-ui-react";
 
 const TableTransactionList = ({ tableData }) => {
-
-    const dispatch = useDispatch()
 
     return (
         <div>
@@ -31,8 +27,8 @@ const TableTransactionList = ({ tableData }) => {
                             <Table.Cell>{currItem.amount} ৳</Table.Cell>
                             <Table.Cell>{currItem.payment_date}</Table.Cell>
                             <Table.Cell>{currItem.payment_time}</Table.Cell>
-                            {currItem.status === "successful" && <Table.Cell style={{color:"green"}}>{currItem.status}</Table.Cell>}
-                            {currItem.status === "failed" && <Table.Cell style={{color:"red"}}>{currItem.status}</Table.Cell>}
+                            {currItem.status === "successful" && <Table.Cell style={{color:"green"}}><b>{currItem.status}</b></Table.Cell>}
+                            {currItem.status === "failed" && <Table.Cell style={{color:"red"}}><b>{currItem.status}</b></Table.Cell>}
                             <Table.Cell>{currItem.transaction_id}</Table.Cell>
                         </Table.Row>
                     ))}

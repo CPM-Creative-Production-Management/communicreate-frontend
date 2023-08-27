@@ -3,7 +3,7 @@ import {Button, Header, Grid} from "semantic-ui-react";
 import {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 
-const SingleDueCard = ({data}) => {
+const SingleDueCard = ({data, userType}) => {
 
     let navigate = useNavigate()
 
@@ -63,64 +63,68 @@ const SingleDueCard = ({data}) => {
                                 </pre>
 
                             </div>
-                            {/* {currItem.category === "EMI" &&
-                                <div className="description">
-                                    <div className="meta" style={{ textAlign: "center" }}>
-                                        <span className="category">EMI Details</span>
-                                    </div>
-                                    <pre className="emi-background">
-                                        <b>Total Installments: </b> {currItem.emi_installment_choice}<br />
-                                        <b>Installments Completed: </b> {currItem.installments_completed}<br />
-                                        <b>Installments Remaining: </b> {currItem.remaining_installments}<br />
-                                    </pre>
-                                </div>
-                            } */}
                         </div>
 
-                        {currItem.overdue === 0 &&
+                        {userType === 1 && currItem.overdue === 0 &&
                             <div className="extra content" style={{textAlign: "center"}}>
                                 <span className="floated time" style={{color: 'green'}}>
                                     <div className={'mb-3'}>
                                     <b>{currItem.message}</b>
                                         </div>
                                 </span>
-                                <div className="ui green bottom attached button" tabindex="0" primary="true"
+                                <Button fluid attached='bottom' color='green'
                                      onClick={() => {
                                          navigate('/payment/' + currItem.id)
                                      }}>
                                     See Details
-                                </div>
-                            </div>}
-                        {currItem.overdue === 1 &&
+                                </Button>
+                            </div>
+                        }
+
+                        {userType === 1 && currItem.overdue === 1 &&
                             <div className="extra content" style={{textAlign: "center"}}>
                                 <span className="floated time" style={{color: 'red'}}>
                                     <div className={'mb-3'}>
                                     <b>{currItem.message}</b>
                                         </div>
                                 </span>
-                                <div className="ui red bottom attached button" tabindex="0" primary="true"
+                                <Button fluid attached='bottom' color='red'
                                      onClick={() => {
                                          navigate('/payment/' + currItem.id)
                                      }}>
                                     Clear Dues
-                                </div>
-                            </div>}
-                        {currItem.overdue === 2 &&
+                                </Button>
+                            </div>
+                        }
+
+                        {userType === 1 && currItem.overdue === 2 &&
                             <div className="extra content" style={{textAlign: "center"}}>
                                 <span className="floated time" style={{color: 'grey'}}>
                                     <div className={'mb-3'}>
                                     <b>{currItem.message}</b>
                                         </div>
                                 </span>
-                                <div className="ui grey bottom attached button" tabindex="0" primary="true">
+                                <Button fluid attached='bottom' color='grey'>
                                     Done
-                                </div>
-                            </div>}
-                    </div>
+                                </Button>
+                            </div>
+                        }
 
+                        {userType === 2 &&
+                            <div className="extra content" style={{textAlign: "center"}}>
+                                <Button fluid attached='bottom' color='blue'
+                                 onClick={() => { 
+                                    navigate('/payment/' + currItem.id) 
+                                }}>
+                                    See Details
+                                    </Button>
+                            </div>
+                        }
+                    </div>
                 ))}
             </div>
         </div>
     )
 }
+
 export default SingleDueCard

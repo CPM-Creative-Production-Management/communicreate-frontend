@@ -8,9 +8,7 @@ import "./pages.css"
 import {AddEstimationPage} from "./agency/AddEstimationPage";
 import {EstimationsPage} from "./agency/EstimationsPage";
 import MyEmployeesPage from './agency/MyEmployeesPage';
-import DuesPageAgency from './agency/DuesPageAgency';
 import AddEmployeePage from './agency/AddEmployeePage';
-import PaymentPageAgency from './agency/PaymentPageAgency';
 
 import Cookies from "universal-cookie";
 import ClientDashboard from './client/ClientDashboard';
@@ -20,12 +18,12 @@ import MyRequestsPage from './client/MyRequestsPage';
 import RequestPage from "./agency/RequestPage";
 // import ResponsePage from './client/ResponsePage';
 import FinalizePage from './client/FinalizePage';
-import PaymentPage from './client/PaymentPage';
-import DuesPage from './client/DuesPage';
 import EstimationPage from './client/EstimationPage';
 import AgenciesPage from './client/AgenciesPage';
 import AgencyPage from './client/AgencyPage';
 
+import DuesPage from './DuesPage';
+import PaymentPage from './PaymentPage';
 
 const cookies = new Cookies();
 
@@ -76,15 +74,8 @@ export const HomePage = () => {
                             userType === 1 ?
                                 <Route exact path="/request/:rid/agency/:aid/finalize" element={<FinalizePage/>}/> : null
                         }
-                        {
-                            userType === 1 ?
-                                <Route exact path="/payment/:id" element={<PaymentPage/>}/> : <Route exact path="/payment/:id" element={<PaymentPageAgency/>}/>
-                        }
-                        {
-                            userType === 1 ?
-                                <Route exact path="/dues" element={<DuesPage/>}/> : <Route exact path="/dues" element={<DuesPageAgency/>}/>
-                        }
-
+                        <Route exact path="/payment/:id" element={<PaymentPage/>}/>
+                        <Route exact path="/dues" element={<DuesPage/>}/>
                         <Route exact path="/request/:rid/agency/:aid/estimation" element={<EstimationPage/>}/>
                         <Route exact path="/agencies" element={<AgenciesPage/>} />
                         <Route exact path="/agency/:id" element={<AgencyPage/>}/>
