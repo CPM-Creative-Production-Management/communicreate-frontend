@@ -197,7 +197,7 @@ const FinalizePage = () => {
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <Button onClick={(e) => newPayment(e)} positive>
+                                    <Button fluid color='green' onClick={(e) => newPayment(e)} positive>
                                         Confirm
                                     </Button>
                                 </div>
