@@ -1,11 +1,21 @@
-import React, {useState, useRef} from 'react';
-import {Button, Comment, Icon, Input, TextArea} from "semantic-ui-react";
-import {regularApiRequest} from "../api/regularApiRequest";
-import {base_url} from "../../index";
-import {showToast} from "../../App";
+import React, { useState, useRef } from 'react';
+import { Button, Comment, Icon, Input, Loader, TextArea } from "semantic-ui-react";
+import { regularApiRequest } from "../api/regularApiRequest";
+import { base_url } from "../../index";
+import { showToast } from "../../App";
 import Textarea from "@mui/joy/Textarea";
 
-const SingleComment = ({singleCommentData}) => {
+import { useSelector, useDispatch } from "react-redux";
+import { updateComments } from '../../actions';
+import { commentApiRequest } from '../api/commentApiRequest';
+
+const SingleComment = ({ singleCommentData }) => {
+
+    const dispatch = useDispatch()
+    const globalComments = useSelector(state => state.comments)
+
+    const [commentPosting, setCommentPosting] = useState(false)
+
 
     const getTimeOrDayDifference = (dateString) => {
         const currentTime = new Date();
@@ -22,14 +32,14 @@ const SingleComment = ({singleCommentData}) => {
                         return `just now`;
                     }
                     const minutesDifference = Math.floor(timeDifference / (1000 * 60));
-                    return `${minutesDifference} minute${minutesDifference>1 && 's'} ago`;
+                    return `${minutesDifference} minute${minutesDifference > 1 ? 's' : ''} ago`;
                 } else {
-                    return `${hoursDifference} hour${hoursDifference>1 && 's'} ago`;
+                    return `${hoursDifference} hour${hoursDifference > 1 && 's'} ago`;
                 }
             } else if (daysDifference === 1) {
                 return `1 day ago`;
             } else {
-                return `${daysDifference} day${daysDifference>1 && 's'} ago`;
+                return `${daysDifference} day${daysDifference > 1 && 's'} ago`;
             }
         } else {
             const year = targetTime.getUTCFullYear();
@@ -56,23 +66,64 @@ const SingleComment = ({singleCommentData}) => {
         }
 
         console.log('replyBody', replyBody)
-        setIsReplying(false)
 
-        const response = await regularApiRequest({
+
+        setCommentPosting(true)
+        const response = await commentApiRequest({
             url: base_url + `comment/${singleCommentData.id}/reply`,
             method: 'POST',
             reqBody: replyBody
         })
 
-        console.log('comment response', response)
+        
 
         if (response && response.status === 200) {
-            showToast('Comment added successfully', 'success')
+            showToast('reply added successfully', 'success')
             setNewReply('')
-            // todo: update
-            // window.location.reload()
+            setIsReplying(false)
+            setCommentPosting(false)
+
+            // add the reply to the current comment in the current reply in the global comments
+            // add the reply to the current reply in the global comments
+            dispatch(updateComments(globalComments.map((currComment) => {
+               
+                if (currComment.id === singleCommentData.id) {
+                   return { ...currComment, replies: [...currComment.replies, response.data.reply] }
+                }
+                // check the replies of the current comment
+                // if the current comment has replies
+                // check if the current reply is a reply to any of the replies
+                // if it is, add it to the replies of the reply
+                // if it is not, add it to the replies of the comment
+                if (currComment.replies && currComment.replies.length > 0) {
+                    return { ...currComment, replies: currComment.replies.map((currReply) => {
+                        if (currReply.id === singleCommentData.id) {
+                            return { ...currReply, replies: [...currReply.replies, response.data.reply] }
+                        }
+                        return currReply
+                    })}
+                }
+                
+
+                return currComment
+            })))
+
+
+
+
+
+            // dispatch(updateComments(globalComments.map((currComment) => {
+            //     if (currComment.id === singleCommentData.id) {
+            
+            //         return { ...currComment, replies: [...currComment.replies, response.data.reply] }
+            //     }
+            //     return currComment
+            // })))
+
+            console.log('reply response', response)
+
         } else {
-            // showToast('Comment could not be added', 'error')
+            showToast('Comment could not be added', 'error')
         }
 
     }
@@ -81,7 +132,7 @@ const SingleComment = ({singleCommentData}) => {
     return (
 
         <Comment>
-            <Comment.Avatar src={ singleCommentData.User.profile_picture || 'https://react.semantic-ui.com/images/avatar/small/matt.jpg'}/>
+            <Comment.Avatar src={singleCommentData.User.profile_picture || 'https://react.semantic-ui.com/images/avatar/small/matt.jpg'} />
             <Comment.Content>
                 <Comment.Author as='a'>{singleCommentData.User.name}</Comment.Author>
                 <Comment.Metadata>
@@ -98,12 +149,14 @@ const SingleComment = ({singleCommentData}) => {
                 {isReplying && <span>
 
 
-                    <Textarea size="md" name='newReply' value={newReply} onChange={(e)=>{setNewReply(e.target.value)}} placeholder='add a comment...'/>
+                    <Textarea size="md" name='newReply' value={newReply} onChange={(e) => { setNewReply(e.target.value) }} placeholder='add a comment...' />
 
 
-                    <Button className='mt-3' onClick={addReply} primary>
-                      <Icon name='send'/> Reply
-                    </Button>
+                    {commentPosting ? <Loader className='mt-2' active size='small' inline /> :
+                        <Button className='mt-3' onClick={addReply} primary>
+                            <Icon name='send' /> Reply
+                        </Button>
+                    }
                 </span>}
 
 
@@ -114,7 +167,7 @@ const SingleComment = ({singleCommentData}) => {
                     {singleCommentData.replies?.map((currReply, index) => {
                         return (
 
-                            <SingleComment key={index} singleCommentData={currReply}/>
+                            <SingleComment key={index} singleCommentData={currReply} />
 
                         )
                     })

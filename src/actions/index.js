@@ -61,3 +61,11 @@ export const updateRequest = (request) => {
         payload: request
     }
 }
+
+// for comments
+export const updateComments = (comments) => {
+    return {
+        type: 'UPDATE_COMMENTS',
+        payload: comments
+    }
+}

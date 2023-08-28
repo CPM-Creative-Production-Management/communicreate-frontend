@@ -139,16 +139,6 @@ const SingleReqCard = ({reqData, isAccepted, isOffered}) => {
 
                         <Card.Content extra>
 
-                            {/* <Button icon labelPosition='left'>
-                                <Icon name='ban'/>
-                                Irrelevant
-                            </Button>
-
-                            <Button onClick={()=>{acceptReq(reqData.RequestId)}} icon labelPosition='left' floated='right' positive>
-                            <Icon name='check circle outline'/>
-                                Accept
-                            </Button>  */}
-
                             <Button fluid onClick={() => {
                                 setShowDetails(false)
                             }}> Close

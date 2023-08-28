@@ -9,6 +9,8 @@ import {Avatar, Chip, Stack, Grid} from "@mui/material";
 import {Dropdown} from "semantic-ui-react";
 
 import {useSelector, useDispatch} from "react-redux";
+import { updateComments } from '../../../actions';
+
 import {updateEstimation, resetCurrEstimation} from "../../../actions";
 import Textarea from '@mui/joy/Textarea';
 import {showToast} from "../../../App";
@@ -20,16 +22,16 @@ import {base_url} from '../../../index';
 import {regularApiRequest} from '../../api/regularApiRequest';
 import Comments from "../../custom/Comments";
 
-const drawerBleeding = 56;
-
 
 export const AddEstimationPage = (props) => {
     const navigate = useNavigate()
+
 
     const {id} = useParams()
 
     // get the global Estimation from redux store
     const globalEstimation = useSelector(state => state.currEstimation)
+    const globalComments = useSelector(state => state.comments)
     // dispatch an action to the reducer
     const dispatch = useDispatch()
 
@@ -168,24 +170,28 @@ export const AddEstimationPage = (props) => {
         console.log('delete tag', index)
         // showToast(index, {toastType: 'success'})
 
-        dispatch(updateEstimation({...globalEstimation, tags: globalEstimation.tags.filter((tag, i) => i !== index)}))
+        dispatch(updateEstimation({
+            ...globalEstimation, tags: globalEstimation.tags.filter((tag, i) => i !== index)
+        }))
 
     }
 
-    const addTag = (tag_id) => {
-        console.log('add tag', tag_id)
+    const addTag = (tagIndex) => {
+        console.log('add tag', tagIndex)
         // showToast(tag_id, {toastType: 'success'})
         // do not add if the item already exists
-        if (globalEstimation.tags.includes(allEstimationTags[tag_id])) {
+        if (globalEstimation.tags.includes(allEstimationTags[tagIndex])) {
             showToast('Tag already added', 'error')
 
         } else {
             dispatch(updateEstimation({
                 ...globalEstimation,
-                tags: [...globalEstimation.tags, allEstimationTags[tag_id]]
+                tags: [...globalEstimation.tags, allEstimationTags[tagIndex]]
             }))
         }
     }
+
+  
 
     useEffect(() => {
         // update the globalEstimation cost via redux by looping over all tasks
@@ -226,6 +232,7 @@ export const AddEstimationPage = (props) => {
 
     // const commentRef = useRef('');
     const [newComment, setNewComment] = useState('')
+
     const addComment = async () => {
         // check if comment is empty
         if (newComment.length === 0) {
@@ -250,7 +257,10 @@ export const AddEstimationPage = (props) => {
         if (response && response.status === 200) {
             showToast('Comment added successfully', 'success')
             setNewComment('')
-            // todo: update
+            // add a new comment to the global comments
+
+
+            dispatch(updateComments([...globalComments, response.data.comment]));
             // window.location.reload()
         } else {
             // showToast('Comment could not be added', 'error')

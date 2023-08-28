@@ -11,13 +11,14 @@ const panes = [
         menuItem: 'Accepted Request',
         render: () => <Tab.Pane attached={false}><OfferedRequests isAccepted={true}/></Tab.Pane>,
     },
+    
 
 ]
 
 
 const RequestTabs = () => (
 
-    <Tab className="col-xs-12 col-sm-12 col-md-12" menu={{secondary: true, pointing: true}} panes={panes}/>
+    <Tab menu={{secondary: true, pointing: true}} panes={panes}/>
 
 
 )

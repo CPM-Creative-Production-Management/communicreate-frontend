@@ -5,11 +5,7 @@ import {useApiRequest} from "../api/useApiRequest";
 import {Divider} from "semantic-ui-react";
 
 export const OfferedRequests = ({isOffered, isAccepted}) => {
-    let urlSuffix 
 
-    useEffect(() => {
-        urlSuffix = isOffered ? 'request/pending' : 'request/accepted'
-    }, [])
 
     const {data, dataLoading, error} = useApiRequest({
         url: `${base_url}${isOffered ? 'request/pending' : 'request/accepted'}`,
