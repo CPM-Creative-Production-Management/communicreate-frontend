@@ -12,7 +12,6 @@ import { commentApiRequest } from '../api/commentApiRequest';
 const SingleComment = ({ singleCommentData }) => {
 
     const dispatch = useDispatch()
-    const globalComments = useSelector(state => state.comments)
 
     const [commentPosting, setCommentPosting] = useState(false)
 
@@ -75,7 +74,7 @@ const SingleComment = ({ singleCommentData }) => {
             reqBody: replyBody
         })
 
-        
+
 
         if (response && response.status === 200) {
             showToast('reply added successfully', 'success')
@@ -83,42 +82,11 @@ const SingleComment = ({ singleCommentData }) => {
             setIsReplying(false)
             setCommentPosting(false)
 
-            // add the reply to the current comment in the current reply in the global comments
-            // add the reply to the current reply in the global comments
-            dispatch(updateComments(globalComments.map((currComment) => {
-               
-                if (currComment.id === singleCommentData.id) {
-                   return { ...currComment, replies: [...currComment.replies, response.data.reply] }
-                }
-                // check the replies of the current comment
-                // if the current comment has replies
-                // check if the current reply is a reply to any of the replies
-                // if it is, add it to the replies of the reply
-                // if it is not, add it to the replies of the comment
-                if (currComment.replies && currComment.replies.length > 0) {
-                    return { ...currComment, replies: currComment.replies.map((currReply) => {
-                        if (currReply.id === singleCommentData.id) {
-                            return { ...currReply, replies: [...currReply.replies, response.data.reply] }
-                        }
-                        return currReply
-                    })}
-                }
-                
+            // set the global comment to the updated comment from the response
+            console.log('response.data.comments', response.data.comments)
+            dispatch(updateComments(response.data.comments))
 
-                return currComment
-            })))
-
-
-
-
-
-            // dispatch(updateComments(globalComments.map((currComment) => {
-            //     if (currComment.id === singleCommentData.id) {
             
-            //         return { ...currComment, replies: [...currComment.replies, response.data.reply] }
-            //     }
-            //     return currComment
-            // })))
 
             console.log('reply response', response)
 
@@ -130,6 +98,7 @@ const SingleComment = ({ singleCommentData }) => {
 
 
     return (
+        
 
         <Comment>
             <Comment.Avatar src={singleCommentData.User.profile_picture || 'https://react.semantic-ui.com/images/avatar/small/matt.jpg'} />
@@ -149,14 +118,18 @@ const SingleComment = ({ singleCommentData }) => {
                 {isReplying && <span>
 
 
-                    <Textarea size="md" name='newReply' value={newReply} onChange={(e) => { setNewReply(e.target.value) }} placeholder='add a comment...' />
+                    <Textarea disabled={commentPosting} size="md" name='newReply' value={newReply} onChange={(e) => { setNewReply(e.target.value) }} placeholder='add a comment...' />
 
 
-                    {commentPosting ? <Loader className='mt-2' active size='small' inline /> :
+                    {/* {commentPosting ? <Loader className='mt-2' active size='small' inline /> :
                         <Button className='mt-3' onClick={addReply} primary>
                             <Icon name='send' /> Reply
                         </Button>
-                    }
+                    } */}
+
+                    <Button loading={commentPosting} className='mt-3' onClick={addReply} primary>
+                        <Icon name='send' /> Reply
+                    </Button>
                 </span>}
 
 

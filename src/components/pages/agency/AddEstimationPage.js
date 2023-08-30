@@ -23,6 +23,10 @@ import {regularApiRequest} from '../../api/regularApiRequest';
 import Comments from "../../custom/Comments";
 
 
+import { commentApiRequest } from '../../api/commentApiRequest';
+
+
+
 export const AddEstimationPage = (props) => {
     const navigate = useNavigate()
 
@@ -232,6 +236,7 @@ export const AddEstimationPage = (props) => {
 
     // const commentRef = useRef('');
     const [newComment, setNewComment] = useState('')
+    const [commentPosting, setCommentPosting] = useState(false)
 
     const addComment = async () => {
         // check if comment is empty
@@ -246,7 +251,8 @@ export const AddEstimationPage = (props) => {
 
         console.log('comment body', commentBody)
 
-        const response = await regularApiRequest({
+        setCommentPosting(true)
+        const response = await commentApiRequest({
             url: base_url + `estimation/${globalEstimation.id}/comment`,
             method: 'POST',
             reqBody: commentBody
@@ -259,9 +265,10 @@ export const AddEstimationPage = (props) => {
             setNewComment('')
             // add a new comment to the global comments
 
+            setCommentPosting(false)
+
 
             dispatch(updateComments([...globalComments, response.data.comment]));
-            // window.location.reload()
         } else {
             // showToast('Comment could not be added', 'error')
         }
@@ -334,7 +341,7 @@ export const AddEstimationPage = (props) => {
 
 
                 <Card.Description>
-                    <h4> Task List </h4>
+                    <h4>Requested Task List </h4>
                     <List ordered animated verticalAlign='middle'>
                         {requestData.RequestTasks?.map((task, index) => {
                             return (
@@ -378,11 +385,11 @@ export const AddEstimationPage = (props) => {
                         : null}
 
                     <span>
-                    <Textarea size="md" name='newComment' value={newComment} onChange={(e) => {
+                    <Textarea disabled={commentPosting} size="md" name='newComment' value={newComment} onChange={(e) => {
                         setNewComment(e.target.value)
                     }} placeholder='add a comment...'/>
 
-                    <Button className='mt-3' onClick={addComment} primary>
+                    <Button loading={commentPosting} className='mt-3' onClick={addComment} primary>
                       <Icon name='send'/> Comment
                     </Button>
                 </span>
