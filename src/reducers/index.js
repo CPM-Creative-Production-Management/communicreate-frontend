@@ -15,7 +15,7 @@ const allReducers = combineReducers({
     currTask: currTaskAddingReducer,
     currRequest: currRequestReducer,
     userProfile: userProfileReducer,
-    requests: requestsReducer
+    requests: requestsReducer,
     comments: commentReducer,
 });
 
