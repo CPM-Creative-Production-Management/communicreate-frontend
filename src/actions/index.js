@@ -62,6 +62,18 @@ export const updateRequest = (request) => {
     }
 }
 
+export const resetRequest = () => {
+    return {
+        type: 'RESET_REQUEST',
+        payload: {
+            name: "",
+            description: "",
+            response_deadline: "",
+            complete_deadline: "",
+            tasks: [],
+        }
+    }
+}
 
 export const updateRequests = (requests) => {
     return {

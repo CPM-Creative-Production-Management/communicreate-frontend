@@ -16,10 +16,12 @@ import {mobile} from "../../App";
 
 export const SidebarAgency = () => {
 
+    const [collapsed, setCollapsed] = React.useState(false);
+
     return (
         <div style={{display: 'flex', position:"fixed", bottom:'0px', height: '100vh'}}>
 
-            <Sidebar collapsed={mobile}>
+            <Sidebar collapsed={collapsed}>
                 <Menu
                     menuItemStyles={{
                         button: {
