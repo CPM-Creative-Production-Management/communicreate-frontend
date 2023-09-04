@@ -7,13 +7,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateRequests } from '../../actions';
 
 export const OfferedRequests = ({isOffered, isAccepted}) => {
+
     const dispatch = useDispatch()
     const globalRequests = useSelector(state => state.requests)
     let urlSuffix 
 
-    useEffect(() => {
-        urlSuffix = isOffered ? 'request/pending' : 'request/accepted'
-    }, [])
+
 
     const {data, dataLoading, error} = useApiRequest({
         url: `${base_url}${isOffered ? 'request/pending' : 'request/accepted'}`,

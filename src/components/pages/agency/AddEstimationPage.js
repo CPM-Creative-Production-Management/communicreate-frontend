@@ -9,6 +9,8 @@ import {Avatar, Chip, Stack, Grid} from "@mui/material";
 import {Dropdown} from "semantic-ui-react";
 
 import {useSelector, useDispatch} from "react-redux";
+import { updateComments } from '../../../actions';
+
 import {updateEstimation, resetCurrEstimation} from "../../../actions";
 import Textarea from '@mui/joy/Textarea';
 import {showToast} from "../../../App";
@@ -20,16 +22,20 @@ import {base_url} from '../../../index';
 import {regularApiRequest} from '../../api/regularApiRequest';
 import Comments from "../../custom/Comments";
 
-const drawerBleeding = 56;
+
+import { commentApiRequest } from '../../api/commentApiRequest';
+
 
 
 export const AddEstimationPage = (props) => {
     const navigate = useNavigate()
 
+
     const {id} = useParams()
 
     // get the global Estimation from redux store
     const globalEstimation = useSelector(state => state.currEstimation)
+    const globalComments = useSelector(state => state.comments)
     // dispatch an action to the reducer
     const dispatch = useDispatch()
 
@@ -168,24 +174,28 @@ export const AddEstimationPage = (props) => {
         console.log('delete tag', index)
         // showToast(index, {toastType: 'success'})
 
-        dispatch(updateEstimation({...globalEstimation, tags: globalEstimation.tags.filter((tag, i) => i !== index)}))
+        dispatch(updateEstimation({
+            ...globalEstimation, tags: globalEstimation.tags.filter((tag, i) => i !== index)
+        }))
 
     }
 
-    const addTag = (tag_id) => {
-        console.log('add tag', tag_id)
+    const addTag = (tagIndex) => {
+        console.log('add tag', tagIndex)
         // showToast(tag_id, {toastType: 'success'})
         // do not add if the item already exists
-        if (globalEstimation.tags.includes(allEstimationTags[tag_id])) {
+        if (globalEstimation.tags.includes(allEstimationTags[tagIndex])) {
             showToast('Tag already added', 'error')
 
         } else {
             dispatch(updateEstimation({
                 ...globalEstimation,
-                tags: [...globalEstimation.tags, allEstimationTags[tag_id]]
+                tags: [...globalEstimation.tags, allEstimationTags[tagIndex]]
             }))
         }
     }
+
+  
 
     useEffect(() => {
         // update the globalEstimation cost via redux by looping over all tasks
@@ -226,6 +236,8 @@ export const AddEstimationPage = (props) => {
 
     // const commentRef = useRef('');
     const [newComment, setNewComment] = useState('')
+    const [commentPosting, setCommentPosting] = useState(false)
+
     const addComment = async () => {
         // check if comment is empty
         if (newComment.length === 0) {
@@ -239,7 +251,8 @@ export const AddEstimationPage = (props) => {
 
         console.log('comment body', commentBody)
 
-        const response = await regularApiRequest({
+        setCommentPosting(true)
+        const response = await commentApiRequest({
             url: base_url + `estimation/${globalEstimation.id}/comment`,
             method: 'POST',
             reqBody: commentBody
@@ -250,8 +263,12 @@ export const AddEstimationPage = (props) => {
         if (response && response.status === 200) {
             showToast('Comment added successfully', 'success')
             setNewComment('')
-            // todo: update
-            // window.location.reload()
+            // add a new comment to the global comments
+
+            setCommentPosting(false)
+
+
+            dispatch(updateComments([...globalComments, response.data.comment]));
         } else {
             // showToast('Comment could not be added', 'error')
         }
@@ -324,7 +341,7 @@ export const AddEstimationPage = (props) => {
 
 
                 <Card.Description>
-                    <h4> Task List </h4>
+                    <h4>Requested Task List </h4>
                     <List ordered animated verticalAlign='middle'>
                         {requestData.RequestTasks?.map((task, index) => {
                             return (
@@ -368,11 +385,11 @@ export const AddEstimationPage = (props) => {
                         : null}
 
                     <span>
-                    <Textarea size="md" name='newComment' value={newComment} onChange={(e) => {
+                    <Textarea disabled={commentPosting} size="md" name='newComment' value={newComment} onChange={(e) => {
                         setNewComment(e.target.value)
                     }} placeholder='add a comment...'/>
 
-                    <Button className='mt-3' onClick={addComment} primary>
+                    <Button loading={commentPosting} className='mt-3' onClick={addComment} primary>
                       <Icon name='send'/> Comment
                     </Button>
                 </span>

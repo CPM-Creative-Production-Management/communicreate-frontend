@@ -1,11 +1,20 @@
-import React, {useState, useRef} from 'react';
-import {Button, Comment, Icon, Input, TextArea} from "semantic-ui-react";
-import {regularApiRequest} from "../api/regularApiRequest";
-import {base_url} from "../../index";
-import {showToast} from "../../App";
+import React, { useState, useRef } from 'react';
+import { Button, Comment, Icon, Input, Loader, TextArea } from "semantic-ui-react";
+import { regularApiRequest } from "../api/regularApiRequest";
+import { base_url } from "../../index";
+import { showToast } from "../../App";
 import Textarea from "@mui/joy/Textarea";
 
-const SingleComment = ({singleCommentData}) => {
+import { useSelector, useDispatch } from "react-redux";
+import { updateComments } from '../../actions';
+import { commentApiRequest } from '../api/commentApiRequest';
+
+const SingleComment = ({ singleCommentData }) => {
+
+    const dispatch = useDispatch()
+
+    const [commentPosting, setCommentPosting] = useState(false)
+
 
     const getTimeOrDayDifference = (dateString) => {
         const currentTime = new Date();
@@ -22,14 +31,14 @@ const SingleComment = ({singleCommentData}) => {
                         return `just now`;
                     }
                     const minutesDifference = Math.floor(timeDifference / (1000 * 60));
-                    return `${minutesDifference} minute${minutesDifference>1 && 's'} ago`;
+                    return `${minutesDifference} minute${minutesDifference > 1 ? 's' : ''} ago`;
                 } else {
-                    return `${hoursDifference} hour${hoursDifference>1 && 's'} ago`;
+                    return `${hoursDifference} hour${hoursDifference > 1 && 's'} ago`;
                 }
             } else if (daysDifference === 1) {
                 return `1 day ago`;
             } else {
-                return `${daysDifference} day${daysDifference>1 && 's'} ago`;
+                return `${daysDifference} day${daysDifference > 1 && 's'} ago`;
             }
         } else {
             const year = targetTime.getUTCFullYear();
@@ -56,32 +65,43 @@ const SingleComment = ({singleCommentData}) => {
         }
 
         console.log('replyBody', replyBody)
-        setIsReplying(false)
 
-        const response = await regularApiRequest({
+
+        setCommentPosting(true)
+        const response = await commentApiRequest({
             url: base_url + `comment/${singleCommentData.id}/reply`,
             method: 'POST',
             reqBody: replyBody
         })
 
-        console.log('comment response', response)
+
 
         if (response && response.status === 200) {
-            showToast('Comment added successfully', 'success')
+            showToast('reply added successfully', 'success')
             setNewReply('')
-            // todo: update
-            // window.location.reload()
+            setIsReplying(false)
+            setCommentPosting(false)
+
+            // set the global comment to the updated comment from the response
+            console.log('response.data.comments', response.data.comments)
+            dispatch(updateComments(response.data.comments))
+
+            
+
+            console.log('reply response', response)
+
         } else {
-            // showToast('Comment could not be added', 'error')
+            showToast('Comment could not be added', 'error')
         }
 
     }
 
 
     return (
+        
 
         <Comment>
-            <Comment.Avatar src={ singleCommentData.User.profile_picture || 'https://react.semantic-ui.com/images/avatar/small/matt.jpg'}/>
+            <Comment.Avatar src={singleCommentData.User.profile_picture || 'https://react.semantic-ui.com/images/avatar/small/matt.jpg'} />
             <Comment.Content>
                 <Comment.Author as='a'>{singleCommentData.User.name}</Comment.Author>
                 <Comment.Metadata>
@@ -98,11 +118,17 @@ const SingleComment = ({singleCommentData}) => {
                 {isReplying && <span>
 
 
-                    <Textarea size="md" name='newReply' value={newReply} onChange={(e)=>{setNewReply(e.target.value)}} placeholder='add a comment...'/>
+                    <Textarea disabled={commentPosting} size="md" name='newReply' value={newReply} onChange={(e) => { setNewReply(e.target.value) }} placeholder='add a comment...' />
 
 
-                    <Button className='mt-3' onClick={addReply} primary>
-                      <Icon name='send'/> Reply
+                    {/* {commentPosting ? <Loader className='mt-2' active size='small' inline /> :
+                        <Button className='mt-3' onClick={addReply} primary>
+                            <Icon name='send' /> Reply
+                        </Button>
+                    } */}
+
+                    <Button loading={commentPosting} className='mt-3' onClick={addReply} primary>
+                        <Icon name='send' /> Reply
                     </Button>
                 </span>}
 
@@ -114,7 +140,7 @@ const SingleComment = ({singleCommentData}) => {
                     {singleCommentData.replies?.map((currReply, index) => {
                         return (
 
-                            <SingleComment key={index} singleCommentData={currReply}/>
+                            <SingleComment key={index} singleCommentData={currReply} />
 
                         )
                     })
