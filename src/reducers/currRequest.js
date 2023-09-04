@@ -9,6 +9,9 @@ const currRequestReducer = (state = {
         case 'UPDATE_REQUEST':
             return action.payload
 
+        case 'RESET_REQUEST':
+            return action.payload
+
         default:
             return state
     }

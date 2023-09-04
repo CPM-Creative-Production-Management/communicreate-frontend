@@ -11,11 +11,14 @@ import {Divider} from "semantic-ui-react";
 import {RiTeamLine} from "react-icons/ri";
 import {SiAntdesign} from "react-icons/si";
 import Navbar from "react-bootstrap/Navbar";
+import {useDispatch} from "react-redux";
+import { updateRequest, resetRequest } from "../../actions";
 
 
 export const SidebarClient = () => {
 
     const [collapsed, setCollapsed] = React.useState(false);
+    const dispatch = useDispatch()
 
     return (
         <div style={{display: 'flex', position:"fixed", bottom:'0px', height: '100vh'}}>
@@ -35,7 +38,9 @@ export const SidebarClient = () => {
                     <MenuItem component={<Link to="/"/>} icon={<RxDashboard/>}> Dashboard </MenuItem>
                     <SubMenu label="Requests" icon={<BsFillFileRuledFill/>}>
                         <MenuItem icon={<BsCardList/>} component={<Link to="/my-requests"/>}> All Requests </MenuItem>
-                        <MenuItem icon={<BsFillPatchPlusFill/>} component={<Link to="/new-request"/>}> Create New Request </MenuItem>
+                        <MenuItem icon={<BsFillPatchPlusFill/>} component={<Link to="/new-request"/>} onClick={() => {
+                            dispatch(resetRequest())
+                        }}> Create New Request </MenuItem>
                     </SubMenu>
                     {/* <MenuItem component={<Link to="/archive"/>} icon={<BsArchive/>}> RequestPage </MenuItem> */}
                     <MenuItem component={<Link to="/agencies"/>} icon={<BsBuildingFill/>}> Agencies </MenuItem>
