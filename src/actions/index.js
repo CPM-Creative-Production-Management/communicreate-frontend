@@ -67,6 +67,8 @@ export const updateRequests = (requests) => {
     return {
         type: 'UPDATE_REQUESTS',
         payload: requests
+    }
+}
 
 // for comments
 export const updateComments = (comments) => {
