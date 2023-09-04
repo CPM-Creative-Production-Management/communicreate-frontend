@@ -7,18 +7,47 @@ import {globalLoading, showToast} from '../../App';
 import {useNavigate} from 'react-router-dom';
 import {useDispatch} from "react-redux";
 import {updateEstimation} from "../../actions";
+import { useSelector } from 'react-redux';
+import { updateRequests } from '../../actions';
 
 const SingleReqCard = ({reqData, isAccepted, isOffered}) => {
     const [showDetails, setShowDetails] = React.useState(false)
     const navigate = useNavigate()
-
+    const dispatch = useDispatch()
+    const globalRequests = useSelector(state => state.requests)
     const acceptReq = async (reqId) => {
-        await regularApiRequest({
-            url: `${base_url}request/${reqId}/accept`,
-            method: 'POST'
-        })
-        showToast('Request accepted', 'success')
-        window.location.reload()
+        try {
+            await regularApiRequest({
+                url: `${base_url}request/${reqId}/accept`,
+                method: 'POST'
+            })
+            showToast('Request accepted', 'success')
+            dispatch(updateRequests(globalRequests.filter((currReq) => {
+                return currReq.RequestId !== reqId
+            }
+            )))
+        } catch (err) {
+            console.log(err)
+        }
+       
+    }
+
+    const hideReq = async (reqId) => {
+        try {
+            await regularApiRequest({
+                url: `${base_url}request/${reqId}/reject`,
+                method: 'POST'
+            })
+            showToast('Request hidden', 'success')
+            const filteredRequests = globalRequests.filter((currReq) => {
+                console.log(currReq.id, reqId)
+                return currReq.RequestId !== reqId
+            })
+            dispatch(updateRequests(filteredRequests))
+        } catch (err) {
+            console.log(err)
+        }
+        
     }
 
 
@@ -29,7 +58,9 @@ const SingleReqCard = ({reqData, isAccepted, isOffered}) => {
 
                     {isOffered &&
 
-                        <Button icon labelPosition='left' floated='right'>
+                        <Button icon labelPosition='left' floated='right' onClick={() => {
+                            hideReq(reqData.RequestId)
+                        }}>
                             <Icon name='ban'/>
                             Irrelevant
                         </Button>
