@@ -51,7 +51,7 @@ export const regularApiRequest = async ({ url, method, reqBody = {} , loadingSta
         console.log(error)
         setLoading(false)
 
-        showToast("Error: " + error.message, "error")
+        showToast("Error: " + error.response.data.message, "error")
     }
 
 }

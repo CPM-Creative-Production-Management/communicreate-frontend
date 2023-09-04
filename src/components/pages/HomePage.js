@@ -53,8 +53,6 @@ export const HomePage = () => {
                 <center>
                 <div className="col-xs-11 col-sm-11 col-md-10 left-align">
 
-
-
                     <Routes>
                         {userType === 1? 
                             <Route exact path="/" element={<ClientDashboard/>}/> : 

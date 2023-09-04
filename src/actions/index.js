@@ -61,3 +61,10 @@ export const updateRequest = (request) => {
         payload: request
     }
 }
+
+export const updateRequests = (requests) => {
+    return {
+        type: 'UPDATE_REQUESTS',
+        payload: requests
+    }
+}
