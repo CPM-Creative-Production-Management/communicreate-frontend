@@ -5,7 +5,7 @@ const TableTransactionList = ({ tableData }) => {
 
     return (
         <div>
-            <Table celled padded>
+            <Table celled padded style={{ textAlign: 'center' }}>
 
                 <thead>
                     <tr>

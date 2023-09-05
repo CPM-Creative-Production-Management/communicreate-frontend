@@ -1,9 +1,9 @@
-import React, {useEffect} from 'react'
-import {Button, Header, Grid} from "semantic-ui-react";
-import {useState} from 'react';
-import {useNavigate} from 'react-router-dom';
+import React, { useEffect } from 'react'
+import { Button, Header, Grid } from "semantic-ui-react";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const SingleDueCard = ({data, userType}) => {
+const SingleDueCard = ({ data, userType }) => {
 
     let navigate = useNavigate()
 
@@ -14,8 +14,8 @@ const SingleDueCard = ({data, userType}) => {
 
                     <div className="card" key={currItem.id}>
                         <div className="content">
-                            <div className="header" style={{textAlign: "center"}}>{currItem.projectName}</div>
-                            <div className="meta" style={{textAlign: "center"}}>
+                            <div className="header" style={{ textAlign: "center" }}>{currItem.projectName}</div>
+                            <div className="meta" style={{ textAlign: "center" }}>
                                 <span className="category">{currItem.agencyName}</span>
                             </div>
                             <div className="description">
@@ -25,101 +25,142 @@ const SingleDueCard = ({data, userType}) => {
 
                                         <Grid columns={2}>
 
-                                                <Grid.Column width={8}>
-                                                    <b>Total </b>
-                                                </Grid.Column>
-                                                <Grid.Column fluid width={4}>
-                                                     <div> {currItem.total_amount} ৳ </div>
-                                                </Grid.Column>
+                                            <Grid.Column width={8}>
+                                                <b>Total </b>
+                                            </Grid.Column>
+                                            <Grid.Column fluid width={4}>
+                                                <div> {currItem.total_amount} ৳ </div>
+                                            </Grid.Column>
 
                                         </Grid>
 
                                         <Grid columns={2}>
 
-                                                <Grid.Column width={8}>
-                                                    <b>Paid </b>
-                                                </Grid.Column>
-                                                <Grid.Column fluid width={4}>
-                                                     <div> {currItem.paid_amount} ৳ </div>
-                                                </Grid.Column>
+                                            <Grid.Column width={8}>
+                                                <b>Paid </b>
+                                            </Grid.Column>
+                                            <Grid.Column fluid width={4}>
+                                                <div> {currItem.paid_amount} ৳ </div>
+                                            </Grid.Column>
 
                                         </Grid>
 
-                                        <hr/>
+                                        <hr />
 
                                         <Grid columns={2}>
 
-                                                <Grid.Column width={8}>
-                                                    <b>Due </b>
-                                                </Grid.Column>
-                                                <Grid.Column fluid width={4}>
-                                                     <div> {currItem.dueAmount} ৳ </div>
-                                                </Grid.Column>
+                                            <Grid.Column width={8}>
+                                                <b>Due </b>
+                                            </Grid.Column>
+                                            <Grid.Column fluid width={4}>
+                                                <div> {currItem.due_amount} ৳ </div>
+                                            </Grid.Column>
 
                                         </Grid>
 
 
-                                        </div>
+                                    </div>
                                 </pre>
 
                             </div>
                         </div>
 
                         {userType === 1 && currItem.overdue === 0 &&
-                            <div className="extra content" style={{textAlign: "center"}}>
-                                <span className="floated time" style={{color: 'green'}}>
+                            <div className="extra content" style={{ textAlign: "center" }}>
+                                <span className="floated time" style={{ color: 'green' }}>
                                     <div className={'mb-3'}>
-                                    <b>{currItem.message}</b>
-                                        </div>
+                                        <b>{currItem.message}</b>
+                                    </div>
                                 </span>
                                 <Button fluid attached='bottom' color='green'
-                                     onClick={() => {
-                                         navigate('/payment/' + currItem.id)
-                                     }}>
+                                    onClick={() => {
+                                        navigate('/payment/' + currItem.id)
+                                    }}>
                                     See Details
                                 </Button>
                             </div>
                         }
 
                         {userType === 1 && currItem.overdue === 1 &&
-                            <div className="extra content" style={{textAlign: "center"}}>
-                                <span className="floated time" style={{color: 'red'}}>
+                            <div className="extra content" style={{ textAlign: "center" }}>
+                                <span className="floated time" style={{ color: 'red' }}>
                                     <div className={'mb-3'}>
-                                    <b>{currItem.message}</b>
-                                        </div>
+                                        <b>{currItem.message}</b>
+                                    </div>
                                 </span>
                                 <Button fluid attached='bottom' color='red'
-                                     onClick={() => {
-                                         navigate('/payment/' + currItem.id)
-                                     }}>
+                                    onClick={() => {
+                                        navigate('/payment/' + currItem.id)
+                                    }}>
                                     Clear Dues
                                 </Button>
                             </div>
                         }
 
                         {userType === 1 && currItem.overdue === 2 &&
-                            <div className="extra content" style={{textAlign: "center"}}>
-                                <span className="floated time" style={{color: 'grey'}}>
+                            <div className="extra content" style={{ textAlign: "center" }}>
+                                <span className="floated time" style={{ color: 'orange' }}>
                                     <div className={'mb-3'}>
-                                    <b>{currItem.message}</b>
-                                        </div>
+                                        <b>{currItem.message}</b>
+                                    </div>
                                 </span>
-                                <Button fluid attached='bottom' color='grey'>
-                                    Done
+                                <Button fluid attached='bottom' color='orange'
+                                    onClick={() => {
+                                        navigate('/payment/' + currItem.id)
+                                    }}>
+                                    See Details
                                 </Button>
                             </div>
                         }
 
-                        {userType === 2 &&
-                            <div className="extra content" style={{textAlign: "center"}}>
-                                <Button fluid attached='bottom' color='blue'
-                                 onClick={() => { 
-                                    navigate('/payment/' + currItem.id) 
-                                }}>
+                        {userType === 1 && currItem.overdue === 3 &&
+                            <div className="extra content" style={{ textAlign: "center" }}>
+                                <span className="floated time" style={{ color: 'grey' }}>
+                                    <div className={'mb-3'}>
+                                        <b>{currItem.message}</b>
+                                    </div>
+                                </span>
+                                <Button fluid attached='bottom' color='grey'
+                                    onClick={() => {
+                                        navigate('/payment/' + currItem.id)
+                                    }}>
                                     See Details
-                                    </Button>
+                                </Button>
                             </div>
                         }
+
+                        {userType === 2 && currItem.due_amount !== "0.00" &&
+                            <div className="extra content" style={{ textAlign: "center" }}>
+                                <span className="floated time" style={{ color: 'blue' }}>
+                                    <div className={'mb-3'}>
+                                        <b>{currItem.message}</b>
+                                    </div>
+                                </span>
+                                <Button fluid attached='bottom' color='blue'
+                                    onClick={() => {
+                                        navigate('/payment/' + currItem.id)
+                                    }}>
+                                    See Details
+                                </Button>
+                            </div>
+                        }
+
+                        {userType === 2 && currItem.due_amount === "0.00" &&
+                            <div className="extra content" style={{ textAlign: "center" }}>
+                                <span className="floated time" style={{ color: 'grey' }}>
+                                    <div className={'mb-3'}>
+                                        <b>{currItem.message}</b>
+                                    </div>
+                                </span>
+                                <Button fluid attached='bottom'  color='grey'
+                                onClick={() => {
+                                    navigate('/payment/' + currItem.id)
+                                }}>
+                                    All Payment Cleared
+                                </Button>
+                            </div>
+                        }
+
                     </div>
                 ))}
             </div>
