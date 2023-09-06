@@ -12,7 +12,7 @@ import {RiTeamLine} from "react-icons/ri";
 import {SiAntdesign} from "react-icons/si";
 import Navbar from "react-bootstrap/Navbar";
 import {useDispatch} from "react-redux";
-import { updateRequest, resetRequest } from "../../actions";
+import { updateRequest, resetRequest, resetRequests } from "../../actions";
 import { mobile } from "../../App";
 
 
@@ -47,6 +47,7 @@ export const SidebarClient = () => {
                     {/* <MenuItem component={<Link to="/archive"/>} icon={<BsArchive/>}> RequestPage </MenuItem> */}
                     <MenuItem component={<Link to="/agencies"/>} icon={<BsBuildingFill/>}> Agencies </MenuItem>
                     <MenuItem component={<Link to="/dues"/>} icon={<BsCashStack/>}> Dues </MenuItem>
+                    <MenuItem component={<Link to="/completed-projects"/>} icon={<BsCashStack/>}> Completed Projects </MenuItem>
                     <Divider/>
 
                     <MenuItem icon={<AiOutlineInfoCircle/>}> About Us </MenuItem>

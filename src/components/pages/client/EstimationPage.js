@@ -15,6 +15,8 @@ const EstimationPage = (params) => {
   const navigate = useNavigate()
 
   const [tasks, setTasks] = useState([]) // 0: pending, 1: approved, 2: reviewed
+  const [finishButton, setFinishButton] = useState(false)
+  const [discardButton, setDiscardButton] = useState(false)
 
   const {data, loading, error} = useApiRequest({
     url: base_url + 'estimation/request/' + rid + '/agency/' + aid,
@@ -25,12 +27,32 @@ const EstimationPage = (params) => {
     if (data) {
       setTasks(data.Tasks)
       console.log(tasks)
+      setDiscardButton(!data.is_completed)
+      setFinishButton(tasks.every((t) => t.status === 2) && !data.is_completed)
     }
   }, [data])
   
   const handleFinalize = async () => {
     navigate('/request/' + rid + '/agency/' + aid + '/finalize')
   }
+
+  const handleFinish = async (id) => {
+    try {
+      const response = await regularApiRequest({
+        url: base_url + 'estimation/finish/' + id,
+        method: 'PUT'
+      })
+      window.location.reload()
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const handleDiscard = async (id) => {
+    console.log('discard')
+  }
+
+
 
     const [newComment, setNewComment] = useState('')
     const addComment = async () => {
@@ -80,6 +102,7 @@ const EstimationPage = (params) => {
           }
           return t
         }))
+        setFinishButton(tasks.every((t) => t.status === 2))
       } else {
         showToast('Task could not be approved', 'error')
       }
@@ -98,7 +121,7 @@ const EstimationPage = (params) => {
           }
           return t
         }))
-
+        setFinishButton(false)
       } else {
         showToast('Task could not be reviewed', 'error')
       }
@@ -137,7 +160,7 @@ const EstimationPage = (params) => {
               <Table.Cell>
                 {task.cost}
               </Table.Cell>
-              {data?.ReqAgency.finalized && <Table.Cell>
+              {data?.ReqAgency.finalized && !data?.is_completed && <Table.Cell>
                 {task.status === 0 ? null : task.status === 1 ? <span><Button positive onClick={() => handleApprove(task)}>Approve</Button> <Button negative onClick={() => handleRevise(task.id)}>Review</Button></span> : <Button negative onClick={() => {handleRevise(task)}}>Review</Button>}
               </Table.Cell>}
             </Table.Row>
@@ -155,7 +178,8 @@ const EstimationPage = (params) => {
 
       { data?.ReqAgency.finalized || <Button onClick={handleFinalize} primary>Finalize</Button>}
       { data?.Payment && <Button onClick={() => navigate('/payment/' + data?.Payment?.id)} primary>View Payment Status</Button> }
-
+      <Button onClick={() => {handleFinish(data?.id)}} primary disabled={!finishButton}>Finish Project</Button>
+      <Button onClick={() => {handleDiscard(data?.id)}} negative disabled={!discardButton}>Discard Project</Button>
 
             <Comment.Group threaded>
                 <Header as='h3' dividing>

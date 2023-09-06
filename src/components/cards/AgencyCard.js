@@ -16,16 +16,16 @@ const AgencyCard = ({name, address, details, website, tags, id, logo}) => {
     <div>
         <Card link fluid onClick={() => {navigate('/agency/' + id)}}>
         {/* <Image src={logo || 'https://react.semantic-ui.com/images/avatar/large/matthew.png'} wrapped ui={false} size='30' /> */}
-        <img src={logo} height={250} style={{backgroundPosition: 'center center', backgroundRepeat: 'no-repeat', overflow: 'hidden'}} />
+        <img src={logo} height={250} style={{backgroundPosition: 'center center', backgroundRepeat: 'no-repeat', overflow: 'hidden', objectFit: 'cover'}} />
             <Card.Content>
                 <Card.Header>
                     {name}
                 </Card.Header>
                 <Card.Meta>
-                    {details.length > 90 ? details.slice(0, 90) + '...' : details}
+                    {details.length > 50 ? details.slice(0, 50) + '...' : details}
                 </Card.Meta>
                 <Card.Description>
-                    {address}
+                    {address.length < 30 ? address : address.slice(0, 30) + '...'}
                 </Card.Description>
             </Card.Content>
             <Card.Content extra>

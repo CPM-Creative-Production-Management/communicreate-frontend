@@ -25,6 +25,7 @@ import AgencyPage from './client/AgencyPage';
 import DuesPage from './DuesPage';
 import PaymentPage from './PaymentPage';
 import ProfilePage from './ProfilePage';
+import CompletedProjects from './client/CompletedProjects';
 
 const cookies = new Cookies();
 
@@ -79,7 +80,7 @@ export const HomePage = () => {
                         <Route exact path="/request/:rid/agency/:aid/estimation" element={<EstimationPage/>}/>
                         <Route exact path="/agencies" element={<AgenciesPage/>} />
                         <Route exact path="/agency/:id" element={<AgencyPage/>}/>
-
+                        <Route exact path="/completed-projects" element={<CompletedProjects/>}/>
                         <Route exact path="/profile" element={<ProfilePage/>}/>
                     </Routes>
 
