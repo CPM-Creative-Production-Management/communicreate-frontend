@@ -1,5 +1,6 @@
 import React from 'react'
-import { Comment, Icon } from 'semantic-ui-react';
+import { Comment, Icon, Label } from 'semantic-ui-react';
+import './card.css'
 
 const SingleNotification = ({ singleNotification }) => {
 
@@ -20,12 +21,12 @@ const SingleNotification = ({ singleNotification }) => {
                     const minutesDifference = Math.floor(timeDifference / (1000 * 60));
                     return `${minutesDifference} minute${minutesDifference > 1 ? 's' : ''} ago`;
                 } else {
-                    return `${hoursDifference} hour${hoursDifference > 1 && 's'} ago`;
+                    return `${hoursDifference} hour${hoursDifference > 1 ? 's' : ''} ago`;
                 }
             } else if (daysDifference === 1) {
                 return `1 day ago`;
             } else {
-                return `${daysDifference} day${daysDifference > 1 && 's'} ago`;
+                return `${daysDifference} day${daysDifference > 1 ? 's' : ''} ago`;
             }
         } else {
             const year = targetTime.getUTCFullYear();
@@ -37,27 +38,31 @@ const SingleNotification = ({ singleNotification }) => {
 
 
     const trimMessage = (message) => {
-        if (message.length > 70) {
-            return message.slice(0, 70) + '...'
+        if (message.length > 60) {
+            return message.slice(0, 60) + '...'
         }
         return message
     }
 
     return (
-     
-            <Comment>
-            <Comment.Avatar src='https://react.semantic-ui.com/images/avatar/small/matt.jpg' />
-           
+        
+        <Comment className= {`${singleNotification.read? '' : 'unread-bg'}`}>
 
-            <Comment.Content> 
-            <Comment.Author as='a'>{trimMessage(singleNotification.message)}</Comment.Author>
-               <br/><Comment.Metadata >
+            {singleNotification.read ? null : <Label as='a' color='red' ribbon>
+          New
+        </Label>}
+
+            {/* <Comment.Avatar src='https://react.semantic-ui.com/images/avatar/small/matt.jpg' /> */}
+            <Comment.Content>
+                <Comment.Author as='a'>{trimMessage(singleNotification.message)}</Comment.Author>
+                <br /><Comment.Metadata >
                     <div>{getTimeOrDayDifference(singleNotification.createdAt)}</div>
                 </Comment.Metadata>
-                </Comment.Content>
-            </Comment>
+            </Comment.Content>
 
-   
+        </Comment>
+
+
     )
 }
 

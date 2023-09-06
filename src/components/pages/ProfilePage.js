@@ -129,7 +129,7 @@ const ProfilePage = () => {
 
         if (response.status === 200) {
             showToast('Profile updated successfully', 'success')
-            window.location.reload()
+            // window.location.reload()
 
         } else {
             showToast('Error updating profile', 'error')

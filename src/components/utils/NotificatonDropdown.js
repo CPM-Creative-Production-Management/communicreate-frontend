@@ -13,37 +13,49 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { Button, Comment } from 'semantic-ui-react';
 import SingleNotification from '../cards/SingleNotification';
+import { base_url } from '../..';
+import { useApiRequest } from '../api/useApiRequest';
 
 export const NotificationDropdown = () => {
 
-    const notifications = {
-        "notifications": [
-            {
-                "id": 21,
-                "message": "Globex Industries has sent you a private request New OneGlobex Industries has sent you a private request New OneGlobex Industries has sent you a private request New One",
-                "link": null,
-                "read": false,
-                "createdAt": "2023-09-06T08:06:57.217Z"
-            },
-            {
-                "id": 21,
-                "message": " Industries has sent you a private request New One",
-                "link": null,
-                "read": false,
-                "createdAt": "2023-09-06T08:06:57.217Z"
-            },
-            {
-                "id": 21,
-                "message": "Globex has sent you a private request New One",
-                "link": null,
-                "read": false,
-                "createdAt": "2023-09-06T08:06:57.217Z"
-            }
-        ],
-        "nextPage": null,
-        "previousPage": null,
-        "totalPages": 1
-    }
+    // const notifications = {
+    //     "notifications": [
+    //         {
+    //             "id": 21,
+    //             "message": "Globex Industries has sent you a private request New OneGlobex Industries has sent you a private request New OneGlobex Industries has sent you a private request New One",
+    //             "link": null,
+    //             "read": false,
+    //             "createdAt": "2023-09-06T08:06:57.217Z"
+    //         },
+    //         {
+    //             "id": 21,
+    //             "message": " Industries has sent you a private request New One",
+    //             "link": null,
+    //             "read": true,
+    //             "createdAt": "2023-09-06T08:06:57.217Z"
+    //         },
+    //         {
+    //             "id": 21,
+    //             "message": "Globex has sent you a private request New One",
+    //             "link": null,
+    //             "read": false,
+    //             "createdAt": "2023-09-06T08:06:57.217Z"
+    //         }
+    //     ],
+    //     "nextPage": null,
+    //     "previousPage": null,
+    //     "totalPages": 1
+    // }
+
+    const {data: notifications, dataLoading, error} = useApiRequest({
+        url: base_url + 'notification/?page=1',
+        method: 'GET'
+    })
+
+    React.useEffect(() => {
+        console.log('notifications', notifications)
+    }, [notifications])
+
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -106,11 +118,12 @@ export const NotificationDropdown = () => {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-                {notifications.notifications.map((notification) => {
+                {notifications?.notifications.map((notification) => {
                     return (
-                        <div className='ms-4 me-4 mt-3'>
+                        <div className='ms-3 me-4 mt-3'>
                         <Comment.Group className='pb-3'>
                             <SingleNotification singleNotification={notification} />
+                            <Divider />
                         </Comment.Group>
                         </div>
                     )

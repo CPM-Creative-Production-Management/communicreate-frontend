@@ -36,6 +36,8 @@ export const SidebarClient = () => {
                     }}
                 >
 
+                    <br/>
+
                     <MenuItem component={<Link to="/"/>} icon={<SiAntdesign/>} disabled> CPM </MenuItem>
                     <MenuItem component={<Link to="/"/>} icon={<RxDashboard/>}> Dashboard </MenuItem>
                     <SubMenu label="Requests" icon={<BsFillFileRuledFill/>}>

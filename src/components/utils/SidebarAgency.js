@@ -35,6 +35,7 @@ export const SidebarAgency = () => {
                     }}
 
                 >
+                    <br/>
 
                     <MenuItem component={<Link to="/"/>} icon={<SiAntdesign/>} disabled> CPM </MenuItem>
                     <MenuItem component={<Link to="/"/>} icon={<RxDashboard/>}> Dashboard </MenuItem>
