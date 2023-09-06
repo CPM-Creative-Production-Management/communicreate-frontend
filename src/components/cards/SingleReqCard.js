@@ -100,21 +100,21 @@ const SingleReqCard = ({reqData, isAccepted, isOffered}) => {
                         </Button>}
 
 
-                    <Card.Header>{reqData.Request.name}</Card.Header>
-                    <Card.Meta>{reqData.Company.name}</Card.Meta>
+                    <Card.Header>{reqData.Request?.name}</Card.Header>
+                    <Card.Meta>{reqData.Company?.name}</Card.Meta>
                     <Card.Description>
-                        {reqData.Request.description}
+                        {reqData.Request?.description}
                     </Card.Description>
                 </Card.Content>
                 <Card.Content extra>
                     <Label>
                         <Icon name='clock outline'/> Estimation Submission Deadline
-                        <Label.Detail>{reqData.Request.res_deadline}</Label.Detail>
+                        <Label.Detail>{reqData.Request?.res_deadline}</Label.Detail>
                     </Label>
 
                     <Label>
                         <Icon name='cloud upload'/> Completion Deadline
-                        <Label.Detail>{reqData.Request.comp_deadline}</Label.Detail>
+                        <Label.Detail>{reqData.Request?.comp_deadline}</Label.Detail>
                     </Label>
                 </Card.Content>
             </Card>
@@ -129,10 +129,10 @@ const SingleReqCard = ({reqData, isAccepted, isOffered}) => {
                         <Card.Content>
 
 
-                            <Card.Header>{reqData.Request.name}</Card.Header>
-                            <Card.Meta>{reqData.Company.name}</Card.Meta>
+                            <Card.Header>{reqData.Request?.name}</Card.Header>
+                            <Card.Meta>{reqData.Company?.name}</Card.Meta>
                             <Card.Description>
-                                {reqData.Request.description}
+                                {reqData.Request?.description}
                             </Card.Description>
 
                             <Divider/>
@@ -159,12 +159,12 @@ const SingleReqCard = ({reqData, isAccepted, isOffered}) => {
                         <Card.Content fluid extra>
                             <Label>
                                 <Icon name='clock outline'/> Submission Deadline
-                                <Label.Detail>{reqData.Request.res_deadline}</Label.Detail>
+                                <Label.Detail>{reqData.Request?.res_deadline}</Label.Detail>
                             </Label>
 
                             <Label>
                                 <Icon name='cloud upload'/> Completion Deadline
-                                <Label.Detail>{reqData.Request.comp_deadline}</Label.Detail>
+                                <Label.Detail>{reqData.Request?.comp_deadline}</Label.Detail>
                             </Label>
                         </Card.Content>
 

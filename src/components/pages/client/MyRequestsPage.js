@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, Table, Button } from 'semantic-ui-react'
+import { Card, Table, Button, Pagination } from 'semantic-ui-react'
 import { useApiRequest } from '../../api/useApiRequest';
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -9,6 +9,8 @@ import { regularApiRequest } from '../../api/regularApiRequest';
 import ResponsePage from './EstimationPage';
 import ResponsesModal from '../../modals/ResponsesModal';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateRequests } from '../../../actions';
 
 
 const MyRequestsPage = () => {
@@ -17,13 +19,25 @@ const MyRequestsPage = () => {
     const [detailsData, setDetailsData] = useState({})
     const [responses, setResponses] = useState({})
     const [showResponsesModal, setShowResponsesModal] = useState(false)
+    const [activePage, setActivePage] = useState(1)
+    let urlSuffix
 
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const globalRequests = useSelector(state => state.requests)
 
     const {data, loading, error} = useApiRequest({
-        url: base_url + 'request/company',
+        url: base_url + 'request/company/?page=1',
         method: 'GET'
     })
+
+    useEffect(() => {
+        if (data) {
+            dispatch(updateRequests(data.requests))
+            setActivePage(1)
+            console.log('updated')
+        }
+    }, [data])
 
     const redCircleStyle = {
         width: '8px',
@@ -102,7 +116,7 @@ const MyRequestsPage = () => {
                 </thead>
 
                 <Table.Body>
-                    {data?.map((request, index) => (
+                    {globalRequests?.map((request, index) => (
                         <Table.Row>
                             <Table.Cell>
                                 {request.name}
@@ -133,6 +147,32 @@ const MyRequestsPage = () => {
                     ))}
                 </Table.Body>
             </Table>
+
+            <Pagination pointing secondary  firstItem={null}
+            lastItem={null} defaultActivePage={1} totalPages={data? data.totalPages : 1} onPageChange={async (e) => {
+            // make a request to the backend to get the new data
+            // update the redux store
+            // update the UI
+            if (e.target.text === '⟨') {
+                urlSuffix = 'request/company/?page=' + (parseInt(activePage) - 1)
+                setActivePage(activePage - 1)
+            } else if (e.target.text === '⟩') {
+                urlSuffix = 'request/company/?page=' + (parseInt(activePage) + 1)
+                setActivePage(activePage + 1)
+            } else  {
+                setActivePage(e.target.text)
+                urlSuffix = 'request/company/?page=' + parseInt(e.target.text)
+            }
+                
+            console.log('urlSuffix', urlSuffix)
+            const {data, dataLoading, error} = await regularApiRequest({
+                url: `${base_url}${urlSuffix}`,
+                method: 'GET',
+            })
+            if (data) {
+                dispatch(updateRequests(data.requests))
+            }
+        }} />
             
             <RequestDetailsModal show={showDetailsModal} setShow={setShowDetailsModal} detailsData={detailsData} setDetailsData={setDetailsData} />
             <ResponsesModal show={showResponsesModal} setShow={setShowResponsesModal} responses={responses} setResponses={setResponses} />
