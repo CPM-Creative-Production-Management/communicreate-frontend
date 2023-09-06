@@ -25,6 +25,28 @@ const EstimationPage = (params) => {
   const [tasks, setTasks] = useState([]) // 0: pending, 1: approved, 2: reviewed
   const [finishButton, setFinishButton] = useState(false)
   const [discardButton, setDiscardButton] = useState(false)
+  const [commentPosting, setCommentPosting] = useState(false)
+  const [newComment, setNewComment] = useState('')
+
+  const handleApprove = async (task) => {
+    const response = await regularApiRequest({
+      url: base_url + 'estimation/task/approve/' + task.id,
+      method: 'PUT'
+    })
+
+    if (response.status === 200) {
+      showToast('Task approved', 'success')
+      setTasks(tasks.map((t) => {
+        if (t.id === task.id) {
+          t.status = 2
+        }
+        return t
+      }))
+      setFinishButton(tasks.every((t) => t.status === 2))
+    } else {
+      showToast('Task could not be approved', 'error')
+    }
+  }
 
   const { data, loading, error } = useApiRequest({
     url: base_url + 'estimation/request/' + rid + '/agency/' + aid,
@@ -34,9 +56,8 @@ const EstimationPage = (params) => {
   useEffect(() => {
     if (data) {
       setTasks(data.Tasks)
-      console.log(tasks)
       setDiscardButton(!data.is_completed)
-      setFinishButton(tasks.every((t) => t.status === 2) && !data.is_completed)
+      setFinishButton(data.Tasks.every((t) => t.status === 2) && !data.is_completed)
     }
   }, [data])
 
@@ -61,19 +82,25 @@ const EstimationPage = (params) => {
     console.log('discard')
   }
 
-
-
-    const [newComment, setNewComment] = useState('')
-    const addComment = async () => {
-        // check if comment is empty
-        if (newComment.length === 0) {
-            showToast('Comment cannot be empty', 'error')
-            return
+  const handleRevise = async (task) => {
+    const response = await regularApiRequest({
+      url: base_url + 'estimation/task/review/' + task.id,
+      method: 'PUT'
+    })
+    if (response.status === 200) {
+      showToast('Task sent for reviewing', 'success')
+      setTasks(tasks.map((t) => {
+        if (t.id === task.id) {
+          t.status = 0
         }
+        return t
+      }))
+      setFinishButton(false)
+    } else {
+      showToast('Task could not be reviewed', 'error')
+    }
 
-  const [newComment, setNewComment] = useState('')
-  const [commentPosting, setCommentPosting] = useState(false)
-
+  }
 
   const addComment = async () => {
     // check if comment is empty
@@ -104,47 +131,6 @@ const EstimationPage = (params) => {
       dispatch(updateComments([...globalComments, response.data.comment]));
     } else {
       // showToast('Comment could not be added', 'error')
-    }
-
-    const handleApprove = async (task) => {
-      const response = await regularApiRequest({
-        url: base_url + 'estimation/task/approve/' + task.id,
-        method: 'PUT'
-      })
-
-      if (response.status === 200) {
-        showToast('Task approved', 'success')
-        setTasks(tasks.map((t) => {
-          if (t.id === task.id) {
-            t.status = 2
-          }
-          return t
-        }))
-        setFinishButton(tasks.every((t) => t.status === 2))
-      } else {
-        showToast('Task could not be approved', 'error')
-      }
-    }
-  }
-
-    const handleRevise = async (task) => {
-      const response = await regularApiRequest({
-        url: base_url + 'estimation/task/review/' + task.id,
-        method: 'PUT'
-      })
-      if (response.status === 200) {
-        showToast('Task sent for reviewing', 'success')
-        setTasks(tasks.map((t) => {
-          if (t.id === task.id) {
-            t.status = 0
-          }
-          return t
-        }))
-        setFinishButton(false)
-      } else {
-        showToast('Task could not be reviewed', 'error')
-      }
-
     }
   }
 
