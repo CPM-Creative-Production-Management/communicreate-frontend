@@ -70,7 +70,7 @@ const MyRequestsPage = () => {
 
     const handleDetails = async (e) => {
         const index = e.target.name.split('-')[1]
-        const request_id = data[index].id
+        const request_id = globalRequests[index].id
         const response = await regularApiRequest({
             url: base_url + 'request/' + request_id,
             method: 'GET'
@@ -82,9 +82,9 @@ const MyRequestsPage = () => {
 
     const handleRequests = async (e) => {
         const index = e.target.name.split('-')[1]
-        console.log(data[index].id)
+        console.log(globalRequests[index].id)
         const response = await regularApiRequest({
-            url: base_url + 'request/company/' + data[index].id + '/responses',
+            url: base_url + 'request/company/' + globalRequests[index].id + '/responses',
             method: 'GET'
         })
         console.log(response)

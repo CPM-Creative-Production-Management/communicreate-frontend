@@ -11,9 +11,10 @@ const AgenciesPage = () => {
         method: 'GET'
     })
 
+
   return (
     <div>
-        { agencyDataLoading ? <center><CircularProgress /></center>: <Grid className='ms-3' columns={5}>
+        <Grid className='ms-3' columns={5}>
                 {agencyData?.map((agency) => {
                     return (
                         <>
@@ -31,7 +32,7 @@ const AgenciesPage = () => {
                         </>
                     )
                 })}
-        </Grid>}
+        </Grid>
     </div>
   )
 }
