@@ -13,9 +13,11 @@ const MyEmployeesPage = () => {
 
   return (
     <div>
-        <br></br>
         
+        <center>
         <h1>Employees</h1>
+        </center>
+   
         <TableEmpList tableData={data} onEmpList={true}/>
     </div>  
   )

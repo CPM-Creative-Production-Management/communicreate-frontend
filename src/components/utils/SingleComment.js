@@ -101,7 +101,7 @@ const SingleComment = ({ singleCommentData }) => {
         
 
         <Comment>
-            <Comment.Avatar src={singleCommentData.User.profile_picture || 'https://react.semantic-ui.com/images/avatar/small/matt.jpg'} />
+            <Comment.Avatar className='profile-img' src={singleCommentData.User.profile_picture || 'https://react.semantic-ui.com/images/avatar/small/matt.jpg'} />
             <Comment.Content>
                 <Comment.Author as='a'>{singleCommentData.User.name}</Comment.Author>
                 <Comment.Metadata>

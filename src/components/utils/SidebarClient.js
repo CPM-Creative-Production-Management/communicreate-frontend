@@ -13,6 +13,8 @@ import {SiAntdesign} from "react-icons/si";
 import Navbar from "react-bootstrap/Navbar";
 import {useDispatch} from "react-redux";
 import { updateRequest, resetRequest } from "../../actions";
+import { mobile } from "../../App";
+
 
 
 export const SidebarClient = () => {
@@ -22,7 +24,7 @@ export const SidebarClient = () => {
 
     return (
         <div style={{display: 'flex', position:"fixed", bottom:'0px', height: '100vh'}}>
-            <Sidebar collapsed={collapsed}>
+            <Sidebar collapsed={mobile}>
                 <Menu
                     menuItemStyles={{
                         button: {

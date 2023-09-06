@@ -4,7 +4,7 @@ import RequestTabs from "../../tabs/RequestTabs";
 const RequestPage = () => {
     return (
         <div>
-            <br />
+           
             <center>
                 <h1>Requests</h1>
             </center>

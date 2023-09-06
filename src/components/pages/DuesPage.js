@@ -30,7 +30,7 @@ const DuesPage =  () => {
 
     return (
         <div>
-            <br></br>
+            
             <h1>Dues</h1>
         <SingleDueCard data={response?.responseData} userType={userType}/>
         </div>

@@ -109,7 +109,7 @@ export const RegisterPage = () => {
                     <SiAntdesign className='mt-3' size="10em"/>
                     <br/>
                     <h1>
-                        Welcome to Creative Production Management</h1>
+                        Welcome to CommuniCreate</h1>
                 </center>
                 <div className={'col-xs-11 col-sm-3 col-md-3 mb-4 mt-5'}>
                     <center>

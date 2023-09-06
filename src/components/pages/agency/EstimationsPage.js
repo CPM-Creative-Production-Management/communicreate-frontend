@@ -14,7 +14,7 @@ export const EstimationsPage = () => {
 
     return (
         <div>
-            <br />
+            
             <center>
                 <h1>Estimations</h1>
             </center>

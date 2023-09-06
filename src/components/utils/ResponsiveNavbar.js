@@ -38,8 +38,7 @@ function NavScrollExample() {
         <Navbar expand="lg" className="bg-body-tertiary nav-style">
             <Container fluid>
 
-                <Navbar.Brand className='ms-4'><SiAntdesign size='1.5em' className='me-2'/>Creative Production
-                    Management</Navbar.Brand>
+                <Navbar.Brand className='ms-4'><SiAntdesign size='1.5em' className='me-2'/>CommuniCreate</Navbar.Brand>
 
                 <Navbar.Toggle aria-controls="navbarScroll"/>
                 <Navbar.Collapse id="navbarScroll">
@@ -71,9 +70,9 @@ function NavScrollExample() {
                               floating
                               labeled
                               button
-                              className='icon'
+                              className='icon '
                     >
-                        <Dropdown.Menu>
+                        <Dropdown.Menu >
 
                             <center>
                                 <Dropdown.Item className='m-3' text={userAssociation}/>
@@ -81,11 +80,11 @@ function NavScrollExample() {
 
 
                             <Dropdown.Divider/>
-                            <Dropdown.Item icon='user circle' text='Your Account' onClick={() => {
-                                // navigate("profile/")
+                            <Dropdown.Item icon='user circle' text='My Profile' onClick={() => {
+                                navigate("/profile")
                             }
                             }/>
-                            <Dropdown.Item icon='tag' text='Leads'/>
+                            <Dropdown.Item icon='calculator' text='My Estimations'/>
 
                             <Dropdown.Divider/>
                             <Dropdown.Item onClick={logout} icon='log out' color='red' text='Logout'/>

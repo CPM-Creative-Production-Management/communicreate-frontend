@@ -21,7 +21,7 @@ export const SidebarAgency = () => {
     return (
         <div style={{display: 'flex', position:"fixed", bottom:'0px', height: '100vh'}}>
 
-            <Sidebar collapsed={collapsed}>
+            <Sidebar collapsed={mobile}>
                 <Menu
                     menuItemStyles={{
                         button: {
