@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import SingleReqCard from "../cards/SingleReqCard";
 import {base_url} from "../../index";
 import {useApiRequest} from "../api/useApiRequest";
@@ -11,6 +11,7 @@ export const OfferedRequests = ({isOffered, isAccepted}) => {
 
     const dispatch = useDispatch()
     const globalRequests = useSelector(state => state.requests)
+    const [activePage, setActivePage] = useState(1)
     let urlSuffix 
 
     const {data, dataLoading, error} = useApiRequest({
@@ -34,21 +35,32 @@ export const OfferedRequests = ({isOffered, isAccepted}) => {
             {globalRequests?.map((currReq, index) => {
                     return (
                         <div>
-                            <SingleReqCard isOffered={isOffered} isAccepted={isAccepted}
+                            {currReq && <SingleReqCard isOffered={isOffered} isAccepted={isAccepted}
                                 key={index}
                                 reqData={currReq}
-                            />
+                            />}
+                            
                             <br/>
                         </div>
                     )
                 }
             )}
 
-            <Pagination defaultActivePage={1} totalPages={data?.totalPages} onPageChange={async (e) => {
+            <Pagination pointing secondary  firstItem={null}
+    lastItem={null} defaultActivePage={1} totalPages={data? data.totalPages : 1} onPageChange={async (e) => {
                 // make a request to the backend to get the new data
                 // update the redux store
                 // update the UI
-                urlSuffix = `${isOffered ? 'request/pending?page=' : 'request/accepted?page='}${e.target.text}`
+                if (e.target.text === '⟨') {
+                    urlSuffix = `${isOffered ? 'request/pending?page=' : 'request/accepted?page='}` + (parseInt(activePage) - 1)
+                    setActivePage(activePage - 1)
+                } else if (e.target.text === '⟩') {
+                    urlSuffix = `${isOffered ? 'request/pending?page=' : 'request/accepted?page='}` + (parseInt(activePage) + 1)
+                    setActivePage(activePage + 1)
+                } else  {
+                    setActivePage(e.target.text)
+                    urlSuffix = `${isOffered ? 'request/pending?page=' : 'request/accepted?page='}` + parseInt(e.target.text)
+                }
                 console.log('urlSuffix', urlSuffix)
                 const {data, dataLoading, error} = await regularApiRequest({
                     url: `${base_url}${urlSuffix}`,
