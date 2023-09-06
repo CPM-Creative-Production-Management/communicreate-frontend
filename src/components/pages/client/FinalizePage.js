@@ -49,6 +49,11 @@ const FinalizePage = () => {
     const newPayment = async (e) => {
         e.preventDefault()
 
+        const response = await regularApiRequest({
+            url: base_url + 'request/' + rid + '/agency/' + aid + '/finalize',
+            method: 'POST'
+        })
+
         if (estimationData) {
             const reqBody = {
                 amount: estimationData.cost,

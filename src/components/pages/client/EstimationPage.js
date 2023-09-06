@@ -29,10 +29,6 @@ const EstimationPage = (params) => {
   }, [data])
   
   const handleFinalize = async () => {
-    const response = await regularApiRequest({
-      url: base_url + 'request/' + rid + '/agency/' + aid + '/finalize',
-      method: 'POST'
-    })
     navigate('/request/' + rid + '/agency/' + aid + '/finalize')
   }
 
