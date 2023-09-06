@@ -61,7 +61,7 @@ function NavScrollExample() {
                         <Button variant="outline-success">Search</Button>
                     </Form>
 
-                    {/*<Button className='ms-3' icon={'bell outline'}/>*/}
+                    <Button className='ms-3' icon={'bell outline'}/>
 
 
                     <Dropdown pointing

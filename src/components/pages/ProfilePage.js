@@ -63,14 +63,6 @@ const ProfilePage = () => {
             autoFill()
     }, [dataLoading])
 
-    const options = {
-        maxSizeMB: 1,
-        maxWidthOrHeight: 1920,
-        useWebWorker: true
-    }
-
-    const imageCompression = require('browser-image-compression');
-    
 
     const handleSaveChanges = async () => {
         const name = nameRef.current.inputRef.current.value
@@ -87,13 +79,6 @@ const ProfilePage = () => {
         const file = imageRef.current.inputRef.current.files[0]
 
         const fileName = 'profile_pictures/users/' + data.id + '.jpg'
-        // compress image
-        const compressedFile = await imageCompression(file, options);
-        console.log('compressedFile instanceof Blob', compressedFile instanceof Blob); // true
-        console.log(`compressedFile size ${compressedFile.size / 1024 / 1024} MB`); // smaller than maxSizeMB
-
-
-
 
         try {
             const params = {
@@ -168,7 +153,7 @@ const ProfilePage = () => {
                         <Grid.Column width={4}>
                             <div className='profile-card'>
                                 <center>
-                                    <Image circular style={{ width: '100px', height: '100px' }} alt='profile' className='profile-img'
+                                    <Image circular style={{ maxWidth: '100%', maxHeight: '100%', width: '100px', height: '100px' }} alt='profile' className='profile-img'
                                         src={data.profile_picture ? data.profile_picture : 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'} />
 
                                     <div className='profile-card-content mt-3'>
