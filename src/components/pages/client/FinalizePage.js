@@ -14,12 +14,8 @@ const FinalizePage = () => {
 
     const [stepNum, setStepNum] = useState(2)
     const { rid, aid } = useParams()
-    const [paymentType, setPaymentType] = useState(0)
-    const [EMI, setEMI] = useState(3)
+    const [paymentType, setPaymentType] = useState(1)
     const [redirectURL, setRedirectURL] = useState('')
-    
-
-    let componentToRender;
 
     const { data: estimationData, dataLoading: dataLoadingEstimation, error } = useApiRequest({
         url: base_url + 'estimation/request/' + rid + '/agency/' + aid,
@@ -42,19 +38,19 @@ const FinalizePage = () => {
         setPaymentType(parseInt(e.target.value))
     }
 
-    const handleEMIChange = (e) => {
-        setEMI(parseInt(e.target.value))
-    }
-
     const newPayment = async (e) => {
         e.preventDefault()
+
+        const response = await regularApiRequest({
+            url: base_url + 'request/' + rid + '/agency/' + aid + '/finalize',
+            method: 'POST'
+        })
 
         if (estimationData) {
             const reqBody = {
                 amount: estimationData.cost,
                 estimation_id: estimationData.id,
-                emi_option: paymentType,
-                emi_installment_choice: EMI,
+                payment_type: paymentType,
                 company_id: estimationData.ReqAgency.Company.id,
                 agency_id: estimationData.ReqAgency.Agency.id
             }
@@ -138,8 +134,8 @@ const FinalizePage = () => {
                                     </div>
                                 </div>
 
-                                <label for="emi_choice">Choose your payment method:</label>
-                                <div className="inline fields" id="emi_choice">
+                                <label for="paymentType">Choose your payment method:</label>
+                                <div className="inline fields" id="paymentType">
                                     <div className="field">
                                         <div className="ui radio checkbox">
                                             <input
@@ -150,7 +146,7 @@ const FinalizePage = () => {
                                                 onChange={handlePaymentTypeChange}
                                                 tabIndex="0"
                                             />
-                                            <label>FULL</label>
+                                            <label>One-Time Payment</label>
                                         </div>
                                     </div>
                                     <div className="field">
@@ -163,41 +159,13 @@ const FinalizePage = () => {
                                                 onChange={handlePaymentTypeChange}
                                                 tabIndex="1"
                                             />
-                                            <label>EMI</label>
+                                            <label>Task-by-Task Payment</label>
                                         </div>
                                     </div>
                                 </div>
                                 <br />
-
-                                <label for="emi_installment_choice">Select Your EMI Installment Choice:</label>
-                                <div class="inline fields">
-                                    <div class="field">
-                                        <div class="ui radio checkbox">
-                                            <input type="radio" name="emi_installment_choice" value="3" disabled={paymentType === 0} onChange={handleEMIChange} tabindex="0" />
-                                            <label>3 months</label>
-                                        </div>
-                                    </div>
-                                    <div class="field">
-                                        <div class="ui radio checkbox">
-                                            <input type="radio" name="emi_installment_choice" value="6" disabled={paymentType === 0} onChange={handleEMIChange} tabindex="0" />
-                                            <label>6 months</label>
-                                        </div>
-                                    </div>
-                                    <div class="field">
-                                        <div class="ui radio checkbox">
-                                            <input type="radio" name="emi_installment_choice" value="9" disabled={paymentType === 0} onChange={handleEMIChange} tabindex="0" />
-                                            <label>9 months</label>
-                                        </div>
-                                    </div>
-                                    <div class="field">
-                                        <div class="ui radio checkbox">
-                                            <input type="radio" name="emi_installment_choice" value="12" disabled={paymentType === 0} onChange={handleEMIChange} tabindex="0" />
-                                            <label>12 months</label>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="row">
-                                    <Button fluid color='green' onClick={(e) => newPayment(e)} positive>
+                                    <Button color='green' onClick={(e) => newPayment(e)} positive>
                                         Confirm
                                     </Button>
                                 </div>
@@ -266,8 +234,8 @@ const FinalizePage = () => {
                                     </div>
                                 </div>
 
-                                <label for="emi_choice">Choose your payment method:</label>
-                                <div className="inline fields" id="emi_choice">
+                                <label for="paymentType">Choose your payment method:</label>
+                                <div className="inline fields" id="paymentType">
                                     <div className="field">
                                         <div className="ui radio checkbox">
                                             <input
@@ -278,7 +246,7 @@ const FinalizePage = () => {
                                                 disabled={true}
                                                 tabIndex="0"
                                             />
-                                            <label>FULL</label>
+                                            <label>One-Time Payment</label>
                                         </div>
                                     </div>
                                     <div className="field">
@@ -291,43 +259,15 @@ const FinalizePage = () => {
                                                 disabled={true}
                                                 tabIndex="1"
                                             />
-                                            <label>EMI</label>
+                                            <label>Task-by-Task Payment</label>
                                         </div>
                                     </div>
                                 </div>
                                 <br />
-
-                                <label for="emi_installment_choice">Select Your EMI Installment Choice:</label>
-                                <div class="inline fields">
-                                    <div class="field">
-                                        <div class="ui radio checkbox">
-                                            <input type="radio" checked={EMI === 3} name="emi_installment_choice" value="3" disabled={true} tabindex="0" />
-                                            <label>3 months</label>
-                                        </div>
-                                    </div>
-                                    <div class="field">
-                                        <div class="ui radio checkbox">
-                                            <input type="radio" checked={EMI === 6}  name="emi_installment_choice" value="6" disabled={true} tabindex="1" />
-                                            <label>6 months</label>
-                                        </div>
-                                    </div>
-                                    <div class="field">
-                                        <div class="ui radio checkbox">
-                                            <input type="radio" checked={EMI === 9}  name="emi_installment_choice" value="9" disabled={true} tabindex="2" />
-                                            <label>9 months</label>
-                                        </div>
-                                    </div>
-                                    <div class="field">
-                                        <div class="ui radio checkbox">
-                                            <input type="radio" checked={EMI === 12} name="emi_installment_choice" value="12" disabled={true} tabindex="3" />
-                                            <label>12 months</label>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="row">
-                                    <div class="ui grey button" tabindex="0" primary="true">
+                                    <Button fluid disabled>
                                         Confirmed
-                                    </div>
+                                    </Button>
                                 </div>
                             </form>
                             <br />
@@ -336,14 +276,14 @@ const FinalizePage = () => {
                     <br/>
                     <div class="ui two column doubling stackable grid container">
                         <div class="column">
-                            <div class="fluid ui green button" onClick={()=>{navigate(redirectURL)}} tabindex="0" primary="true">
+                            <Button fluid color='green' onClick={()=>{navigate(redirectURL)}}>
                                 Pay Now
-                            </div>
+                            </Button>
                         </div>
                         <div class="column">
-                            <div class="fluid ui green button" onClick={()=>{navigate('/')}} tabindex="0" primary="true">
+                            <Button fluid color='green' onClick={()=>{navigate('/')}}>
                                 Pay Later
-                            </div>
+                            </Button>
                         </div>
                     </div>
                 </div>

@@ -4,7 +4,7 @@ import { Table } from "semantic-ui-react";
 import { regularApiRequest } from "../api/regularApiRequest";
 import { base_url } from '../../index';
 
-const TableTaskList = ({ paymentId, userType, taskData }) => {
+const TableTaskList = ({ paymentId, userType, taskData, paymentType }) => {
 
     const initializePayment = async (taskId) => {
         const reqBody = {
@@ -52,12 +52,15 @@ const TableTaskList = ({ paymentId, userType, taskData }) => {
                                     Paid
                                 </Button>
                                 </Table.Cell>}
-                            {currItem.isPaid === 0 && userType === 1 && <Table.Cell>
+                            {currItem.isPaid === 0 && userType === 1 && paymentType === 1 && <Table.Cell>
                                 <Button color='green'
                                      onClick={()=>initializePayment(currItem.id)}>
                                     Pay Now
                                 </Button>
                                 </Table.Cell>}
+                            {currItem.isPaid === 0 && userType === 1 && paymentType === 0 && <Table.Cell>
+                            <Button disabled>Make Full Payment</Button>
+                            </Table.Cell>}
 
                             {currItem.isPaid === 1 && userType === 2 && <Table.Cell style={{color:"green"}}><b>Paid</b></Table.Cell>}
                             {currItem.isPaid === 0 && userType === 2 && <Table.Cell style={{color:"red"}}><b>Unpaid</b></Table.Cell>}
