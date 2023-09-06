@@ -17,10 +17,10 @@ Start the client app
 The client app will automatically launch at `http://localhost:3000/`
 If not starting, goto
 
-  http://localhost:3000
+  http://localhost:3002
 
 
 
 ### Deployed site link
 Deployed on `render.com` <br/>
-https://cpm-tige.onrender.com/
+https://communicreate.onrender.com/

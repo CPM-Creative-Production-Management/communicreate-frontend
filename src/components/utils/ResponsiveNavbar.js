@@ -3,19 +3,23 @@ import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 
-import {Button, Dropdown} from "semantic-ui-react";
-import {SiAntdesign} from "react-icons/si";
-import {useNavigate} from "react-router-dom";
+import { Button, Dropdown } from "semantic-ui-react";
+import { SiAntdesign } from "react-icons/si";
+import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
-import {showToast} from "../../App";
+import { showToast } from "../../App";
 
 // need these for redux
-import {useSelector, useDispatch} from "react-redux";
-import {useEffect, useState} from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import SingleNotification from '../cards/SingleNotification';
+import { NotificationDropdown } from './NotificatonDropdown';
 
 function NavScrollExample() {
     const cookies = new Cookies();
     const navigate = useNavigate();
+
+    const [showNotifications, setShowNotifications] = useState(false);
 
     const [userName, setUserName] = useState('')
     const [userAssociation, setUserAssociation] = useState('')
@@ -33,18 +37,20 @@ function NavScrollExample() {
         navigate('/login');
     }
 
+    
+
 
     return (
         <Navbar expand="lg" className="bg-body-tertiary nav-style">
             <Container fluid>
 
-                <Navbar.Brand className='ms-4'><SiAntdesign size='1.5em' className='me-2'/>CommuniCreate</Navbar.Brand>
+                <Navbar.Brand className='ms-4'><SiAntdesign size='1.5em' className='me-2' />CommuniCreate</Navbar.Brand>
 
-                <Navbar.Toggle aria-controls="navbarScroll"/>
+                <Navbar.Toggle aria-controls="navbarScroll" />
                 <Navbar.Collapse id="navbarScroll">
                     <Nav
                         className="me-auto my-2 my-lg-0"
-                        style={{maxHeight: '100px'}}
+                        style={{ maxHeight: '100px' }}
                         navbarScroll
                     >
 
@@ -61,33 +67,32 @@ function NavScrollExample() {
                         <Button variant="outline-success">Search</Button>
                     </Form>
 
-                    <Button className='ms-3' icon={'bell outline'}/>
-
+                    <NotificationDropdown/>
 
                     <Dropdown pointing
-                              text={userName}
-                              icon='user circle'
-                              floating
-                              labeled
-                              button
-                              className='icon '
+                        text={userName}
+                        icon='user circle'
+                        floating
+                        labeled
+                        button
+                        className='icon'
                     >
                         <Dropdown.Menu >
 
                             <center>
-                                <Dropdown.Item className='m-3' text={userAssociation}/>
+                                <Dropdown.Item className='m-3' text={userAssociation} />
                             </center>
 
 
-                            <Dropdown.Divider/>
+                            <Dropdown.Divider />
                             <Dropdown.Item icon='user circle' text='My Profile' onClick={() => {
                                 navigate("/profile")
                             }
-                            }/>
-                            <Dropdown.Item icon='calculator' text='My Estimations'/>
+                            } />
+                            <Dropdown.Item icon='calculator' text='My Estimations' />
 
-                            <Dropdown.Divider/>
-                            <Dropdown.Item onClick={logout} icon='log out' color='red' text='Logout'/>
+                            <Dropdown.Divider />
+                            <Dropdown.Item onClick={logout} icon='log out' color='red' text='Logout' />
                         </Dropdown.Menu>
                     </Dropdown>
 

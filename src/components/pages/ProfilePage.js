@@ -64,6 +64,9 @@ const ProfilePage = () => {
     }, [dataLoading])
 
 
+    const [uploadingImg, setUploadingImg] = useState(false)
+
+
     const handleSaveChanges = async () => {
         const name = nameRef.current.inputRef.current.value
         const email = emailRef.current.inputRef.current.value
@@ -89,9 +92,21 @@ const ProfilePage = () => {
 
             console.log('before s3 ', params)
 
-            s3.putObject(params, function (err, data) {
-                if (err) console.log(err); // an error occurred
-            });
+            // s3.putObject(params, function (err, data).promise().then((res) => {
+            //     if (err) console.log(err);
+            // });
+
+            setUploadingImg(true)
+            s3.putObject(params).promise().then((res) => {
+                console.log('file uploaded', res)
+                setUploadingImg(false)
+                
+                window.location.reload()
+
+            }).catch((err) => {
+                console.log(err)
+            })
+
 
             console.log('after s3 ', params)
 
@@ -105,7 +120,7 @@ const ProfilePage = () => {
             "phone": phone,
             "email": email,
             "address": address,
-            "profile_picture": base_s3_url +  '/' +  fileName,
+            "profile_picture": base_s3_url + '/' + fileName,
             // "password": password,
 
             "association": {
@@ -128,8 +143,7 @@ const ProfilePage = () => {
         })
 
         if (response.status === 200) {
-            showToast('Profile updated successfully', 'success')
-            window.location.reload()
+            // showToast('Profile updated successfully', 'success')
 
         } else {
             showToast('Error updating profile', 'error')
@@ -153,7 +167,7 @@ const ProfilePage = () => {
                         <Grid.Column width={4}>
                             <div className='profile-card'>
                                 <center>
-                                    <Image circular style={{ maxWidth: '100%', maxHeight: '100%', width: '100px', height: '100px' }} alt='profile' className='profile-img'
+                                    <Image circular style={{width: '100px', height: '100px' }} alt='profile' className='profile-img'
                                         src={data.profile_picture ? data.profile_picture : 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'} />
 
                                     <div className='profile-card-content mt-3'>
@@ -257,7 +271,7 @@ const ProfilePage = () => {
                                         <Input ref={AssociationAddressRef} fluid icon='map marker alternate' iconPosition='left' placeholder='Association Address' />
                                         <Input ref={AssociationWebsiteRef} fluid icon='globe' iconPosition='left' placeholder='Association Website' />
 
-                                        <Button onClick={handleSaveChanges} color='blue' className='mt-3'>Save Changes</Button>
+                                        <Button loading={uploadingImg} onClick={handleSaveChanges} color='blue' className='mt-3'>Save Changes</Button>
 
                                     </Stack>
 
