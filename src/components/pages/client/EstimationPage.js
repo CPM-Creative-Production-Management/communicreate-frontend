@@ -1,22 +1,30 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useApiRequest } from '../../api/useApiRequest'
-import {regularApiRequest} from '../../api/regularApiRequest'
+import { regularApiRequest } from '../../api/regularApiRequest'
 import { base_url } from '../../..'
-import {Card, Table, Button, TextArea, Comment, Header, Icon} from 'semantic-ui-react'
+import { Card, Table, Button, TextArea, Comment, Header, Icon } from 'semantic-ui-react'
 import { showToast } from '../../../App'
 import Comments from "../../custom/Comments";
 import Textarea from "@mui/joy/Textarea";
 import { set } from 'lodash'
+import { useDispatch, useSelector } from 'react-redux'
+import { updateComments } from '../../../actions'
+import { commentApiRequest } from '../../api/commentApiRequest'
 
 
 const EstimationPage = (params) => {
+
+  const globalComments = useSelector(state => state.comments)
+  // dispatch an action to the reducer
+  const dispatch = useDispatch()
+
   const { rid, aid } = useParams()
   const navigate = useNavigate()
 
   const [tasks, setTasks] = useState([]) // 0: pending, 1: approved, 2: reviewed
 
-  const {data, loading, error} = useApiRequest({
+  const { data, loading, error } = useApiRequest({
     url: base_url + 'estimation/request/' + rid + '/agency/' + aid,
     method: 'GET'
   })
@@ -27,87 +35,90 @@ const EstimationPage = (params) => {
       console.log(tasks)
     }
   }, [data])
-  
+
   const handleFinalize = async () => {
     navigate('/request/' + rid + '/agency/' + aid + '/finalize')
   }
 
-    const [newComment, setNewComment] = useState('')
-    const addComment = async () => {
-        // check if comment is empty
-        if (newComment.length === 0) {
-            showToast('Comment cannot be empty', 'error')
-            return
-        }
+  const [newComment, setNewComment] = useState('')
+  const [commentPosting, setCommentPosting] = useState(false)
 
-        let commentBody = {
-            body: newComment
-        }
-
-        console.log('comment body', commentBody)
-
-        const response = await regularApiRequest({
-            url: base_url + `estimation/${data.ReqAgency.Estimation.id}/comment`,
-            method: 'POST',
-            reqBody: commentBody
-        })
-
-        console.log('comment response', response)
-
-        if (response && response.status === 200) {
-            showToast('Comment added successfully', 'success')
-            setNewComment('')
-            // todo: update
-            // window.location.reload()
-        } else {
-            // showToast('Comment could not be added', 'error')
-        }
-
-
+  const addComment = async () => {
+    // check if comment is empty
+    if (newComment.length === 0) {
+      showToast('Comment cannot be empty', 'error')
+      return
     }
 
-    const handleApprove = async (task) => {
-      const response = await regularApiRequest({
-        url: base_url + 'estimation/task/approve/' + task.id,
-        method: 'PUT'
-      })
-
-      if (response.status === 200) {
-        showToast('Task approved', 'success')
-        setTasks(tasks.map((t) => {
-          if (t.id === task.id) {
-            t.status = 2
-          }
-          return t
-        }))
-      } else {
-        showToast('Task could not be approved', 'error')
-      }
+    let commentBody = {
+      body: newComment
     }
 
-    const handleRevise = async (task) => {
-      const response = await regularApiRequest({
-        url: base_url + 'estimation/task/review/' + task.id,
-        method: 'PUT'
-      })
-      if (response.status === 200) {
-        showToast('Task sent for reviewing', 'success')
-        setTasks(tasks.map((t) => {
-          if (t.id === task.id) {
-            t.status = 0
-          }
-          return t
-        }))
+    console.log('comment body', commentBody)
 
-      } else {
-        showToast('Task could not be reviewed', 'error')
-      }
+    setCommentPosting(true)
+    const response = await commentApiRequest({
+      url: base_url + `estimation/${data.ReqAgency.Estimation.id}/comment`,
+      method: 'POST',
+      reqBody: commentBody
+    })
+
+    console.log('comment response', response)
+
+    if (response && response.status === 200) {
+      showToast('Comment added successfully', 'success')
+      setNewComment('')
+      setCommentPosting(false)
+      dispatch(updateComments([...globalComments, response.data.comment]));
+    } else {
+      // showToast('Comment could not be added', 'error')
     }
+
+
+  }
+
+  const handleApprove = async (task) => {
+    const response = await regularApiRequest({
+      url: base_url + 'estimation/task/approve/' + task.id,
+      method: 'PUT'
+    })
+
+    if (response.status === 200) {
+      showToast('Task approved', 'success')
+      setTasks(tasks.map((t) => {
+        if (t.id === task.id) {
+          t.status = 2
+        }
+        return t
+      }))
+    } else {
+      showToast('Task could not be approved', 'error')
+    }
+  }
+
+  const handleRevise = async (task) => {
+    const response = await regularApiRequest({
+      url: base_url + 'estimation/task/review/' + task.id,
+      method: 'PUT'
+    })
+    if (response.status === 200) {
+      showToast('Task sent for reviewing', 'success')
+      setTasks(tasks.map((t) => {
+        if (t.id === task.id) {
+          t.status = 0
+        }
+        return t
+      }))
+
+    } else {
+      showToast('Task could not be reviewed', 'error')
+    }
+  }
 
   return (
     <div>
-      <br/>
-      <br/>
+      <br />
+      <br />
       <Card className='p-4' fluid>
         <center>
           <h2>{data?.ReqAgency.Request.name}</h2>
@@ -118,10 +129,10 @@ const EstimationPage = (params) => {
       <Table>
         <thead>
           <tr>
-              <th scope="col">Task</th>
-              {data?.ReqAgency.finalized && <th scope="col">Status</th>}
-              <th scope="col">Cost</th>
-              {data?.ReqAgency.finalized && <th scope="col">Actions</th>}
+            <th scope="col">Task</th>
+            {data?.ReqAgency.finalized && <th scope="col">Status</th>}
+            <th scope="col">Cost</th>
+            {data?.ReqAgency.finalized && <th scope="col">Actions</th>}
           </tr>
         </thead>
 
@@ -138,7 +149,7 @@ const EstimationPage = (params) => {
                 {task.cost}
               </Table.Cell>
               {data?.ReqAgency.finalized && <Table.Cell>
-                {task.status === 0 ? null : task.status === 1 ? <span><Button positive onClick={() => handleApprove(task)}>Approve</Button> <Button negative onClick={() => handleRevise(task.id)}>Review</Button></span> : <Button negative onClick={() => {handleRevise(task)}}>Review</Button>}
+                {task.status === 0 ? null : task.status === 1 ? <span><Button positive onClick={() => handleApprove(task)}>Approve</Button> <Button negative onClick={() => handleRevise(task.id)}>Review</Button></span> : <Button negative onClick={() => { handleRevise(task) }}>Review</Button>}
               </Table.Cell>}
             </Table.Row>
           ))}
@@ -149,35 +160,35 @@ const EstimationPage = (params) => {
         <div>
           <h3>Extra Cost: {data?.extraCost}</h3>
           <h3>Total Cost: {data?.cost}</h3>
-          
+
         </div>
       </Card>
 
-      { data?.ReqAgency.finalized || <Button onClick={handleFinalize} primary>Finalize</Button>}
-      { data?.Payment && <Button onClick={() => navigate('/payment/' + data?.Payment?.id)} primary>View Payment Status</Button> }
+      {data?.ReqAgency.finalized || <Button onClick={handleFinalize} primary>Finalize</Button>}
+      {data?.Payment && <Button onClick={() => navigate('/payment/' + data?.Payment?.id)} primary>View Payment Status</Button>}
 
 
-            <Comment.Group threaded>
-                <Header as='h3' dividing>
-                    Comments
-                </Header>
-                {data?
-                    <Comments estimationId={data.ReqAgency.Estimation?.id}/>
-                    : null}
+      <Comment.Group threaded>
+        <Header as='h3' dividing>
+          Comments
+        </Header>
+        {data ?
+          <Comments estimationId={data.ReqAgency.Estimation?.id} />
+          : null}
 
-                <span>
-                    <Textarea size="md" name='newComment' value={newComment} onChange={(e) => {
-                        setNewComment(e.target.value)
-                    }} placeholder='add a comment...'/>
+        <span>
+          <Textarea size="md" name='newComment' value={newComment} onChange={(e) => {
+            setNewComment(e.target.value)
+          }} placeholder='add a comment...' />
 
-                    <Button className='mt-3' onClick={addComment} primary>
-                      <Icon name='send'/> Comment
-                    </Button>
-                </span>
+          <Button loading={commentPosting} className='mt-3' onClick={addComment} primary>
+            <Icon name='send' /> Comment
+          </Button>
+        </span>
 
-            </Comment.Group>
+      </Comment.Group>
 
-        <br/><br/>
+      <br /><br />
 
     </div>
   )

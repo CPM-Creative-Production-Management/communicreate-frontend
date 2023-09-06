@@ -63,7 +63,7 @@ const Notifications = () => {
 
 
     return (
-        <div>
+        <div >
 
             <h1>Notifications</h1>
 
@@ -86,6 +86,7 @@ const Notifications = () => {
 
 
             <Pagination
+                pointing secondary
                 activePage={activePage}
                 boundaryRange={1}
                 onPageChange={handlePaginationChange}
