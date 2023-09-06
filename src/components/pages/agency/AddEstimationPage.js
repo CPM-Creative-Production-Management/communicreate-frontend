@@ -1,25 +1,25 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {Route, Routes} from "react-router-dom";
-import {Dashboard} from "../../fragments/Dashboard";
-import {Archive} from "../../fragments/Archive";
-import {Card, Input, Label, Segment, Button, Icon, Divider, Message, List, Header, Comment} from "semantic-ui-react";
+import React, { useEffect, useRef, useState } from 'react';
+import { Route, Routes } from "react-router-dom";
+import { Dashboard } from "../../fragments/Dashboard";
+import { Archive } from "../../fragments/Archive";
+import { Card, Input, Label, Segment, Button, Icon, Divider, Message, List, Header, Comment } from "semantic-ui-react";
 import AddTaskModal from "../../modals/AddTaskModal";
-import {SingleTaskCard} from "../../cards/SingleTaskCard";
-import {Avatar, Chip, Stack, Grid} from "@mui/material";
-import {Dropdown} from "semantic-ui-react";
+import { SingleTaskCard } from "../../cards/SingleTaskCard";
+import { Avatar, Chip, Stack, Grid } from "@mui/material";
+import { Dropdown } from "semantic-ui-react";
 
-import {useSelector, useDispatch} from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { updateComments } from '../../../actions';
 
-import {updateEstimation, resetCurrEstimation} from "../../../actions";
+import { updateEstimation, resetCurrEstimation } from "../../../actions";
 import Textarea from '@mui/joy/Textarea';
-import {showToast} from "../../../App";
+import { showToast } from "../../../App";
 
 
-import {useNavigate, useParams} from "react-router-dom";
-import {useApiRequest} from '../../api/useApiRequest';
-import {base_url} from '../../../index';
-import {regularApiRequest} from '../../api/regularApiRequest';
+import { useNavigate, useParams } from "react-router-dom";
+import { useApiRequest } from '../../api/useApiRequest';
+import { base_url } from '../../../index';
+import { regularApiRequest } from '../../api/regularApiRequest';
 import Comments from "../../custom/Comments";
 
 
@@ -31,13 +31,26 @@ export const AddEstimationPage = (props) => {
     const navigate = useNavigate()
 
 
-    const {id} = useParams()
+    const { id } = useParams()
 
     // get the global Estimation from redux store
     const globalEstimation = useSelector(state => state.currEstimation)
     const globalComments = useSelector(state => state.comments)
     // dispatch an action to the reducer
     const dispatch = useDispatch()
+
+    const pastelColors = [
+        '#FFB6C1', // Pink
+        '#FCFA60', // Yellow
+        '#87D697', // Mint
+        '#ADD8E6', // Blue
+        '#FFA07A', // Salmon
+        '#C999DE', // Lavender
+    ];
+
+    const handleChangeColor = (id) => {
+        return pastelColors[id % pastelColors.length];
+    };
 
     let [requestData, setRequestData] = useState({
         "id": 8,
@@ -66,7 +79,7 @@ export const AddEstimationPage = (props) => {
         }
     })
 
-    const {data: reqData, dataLoading: dataLoadingReq, error} = useApiRequest({
+    const { data: reqData, dataLoading: dataLoadingReq, error } = useApiRequest({
         url: base_url + 'request/' + id,
         method: 'GET',
     })
@@ -130,7 +143,7 @@ export const AddEstimationPage = (props) => {
         }
 
         console.log('estimation body', estimationBody)
-        let response, method        
+        let response, method
         if (props.edit) {
             response = await regularApiRequest({
                 url: base_url + 'estimation/' + globalEstimation.id,
@@ -158,7 +171,7 @@ export const AddEstimationPage = (props) => {
 
     }
 
-    let {data: allEstimationTags, dataLoading: tagDataLoading, error: tagError} = useApiRequest({
+    let { data: allEstimationTags, dataLoading: tagDataLoading, error: tagError } = useApiRequest({
         url: base_url + 'tag',
         method: 'GET',
     });
@@ -195,7 +208,7 @@ export const AddEstimationPage = (props) => {
         }
     }
 
-  
+
 
     useEffect(() => {
         // update the globalEstimation cost via redux by looping over all tasks
@@ -290,12 +303,12 @@ export const AddEstimationPage = (props) => {
                 <Card.Meta>
 
                     <Label>
-                        <Icon name='briefcase'/> Company
+                        <Icon name='briefcase' /> Company
                         <Label.Detail>{requestData.company.name}</Label.Detail>
                     </Label>
 
                     <Label>
-                        <Icon name='clock outline'/> Submission Deadline
+                        <Icon name='clock outline' /> Submission Deadline
                         <Label.Detail>{requestData.res_deadline}</Label.Detail>
                     </Label>
                 </Card.Meta>
@@ -305,9 +318,10 @@ export const AddEstimationPage = (props) => {
                     <Stack direction="row" spacing={1}>
 
                         {globalEstimation.tags?.map((currTag, index) => (
-                            <Chip key={currTag.id} label={currTag.tag} onDelete={() => {
+                            <Chip key={currTag.id} label={currTag.tag} style={{backgroundColor: handleChangeColor(currTag.id)}}
+                             onDelete={() => {
                                 handleDeleteTag(index)
-                            }}/>
+                            }} />
                         ))}
 
                     </Stack>
@@ -316,17 +330,17 @@ export const AddEstimationPage = (props) => {
                 <div className='md-2 xs-2 mb-3'>
 
                     <Dropdown icon='filter'
-                              floating
-                              labeled
-                              button
+                        floating
+                        labeled
+                        button
 
-                              className='icon' text='Add tag'>
+                        className='icon' text='Add tag'>
                         <Dropdown.Menu>
 
                             {allEstimationTags?.map((currTag, index) => (
                                 <Dropdown.Item onClick={() => {
                                     addTag(index)
-                                }} key={currTag.id} icon='tag' text={currTag.tag}/>
+                                }} key={currTag.id} icon='tag' text={currTag.tag} />
                             ))}
 
                         </Dropdown.Menu>
@@ -337,7 +351,7 @@ export const AddEstimationPage = (props) => {
                 <Message
                     icon='clipboard outline'
                     header='Description'
-                    content={requestData.description}/>
+                    content={requestData.description} />
 
 
                 <Card.Description>
@@ -357,19 +371,19 @@ export const AddEstimationPage = (props) => {
                 </Card.Description>
 
 
-                <Divider/>
+                <Divider />
 
                 {globalEstimation.tasks?.length > 0 ?
                     globalEstimation.tasks?.map((task, index) => {
                         return (<div>
-                                <SingleTaskCard show={openAddTaskModal} singleTask={task} taskIndex={index}
-                                                setShow={setOpenAddTaskModal} edit={props.edit} finalized={reqData?.ReqAgency.finalized} />
-                                {index < globalEstimation.tasks?.length - 1 ? <Divider/> : null}
+                            <SingleTaskCard show={openAddTaskModal} singleTask={task} taskIndex={index}
+                                setShow={setOpenAddTaskModal} edit={props.edit} finalized={reqData?.ReqAgency.finalized} />
+                            {index < globalEstimation.tasks?.length - 1 ? <Divider /> : null}
 
-                            </div>
+                        </div>
                         )
                     })
-                    : <div className='text-center'><h4>No tasks added yet </h4> <br/></div>}
+                    : <div className='text-center'><h4>No tasks added yet </h4> <br /></div>}
 
 
             </Card>
@@ -381,18 +395,18 @@ export const AddEstimationPage = (props) => {
                         Comments
                     </Header>
                     {globalEstimation.id ?
-                        <Comments estimationId={globalEstimation?.id}/>
+                        <Comments estimationId={globalEstimation?.id} />
                         : null}
 
                     <span>
-                    <Textarea disabled={commentPosting} size="md" name='newComment' value={newComment} onChange={(e) => {
-                        setNewComment(e.target.value)
-                    }} placeholder='add a comment...'/>
+                        <Textarea disabled={commentPosting} size="md" name='newComment' value={newComment} onChange={(e) => {
+                            setNewComment(e.target.value)
+                        }} placeholder='add a comment...' />
 
-                    <Button loading={commentPosting} className='mt-3' onClick={addComment} primary>
-                      <Icon name='send'/> Comment
-                    </Button>
-                </span>
+                        <Button loading={commentPosting} className='mt-3' onClick={addComment} primary>
+                            <Icon name='send' /> Comment
+                        </Button>
+                    </span>
 
                 </Comment.Group>
             }
@@ -405,7 +419,7 @@ export const AddEstimationPage = (props) => {
 
                             <center>
                                 <Button circular icon labelPosition='right' onClick={toggleCollapse}>
-                                    Summary{isExpanded ? <Icon name={'angle down'}/> : <Icon name={'angle up'}/>}
+                                    Summary{isExpanded ? <Icon name={'angle down'} /> : <Icon name={'angle up'} />}
                                 </Button>
                             </center>
 
@@ -418,24 +432,24 @@ export const AddEstimationPage = (props) => {
 
 
                             <Input fluid name='extraCost' onChange={handleExtraCost} value={parseInt(extraCost)}
-                                   className='mt-2'
-                                   label='Extra Cost' type='number' placeholder='Amount'/>
+                                className='mt-2'
+                                label='Extra Cost' type='number' placeholder='Amount' />
 
-                            <br/>
+                            <br />
 
                             <Grid container spacing={1}>
                                 <Grid item xs={6} md={6}>
                                     <Button fluid onClick={() => {
                                         setOpenAddTaskModal(true)
                                     }}>
-                                        <Icon name='add'/>
+                                        <Icon name='add' />
                                         Add Task
                                     </Button>
                                 </Grid>
                                 <Grid item xs={6} md={6}>
                                     <Button fluid onClick={sendEstimation} positive animated>
 
-                                        <Icon name='send'/>
+                                        <Icon name='send' />
                                         Send Estimation
 
                                     </Button>
@@ -452,13 +466,13 @@ export const AddEstimationPage = (props) => {
             </div>
 
 
-            <Divider/>
-            <br/><br/>
-            <br/><br/>
+            <Divider />
+            <br /><br />
+            <br /><br />
 
 
             <AddTaskModal show={openAddTaskModal}
-                          setShow={setOpenAddTaskModal}
+                setShow={setOpenAddTaskModal}
             />
 
         </div>

@@ -71,7 +71,7 @@ const PaymentPage = () => {
                                         </pre>
                                         {responseDues.overdue === 0 && <Message color='green'>{responseDues.message}</Message>}
                                         {responseDues.overdue === 1 && <Message color='red'>{responseDues.message}</Message>}
-                                        {responseDues.overdue === 2 && <Message color='pink'>{responseDues.message}</Message>}
+                                        {responseDues.overdue === 2 && <Message color='orange'>{responseDues.message}</Message>}
                                         {responseDues.overdue === 3 && <Message color='grey'>{responseDues.message}</Message>}
                                     </div>
                                 </div>

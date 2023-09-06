@@ -76,7 +76,7 @@ const SingleDueCard = ({ data, userType }) => {
                                     onClick={() => {
                                         navigate('/payment/' + currItem.id)
                                     }}>
-                                    See Details
+                                    Make Advance Payment
                                 </Button>
                             </div>
                         }
