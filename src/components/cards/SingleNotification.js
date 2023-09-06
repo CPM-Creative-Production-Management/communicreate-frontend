@@ -1,6 +1,7 @@
 import React from 'react'
 import { Comment, Icon, Label } from 'semantic-ui-react';
 import './card.css'
+import { Typography } from '@mui/material';
 
 const SingleNotification = ({ singleNotification }) => {
 
@@ -46,15 +47,15 @@ const SingleNotification = ({ singleNotification }) => {
 
     return (
         
-        <Comment className= {`${singleNotification.read? '' : 'unread-bg'}`}>
+        <Comment>
 
             {singleNotification.read ? null : <Label as='a' color='red' ribbon>
           New
         </Label>}
 
-            {/* <Comment.Avatar src='https://react.semantic-ui.com/images/avatar/small/matt.jpg' /> */}
+            <Comment.Avatar src='https://react.semantic-ui.com/images/avatar/small/matt.jpg' />
             <Comment.Content>
-                <Comment.Author as='a'>{trimMessage(singleNotification.message)}</Comment.Author>
+                <Comment.Author as='a'><Typography variant="bold"> {singleNotification.message}</Typography></Comment.Author>
                 <br /><Comment.Metadata >
                     <div>{getTimeOrDayDifference(singleNotification.createdAt)}</div>
                 </Comment.Metadata>

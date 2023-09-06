@@ -67,11 +67,7 @@ function NavScrollExample() {
                         <Button variant="outline-success">Search</Button>
                     </Form>
 
-
-                    
-
                     <NotificationDropdown/>
-
 
                     <Dropdown pointing
                         text={userName}

@@ -11,43 +11,21 @@ import Tooltip from '@mui/material/Tooltip';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
-import { Button, Comment } from 'semantic-ui-react';
+import { Button, Comment, Grid, Icon } from 'semantic-ui-react';
 import SingleNotification from '../cards/SingleNotification';
 import { base_url } from '../..';
 import { useApiRequest } from '../api/useApiRequest';
+import { useNavigate } from 'react-router-dom';
+
+import '../cards/card.css'
+import { List } from '@mui/material';
 
 export const NotificationDropdown = () => {
 
-    // const notifications = {
-    //     "notifications": [
-    //         {
-    //             "id": 21,
-    //             "message": "Globex Industries has sent you a private request New OneGlobex Industries has sent you a private request New OneGlobex Industries has sent you a private request New One",
-    //             "link": null,
-    //             "read": false,
-    //             "createdAt": "2023-09-06T08:06:57.217Z"
-    //         },
-    //         {
-    //             "id": 21,
-    //             "message": " Industries has sent you a private request New One",
-    //             "link": null,
-    //             "read": true,
-    //             "createdAt": "2023-09-06T08:06:57.217Z"
-    //         },
-    //         {
-    //             "id": 21,
-    //             "message": "Globex has sent you a private request New One",
-    //             "link": null,
-    //             "read": false,
-    //             "createdAt": "2023-09-06T08:06:57.217Z"
-    //         }
-    //     ],
-    //     "nextPage": null,
-    //     "previousPage": null,
-    //     "totalPages": 1
-    // }
+    const navigate = useNavigate()
 
-    const {data: notifications, dataLoading, error} = useApiRequest({
+
+    const { data: notifications, dataLoading, error } = useApiRequest({
         url: base_url + 'notification/?page=1',
         method: 'GET'
     })
@@ -91,8 +69,9 @@ export const NotificationDropdown = () => {
                 PaperProps={{
                     elevation: 0,
                     sx: {
-                        
-                        overflow: 'visible',
+                        maxWidth: '400px',
+                        overflow: 'hidden',
+
                         filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
                         mt: 1.5,
                         '& .MuiAvatar-root': {
@@ -104,7 +83,7 @@ export const NotificationDropdown = () => {
                         '&:before': {
                             content: '""',
                             display: 'block',
-                            position: 'absolute',
+
                             top: 0,
                             right: 14,
                             width: 10,
@@ -118,17 +97,29 @@ export const NotificationDropdown = () => {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-                {notifications?.notifications.map((notification) => {
-                    return (
-                        <div className='ms-3 me-4 mt-3'>
-                        <Comment.Group className='pb-3'>
-                            <SingleNotification singleNotification={notification} />
-                            <Divider />
-                        </Comment.Group>
-                        </div>
-                    )
-                })
-                }
+
+                <div style={{ textAlign: 'right' }} className='me-2'>
+
+
+                    <Button onClick={() => { navigate('/notifications') }} className='mb-2' basic primary>See all</Button>
+                </div>
+                <Divider />
+
+                <List style={{ maxHeight: '500px', overflowY: 'auto' }}>
+                    {notifications?.notifications.map((notification) => {
+                        return (
+                            <div className='ms-3 me-4 mt-3'>
+
+                                <Comment.Group >
+                                    <SingleNotification singleNotification={notification} />
+                                    <Divider />
+                                </Comment.Group>
+                            </div>
+                        )
+                    })
+                    }
+
+                </List>
 
             </Menu>
         </React.Fragment>
