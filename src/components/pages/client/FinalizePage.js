@@ -14,8 +14,7 @@ const FinalizePage = () => {
 
     const [stepNum, setStepNum] = useState(2)
     const { rid, aid } = useParams()
-    // const [paymentType, setPaymentType] = useState(0)
-    // const [EMI, setEMI] = useState(3)
+    const [paymentType, setPaymentType] = useState(1)
     const [redirectURL, setRedirectURL] = useState('')
 
     const { data: estimationData, dataLoading: dataLoadingEstimation, error } = useApiRequest({
@@ -35,9 +34,9 @@ const FinalizePage = () => {
         }
     }, [dataLoadingEstimation])
 
-    // const handlePaymentTypeChange = (e) => {
-    //     setPaymentType(parseInt(e.target.value))
-    // }
+    const handlePaymentTypeChange = (e) => {
+        setPaymentType(parseInt(e.target.value))
+    }
 
     const newPayment = async (e) => {
         e.preventDefault()
@@ -51,6 +50,7 @@ const FinalizePage = () => {
             const reqBody = {
                 amount: estimationData.cost,
                 estimation_id: estimationData.id,
+                payment_type: paymentType,
                 company_id: estimationData.ReqAgency.Company.id,
                 agency_id: estimationData.ReqAgency.Agency.id
             }
@@ -134,8 +134,8 @@ const FinalizePage = () => {
                                     </div>
                                 </div>
 
-                                {/* <label for="payment_choice">Choose your payment method:</label>
-                                <div className="inline fields" id="payment_choice">
+                                <label for="paymentType">Choose your payment method:</label>
+                                <div className="inline fields" id="paymentType">
                                     <div className="field">
                                         <div className="ui radio checkbox">
                                             <input
@@ -162,7 +162,7 @@ const FinalizePage = () => {
                                             <label>Task-by-Task Payment</label>
                                         </div>
                                     </div>
-                                </div> */}
+                                </div>
                                 <br />
                                 <div class="row">
                                     <Button color='green' onClick={(e) => newPayment(e)} positive>
@@ -234,8 +234,8 @@ const FinalizePage = () => {
                                     </div>
                                 </div>
 
-                                {/* <label for="payment_choice">Choose your payment method:</label>
-                                <div className="inline fields" id="payment_choice">
+                                <label for="paymentType">Choose your payment method:</label>
+                                <div className="inline fields" id="paymentType">
                                     <div className="field">
                                         <div className="ui radio checkbox">
                                             <input
@@ -262,7 +262,7 @@ const FinalizePage = () => {
                                             <label>Task-by-Task Payment</label>
                                         </div>
                                     </div>
-                                </div> */}
+                                </div>
                                 <br />
                                 <div class="row">
                                     <Button fluid disabled>
@@ -290,6 +290,12 @@ const FinalizePage = () => {
             </div>
         )
     }
+
+    // if (stepNum === 2) {
+    //     componentToRender = <Step2Render />;
+    // } else if (stepNum === 3) {
+    //     componentToRender = <Step3Render />;
+    // }
 
     return (
         <div>

@@ -49,6 +49,20 @@ const PaymentPage = () => {
         console.log("responseHistory is: ", responseHistory)
     }
 
+    const initializePayment = async () => {
+        const reqBody = {
+            taskId: null
+        };
+
+        const responseHistory = await regularApiRequest({
+            url: base_url + 'payment/' + id + '/init',
+            method: 'POST',
+            reqBody: reqBody
+        })
+        console.log("responseHistory URL was : ", responseHistory.data);
+        window.location.replace(responseHistory.data);
+    }
+
     return (
         <div>
             {responseHistory && responseDues &&
@@ -78,6 +92,12 @@ const PaymentPage = () => {
                             </div>
                         </div>
                         <br />
+                        {responseDues.payment_type === 0 && responseDues.due_amount != "0.00" &&
+                            <Button fluid color='green' onClick={() => initializePayment}>
+                                Make Full Payment
+                            </Button>
+                        }
+                        <br />
                     </div>
                     <br />
                     <br />
@@ -86,7 +106,7 @@ const PaymentPage = () => {
                             <hr />
                             <br />
                             <h1 style={{ textAlign: "center" }}>Task Details</h1>
-                            {<TableTaskList paymentId={id} userType={userType} taskData={responseDues.tasks}/>}
+                            {<TableTaskList paymentId={id} userType={userType} taskData={responseDues.tasks} paymentType={responseDues.payment_type} />}
                         </div>
                     </div>
                     <br />
