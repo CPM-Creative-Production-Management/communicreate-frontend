@@ -7,9 +7,13 @@ import {globalLoading, showToast} from '../../App';
 import {useNavigate} from 'react-router-dom';
 import {useDispatch} from "react-redux";
 import {updateEstimation} from "../../actions";
+import WriteReviewModal from '../modals/WriteReviewModal';
 
-export const SingleEstimationCard = ({estimationData, isRejected, isOngoing, isArchived}) => {
+export const SingleEstimationCard = ({estimationData, isRejected, isOngoing, isArchived, isAgencyArchive}) => {
     const [showDetails, setShowDetails] = React.useState(false)
+    const [showWriteReviewModal, setShowWriteReviewModal] = React.useState(false)
+    const [writeReviewModalData, setWriteReviewModalData] = React.useState({})
+    const [see, setSee] = React.useState(false)
     const navigate = useNavigate()
 
     const acceptReq = async (reqId) => {
@@ -58,7 +62,7 @@ export const SingleEstimationCard = ({estimationData, isRejected, isOngoing, isA
                     {/*    View Details*/}
                     {/*</Button>*/}
 
-                    {isOngoing && estimationData.estimationExists &&
+                    {(isOngoing || isAgencyArchive) && estimationData.estimationExists &&
                         <Button positive onClick={() => {
                             navigate(`/edit-estimation/${estimationData.Request.id}`)
                         }} primary icon labelPosition='left' floated='right'>
@@ -66,7 +70,7 @@ export const SingleEstimationCard = ({estimationData, isRejected, isOngoing, isA
                             View Estimation
                         </Button>}
 
-                        {isArchived && 
+                        {isArchived && !isAgencyArchive &&
                         <Button positive onClick={() => {
                             navigate(`/request/${estimationData.Request.id}/agency/${estimationData.AgencyId}/estimation`)
                         }} primary icon labelPosition='left' floated='right'>
@@ -74,9 +78,16 @@ export const SingleEstimationCard = ({estimationData, isRejected, isOngoing, isA
                             View Estimation
                         </Button>}
 
-                        {isArchived && !isOngoing && !estimationData.Review &&
+                        {isArchived && !isOngoing && !isAgencyArchive && !estimationData.Review &&
                         <Button positive onClick={() => {
-                            console.log('review')
+                            const data = {
+                                requestId: estimationData.Request.id,
+                                agencyId: estimationData.AgencyId
+                            }
+                            setSee(false)
+                            setWriteReviewModalData(data)
+                            setShowWriteReviewModal(true)
+                            
                         }} primary icon labelPosition='left' floated='right'>
                             <Icon name='edit'/>
                             Write Review
@@ -84,7 +95,7 @@ export const SingleEstimationCard = ({estimationData, isRejected, isOngoing, isA
 
                         {isArchived && !isOngoing && estimationData.Review &&
                         <Button positive onClick={() => {
-                            console.log('review')
+                            console.log('dummy')
                         }} primary icon labelPosition='left' floated='right'>
                             <Icon name='edit'/>
                             See Review
@@ -139,7 +150,7 @@ export const SingleEstimationCard = ({estimationData, isRejected, isOngoing, isA
 
             </Card>
 
-
+            <WriteReviewModal show={showWriteReviewModal} setShow={setShowWriteReviewModal} data={writeReviewModalData} see={see}/>
         </div>
     )
 }

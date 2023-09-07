@@ -97,11 +97,11 @@ export const SingleTaskCard = (props) => {
                     <Stack direction="row" spacing={2}>
                         <Button onClick={() => {
                             editTask()
-                        }} >
+                        }} disabled={props.finished} >
                             <Icon name='edit' /> Edit
                         </Button>
 
-                        <Button onClick={deleteTask}>
+                        <Button onClick={deleteTask} disabled={props.finished}>
                             <Icon name='trash alternate outline' /> Delete
                         </Button>
 

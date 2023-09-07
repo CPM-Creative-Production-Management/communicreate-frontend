@@ -5,11 +5,11 @@ import {ArchiveRejected} from "../fragments/ArchiveRejected";
 
 const panes = [
     {
-        menuItem: 'Completed Archives',
+        menuItem: 'Completed Archive',
         render: () => <Tab.Pane attached={false}><ArchiveCompleted/></Tab.Pane>,
     },
     {
-        menuItem: 'Rejected Archives',
+        menuItem: 'Rejected Archive',
         render: () => <Tab.Pane attached={false}><ArchiveRejected/></Tab.Pane>,
     },
 
