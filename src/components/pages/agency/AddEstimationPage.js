@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Route, Routes } from "react-router-dom";
 import { Dashboard } from "../../fragments/Dashboard";
 import { Archive } from "../../fragments/Archive";
-import { Card, Input, Label, Segment, Button, Icon, Divider, Message, List, Header, Comment } from "semantic-ui-react";
+import { Card, Input, Label, Segment, Button, Icon, Divider, List, Header, Comment, Message } from "semantic-ui-react";
 import AddTaskModal from "../../modals/AddTaskModal";
 import { SingleTaskCard } from "../../cards/SingleTaskCard";
 import { Avatar, Chip, Stack, Grid } from "@mui/material";
@@ -298,6 +298,16 @@ export const AddEstimationPage = (props) => {
     return (
         <div>
 
+            {
+                reqData?.ReqAgency?.Estimation?.is_completed &&
+                <Message positive>
+                    <Message.Header>Estimation has been finalized</Message.Header>
+                    <p>
+                        This estimation has been finalized by the client. You can no longer edit this estimation.
+                    </p>
+                </Message>
+            }
+
             <Card className='p-4' fluid>
                 <Card.Meta>
                     <h3>Project Overview</h3>
@@ -382,7 +392,9 @@ export const AddEstimationPage = (props) => {
                     globalEstimation.tasks?.map((task, index) => {
                         return (<div>
                             <SingleTaskCard show={openAddTaskModal} singleTask={task} taskIndex={index}
-                                setShow={setOpenAddTaskModal} edit={props.edit} finalized={reqData?.ReqAgency.finalized} />
+                                setShow={setOpenAddTaskModal} edit={props.edit} finalized={reqData?.ReqAgency.finalized}
+                                finished={reqData?.ReqAgency?.Estimation?.is_completed}
+                                />
                             {index < globalEstimation.tasks?.length - 1 ? <Divider /> : null}
 
                         </div>
@@ -438,6 +450,7 @@ export const AddEstimationPage = (props) => {
 
                             <Input fluid name='extraCost' onChange={handleExtraCost} value={parseInt(extraCost)}
                                 className='mt-2'
+                                disabled={reqData?.ReqAgency?.Estimation?.is_completed}
                                 label='Extra Cost' type='number' placeholder='Amount' />
 
                             <br />
@@ -446,13 +459,13 @@ export const AddEstimationPage = (props) => {
                                 <Grid item xs={6} md={6}>
                                     <Button fluid onClick={() => {
                                         setOpenAddTaskModal(true)
-                                    }}>
+                                    }} disabled={reqData?.ReqAgency?.Estimation?.is_completed}>
                                         <Icon name='add' />
                                         Add Task
                                     </Button>
                                 </Grid>
                                 <Grid item xs={6} md={6}>
-                                    <Button fluid onClick={sendEstimation} positive animated>
+                                    <Button fluid onClick={sendEstimation} positive animated disabled={reqData?.ReqAgency?.Estimation?.is_completed}>
 
                                         <Icon name='send' />
                                         Send Estimation
