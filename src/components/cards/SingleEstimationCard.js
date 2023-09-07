@@ -8,7 +8,7 @@ import {useNavigate} from 'react-router-dom';
 import {useDispatch} from "react-redux";
 import {updateEstimation} from "../../actions";
 
-export const SingleEstimationCard = ({estimationData, isRejected, isOngoing}) => {
+export const SingleEstimationCard = ({estimationData, isRejected, isOngoing, isArchived}) => {
     const [showDetails, setShowDetails] = React.useState(false)
     const navigate = useNavigate()
 
@@ -66,6 +66,30 @@ export const SingleEstimationCard = ({estimationData, isRejected, isOngoing}) =>
                             View Estimation
                         </Button>}
 
+                        {isArchived && 
+                        <Button positive onClick={() => {
+                            navigate(`/request/${estimationData.Request.id}/agency/${estimationData.AgencyId}/estimation`)
+                        }} primary icon labelPosition='left' floated='right'>
+                            <Icon name='edit'/>
+                            View Estimation
+                        </Button>}
+
+                        {isArchived && !estimationData.Review &&
+                        <Button positive onClick={() => {
+                            console.log('review')
+                        }} primary icon labelPosition='left' floated='right'>
+                            <Icon name='edit'/>
+                            Write Review
+                        </Button>}
+
+                        {isArchived && estimationData.Review &&
+                        <Button positive onClick={() => {
+                            console.log('review')
+                        }} primary icon labelPosition='left' floated='right'>
+                            <Icon name='edit'/>
+                            See Review
+                        </Button>}
+
 
                     <Card.Header>{estimationData.Request.name}</Card.Header>
                     <Card.Meta>{estimationData.Company.name}</Card.Meta>
@@ -79,15 +103,21 @@ export const SingleEstimationCard = ({estimationData, isRejected, isOngoing}) =>
                         <Label.Detail>{estimationData.Request.comp_deadline}</Label.Detail>
                     </Label>
 
+                    {isArchived &&
+                    <Label>
+                    <Icon name='money bill alternate outline'/> Cost
+                    <Label.Detail>{estimationData.Estimation.cost}</Label.Detail>
+                </Label>}
+
 
                 </Card.Content>
 
-                <Card.Content extra>
+                {isArchived || <Card.Content extra>
                     <List.Icon name='list alternate outline' size='large' verticalAlign='middle'/>
                     Task List
                     <List divided animated relaxed>
 
-                        {estimationData.Estimation.Tasks?.map((task, index) => {
+                        {estimationData?.Estimation?.Tasks?.map((task, index) => {
                             return (
                                 <List.Item>
                                     <List.Content>
@@ -104,7 +134,7 @@ export const SingleEstimationCard = ({estimationData, isRejected, isOngoing}) =>
 
                     </List>
 
-                </Card.Content>
+                </Card.Content>}
 
 
             </Card>

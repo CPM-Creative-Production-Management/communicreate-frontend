@@ -76,6 +76,13 @@ export const resetRequest = () => {
     }
 }
 
+export const resetRequests = () => {
+    return {
+        type: 'RESET_REQUESTS',
+        payload: []
+    }
+}
+
 export const updateRequests = (requests) => {
     return {
         type: 'UPDATE_REQUESTS',
@@ -89,5 +96,19 @@ export const updateComments = (comments) => {
         type: 'UPDATE_COMMENTS',
         payload: comments
 
+    }
+}
+
+export const updateArchives = (archives) => {
+    return {
+        type: 'UPDATE_ARCHIVES',
+        payload: archives
+    }
+}
+
+export const resetArchives = () => {
+    return {
+        type: 'RESET_ARCHIVES',
+        payload: []
     }
 }
