@@ -9,6 +9,7 @@ import {AddEstimationPage} from "./agency/AddEstimationPage";
 import {EstimationsPage} from "./agency/EstimationsPage";
 import MyEmployeesPage from './agency/MyEmployeesPage';
 import AddEmployeePage from './agency/AddEmployeePage';
+import EmployeePage from './agency/EmployeePage';
 
 import Cookies from "universal-cookie";
 import ClientDashboard from './client/ClientDashboard';
@@ -21,6 +22,7 @@ import FinalizePage from './client/FinalizePage';
 import EstimationPage from './client/EstimationPage';
 import AgenciesPage from './client/AgenciesPage';
 import AgencyPage from './client/AgencyPage';
+
 
 import DuesPage from './DuesPage';
 import PaymentPage from './PaymentPage';
@@ -65,6 +67,7 @@ export const HomePage = () => {
                         <Route exact path="/add-estimation/:id" element={<AddEstimationPage edit={false}/>}/>
                         <Route exact path="/edit-estimation/:id" element={<AddEstimationPage edit={true}/>}/>
                         <Route exact path="/my-employees" element={<MyEmployeesPage/>}/>
+                        <Route exact path="/employee/:id" element={<EmployeePage/>}/>
                         {/* <Route exact path="/payment" element={<PaymentPage/>}/> */}
                         <Route exact path="/add-employee" element={<AddEmployeePage/>}/>
 
