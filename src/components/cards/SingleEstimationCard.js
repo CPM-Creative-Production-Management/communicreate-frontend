@@ -74,7 +74,7 @@ export const SingleEstimationCard = ({estimationData, isRejected, isOngoing, isA
                             View Estimation
                         </Button>}
 
-                        {isArchived && !estimationData.Review &&
+                        {isArchived && !isOngoing && !estimationData.Review &&
                         <Button positive onClick={() => {
                             console.log('review')
                         }} primary icon labelPosition='left' floated='right'>
@@ -82,7 +82,7 @@ export const SingleEstimationCard = ({estimationData, isRejected, isOngoing, isA
                             Write Review
                         </Button>}
 
-                        {isArchived && estimationData.Review &&
+                        {isArchived && !isOngoing && estimationData.Review &&
                         <Button positive onClick={() => {
                             console.log('review')
                         }} primary icon labelPosition='left' floated='right'>

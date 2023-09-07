@@ -2,16 +2,16 @@ import React from 'react'
 import { useParams } from 'react-router-dom'
 import { useApiRequest } from '../../api/useApiRequest'
 import { base_url } from '../../..'
-import { Container, Image, Icon, Card, Label } from 'semantic-ui-react'
 import { Rating } from 'react-simple-star-rating'
+import { Button, Card, Divider, Grid, Icon, Image, Input, Label, Message, Segment } from 'semantic-ui-react'
+import { Stack } from '@mui/material'
+import ReviewCard from '../../cards/ReviewCard'
+import ProfileBg from '../../../assets/profile-bg.jpg'
+import { SingleEstimationCard } from '../../cards/SingleEstimationCard'
+import '../pages.css'
 
 const AgencyPage = () => {
     const { id } = useParams()
-
-    const containerStyle = {
-        display: 'inline-flex', 
-        alignItems: 'center',
-    }
 
     const {data: agencyData, dataLoading: agencyDataLoading, error} = useApiRequest({
         url: base_url + 'agency/' + id + '/details',
@@ -20,55 +20,122 @@ const AgencyPage = () => {
 
   return (
     <div>
-        <Card className='p-4' fluid>
-        <div style={containerStyle}>
-                <Image src={agencyData?.logo} size='small' circular/>
-                <h1 className='ms-3'>{agencyData?.name}</h1>
-        </div>
-        <div style={containerStyle} className='mt-3'>
-            <Icon name='mail' size='3' /> <a className='ms-3'>{agencyData?.email}</a>
-        </div>
-        <div style={containerStyle} className='mt-3'>
-            <Icon name='address card' /> <h4 className='ms-3'>{agencyData?.address}</h4>
-        </div>
-        <div style={containerStyle} className='mt-3'>
-            <Icon name='phone' size='3' /> <h className='ms-3'>{agencyData?.phone}</h>
-        </div>
-            <a className='mt-3'>{agencyData?.website}</a>
-        <div style={containerStyle} className='mt-3'>
-            <Icon name='tags' />
-            {agencyData?.Tags?.map((tag, index) => (
-                <Label className='ms-2' as='a' color='teal' key={index}>{tag.tag}</Label>
-            ))}
+    <img alt='cover' className='cover-img' src={ProfileBg} />
+        { agencyData && <div className='profile-cards'>
 
-        </div>
+            <Grid columns={2}>
 
-        
-        </Card>
+                
+                <Grid.Column width={15}>
+                    <div className='profile-card'>
+                        <div className='profile-card-content'>
+                            <center><h2>{agencyData.name}</h2></center>
+                            
+                            {/* <p>Change your profile picture, name, email, and more.</p> */}
+                            <Divider />
 
-        <Card className='p-4 mt-3' fluid>
-            <Card.Header className='p-4'>
-                <center>
-                <h3>Reviews</h3>
-                </center>
-            </Card.Header>
 
-            <Card.Content className='p-4'>
-                {agencyData?.Reviews?.map((review, index) => (
-                    <Card fluid key={index} className='p-4'>
-                        <Card.Header className='p-4'>
-                            <h3>{review.Company.name}</h3>
-                            <Rating initialValue={review.rating} readonly />
-                        </Card.Header>
-                        <Card.Content>
-                            <h2>{review.title}</h2>
-                            <p>{review.description}</p>
-                        </Card.Content>
-                    </Card>
-                ))}
-            </Card.Content>
-        </Card>
-    </div>
+                            <h3>Details</h3>
+                            <center>
+                                <Image circular className='profile-img'
+                                    src={agencyData.logo}
+                                    alt="Selected Image"
+                                    style={{ width: '150px', height: '150px' }}
+                                /> 
+                            </center>
+                            <br />
+
+                            <br />
+
+
+
+
+                            <Stack direction="column" spacing={2}>
+                                <Stack direction="row" spacing={2}>
+                                <Icon name='mail' />
+                                <h4>{agencyData.email}</h4>
+                                </Stack>
+                                <Stack direction="row" spacing={2}>
+                                <Icon name='phone' />
+                                <h4>{agencyData.phone}</h4>
+                                </Stack>
+                                <Stack direction="row" spacing={2}>
+                                <Icon name='map marker alternate' />
+                                <h4>{agencyData.address}</h4>
+                                </Stack>
+                                <Stack direction="row" spacing={2}>
+                                <Icon name='linkify' />
+                                <h4>{agencyData.website}</h4>
+                                </Stack>
+                                {/* <Input ref={passwordRef} fluid icon='lock' iconPosition='left' placeholder='Password' />
+                                <Input ref={confirmPasswordRef} fluid icon='lock' iconPosition='left' placeholder='Confirm Password' /> */}
+
+                                <Divider />
+
+                                <h3>Recent Projects with {agencyData.name}</h3>
+                                <br />
+                                <Stack direction="column" spacing={2}>
+                                    {
+                                        agencyData.ReqAgencies.map((reqAgency) => {
+                                            return (
+                                                <Segment raised>
+                                                    {
+                                                        reqAgency.Estimation.is_completed ? 
+                                                            <Label as='a' color="green" ribbon>
+                                                                Complete
+                                                            </Label>
+                                                        : 
+                                                            <Label as='a' color="blue" ribbon>
+                                                                Ongoing
+                                                            </Label>
+                                                }
+                                                    <SingleEstimationCard 
+                                                    key={reqAgency.id}
+                                                    estimationData={reqAgency}
+                                                    isOngoing={!reqAgency.Estimation.is_completed}
+                                                    isRejected={false}
+                                                    isArchived={true}
+                                                    />
+                                                </Segment>
+                                                
+                                            )
+                                        })
+                                    }
+                                </Stack>
+                                <Divider />
+
+                                <h3>Reviews</h3>
+
+                                {/* <Button loading={uploadingImg} onClick={handleSaveChanges} color='blue' className='mt-3'>Save Changes</Button> */}
+                                <Stack direction="column" spacing={2}>
+                                    {
+                                        agencyData.Reviews.map((review) => {
+                                            return (
+                                                <ReviewCard 
+                                                    companyName={review.Company.name} 
+                                                    title={review.title} 
+                                                    text={review.description}
+                                                    companyLogo={review.Company.logo}
+                                                    rating={review.rating}
+                                                    key={review.id}
+                                                />
+                                            )
+                                        })
+                                    }   
+                                </Stack>
+
+                            </Stack>
+
+
+
+                        </div>
+
+                    </div>
+
+                </Grid.Column>
+            </Grid>
+        </div>}
+</div>
   )
 }
 

@@ -4,6 +4,7 @@ import { Rating } from 'react-simple-star-rating'
 import { useState } from 'react';
 import EditEmployeeModal from '../modals/EditEmployeeModal';
 import EditButton from '../custom/EditButton';
+import { Link } from 'react-router-dom';
 
 import { useSelector, useDispatch } from "react-redux";
 import { updateCurrTask } from "../../actions";
@@ -58,8 +59,6 @@ const TableEmpList = ({ tableData, onAddTaskModal, onAddTaskList, onEmpList }) =
                         <th scope="col">Salary</th>
 
                         {onEmpList ? <th scope="col">Address</th> : null}
-                        {onEmpList ? <th scope="col">Action</th> : null}
-
                     </tr>
                 </thead>
 
@@ -87,7 +86,7 @@ const TableEmpList = ({ tableData, onAddTaskModal, onAddTaskList, onEmpList }) =
 
                                     <Image className='profile-img' style={{ width: '32px', height: '32px' }} src={currItem.profile_picture ? currItem.profile_picture : 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'} size='mini'
                                         circular /><Header.Content>
-                                        {currItem.name}
+                                        <Link to={"/employee/" + currItem.id}>{currItem.name}</Link>
 
                                     </Header.Content>
                                 </Header>
@@ -97,16 +96,6 @@ const TableEmpList = ({ tableData, onAddTaskModal, onAddTaskList, onEmpList }) =
                             <Table.Cell singleLine width={2}>{currItem.salary} ৳</Table.Cell>
 
                             {onEmpList? <Table.Cell singleLine width={5}>{currItem.address}</Table.Cell> : null}
-                            
-                            {onEmpList? <Table.Cell singleLine width={2}><center><EditButton
-                                data={editData}
-                                setEditData={setEditData}
-                                name={currItem.name}
-                                id={currItem.id}
-                                salary={currItem.salary}
-                                address={currItem.address}
-                                onClick={() => setEditEmployeeModal(true)}
-                            /></center></Table.Cell> : null}
                             
                         </Table.Row>
                     ))}
