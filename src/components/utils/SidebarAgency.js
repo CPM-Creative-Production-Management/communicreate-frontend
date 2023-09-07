@@ -5,7 +5,7 @@ import {RxDashboard} from "react-icons/rx";
 import {BsArchive, BsPersonAdd, BsPersonWorkspace, BsCashStack} from "react-icons/bs";
 
 import {LuCalculator} from "react-icons/lu";
-import {AiOutlineInfoCircle} from "react-icons/ai";
+import {AiOutlineInfoCircle, AiOutlineSearch} from "react-icons/ai";
 import {HiOutlineMail} from "react-icons/hi";
 import {Divider} from "semantic-ui-react";
 import {RiTeamLine} from "react-icons/ri";
@@ -15,8 +15,6 @@ import {mobile} from "../../App";
 
 
 export const SidebarAgency = () => {
-
-    const [collapsed, setCollapsed] = React.useState(false);
 
     return (
         <div style={{display: 'flex', position:"fixed", bottom:'0px', height: '100vh'}}>
@@ -38,6 +36,7 @@ export const SidebarAgency = () => {
                     <br/>
 
                     <MenuItem component={<Link to="/"/>} icon={<SiAntdesign/>} disabled> CPM </MenuItem>
+                    <MenuItem component={<Link to="/search"/>} icon={<AiOutlineSearch/>}> Search </MenuItem>
                     <MenuItem component={<Link to="/"/>} icon={<RxDashboard/>}> Dashboard </MenuItem>
 
                     <MenuItem component={<Link to="/requests"/>} icon={<BiGitPullRequest/>}> My Requests </MenuItem>

@@ -3,7 +3,7 @@ import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 
-import { Button, Dropdown } from "semantic-ui-react";
+import { Button, Dropdown, Input } from "semantic-ui-react";
 import { SiAntdesign } from "react-icons/si";
 import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
@@ -14,6 +14,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import SingleNotification from '../cards/SingleNotification';
 import { NotificationDropdown } from './NotificatonDropdown';
+import { SearchDropdown } from './SearchDropdown';
+import ModalExampleModal from './SearchModal';
+import SearchModal from './SearchModal';
 
 function NavScrollExample() {
     const cookies = new Cookies();
@@ -36,9 +39,9 @@ function NavScrollExample() {
         showToast('Logged out successfully', 'success');
         navigate('/login');
     }
+  
 
-    
-
+    const [openSearchModal, setOpenSearchModal] = useState(false);
 
     return (
         <Navbar expand="lg" className="bg-body-tertiary nav-style">
@@ -57,7 +60,7 @@ function NavScrollExample() {
                     </Nav>
 
 
-                    <Form className="d-flex">
+                    {/* <Form className="d-flex">
                         <Form.Control
                             type="search"
                             placeholder="Search"
@@ -65,9 +68,19 @@ function NavScrollExample() {
                             aria-label="Search"
                         />
                         <Button variant="outline-success">Search</Button>
-                    </Form>
+                    </Form> */}
 
-                    <NotificationDropdown/>
+                
+
+                    {/* <SearchDropdown /> */}
+                    <Input disabled={openSearchModal} onClick={()=>{setOpenSearchModal(true)}} loading={false} placeholder='Search...' />
+
+                    <SearchModal open={openSearchModal} setOpen={setOpenSearchModal}/>
+                    
+
+                    <NotificationDropdown />
+
+
 
                     <Dropdown pointing
                         text={userName}
@@ -89,7 +102,7 @@ function NavScrollExample() {
                                 navigate("/profile")
                             }
                             } />
-                            <Dropdown.Item icon='calculator' text='My Estimations' />
+                            <Dropdown.Item onClick={() => { navigate('/estimations') }} icon='calculator' text='My Estimations' />
 
                             <Dropdown.Divider />
                             <Dropdown.Item onClick={logout} icon='log out' color='red' text='Logout' />

@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import SingleReqCard from "../cards/SingleReqCard";
 import {base_url} from "../../index";
 import {useApiRequest} from "../api/useApiRequest";
 import {Divider, Pagination} from "semantic-ui-react";
@@ -18,6 +17,7 @@ export const Estimations = ({isOngoing, isRejected}) => {
     useEffect(() => {
 
         urlSuffix = isOngoing ? 'request/finalized/?page=1' : 'estimation/rejected/?page=1'
+   
     }, [])
 
     const {data, dataLoading, error} = useApiRequest({

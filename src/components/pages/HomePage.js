@@ -27,6 +27,7 @@ import PaymentPage from './PaymentPage';
 import ProfilePage from './ProfilePage';
 import CompletedProjects from './client/CompletedProjects';
 import Notifications from './Notifications';
+import SearchPage from './SearchPage';
 
 const cookies = new Cookies();
 
@@ -85,6 +86,8 @@ export const HomePage = () => {
                         <Route exact path="/profile" element={<ProfilePage/>}/>
 
                         <Route exact path="/notifications" element={<Notifications/>}/>
+
+                        <Route exact path="/search" element={<SearchPage/>}/>
                     </Routes>
 
 
