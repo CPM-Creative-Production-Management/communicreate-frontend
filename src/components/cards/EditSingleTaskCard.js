@@ -15,6 +15,7 @@ import {updateCurrTask, updateEstimation} from "../../actions";
 export const EditSingleTaskCard = (props) => {
 
     const globalEstimation = useSelector(state => state.currEstimation)
+    const globalRequest = useSelector(state => state.currRequest)
     const currTask = useSelector(state => state.currTask)
 
     const dispatch = useDispatch()
@@ -110,7 +111,22 @@ export const EditSingleTaskCard = (props) => {
     const calculateTaskCost = cT => {
         let totalCost = 0
         cT.Employees?.map((currEmp) => {
-            totalCost += currEmp.salary
+            // todo
+            // cost per employee = salary * project_duration in months
+            // get the duration from the global estimation.deadline
+
+            // subtract the current date from the deadline
+            
+            let deadline = new Date(globalRequest.comp_deadline)
+            let currDate = new Date(globalRequest.res_deadline)
+            let diffTime = Math.abs(deadline - currDate);
+            let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            let diffMonths = Math.ceil(diffDays / 30);
+
+            console.log('diff months', diffMonths)
+
+            totalCost += currEmp.salary * diffMonths
+    
         })
 
         dispatch(updateCurrTask({ ...cT, cost: totalCost}))

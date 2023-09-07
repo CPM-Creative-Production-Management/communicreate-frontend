@@ -7,44 +7,49 @@ import {globalLoading, showToast} from '../../App';
 import {useNavigate} from 'react-router-dom';
 import {useDispatch} from "react-redux";
 import {updateEstimation} from "../../actions";
+import { useSelector } from 'react-redux';
+import { updateRequests } from '../../actions';
 
 const SingleReqCard = ({reqData, isAccepted, isOffered}) => {
     const [showDetails, setShowDetails] = React.useState(false)
     const navigate = useNavigate()
     const dispatch = useDispatch()
-
-    const [loading, setLoading] = React.useState(false)
-
+    const globalRequests = useSelector(state => state.requests)
     const acceptReq = async (reqId) => {
-        await regularApiRequest({
-            url: `${base_url}request/${reqId}/accept`,
-            method: 'POST'
-        })
-        showToast('Request accepted', 'success')
-        window.location.reload()
-    }
-
-    const editEstimation = async () => {
-
-        const currEstimation = await regularApiRequest({
-            url: `${base_url}estimation/${reqData.Estimation.id}`,
-            method: 'GET',
-            loadingState: {loading}
-        })
-
-        if (!loading) {
-            if (currEstimation.status === 200) {
-                console.log('curr estimation to edit', currEstimation.data)
-                // don't dispatch, call backend in the AddEstimationPage component and set the globalEstimation there
-                navigate(`/add-estimation/${reqData.Request.id}`)
-            } else {
-                showToast('Error getting estimation', 'error')
+        try {
+            await regularApiRequest({
+                url: `${base_url}request/${reqId}/accept`,
+                method: 'POST'
+            })
+            showToast('Request accepted', 'success')
+            dispatch(updateRequests(globalRequests.filter((currReq) => {
+                return currReq.RequestId !== reqId
             }
+            )))
+        } catch (err) {
+            console.log(err)
         }
-
-        // dispatch(updateEstimation(currEstimation))
-        // navigate(`/add-estimation/${reqData.id}`)
+       
     }
+
+    const hideReq = async (reqId) => {
+        try {
+            await regularApiRequest({
+                url: `${base_url}request/${reqId}/reject`,
+                method: 'POST'
+            })
+            showToast('Request hidden', 'success')
+            const filteredRequests = globalRequests.filter((currReq) => {
+                console.log(currReq.id, reqId)
+                return currReq.RequestId !== reqId
+            })
+            dispatch(updateRequests(filteredRequests))
+        } catch (err) {
+            console.log(err)
+        }
+        
+    }
+
 
     return (
         <div>
@@ -53,7 +58,9 @@ const SingleReqCard = ({reqData, isAccepted, isOffered}) => {
 
                     {isOffered &&
 
-                        <Button icon labelPosition='left' floated='right'>
+                        <Button icon labelPosition='left' floated='right' onClick={() => {
+                            hideReq(reqData.RequestId)
+                        }}>
                             <Icon name='ban'/>
                             Irrelevant
                         </Button>
@@ -85,27 +92,29 @@ const SingleReqCard = ({reqData, isAccepted, isOffered}) => {
                     </Button>}
 
                     {isAccepted && reqData.estimationExists &&
-                        <Button positive onClick={editEstimation} primary icon labelPosition='left' floated='right'>
-                            <Icon name='add'/>
+                        <Button positive onClick={() => {
+                            navigate(`/edit-estimation/${reqData.Request.id}`)
+                        }} primary icon labelPosition='left' floated='right'>
+                            <Icon name='edit'/>
                             View Estimation
                         </Button>}
 
 
-                    <Card.Header>{reqData.Request.name}</Card.Header>
-                    <Card.Meta>{reqData.Company.name}</Card.Meta>
+                    <Card.Header>{reqData.Request?.name}</Card.Header>
+                    <Card.Meta>{reqData.Company?.name}</Card.Meta>
                     <Card.Description>
-                        {reqData.Request.description}
+                        {reqData.Request?.description}
                     </Card.Description>
                 </Card.Content>
                 <Card.Content extra>
                     <Label>
                         <Icon name='clock outline'/> Estimation Submission Deadline
-                        <Label.Detail>{reqData.Request.res_deadline}</Label.Detail>
+                        <Label.Detail>{reqData.Request?.res_deadline}</Label.Detail>
                     </Label>
 
                     <Label>
                         <Icon name='cloud upload'/> Completion Deadline
-                        <Label.Detail>{reqData.Request.comp_deadline}</Label.Detail>
+                        <Label.Detail>{reqData.Request?.comp_deadline}</Label.Detail>
                     </Label>
                 </Card.Content>
             </Card>
@@ -120,10 +129,10 @@ const SingleReqCard = ({reqData, isAccepted, isOffered}) => {
                         <Card.Content>
 
 
-                            <Card.Header>{reqData.Request.name}</Card.Header>
-                            <Card.Meta>{reqData.Company.name}</Card.Meta>
+                            <Card.Header>{reqData.Request?.name}</Card.Header>
+                            <Card.Meta>{reqData.Company?.name}</Card.Meta>
                             <Card.Description>
-                                {reqData.Request.description}
+                                {reqData.Request?.description}
                             </Card.Description>
 
                             <Divider/>
@@ -134,12 +143,9 @@ const SingleReqCard = ({reqData, isAccepted, isOffered}) => {
                                 <List ordered animated verticalAlign='middle'>
                                     {reqData.Request.RequestTasks?.map((task, index) => {
                                         return (
-
                                             <List.Item>
-                                                <List.Content>
-                                                    <List.Header>{task.name}</List.Header>
-                                                    {task.description}
-                                                </List.Content>
+                                                <List.Header>{task.name}</List.Header>
+                                                {task.description}
                                             </List.Item>
 
 
@@ -152,27 +158,17 @@ const SingleReqCard = ({reqData, isAccepted, isOffered}) => {
 
                         <Card.Content fluid extra>
                             <Label>
-                                <Icon name='clock outline'/>Submission Deadline
-                                <Label.Detail>{reqData.Request.res_deadline}</Label.Detail>
+                                <Icon name='clock outline'/> Submission Deadline
+                                <Label.Detail>{reqData.Request?.res_deadline}</Label.Detail>
                             </Label>
 
                             <Label>
-                                <Icon name='cloud upload'/>Completion Deadline
-                                <Label.Detail>{reqData.Request.comp_deadline}</Label.Detail>
+                                <Icon name='cloud upload'/> Completion Deadline
+                                <Label.Detail>{reqData.Request?.comp_deadline}</Label.Detail>
                             </Label>
                         </Card.Content>
 
                         <Card.Content extra>
-
-                            {/* <Button icon labelPosition='left'>
-                                <Icon name='ban'/>
-                                Irrelevant
-                            </Button>
-
-                            <Button onClick={()=>{acceptReq(reqData.RequestId)}} icon labelPosition='left' floated='right' positive>
-                            <Icon name='check circle outline'/>
-                                Accept
-                            </Button>  */}
 
                             <Button fluid onClick={() => {
                                 setShowDetails(false)

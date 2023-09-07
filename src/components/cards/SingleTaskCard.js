@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Grid, Icon, Label, Message } from "semantic-ui-react";
+import { Button, Grid, Icon, Label, Message, Dropdown } from "semantic-ui-react";
 import { Stack } from "@mui/material";
 import TableEmpList from "../utils/TableEmpList";
 import EditTaskModal from "../modals/EditTaskModal";
@@ -7,6 +7,8 @@ import EditTaskModal from "../modals/EditTaskModal";
 import { useSelector, useDispatch } from "react-redux";
 import { updateEstimation } from "../../actions";
 import { showToast } from "../../App";
+import { base_url } from "../..";
+import { regularApiRequest } from "../api/regularApiRequest";
 
 export const SingleTaskCard = (props) => {
 
@@ -42,9 +44,29 @@ export const SingleTaskCard = (props) => {
     }
 
         
-        
-
-
+    const sendApprovalRequest = async (id) => {
+        console.log(id)
+        const response = await regularApiRequest({
+            url: `${base_url}estimation/task/request/${id}`,
+            method: 'PUT'
+        })
+        if (response.status === 200) {
+            showToast('Approval request sent', 'success')
+            dispatch(updateEstimation({
+                ...globalEstimation, tasks: globalEstimation.tasks.map((task, index) => {
+                    if (task.id === id) {
+                        return {
+                            ...task, status: 1
+                        }
+                    } else {
+                        return task
+                    }
+                })
+            }))
+        } else {
+            showToast('Approval request failed', 'error')
+        }
+    }
 
     return (
 
@@ -82,6 +104,12 @@ export const SingleTaskCard = (props) => {
                         <Button onClick={deleteTask}>
                             <Icon name='trash alternate outline' /> Delete
                         </Button>
+
+                        {props.edit && props.finalized && (props.singleTask.status === 0 ? <Button onClick={() => sendApprovalRequest(props.singleTask.id)}>
+                            <Icon name='send' /> Request Approval
+                        </Button> : props.singleTask.status === 1 ? <Button disabled> Awaiting Approval </Button> : (props.singleTask.status === 2 && <Button disabled> Approved </Button>))}
+
+
                     </Stack>
 
 

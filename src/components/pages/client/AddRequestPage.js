@@ -1,6 +1,6 @@
 import React from 'react'
 import { Card } from 'semantic-ui-react'
-import { Form, TextArea, Button } from 'semantic-ui-react'
+import { Form, TextArea, Button, Dropdown } from 'semantic-ui-react'
 import { useSelector, useDispatch } from 'react-redux'
 import { updateRequest } from '../../../actions'
 import SemanticDatepicker from 'react-semantic-ui-datepickers'
@@ -8,8 +8,21 @@ import { regularApiRequest } from '../../api/regularApiRequest'
 import { base_url } from '../../..'
 import { useNavigate } from 'react-router-dom'
 import { showToast } from '../../../App'
+import { useApiRequest } from '../../api/useApiRequest'
+import { set } from 'lodash'
 
 const AddRequestPage = () => {
+
+    const {data: agencyOptions, dataLoading, error} = useApiRequest({
+        url: base_url + 'agency',
+        method: 'GET'
+    })
+
+    const [sendButtonDisabled, setSendButtonDisabled] = React.useState(true)
+    const [completionDeadlineDisabled, setCompletionDeadlineDisabled] = React.useState(true)
+    const [completionDeadline, setCompletionDeadline] = React.useState(null)
+
+    const [associatedId, setAssociatedId] = React.useState(null);
 
     const globalRequest = useSelector(state => state.currRequest)
     const dispatch = useDispatch()
@@ -24,8 +37,18 @@ const AddRequestPage = () => {
 
     const handleUpdateRequestResponseDate = (event, data) => {
         const date = data.value
+        if (date > completionDeadline) {
+            setCompletionDeadline(null)
+        }
         console.log(event)
-        if (!date) return
+        if (!date) {
+            setCompletionDeadlineDisabled(true)
+            dispatch(updateRequest({
+                ...globalRequest, ['response_deadline']: null
+            }))
+            return
+        }
+        setCompletionDeadlineDisabled(false)
         const offset = date.getTimezoneOffset()
         const dateOffset = new Date(date.getTime() - (offset*60*1000))
         const dateString = dateOffset.toISOString().split('T')[0]
@@ -36,6 +59,7 @@ const AddRequestPage = () => {
 
     const handleUpdateRequestCompleteDate = (event, data) => {
         const date = data.value
+        setCompletionDeadline(date)
         console.log(event)
         if (!date) return
         const offset = date.getTimezoneOffset()
@@ -89,6 +113,24 @@ const AddRequestPage = () => {
             res_deadline: globalRequest.response_deadline,
             tasks: globalRequest.tasks
         }
+        if (!reqBody.name || !reqBody.description || !reqBody.comp_deadline || !reqBody.res_deadline) {
+            showToast('Please fill all fields', 'error')
+            return
+        }
+
+        const completionDeadline = new Date(reqBody.comp_deadline)
+        const responseDeadline = new Date(reqBody.res_deadline)
+        const today = new Date()
+        if (completionDeadline < today || responseDeadline < today) {
+            showToast('Please select a valid date', 'error')
+            return
+        }
+
+        if (completionDeadline < responseDeadline) {
+            showToast('Completion deadline cannot be before response deadline', 'error')
+            return
+        }
+        
         console.log(reqBody)
         const response = await regularApiRequest({
             url: base_url + 'request',
@@ -97,6 +139,34 @@ const AddRequestPage = () => {
         })
         if (response.status === 200) {
             showToast('Request added succesfully', 'success')
+            navigate('/')
+        } else {
+            showToast('Error adding request', 'error')
+        }
+    }
+
+    const submitSpecificRequest = async (id, name) => {
+        const reqBody = {
+            name: globalRequest.name,
+            description: globalRequest.description,
+            comp_deadline: globalRequest.complete_deadline,
+            res_deadline: globalRequest.response_deadline,
+            tasks: globalRequest.tasks
+        }
+
+        if (!reqBody.name || !reqBody.description || !reqBody.comp_deadline || !reqBody.res_deadline) {
+            showToast('Please fill all fields', 'error')
+            return
+        }
+
+        console.log(reqBody)
+        const response = await regularApiRequest({
+            url: base_url + 'request/agency/' + id,
+            method: 'POST',
+            reqBody: reqBody
+        })
+        if (response.status === 200) {
+            showToast('Request sent succesfully to ' + name, 'success')
             navigate('/')
         } else {
             showToast('Error adding request', 'error')
@@ -117,10 +187,19 @@ const AddRequestPage = () => {
                 <TextArea name='description' placeholder="A detailed description of your project..." onChange={handleUpdateRequest}/>
                 </Form>
                 <h4>Response Deadline</h4>
-                <SemanticDatepicker onChange={handleUpdateRequestResponseDate} />
+                <SemanticDatepicker filterDate={(date) => {
+                    const yesterday = new Date()
+                    yesterday.setDate(yesterday.getDate() - 1)
+                    return date >= yesterday
+                }} onChange={handleUpdateRequestResponseDate} />
                 <h4>Completion Deadline</h4>
-                <SemanticDatepicker onChange={handleUpdateRequestCompleteDate} />
-                <Button className='mt-3' primary onClick={handleAddTask}>Add Task</Button>
+                <SemanticDatepicker value={completionDeadline} disabled={completionDeadlineDisabled} filterDate={(date) => {
+                    const responseDate = new Date(globalRequest.response_deadline)
+                    if (date < responseDate) return false
+                    const yesterday = new Date()
+                    yesterday.setDate(yesterday.getDate() - 1)
+                    return date >= yesterday
+                }} onChange={handleUpdateRequestCompleteDate} />
                 {globalRequest.tasks.map((currTask, index) => (
                     <Card className='p-4' fluid>
                         <Card.Meta className='mb-3'>
@@ -134,7 +213,34 @@ const AddRequestPage = () => {
                         <Button className='mt-3' primary name={index} onClick={handleDeleteTask}>Delete</Button>
                     </Card>
                 ))}
-                <Button primary onClick={submitRequest} className='mt-3'>Submit</Button>
+                <Button className='mt-3' primary onClick={handleAddTask}>Add Task</Button>
+                <Button onClick={submitRequest} className='mt-3' positive>Broadcast</Button>
+                <h2 class="ui horizontal divider header">
+                        <i class="icon-usd"></i>
+                        Or
+                    </h2>
+                <center>
+                    <h2>Send to a specific agency</h2>
+                </center>
+                <Dropdown
+                    className='mt-3'
+                    placeholder='Select Your Agency'
+                    fluid
+                    onChange={(e, data) => {
+                        console.log('selected', data.value)
+                        setAssociatedId(data.value)
+                        setSendButtonDisabled(false)
+                    }}
+                    search
+                    selection
+                    options={agencyOptions}
+                />
+                <Button onClick={() => {
+                    // find agency name from assoicated id
+                    const name = agencyOptions.find((agency) => agency.value == associatedId).name
+                    submitSpecificRequest(associatedId, name)
+
+                }} className='mt-3' positive disabled={sendButtonDisabled}>Send</Button>
             </Card>
         </div>
     )

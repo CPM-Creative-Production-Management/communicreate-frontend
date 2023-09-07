@@ -21,3 +21,45 @@ code {
   top: 0;
   display: flex;
 }
+
+.estimation-summary{
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  background-color: white;
+}
+
+.collapsible-div {
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+  max-height: 40px;
+}
+
+.collapsible-div.expanded {
+  max-height: 300px;
+}
+
+.left-align {
+  text-align: left;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.profile-img{
+  object-fit: cover;
+}
+
+.sq-img{
+  width: 100px;
+  height: 100px;
+}

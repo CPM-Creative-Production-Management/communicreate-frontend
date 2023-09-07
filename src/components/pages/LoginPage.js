@@ -59,7 +59,7 @@ export const LoginPage = () => {
                     <SiAntdesign className='mt-3' size="10em"/>
                     <br/>
                     <h1>
-                        Welcome back to Creative Production Management</h1>
+                        Welcome back to CommuniCreate</h1>
                 </center>
                 <div className={'col-xs-12 col-sm-3 col-md-3 mb-4 mt-5'}>
 

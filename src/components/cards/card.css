@@ -1,32 +1,79 @@
 .box {
-
-    background-color: #bed2ff;
-    transition: box-shadow 0.4s ease;
-
+  background-color: #bed2ff;
+  transition: box-shadow 0.4s ease;
 }
 
 .box:hover {
-    box-shadow: 0 0 10px 5px rgba(195, 221, 255, 0.22);
+  box-shadow: 0 0 10px 5px rgba(195, 221, 255, 0.22);
 }
 
-.icon-bg{
-    background-color: #282c34;
-    color: white;
-    border-radius: 12px;
-    padding: 10px;
+.icon-bg {
+  background-color: #282c34;
+  color: white;
+  border-radius: 12px;
+  padding: 10px;
 }
 
 .dues-background {
-    background-color: #c5f0fc;
-    padding: 5px;
-    border-radius: 5px;
-    margin-bottom: 5px;
+  background-color: #c5f0fc;
+  padding: 5px;
+  border-radius: 5px;
+  margin-bottom: 5px;
 }
 
 .dues-background:hover {
-    background-color: #a8ecff;
-    padding: 5px;
-    border-radius: 5px;
-    margin-bottom: 5px;
-    box-shadow: 0 0 5px #97adb4;
+  background-color: #a8ecff;
+  padding: 5px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  box-shadow: 0 0 5px #97adb4;
 }
+
+.emi-background {
+  background-color: #fcf8c5;
+  padding: 5px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+.emi-background:hover {
+  background-color: #fdf691;
+  padding: 5px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  box-shadow: 0 0 5px #97adb4;
+}
+
+.unread-bg {
+  background-color: #818cff;
+}
+
+.scroll-container {
+  width: 300px; /* Set the width or height as needed */
+  height: 300px; /* Set the height as needed */
+  overflow: auto; /* Enable scrolling when content exceeds container dimensions */
+  border: 1px solid #ccc; /* Optional: Add a border for visual clarity */
+}
+
+/* Content inside the container */
+.content {
+  /* Add your content styling here */
+  padding: 10px; /* Optional: Add padding for spacing */
+  /* Ensure the content is taller than the container to trigger scrolling */
+} 
+
+.element {
+  /* Define the default styles */
+  
+  transition: background-color 0.3s ease; /* Add a smooth transition effect */
+  /* Other styles for the element */
+}
+
+.element:hover {
+  /* Define the styles for when the element is hovered */
+  background-color: rgba(221, 221, 221, 0.376); /* Change the background color on hover */
+  /* Other styles for when the element is hovered */
+  border-radius: 6px;
+  
+}
+

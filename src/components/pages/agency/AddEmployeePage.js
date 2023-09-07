@@ -97,8 +97,9 @@ const AddEmployeePage = () => {
 
   return (
     <div>
-        <br></br>
+       <center>
         <h1>Add Employee</h1>
+        </center>
 
         <Grid columns={2}>
             <Grid.Column>

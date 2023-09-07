@@ -6,23 +6,30 @@ import {Dashboard} from "../fragments/Dashboard";
 import {Archive} from "../fragments/Archive";
 import "./pages.css"
 import {AddEstimationPage} from "./agency/AddEstimationPage";
-import {Estimations} from "../fragments/Estimations";
+import {EstimationsPage} from "./agency/EstimationsPage";
 import MyEmployeesPage from './agency/MyEmployeesPage';
-
 import AddEmployeePage from './agency/AddEmployeePage';
+import EmployeePage from './agency/EmployeePage';
 
 import Cookies from "universal-cookie";
 import ClientDashboard from './client/ClientDashboard';
 import {SidebarClient} from  '../utils/SidebarClient'
 import AddRequestPage from './client/AddRequestPage';
 import MyRequestsPage from './client/MyRequestsPage';
-import Requests from "./agency/Requests";
+import RequestPage from "./agency/RequestPage";
 // import ResponsePage from './client/ResponsePage';
 import FinalizePage from './client/FinalizePage';
-import PaymentPage from './client/PaymentPage';
-import DuesPage from './client/DuesPage';
 import EstimationPage from './client/EstimationPage';
+import AgenciesPage from './client/AgenciesPage';
+import AgencyPage from './client/AgencyPage';
 
+
+import DuesPage from './DuesPage';
+import PaymentPage from './PaymentPage';
+import ProfilePage from './ProfilePage';
+import CompletedProjects from './client/CompletedProjects';
+import Notifications from './Notifications';
+import SearchPage from './SearchPage';
 
 const cookies = new Cookies();
 
@@ -42,25 +49,26 @@ export const HomePage = () => {
     return (
         <div>
             <ResponsiveNavbar/>
-            
+            <br />
+            <br />
 
-            <div className="row">
+            <div className="row pe-4">
                 <div className="col-xs-1 col-sm-1 col-md-2">{ userType === 1 ? <SidebarClient /> : <SidebarAgency />}</div>
+                <div className="col-xs-11 col-sm-10 col-md-10">
 
-                <div className="col-xs-11 col-sm-11 col-md-10">
-                    <div className="me-5">
-
-                    <Routes>
+                    <Routes >
                         {userType === 1? 
                             <Route exact path="/" element={<ClientDashboard/>}/> : 
                             <Route exact path="/" element={<Dashboard/>}/>
                         }
                         
                         <Route exact path="/archive" element={<Archive/>}/>
-                        <Route exact path="/requests" element={<Requests/>}/>
-                        <Route exact path="/estimations" element={<Estimations/>}/>
-                        <Route exact path="/add-estimation/:id" element={<AddEstimationPage/>}/>
+                        <Route exact path="/requests" element={<RequestPage/>}/>
+                        <Route exact path="/estimations" element={<EstimationsPage/>}/>
+                        <Route exact path="/add-estimation/:id" element={<AddEstimationPage edit={false}/>}/>
+                        <Route exact path="/edit-estimation/:id" element={<AddEstimationPage edit={true}/>}/>
                         <Route exact path="/my-employees" element={<MyEmployeesPage/>}/>
+                        <Route exact path="/employee/:id" element={<EmployeePage/>}/>
                         {/* <Route exact path="/payment" element={<PaymentPage/>}/> */}
                         <Route exact path="/add-employee" element={<AddEmployeePage/>}/>
 
@@ -70,23 +78,25 @@ export const HomePage = () => {
 
                         {
                             userType === 1 ?
-                                <Route exact path="/finalize" element={<FinalizePage/>}/> : null
+                                <Route exact path="/request/:rid/agency/:aid/finalize" element={<FinalizePage/>}/> : null
                         }
-                        {
-                            userType === 1 ?
-                                <Route exact path="/payment" element={<PaymentPage/>}/> : null
-                        }
-                        {
-                            userType === 1 ?
-                                <Route exact path="/dues" element={<DuesPage/>}/> : null
-                        }
+                        <Route exact path="/payment/:id" element={<PaymentPage/>}/>
+                        <Route exact path="/dues" element={<DuesPage/>}/>
+                        <Route exact path="/request/:rid/agency/:aid/estimation" element={<EstimationPage/>}/>
+                        <Route exact path="/agencies" element={<AgenciesPage/>} />
+                        <Route exact path="/agency/:id" element={<AgencyPage/>}/>
+                        <Route exact path="/completed-projects" element={<CompletedProjects/>}/>
+                        <Route exact path="/profile" element={<ProfilePage/>}/>
 
-                        <Route exact path="/estimation/:id" element={<EstimationPage/>}/>
+                        <Route exact path="/notifications" element={<Notifications/>}/>
+
+                        <Route exact path="/search" element={<SearchPage/>}/>
                     </Routes>
 
-                     
-                    </div>
+
+
                 </div>
+
 
 
             </div>

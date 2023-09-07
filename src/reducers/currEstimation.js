@@ -1,4 +1,5 @@
 const currEstimationReducer = (state = {
+    id: null,
     title: "",
     company: "",
     deadline: "",
@@ -8,7 +9,7 @@ const currEstimationReducer = (state = {
     tags: [],
     tasks: [],
     RequestTasks: [],
-
+    extraCost: 0
 }, action) => {
     switch (action.type) {
 

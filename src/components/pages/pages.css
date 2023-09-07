@@ -13,3 +13,44 @@
     text-align: start;
 }
 
+.title {
+    text-align: center;
+}
+
+.cover-img{
+    width: 100%;
+    height: 40vh;
+
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+
+
+    object-fit: cover;
+}
+
+.profile-cards{
+    /* give a negaive top margin to the card to make it overlap with the cover image */
+    margin-top: -10rem;
+    
+    /* give a negaive left margin to the card to make it overlap with the cover image */
+    margin-left: 4rem;
+
+    
+
+}
+
+.profile-card{
+
+    background-color: white;
+    border-radius: 6px;
+    padding: 2rem;
+    /* give a thin border to the card */
+    border: 2px solid #ffffff;
+}
+
+.rounded-circle{
+    border:1px solid;
+    border-radius:50%;
+    width:50px;
+    height:50px;
+    }

@@ -1,22 +1,24 @@
-import React, {useEffect, useState} from "react";
-import {Button, Dropdown, Form, Grid, Icon, Input, Label, Message} from "semantic-ui-react";
-import {Autocomplete, Avatar, Chip, CircularProgress, Stack, TextField} from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Button, Dropdown, Form, Grid, Icon, Input, Label, Message } from "semantic-ui-react";
+import { Autocomplete, Avatar, Chip, CircularProgress, Stack, TextField } from "@mui/material";
 import AddTaskModal from "../modals/AddTaskModal";
-import {showToast} from "../../App";
+import { showToast } from "../../App";
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
-import {useApiRequest} from "../api/useApiRequest";
-import {base_url} from "../../index";
-import {AiOutlineFileSearch} from "react-icons/ai";
+import { useApiRequest } from "../api/useApiRequest";
+import { base_url } from "../../index";
+import { AiOutlineFileSearch } from "react-icons/ai";
 import TableEmpList from "../utils/TableEmpList";
 
-import {useSelector, useDispatch} from "react-redux";
-import {updateCurrTask, updateEstimation} from "../../actions";
+import { useSelector, useDispatch } from "react-redux";
+import { updateCurrTask, updateEstimation } from "../../actions";
 
 
 export const AddSingleTaskCard = () => {
 
 
     const globalEstimation = useSelector(state => state.currEstimation)
+    const globalRequest = useSelector(state => state.currRequest)
+
 
     const currTask = useSelector(state => state.currTask)
     // dispatch an action to the reducer
@@ -24,14 +26,14 @@ export const AddSingleTaskCard = () => {
 
 
     const handleUpdateCurrTask = (event) => {
-        dispatch(updateCurrTask({ 
+        dispatch(updateCurrTask({
             ...currTask, [event.target.name]: event.target.value
         }))
 
         console.log('curr task', currTask)
     }
 
-    let {data: allTaskTags, dataLoading: tagDataLoading, error: tagError} = useApiRequest({
+    let { data: allTaskTags, dataLoading: tagDataLoading, error: tagError } = useApiRequest({
         url: base_url + 'tasktag',
         method: 'GET',
     });
@@ -47,7 +49,7 @@ export const AddSingleTaskCard = () => {
     const handleDeleteTag = (index) => {
         console.log('delete tag', index)
         // showToast(index, {toastType: 'success'})
-        dispatch(updateCurrTask({ ...currTask, tags: currTask.tags.filter((tag, i) => i !== index)}))
+        dispatch(updateCurrTask({ ...currTask, tags: currTask.tags.filter((tag, i) => i !== index) }))
 
 
         // setCurrTask({...currTask, tags: currTask.tags.filter((tag, i) => i !== index)})
@@ -61,12 +63,12 @@ export const AddSingleTaskCard = () => {
             showToast('Tag already added', 'error')
 
         } else {
-            dispatch(updateCurrTask({ ...currTask, tags: [...currTask.tags, allTaskTags[tag_id]]}))
+            dispatch(updateCurrTask({ ...currTask, tags: [...currTask.tags, allTaskTags[tag_id]] }))
             // setCurrTask({...currTask, tags: [...currTask.tags, allTaskTags[tag_id]]})
         }
     }
 
-    const {data: employeeList, dataLoading, error} = useApiRequest({
+    const { data: employeeList, dataLoading, error } = useApiRequest({
         url: base_url + 'employees',
         method: 'GET',
     })
@@ -81,7 +83,7 @@ export const AddSingleTaskCard = () => {
             showToast('Employee already exists', 'error')
 
         } else {
-            dispatch(updateCurrTask({ ...currTask, Employees: [...currTask.Employees, emp]}))
+            dispatch(updateCurrTask({ ...currTask, Employees: [...currTask.Employees, emp] }))
         }
     }
 
@@ -97,23 +99,33 @@ export const AddSingleTaskCard = () => {
     const calculateTaskCost = () => {
         let totalCost = 0
         currTask.Employees?.map((currEmp) => {
-            totalCost += currEmp.salary
+            // todo
+            // totalCost += currEmp.salary
+            let deadline = new Date(globalRequest.comp_deadline)
+            let currDate = new Date(globalRequest.res_deadline)
+            let diffTime = Math.abs(deadline - currDate);
+            let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            let diffMonths = Math.ceil(diffDays / 30);
+
+            console.log('diff months', diffMonths)
+
+            totalCost += currEmp.salary * diffMonths
         })
 
-        dispatch(updateCurrTask({ ...currTask, cost: totalCost}))
-        
-    
+        dispatch(updateCurrTask({ ...currTask, cost: totalCost }))
+
+
     }
 
 
     return (
         <div className='ms-4 me-4 mb-4'>
-            <br/>
+            <br />
             <div>
                 <Form>
                     <Form.Group widths='equal'>
                         <Form.Input onChange={handleUpdateCurrTask} fluid placeholder='Task Name' name='name'
-                                    value={currTask.name}/>
+                            value={currTask.name} />
                     </Form.Group>
                 </Form>
             </div>
@@ -126,7 +138,7 @@ export const AddSingleTaskCard = () => {
                     {currTask.tags?.map((currTag, index) => (
                         <Chip key={currTag.id} label={currTag.name} onDelete={() => {
                             handleDeleteTag(index)
-                        }}/>
+                        }} />
                     ))}
 
                 </Stack>
@@ -134,26 +146,26 @@ export const AddSingleTaskCard = () => {
 
 
             <Dropdown icon='filter'
-                      floating
-                      labeled
-                      button
-                      className='icon' text='Add tag'>
+                floating
+                labeled
+                button
+                className='icon' text='Add tag'>
                 <Dropdown.Menu>
 
                     {allTaskTags?.map((currTag, index) => (
                         <Dropdown.Item onClick={() => {
                             addTag(index)
-                        }} key={currTag.id} icon='tag' text={currTag.name}/>
+                        }} key={currTag.id} icon='tag' text={currTag.name} />
                     ))}
 
 
                 </Dropdown.Menu>
             </Dropdown>
 
-            
 
 
-            <TableEmpList tableData={currTask.Employees} onAddTaskModal={true}/>
+
+            <TableEmpList tableData={currTask.Employees} onAddTaskModal={true} />
 
             <Dropdown
                 className='mt-3'
@@ -172,7 +184,7 @@ export const AddSingleTaskCard = () => {
 
             <Message
                 icon='money bill alternate outline'
-                header={currTask.cost  + ' ৳'}
+                header={currTask.cost + ' ৳'}
                 content='Estimated from the assigned Employees salary'
             />
 

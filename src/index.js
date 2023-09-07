@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {BrowserRouter} from "react-router-dom";
+import {HashRouter} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'semantic-ui-css/semantic.min.css'
 
@@ -26,14 +26,17 @@ const store = createStore(allReducers,
 
 
 export const base_url = 'https://cpm-backend.onrender.com/'
+export const base_s3_url = 'https://cpm-backend.s3.amazonaws.com'
+
+// export const base_url = 'https://75c0-59-153-103-227.ngrok-free.app/'
 // export const base_url = 'http://localhost:3000/'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <Provider store={store}>
-        <BrowserRouter>
+        <HashRouter>
             <App/>
-        </BrowserRouter>
+        </HashRouter>
     </Provider>
 );
 

@@ -15,12 +15,13 @@ export const resetCurrEstimation = () => {
         payload: {
             title: "",
             company: "",
-            deadline: "1 month",
+            deadline: "",
             cost: 0,
             description: "",
             tags: [],
             tasks: [],
             RequestTasks: [],
+            extraCost: 0
         }
     }
 }
@@ -54,9 +55,60 @@ export const updateCurrProfile = (profile) => {
     }
 }
 
+// request
 export const updateRequest = (request) => {
     return {
         type: 'UPDATE_REQUEST',
         payload: request
+    }
+}
+
+export const resetRequest = () => {
+    return {
+        type: 'RESET_REQUEST',
+        payload: {
+            name: "",
+            description: "",
+            response_deadline: "",
+            complete_deadline: "",
+            tasks: [],
+        }
+    }
+}
+
+export const resetRequests = () => {
+    return {
+        type: 'RESET_REQUESTS',
+        payload: []
+    }
+}
+
+export const updateRequests = (requests) => {
+    return {
+        type: 'UPDATE_REQUESTS',
+        payload: requests
+    }
+}
+
+// for comments
+export const updateComments = (comments) => {
+    return {
+        type: 'UPDATE_COMMENTS',
+        payload: comments
+
+    }
+}
+
+export const updateArchives = (archives) => {
+    return {
+        type: 'UPDATE_ARCHIVES',
+        payload: archives
+    }
+}
+
+export const resetArchives = () => {
+    return {
+        type: 'RESET_ARCHIVES',
+        payload: []
     }
 }

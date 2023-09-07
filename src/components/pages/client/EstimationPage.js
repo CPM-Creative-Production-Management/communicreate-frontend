@@ -1,91 +1,218 @@
-import React from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
 import { useApiRequest } from '../../api/useApiRequest'
+import { regularApiRequest } from '../../api/regularApiRequest'
 import { base_url } from '../../..'
-import { Card, Table, Button, TextArea } from 'semantic-ui-react'
+import { Card, Table, Button, TextArea, Comment, Header, Icon } from 'semantic-ui-react'
+import { showToast } from '../../../App'
+import Comments from "../../custom/Comments";
+import Textarea from "@mui/joy/Textarea";
+import { set } from 'lodash'
+import { useDispatch, useSelector } from 'react-redux'
+import { updateComments } from '../../../actions'
+import { commentApiRequest } from '../../api/commentApiRequest'
 
 
 const EstimationPage = (params) => {
-  const { id } = useParams()
-  const {data, loading, error} = useApiRequest({
-    url: base_url + 'estimation/' + id,
+
+  const globalComments = useSelector(state => state.comments)
+  // dispatch an action to the reducer
+  const dispatch = useDispatch()
+
+  const { rid, aid } = useParams()
+  const navigate = useNavigate()
+
+  const [tasks, setTasks] = useState([]) // 0: pending, 1: approved, 2: reviewed
+  const [finishButton, setFinishButton] = useState(false)
+  const [discardButton, setDiscardButton] = useState(false)
+  const [commentPosting, setCommentPosting] = useState(false)
+  const [newComment, setNewComment] = useState('')
+
+  const handleApprove = async (task) => {
+    const response = await regularApiRequest({
+      url: base_url + 'estimation/task/approve/' + task.id,
+      method: 'PUT'
+    })
+
+    if (response.status === 200) {
+      showToast('Task approved', 'success')
+      setTasks(tasks.map((t) => {
+        if (t.id === task.id) {
+          t.status = 2
+        }
+        return t
+      }))
+      setFinishButton(tasks.every((t) => t.status === 2))
+    } else {
+      showToast('Task could not be approved', 'error')
+    }
+  }
+
+  const { data, loading, error } = useApiRequest({
+    url: base_url + 'estimation/request/' + rid + '/agency/' + aid,
     method: 'GET'
   })
+
+  useEffect(() => {
+    if (data) {
+      setTasks(data.Tasks)
+      setDiscardButton(!data.is_completed)
+      setFinishButton(data.Tasks.every((t) => t.status === 2) && !data.is_completed)
+    }
+  }, [data])
+
+  const handleFinalize = async () => {
+    navigate('/request/' + rid + '/agency/' + aid + '/finalize')
+  }
+
+
+  const handleFinish = async (id) => {
+    try {
+      const response = await regularApiRequest({
+        url: base_url + 'estimation/finish/' + id,
+        method: 'PUT'
+      })
+      window.location.reload()
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const handleDiscard = async (id) => {
+    console.log('discard')
+  }
+
+  const handleRevise = async (task) => {
+    const response = await regularApiRequest({
+      url: base_url + 'estimation/task/review/' + task.id,
+      method: 'PUT'
+    })
+    if (response.status === 200) {
+      showToast('Task sent for reviewing', 'success')
+      setTasks(tasks.map((t) => {
+        if (t.id === task.id) {
+          t.status = 0
+        }
+        return t
+      }))
+      setFinishButton(false)
+    } else {
+      showToast('Task could not be reviewed', 'error')
+    }
+
+  }
+
+  const addComment = async () => {
+    // check if comment is empty
+    if (newComment.length === 0) {
+      showToast('Comment cannot be empty', 'error')
+      return
+    }
+
+    let commentBody = {
+      body: newComment
+    }
+
+    console.log('comment body', commentBody)
+
+    setCommentPosting(true)
+    const response = await commentApiRequest({
+      url: base_url + `estimation/${data.ReqAgency.Estimation.id}/comment`,
+      method: 'POST',
+      reqBody: commentBody
+    })
+
+    console.log('comment response', response)
+
+    if (response && response.status === 200) {
+      showToast('Comment added successfully', 'success')
+      setNewComment('')
+      setCommentPosting(false)
+      dispatch(updateComments([...globalComments, response.data.comment]));
+    } else {
+      // showToast('Comment could not be added', 'error')
+    }
+  }
+
   return (
     <div>
-      <br/>
-      <br/>
+      <br />
+      <br />
       <Card className='p-4' fluid>
         <center>
-          <h2>{data?.title}</h2>
-          <h3>Estimation by: {data?.ReqAgency.Company.name}</h3>
+          <h2>{data?.ReqAgency.Request.name}</h2>
+          <h3>Estimation by: {data?.ReqAgency.Agency.name}</h3>
         </center>
       </Card>
 
       <Table>
         <thead>
           <tr>
-              <th scope="col">Task</th>
-              <th scope="col">Description</th>
-              <th scope="col">Status</th>
-              <th scope="col">Cost</th>
+            <th scope="col">Task</th>
+            {data?.ReqAgency.finalized && <th scope="col">Status</th>}
+            <th scope="col">Cost</th>
+            {data?.ReqAgency.finalized && <th scope="col">Actions</th>}
           </tr>
         </thead>
 
         <Table.Body>
-          {data?.Tasks?.map((task, index) => (
+          {tasks.map((task, index) => (
             <Table.Row>
               <Table.Cell>
                 {task.name}
               </Table.Cell>
-              <Table.Cell>
-                {task.description}
-              </Table.Cell>
-              <Table.Cell>
-                Incomplete
-              </Table.Cell>
+              {data?.ReqAgency.finalized && (<Table.Cell>
+                {task.status === 0 ? 'Pending' : task.status === 1 ? 'Awaiting Approval' : 'Approved'}
+              </Table.Cell>)}
               <Table.Cell>
                 {task.cost}
               </Table.Cell>
+
+              {data?.ReqAgency.finalized && !data?.is_completed && <Table.Cell>
+                {task.status === 0 ? null : task.status === 1 ? <span><Button positive onClick={() => handleApprove(task)}>Approve</Button> <Button negative onClick={() => handleRevise(task.id)}>Review</Button></span> : <Button negative onClick={() => {handleRevise(task)}}>Review</Button>}
+
+              </Table.Cell>}
             </Table.Row>
           ))}
         </Table.Body>
       </Table>
 
       <Card className='p-4' fluid>
-        <div className='d-flex justify-content-between'>
+        <div>
+          <h3>Extra Cost: {data?.extraCost}</h3>
           <h3>Total Cost: {data?.cost}</h3>
 
-          
         </div>
       </Card>
 
-      <Button primary>Finalize</Button>
+      { data?.ReqAgency.finalized || <Button onClick={handleFinalize} primary>Finalize</Button>}
+      { data?.Payment && <Button onClick={() => navigate('/payment/' + data?.Payment?.id)} primary>View Payment Status</Button> }
+      <Button onClick={() => {handleFinish(data?.id)}} primary disabled={!finishButton}>Finish Project</Button>
+      <Button onClick={() => {handleDiscard(data?.id)}} negative disabled={!discardButton}>Discard Project</Button>
 
-      <hr/>
-      <h4>Don't like the estimation? Write a comment below to contact the agency further.</h4>
-      <hr/>
 
-      <h2>Comments</h2>
+      <Comment.Group threaded>
+        <Header as='h3' dividing>
+          Comments
+        </Header>
+        {data ?
+          <Comments estimationId={data.ReqAgency.Estimation?.id} />
+          : null}
 
-      {data?.Comments.length === 0 && <h3>It seems like there are no comments yet. Start a conversation by writing a comment below!</h3>}
+        <span>
+          <Textarea size="md" name='newComment' value={newComment} onChange={(e) => {
+            setNewComment(e.target.value)
+          }} placeholder='add a comment...' />
 
-      {data?.Comments.map((comment, index) => (
-        <Card className='p-4' fluid>
-          <Card.Meta className='mb-3'>
-            <h4>{comment.User.name}</h4>
-            <h5>Email: {comment.User.email}</h5>
-            <h5>Posted On: {comment.createdAt}</h5>
-          </Card.Meta>
-          <hr></hr>
-          <h3>{comment.body}</h3>
-        </Card>
-      ))}
+          <Button loading={commentPosting} className='mt-3' onClick={addComment} primary>
+            <Icon name='send' /> Comment
+          </Button>
+        </span>
 
-        <hr/>
+      </Comment.Group>
 
-        <h3>Write a comment</h3>
-        <TextArea fluid placeholder='Write a comment...' style={{ "width": "100%" }} />
+      <br /><br />
+
     </div>
   )
 }

@@ -1,41 +1,57 @@
-import React, {useEffect, useState} from 'react';
-import {Route, Routes} from "react-router-dom";
-import {Dashboard} from "../../fragments/Dashboard";
-import {Archive} from "../../fragments/Archive";
-import {Card, Grid, Input, Label, Segment, Form, Button, Icon, Divider, Message, List} from "semantic-ui-react";
+import React, { useEffect, useRef, useState } from 'react';
+import { Route, Routes } from "react-router-dom";
+import { Dashboard } from "../../fragments/Dashboard";
+import { Archive } from "../../fragments/Archive";
+import { Card, Input, Label, Segment, Button, Icon, Divider, Message, List, Header, Comment } from "semantic-ui-react";
 import AddTaskModal from "../../modals/AddTaskModal";
-import {SingleTaskCard} from "../../cards/SingleTaskCard";
-import {Avatar, Chip, Stack} from "@mui/material";
-import {Dropdown} from "semantic-ui-react";
+import { SingleTaskCard } from "../../cards/SingleTaskCard";
+import { Avatar, Chip, Stack, Grid } from "@mui/material";
+import { Dropdown } from "semantic-ui-react";
 
-import {useSelector, useDispatch} from "react-redux";
-import {updateEstimation, resetCurrEstimation} from "../../../actions";
-import {Textarea} from "@nextui-org/react";
-import {showToast} from "../../../App";
+import { useSelector, useDispatch } from "react-redux";
+import { updateComments, updateRequest } from '../../../actions';
 
-
-import {useNavigate, useParams} from "react-router-dom";
-import {useApiRequest} from '../../api/useApiRequest';
-import {base_url} from '../../../index';
-import {regularApiRequest} from '../../api/regularApiRequest';
-
-const drawerBleeding = 56;
+import { updateEstimation, resetCurrEstimation } from "../../../actions";
+import Textarea from '@mui/joy/Textarea';
+import { showToast } from "../../../App";
 
 
-export const AddEstimationPage = () => {
+import { useNavigate, useParams } from "react-router-dom";
+import { useApiRequest } from '../../api/useApiRequest';
+import { base_url } from '../../../index';
+import { regularApiRequest } from '../../api/regularApiRequest';
+import Comments from "../../custom/Comments";
+
+
+import { commentApiRequest } from '../../api/commentApiRequest';
+
+
+
+export const AddEstimationPage = (props) => {
     const navigate = useNavigate()
     const params = useParams()
 
-    useEffect(() => {
-        console.log('param id', params.id)
 
-
-    }, [])
+    const { id } = useParams()
 
     // get the global Estimation from redux store
     const globalEstimation = useSelector(state => state.currEstimation)
+    const globalComments = useSelector(state => state.comments)
     // dispatch an action to the reducer
     const dispatch = useDispatch()
+
+    const pastelColors = [
+        '#FFB6C1', // Pink
+        '#FCFA60', // Yellow
+        '#87D697', // Mint
+        '#ADD8E6', // Blue
+        '#FFA07A', // Salmon
+        '#C999DE', // Lavender
+    ];
+
+    const handleChangeColor = (id) => {
+        return pastelColors[id % pastelColors.length];
+    };
 
     let [requestData, setRequestData] = useState({
         "id": 8,
@@ -64,26 +80,46 @@ export const AddEstimationPage = () => {
         }
     })
 
-    const {data: reqData, dataLoading: dataLoadingReq, error: reqError} = useApiRequest({
-        url: base_url + 'request/' + params.id,
+    const { data: reqData, dataLoading: dataLoadingReq, error } = useApiRequest({
+        url: base_url + 'request/' + id,
         method: 'GET',
     })
-
-    // todo: if requestData.estimationExists === true only then get the estimation using requestData.Estimation.ReqAgencyId?
+    const [extraCost, setExtraCost] = useState(0)
 
     useEffect(() => {
         if (!dataLoadingReq && reqData) {
+            console.log('request data', reqData)
+
+            if (reqData.estimationExists) {
+                dispatch(updateEstimation(reqData.ReqAgency.Estimation))
+
+            } else {
+                dispatch(resetCurrEstimation())
+            }
+
+            console.log('global estimation', globalEstimation)
             setRequestData(reqData)
+
+            dispatch(updateRequest(reqData));
+
+
         }
-        console.log('request data', requestData)
     }, [dataLoadingReq])
+
+    useEffect(() => {
+        setExtraCost(globalEstimation.extraCost)
+    }, [globalEstimation])
 
 
     const [openAddTaskModal, setOpenAddTaskModal] = useState(false)
-    // const [isAddingTask, setIsAddingTask] = useState(false)
 
     const sendEstimation = async () => {
         console.log('sending estimation to backend', globalEstimation)
+
+        if (globalEstimation.tasks?.length === 0) {
+            showToast('Please add at least one task', 'error')
+            return
+        }
 
         // generate the estimation body
         let estimationBody = {
@@ -93,13 +129,13 @@ export const AddEstimationPage = () => {
             deadline: globalEstimation.deadline,
             cost: globalEstimation.cost + extraCost,
 
-            // todo fix
-            ReqAgencyId: requestData.id,
+            ReqAgencyId: requestData.ReqAgency.id,
 
             // get only the ids of the tags
             tags: globalEstimation.tags.map((tag) => tag.id),
-            tasks: globalEstimation.tasks.map((task) => {
+            tasks: globalEstimation.tasks?.map((task) => {
                 return {
+                    id: task.id ? task.id : 0,
                     name: task.name,
                     // description: task.description,
                     cost: task.cost,
@@ -112,11 +148,20 @@ export const AddEstimationPage = () => {
         }
 
         console.log('estimation body', estimationBody)
-        const response = await regularApiRequest({
-            url: base_url + 'estimation',
-            method: 'POST',
-            reqBody: estimationBody
-        })
+        let response, method
+        if (props.edit) {
+            response = await regularApiRequest({
+                url: base_url + 'estimation/' + globalEstimation.id,
+                method: 'PUT',
+                reqBody: estimationBody
+            })
+        } else {
+            response = await regularApiRequest({
+                url: base_url + 'estimation',
+                method: 'POST',
+                reqBody: estimationBody
+            })
+        }
 
         console.log('estimation body', estimationBody)
 
@@ -124,7 +169,6 @@ export const AddEstimationPage = () => {
             showToast('Estimation sent successfully', 'success')
             dispatch(resetCurrEstimation())
             navigate('/')
-
         } else {
             showToast('Estimation could not be sent', 'error')
         }
@@ -132,7 +176,7 @@ export const AddEstimationPage = () => {
 
     }
 
-    let {data: allEstimationTags, dataLoading: tagDataLoading, error: tagError} = useApiRequest({
+    let { data: allEstimationTags, dataLoading: tagDataLoading, error: tagError } = useApiRequest({
         url: base_url + 'tag',
         method: 'GET',
     });
@@ -148,24 +192,28 @@ export const AddEstimationPage = () => {
         console.log('delete tag', index)
         // showToast(index, {toastType: 'success'})
 
-        dispatch(updateEstimation({...globalEstimation, tags: globalEstimation.tags.filter((tag, i) => i !== index)}))
+        dispatch(updateEstimation({
+            ...globalEstimation, tags: globalEstimation.tags.filter((tag, i) => i !== index)
+        }))
 
     }
 
-    const addTag = (tag_id) => {
-        console.log('add tag', tag_id)
+    const addTag = (tagIndex) => {
+        console.log('add tag', tagIndex)
         // showToast(tag_id, {toastType: 'success'})
         // do not add if the item already exists
-        if (globalEstimation.tags?.includes(allEstimationTags[tag_id])) {
+        if (globalEstimation.tags.includes(allEstimationTags[tagIndex])) {
             showToast('Tag already added', 'error')
 
         } else {
             dispatch(updateEstimation({
                 ...globalEstimation,
-                tags: [...globalEstimation.tags, allEstimationTags[tag_id]]
+                tags: [...globalEstimation.tags, allEstimationTags[tagIndex]]
             }))
         }
     }
+
+
 
     useEffect(() => {
         // update the globalEstimation cost via redux by looping over all tasks
@@ -178,22 +226,77 @@ export const AddEstimationPage = () => {
         }))
     }, [globalEstimation.tasks]);
 
-    const [extraCost, setExtraCost] = useState(0)
-
     const handleExtraCost = (event) => {
+
         if (event.target.value < 0) {
             showToast('Extra cost cannot be negative', 'error')
             return
         }
-        setExtraCost(event.target.value)
+
+        if (event.target.value === '') {
+            setExtraCost(0)
+
+        } // if the input is a number
+        else if (!isNaN(event.target.value)) {
+            // setExtraCost('')
+            // remove the leading zeros from the string
+
+            setExtraCost(parseInt(event.target.value))
+        }
+
+    }
+
+    const [isExpanded, setIsExpanded] = useState(true);
+
+    const toggleCollapse = () => {
+        setIsExpanded(!isExpanded);
+    };
+
+    // const commentRef = useRef('');
+    const [newComment, setNewComment] = useState('')
+    const [commentPosting, setCommentPosting] = useState(false)
+
+    const addComment = async () => {
+        // check if comment is empty
+        if (newComment.length === 0) {
+            showToast('Comment cannot be empty', 'error')
+            return
+        }
+
+        let commentBody = {
+            body: newComment
+        }
+
+        console.log('comment body', commentBody)
+
+        setCommentPosting(true)
+        const response = await commentApiRequest({
+            url: base_url + `estimation/${globalEstimation.id}/comment`,
+            method: 'POST',
+            reqBody: commentBody
+        })
+
+        console.log('comment response', response)
+
+        if (response && response.status === 200) {
+            showToast('Comment added successfully', 'success')
+            setNewComment('')
+            // add a new comment to the global comments
+
+            setCommentPosting(false)
+
+
+            dispatch(updateComments([...globalComments, response.data.comment]));
+        } else {
+            // showToast('Comment could not be added', 'error')
+        }
+
 
     }
 
 
     return (
         <div>
-            <br/>
-
 
             <Card className='p-4' fluid>
                 <Card.Meta>
@@ -205,12 +308,12 @@ export const AddEstimationPage = () => {
                 <Card.Meta>
 
                     <Label>
-                        <Icon name='briefcase'/>Company
+                        <Icon name='briefcase' /> Company
                         <Label.Detail>{requestData.company.name}</Label.Detail>
                     </Label>
 
                     <Label>
-                        <Icon name='clock outline'/>Submission Deadline
+                        <Icon name='clock outline' /> Submission Deadline
                         <Label.Detail>{requestData.res_deadline}</Label.Detail>
                     </Label>
                 </Card.Meta>
@@ -220,9 +323,10 @@ export const AddEstimationPage = () => {
                     <Stack direction="row" spacing={1}>
 
                         {globalEstimation.tags?.map((currTag, index) => (
-                            <Chip key={currTag.id} label={currTag.tag} onDelete={() => {
+                            <Chip key={currTag.id} label={currTag.tag} style={{backgroundColor: handleChangeColor(currTag.id)}}
+                             onDelete={() => {
                                 handleDeleteTag(index)
-                            }}/>
+                            }} />
                         ))}
 
                     </Stack>
@@ -231,17 +335,17 @@ export const AddEstimationPage = () => {
                 <div className='md-2 xs-2 mb-3'>
 
                     <Dropdown icon='filter'
-                              floating
-                              labeled
-                              button
+                        floating
+                        labeled
+                        button
 
-                              className='icon' text='Add tag'>
+                        className='icon' text='Add tag'>
                         <Dropdown.Menu>
 
                             {allEstimationTags?.map((currTag, index) => (
                                 <Dropdown.Item onClick={() => {
                                     addTag(index)
-                                }} key={currTag.id} icon='tag' text={currTag.tag}/>
+                                }} key={currTag.id} icon='tag' text={currTag.tag} />
                             ))}
 
                         </Dropdown.Menu>
@@ -252,20 +356,17 @@ export const AddEstimationPage = () => {
                 <Message
                     icon='clipboard outline'
                     header='Description'
-                    content={globalEstimation.description}/>
+                    content={requestData.description} />
 
 
                 <Card.Description>
-                    <h4> Task List </h4>
+                    <h4>Requested Task List </h4>
                     <List ordered animated verticalAlign='middle'>
-                        {globalEstimation.RequestTasks?.map((task, index) => {
+                        {requestData.RequestTasks?.map((task, index) => {
                             return (
-
-                                <List.Item>
-                                    <List.Content>
-                                        <List.Header>{task.name}</List.Header>
-                                        {task.description}
-                                    </List.Content>
+                                <List.Item key={index}>
+                                    <List.Header>{task.name}</List.Header>
+                                    {task.description}
                                 </List.Item>
 
 
@@ -275,62 +376,108 @@ export const AddEstimationPage = () => {
                 </Card.Description>
 
 
-                <Message
-                    icon='money bill alternate outline'
-                    header={globalEstimation.cost + ' + ' + extraCost + ' ৳'}
-                    content='Total Estimated Cost of the Project'
-                />
-
-
-                <Input fluid name='extraCost' onChange={handleExtraCost} value={extraCost} className='mt-2'
-                       label='Extra Cost' type='number' placeholder='Amount'/>
-
-
-                <Divider/>
+                <Divider />
 
                 {globalEstimation.tasks?.length > 0 ?
                     globalEstimation.tasks?.map((task, index) => {
                         return (<div>
-                                <SingleTaskCard show={openAddTaskModal} singleTask={task} taskIndex={index}
-                                                setShow={setOpenAddTaskModal}/>
-                                {index < globalEstimation.tasks.length - 1 ? <Divider/> : null}
+                            <SingleTaskCard show={openAddTaskModal} singleTask={task} taskIndex={index}
+                                setShow={setOpenAddTaskModal} edit={props.edit} finalized={reqData?.ReqAgency.finalized} />
+                            {index < globalEstimation.tasks?.length - 1 ? <Divider /> : null}
 
-                            </div>
+                        </div>
                         )
                     })
-                    : <div className='text-center'><h4>No tasks added yet </h4> <br/></div>}
+                    : <div className='text-center'><h4>No tasks added yet </h4> <br /></div>}
 
 
             </Card>
 
-            <Button onClick={() => {
-                setOpenAddTaskModal(true)
-            }} animated>
-                <Button.Content visible>Add task</Button.Content>
-                <Button.Content hidden>
-                    <Icon name='add'/>
-                </Button.Content>
-            </Button>
 
-            {/* <Button animated>
-                <Button.Content visible>Save</Button.Content>
-                <Button.Content hidden>
-                    <Icon name='save' />
-                </Button.Content>
-            </Button> */}
+            {requestData.estimationExists &&
+                <Comment.Group threaded>
+                    <Header as='h3' dividing>
+                        Comments
+                    </Header>
+                    {globalEstimation.id ?
+                        <Comments estimationId={globalEstimation?.id} />
+                        : null}
 
-            <Button onClick={sendEstimation} positive animated>
-                <Button.Content visible>Send Estimation</Button.Content>
-                <Button.Content hidden>
-                    <Icon name='send'/>
-                </Button.Content>
-            </Button>
+                    <span>
+                        <Textarea disabled={commentPosting} size="md" name='newComment' value={newComment} onChange={(e) => {
+                            setNewComment(e.target.value)
+                        }} placeholder='add a comment...' />
+
+                        <Button loading={commentPosting} className='mt-3' onClick={addComment} primary>
+                            <Icon name='send' /> Comment
+                        </Button>
+                    </span>
+
+                </Comment.Group>
+            }
+
+            <div className='estimation-summary'>
+                <Card raised fluid>
+                    <Card.Content>
+
+                        <div className={`collapsible-div ${isExpanded ? 'expanded' : ''}`}>
+
+                            <center>
+                                <Button circular icon labelPosition='right' onClick={toggleCollapse}>
+                                    Summary{isExpanded ? <Icon name={'angle down'} /> : <Icon name={'angle up'} />}
+                                </Button>
+                            </center>
 
 
-            <br/><br/>
+                            <Message
+                                icon='money bill alternate outline'
+                                header={globalEstimation.cost + ' + ' + extraCost + ' ৳'}
+                                content='Total Estimated Cost of the Project'
+                            />
+
+
+                            <Input fluid name='extraCost' onChange={handleExtraCost} value={parseInt(extraCost)}
+                                className='mt-2'
+                                label='Extra Cost' type='number' placeholder='Amount' />
+
+                            <br />
+
+                            <Grid container spacing={1}>
+                                <Grid item xs={6} md={6}>
+                                    <Button fluid onClick={() => {
+                                        setOpenAddTaskModal(true)
+                                    }}>
+                                        <Icon name='add' />
+                                        Add Task
+                                    </Button>
+                                </Grid>
+                                <Grid item xs={6} md={6}>
+                                    <Button fluid onClick={sendEstimation} positive animated>
+
+                                        <Icon name='send' />
+                                        Send Estimation
+
+                                    </Button>
+                                </Grid>
+
+                            </Grid>
+                        </div>
+
+
+                    </Card.Content>
+
+
+                </Card>
+            </div>
+
+
+            <Divider />
+            <br /><br />
+            <br /><br />
+
 
             <AddTaskModal show={openAddTaskModal}
-                          setShow={setOpenAddTaskModal}
+                setShow={setOpenAddTaskModal}
             />
 
         </div>
