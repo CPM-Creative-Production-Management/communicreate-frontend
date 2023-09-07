@@ -61,3 +61,19 @@
   padding: 10px; /* Optional: Add padding for spacing */
   /* Ensure the content is taller than the container to trigger scrolling */
 } 
+
+.element {
+  /* Define the default styles */
+  
+  transition: background-color 0.3s ease; /* Add a smooth transition effect */
+  /* Other styles for the element */
+}
+
+.element:hover {
+  /* Define the styles for when the element is hovered */
+  background-color: rgba(221, 221, 221, 0.376); /* Change the background color on hover */
+  /* Other styles for when the element is hovered */
+  border-radius: 6px;
+  
+}
+

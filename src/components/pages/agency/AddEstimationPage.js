@@ -29,6 +29,7 @@ import { commentApiRequest } from '../../api/commentApiRequest';
 
 export const AddEstimationPage = (props) => {
     const navigate = useNavigate()
+    const params = useParams()
 
 
     const { id } = useParams()

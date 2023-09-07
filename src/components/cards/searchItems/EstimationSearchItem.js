@@ -8,7 +8,7 @@ export const EstimationSearchItem = ({ data }) => {
 
                 <List.Icon name='calculator' size='large' verticalAlign='middle' />
                 <List.Content>
-                    <List.Header as='a'>
+                    <List.Header>
                         {data.ReqAgency.Request.name}
 
                     </List.Header>

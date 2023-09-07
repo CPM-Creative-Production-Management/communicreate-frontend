@@ -8,7 +8,7 @@ const AgencySearchItem = ({ data }) => {
 
                 <List.Icon name='lightbulb outline' size='large' verticalAlign='middle' />
                 <List.Content>
-                    <List.Header as='a'>
+                    <List.Header>
                         {data.name}
 
                     </List.Header>

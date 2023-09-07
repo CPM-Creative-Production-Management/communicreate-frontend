@@ -9,7 +9,7 @@ export const EmployeeSearchItem = ({ data }) => {
 
                 <List.Icon name='desktop' size='large' verticalAlign='middle' />
                 <List.Content>
-                    <List.Header as='a'>
+                    <List.Header>
                         {data.name}
 
                     </List.Header>

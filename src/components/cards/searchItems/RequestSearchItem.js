@@ -8,7 +8,7 @@ export const RequestSearchItem = ({ data }) => {
 
                 <List.Icon name='fork' size='large' verticalAlign='middle' />
                 <List.Content>
-                    <List.Header as='a'>
+                    <List.Header>
                         {data.name}
 
                     </List.Header>

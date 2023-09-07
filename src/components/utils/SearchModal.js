@@ -13,6 +13,7 @@ import { showToast } from '../../App';
 import { regularApiRequest } from '../api/regularApiRequest';
 import SingleSearchItem from '../cards/SingleSearchItem';
 import { Divide } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function SearchModal({ open, setOpen }) {
     const [searchText, setSearchText] = React.useState('')
@@ -80,7 +81,9 @@ export default function SearchModal({ open, setOpen }) {
 
                     {searchResults.estimation?.map((item) => {
                         return (
+                            <Link to={`${item.url}`} style={{textDecoration: 'none', color: 'black',}}>
                             <SingleSearchItem data={item} type='estimation' />
+                            </Link>
                         )
                     }
                     )}
