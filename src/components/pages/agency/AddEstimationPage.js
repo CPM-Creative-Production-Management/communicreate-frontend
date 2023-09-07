@@ -9,7 +9,7 @@ import { Avatar, Chip, Stack, Grid } from "@mui/material";
 import { Dropdown } from "semantic-ui-react";
 
 import { useSelector, useDispatch } from "react-redux";
-import { updateComments } from '../../../actions';
+import { updateComments, updateRequest } from '../../../actions';
 
 import { updateEstimation, resetCurrEstimation } from "../../../actions";
 import Textarea from '@mui/joy/Textarea';
@@ -98,6 +98,10 @@ export const AddEstimationPage = (props) => {
 
             console.log('global estimation', globalEstimation)
             setRequestData(reqData)
+
+            dispatch(updateRequest(reqData));
+
+
         }
     }, [dataLoadingReq])
 

@@ -15,7 +15,7 @@ export const resetCurrEstimation = () => {
         payload: {
             title: "",
             company: "",
-            deadline: "1 month",
+            deadline: "",
             cost: 0,
             description: "",
             tags: [],
@@ -55,6 +55,7 @@ export const updateCurrProfile = (profile) => {
     }
 }
 
+// request
 export const updateRequest = (request) => {
     return {
         type: 'UPDATE_REQUEST',

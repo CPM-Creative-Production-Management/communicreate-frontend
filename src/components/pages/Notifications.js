@@ -14,7 +14,7 @@ const Notifications = () => {
 
     const handlePaginationChange = (e, { activePage }) => {
         setActivePage(activePage)
-        updateQueue(activePage)
+        // updateQueue(activePage)
 
         console.log(activePage)
     }

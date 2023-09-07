@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Button, Comment, Icon, Input, Loader, TextArea } from "semantic-ui-react";
+import { Button, Comment, Icon, Image, Input, Loader, TextArea } from "semantic-ui-react";
 import { regularApiRequest } from "../api/regularApiRequest";
 import { base_url } from "../../index";
 import { showToast } from "../../App";
@@ -86,7 +86,7 @@ const SingleComment = ({ singleCommentData }) => {
             console.log('response.data.comments', response.data.comments)
             dispatch(updateComments(response.data.comments))
 
-            
+
 
             console.log('reply response', response)
 
@@ -98,44 +98,49 @@ const SingleComment = ({ singleCommentData }) => {
 
 
     return (
-        
+
 
         <Comment>
-            <Comment.Avatar className='profile-img' src={singleCommentData.User.profile_picture || 'https://react.semantic-ui.com/images/avatar/small/matt.jpg'} />
-            <Comment.Content>
-                <Comment.Author as='a'>{singleCommentData.User.name}</Comment.Author>
-                <Comment.Metadata>
-                    <div>{getTimeOrDayDifference(singleCommentData.createdAt)}</div>
-                </Comment.Metadata>
-                <Comment.Text>{singleCommentData.body}</Comment.Text>
+            <Comment.Avatar circular className='profile-img' src={singleCommentData.User.profile_picture || 'https://react.semantic-ui.com/images/avatar/small/matt.jpg'} />
+            {/* <span>
+                <Image circular style={{ width: '40px', height: '40px' }} className='profile-img' src={singleCommentData.User.profile_picture || 'https://react.semantic-ui.com/images/avatar/small/matt.jpg'} /> */}
 
-                {!isReplying &&
-                    <Comment.Actions>
-                        <a onClick={() => setIsReplying(true)}>Reply</a>
-                    </Comment.Actions>
-                }
+                <Comment.Content>
+                    <Comment.Author as='a'>{singleCommentData.User.name}</Comment.Author>
+                    <Comment.Metadata>
+                        <div>{getTimeOrDayDifference(singleCommentData.createdAt)}</div>
+                    </Comment.Metadata>
+                    <Comment.Text>{singleCommentData.body}</Comment.Text>
 
-                {isReplying && <span>
+                    {!isReplying &&
+                        <Comment.Actions>
+                            <a onClick={() => setIsReplying(true)}>Reply</a>
+                        </Comment.Actions>
+                    }
+
+                    {isReplying && <span>
 
 
-                    <Textarea disabled={commentPosting} size="md" name='newReply' value={newReply} onChange={(e) => { setNewReply(e.target.value) }} placeholder='add a comment...' />
+                        <Textarea disabled={commentPosting} size="md" name='newReply' value={newReply} onChange={(e) => { setNewReply(e.target.value) }} placeholder='add a comment...' />
 
 
-                    {/* {commentPosting ? <Loader className='mt-2' active size='small' inline /> :
+                        {/* {commentPosting ? <Loader className='mt-2' active size='small' inline /> :
                         <Button className='mt-3' onClick={addReply} primary>
                             <Icon name='send' /> Reply
                         </Button>
                     } */}
 
-                    <Button loading={commentPosting} className='mt-3' onClick={addReply} primary>
-                        <Icon name='send' /> Reply
-                    </Button>
-                </span>}
+                        <Button loading={commentPosting} className='mt-3' onClick={addReply} primary>
+                            <Icon name='send' /> Reply
+                        </Button>
+                    </span>}
 
 
-            </Comment.Content>
+                </Comment.Content>
+            {/* </span> */}
 
-            {singleCommentData.replies &&
+            {
+                singleCommentData.replies &&
                 <Comment.Group>
                     {singleCommentData.replies?.map((currReply, index) => {
                         return (
@@ -149,7 +154,7 @@ const SingleComment = ({ singleCommentData }) => {
             }
 
 
-        </Comment>
+        </Comment >
 
     );
 };

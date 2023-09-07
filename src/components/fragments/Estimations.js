@@ -16,7 +16,7 @@ export const Estimations = ({isOngoing, isRejected}) => {
     const [activePage, setActivePage] = useState(1)
 
     useEffect(() => {
-        // todo: rejected url fix
+
         urlSuffix = isOngoing ? 'request/finalized/?page=1' : 'estimation/rejected/?page=1'
     }, [])
 

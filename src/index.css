@@ -58,3 +58,8 @@ code {
 .profile-img{
   object-fit: cover;
 }
+
+.sq-img{
+  width: 100px;
+  height: 100px;
+}
