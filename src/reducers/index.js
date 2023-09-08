@@ -6,6 +6,7 @@ import currRequestReducer from "./currRequest";
 import requestsReducer from "./requests";
 import archivesReducer from "./archives";
 import commentReducer from "./comments";
+import estimationsReducer from "./estimations";
 
 
 import { combineReducers } from "redux";
@@ -18,6 +19,7 @@ const allReducers = combineReducers({
     requests: requestsReducer,
     comments: commentReducer,
     archives: archivesReducer,
+    estimations: estimationsReducer
 });
 
 export default allReducers;

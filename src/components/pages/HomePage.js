@@ -85,7 +85,9 @@ export const HomePage = () => {
                         <Route exact path="/request/:rid/agency/:aid/estimation" element={<EstimationPage/>}/>
                         <Route exact path="/agencies" element={<AgenciesPage/>} />
                         <Route exact path="/agency/:id" element={<AgencyPage/>}/>
-                        <Route exact path="/completed-projects" element={<CompletedProjects/>}/>
+                        <Route exact path="/completed-projects" element={<CompletedProjects finished={true}/>}/>
+                        <Route exact path="/rejected-projects" element={<CompletedProjects finished={false}/>}/>
+                        <Route exact path="/ongoing-projects" element={<CompletedProjects ongoing={true}/>}/>
                         <Route exact path="/profile" element={<ProfilePage/>}/>
 
                         <Route exact path="/notifications" element={<Notifications/>}/>

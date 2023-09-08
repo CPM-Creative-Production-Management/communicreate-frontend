@@ -112,3 +112,17 @@ export const resetArchives = () => {
         payload: []
     }
 }
+
+export const updateEstimations = (estimations) => {
+    return {
+        type: 'UPDATE_ESTIMATIONS',
+        payload: estimations
+    }
+}
+
+export const resetEstimations = () => {
+    return {
+        type: 'RESET_ESTIMATIONS',
+        payload: []
+    }
+}

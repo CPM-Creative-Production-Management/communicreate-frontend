@@ -46,7 +46,7 @@ export const SidebarAgency = () => {
                         <MenuItem icon={<BsPersonAdd/>} component={<Link to="/add-employee"/>}> Add Employee </MenuItem>
                     </SubMenu>
                     <MenuItem component={<Link to="/archive"/>} icon={<BsArchive/>}> Archive </MenuItem>
-                    <MenuItem component={<Link to="/estimations"/>} icon={<LuCalculator/>}> Estimations </MenuItem>
+                    <MenuItem component={<Link to="/estimations"/>} icon={<LuCalculator/>}> Projects </MenuItem>
                     <MenuItem component={<Link to="/dues"/>} icon={<BsCashStack/>}> Dues </MenuItem>
 
                     <Divider/>

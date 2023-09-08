@@ -80,15 +80,25 @@ const AgencyPage = () => {
                                             return (
                                                 <Segment raised>
                                                     {
-                                                        reqAgency.Estimation.is_completed ? 
+                                                        reqAgency.Estimation.is_completed &&
                                                             <Label as='a' color="green" ribbon>
                                                                 Complete
                                                             </Label>
-                                                        : 
-                                                            <Label as='a' color="blue" ribbon>
-                                                                Ongoing
-                                                            </Label>
-                                                }
+                                                    }
+
+                                                    {
+                                                        reqAgency.Estimation.is_rejected && 
+                                                        <Label as='a' color="red" ribbon>
+                                                            Rejected
+                                                        </Label>
+                                                    }
+
+                                                    {
+                                                        (!reqAgency.Estimation.is_rejected && !reqAgency.Estimation.is_completed) && 
+                                                        <Label as='a' color="blue" ribbon>
+                                                            Ongoing
+                                                        </Label>
+                                                    }
                                                     <SingleEstimationCard 
                                                     key={reqAgency.id}
                                                     estimationData={reqAgency}

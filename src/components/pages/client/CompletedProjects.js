@@ -8,13 +8,24 @@ import { Pagination } from 'semantic-ui-react'
 import { SingleEstimationCard } from '../../cards/SingleEstimationCard'
 import { useEffect, useState } from 'react'
 
-const CompletedProjects = () => {
+const CompletedProjects = ({ongoing, finished}) => {
+  let url_prefix
+  if (ongoing) {
+    url_prefix = `${base_url}request/company/ongoing/`
+  } else {
+    if (finished) {
+      url_prefix = `${base_url}request/company/finished/`
+    } else {
+      url_prefix = `${base_url}request/company/rejected/`
+    }
+  }
+  
   const dispatch = useDispatch()
   const globalArchives = useSelector(state => state.archives)
   // dispatch(resetRequests())
   const [activePage, setActivePage] = useState(1)
   const {data, dataLoading, error} = useApiRequest({
-    url: `${base_url}request/company/finished/?page=1`,
+    url: `${url_prefix}?page=1`,
     method: 'GET',
   })
 
@@ -22,13 +33,16 @@ const CompletedProjects = () => {
     let url
     if (e.target.text === '⟨') {
       setActivePage(activePage - 1)
-      url = `${base_url}request/company/finished/?page=${activePage - 1}`
+      // url = `${base_url}request/company/finished/?page=${activePage - 1}`
+      url = `${url_prefix}?page=${activePage - 1}`
     } else if (e.target.text === '⟩') {
       setActivePage(activePage + 1)
-      url = `${base_url}request/company/finished/?page=${activePage + 1}`
+      // url = `${base_url}request/company/finished/?page=${activePage + 1}`
+      url = `${url_prefix}?page=${activePage + 1}`
     } else {
       setActivePage(parseInt(e.target.text))
-      url = `${base_url}request/company/finished/?page=${e.target.text}`
+      // url = `${base_url}request/company/finished/?page=${e.target.text}`
+      url = `${url_prefix}?page=${e.target.text}`
     }
 
     const {data, dataLoading, error} = await regularApiRequest({
@@ -56,7 +70,9 @@ const CompletedProjects = () => {
   return (
     <div>
       <center className='mb-5'>
-        <h1>Completed Projects</h1>
+        {ongoing && <h1>Ongoing Projects</h1>}
+        {finished && <h1>Completed Projects</h1>}
+        {!ongoing && !finished && <h1>Rejected Projects</h1>}
       </center>
       { globalArchives?.map((currEstimation, index) => {
           return (
@@ -64,9 +80,10 @@ const CompletedProjects = () => {
               <SingleEstimationCard 
                 key={index} 
                 estimationData={currEstimation} 
-                isOngoing={false}
+                isOngoing={true}
                 isRejected={false}
-                isArchived={true}
+                isArchived={false}
+                isClientView={true}
               />
             </div>
           )

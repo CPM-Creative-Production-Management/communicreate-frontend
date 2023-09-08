@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useApiRequest } from '../../api/useApiRequest'
 import { regularApiRequest } from '../../api/regularApiRequest'
 import { base_url } from '../../..'
-import { Card, Table, Button, TextArea, Comment, Header, Icon } from 'semantic-ui-react'
+import { Card, Table, Button, TextArea, Comment, Header, Icon, Message } from 'semantic-ui-react'
 import { showToast } from '../../../App'
 import Comments from "../../custom/Comments";
 import Textarea from "@mui/joy/Textarea";
@@ -11,6 +11,7 @@ import { set } from 'lodash'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateComments } from '../../../actions'
 import { commentApiRequest } from '../../api/commentApiRequest'
+
 
 
 const EstimationPage = (params) => {
@@ -79,7 +80,15 @@ const EstimationPage = (params) => {
   }
 
   const handleDiscard = async (id) => {
-    console.log('discard')
+    try {
+      const response = await regularApiRequest({
+        url: base_url + 'estimation/discard/' + id,
+        method: 'PUT'
+      })
+      window.location.reload()
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   const handleRevise = async (task) => {
@@ -138,6 +147,19 @@ const EstimationPage = (params) => {
     <div>
       <br />
       <br />
+      {
+        data?.is_completed && <Message positive>
+          <Message.Header>Project Completed</Message.Header>
+          <p>This project has been completed.</p>
+        </Message>
+      }
+
+      {
+        data?.is_rejected && <Message negative>
+          <Message.Header>Project Rejected</Message.Header>
+          <p>This project has been rejected.</p>
+        </Message>
+      }
       <Card className='p-4' fluid>
         <center>
           <h2>{data?.ReqAgency.Request.name}</h2>
@@ -168,7 +190,7 @@ const EstimationPage = (params) => {
                 {task.cost}
               </Table.Cell>
 
-              {data?.ReqAgency.finalized && !data?.is_completed && <Table.Cell>
+              {data?.ReqAgency.finalized && !data?.is_completed && !data?.is_rejected && <Table.Cell>
                 {task.status === 0 ? null : task.status === 1 ? <span><Button positive onClick={() => handleApprove(task)}>Approve</Button> <Button negative onClick={() => handleRevise(task.id)}>Review</Button></span> : <Button negative onClick={() => {handleRevise(task)}}>Review</Button>}
 
               </Table.Cell>}
@@ -187,8 +209,13 @@ const EstimationPage = (params) => {
 
       { data?.ReqAgency.finalized || <Button onClick={handleFinalize} primary>Finalize</Button>}
       { data?.Payment && <Button onClick={() => navigate('/payment/' + data?.Payment?.id)} primary>View Payment Status</Button> }
-      <Button onClick={() => {handleFinish(data?.id)}} primary disabled={!finishButton}>Finish Project</Button>
-      <Button onClick={() => {handleDiscard(data?.id)}} negative disabled={!discardButton}>Discard Project</Button>
+      { data?.ReqAgency?.finalized && !data?.is_completed && !data?.is_rejected &&
+        <Button onClick={() => {handleFinish(data?.id)}} primary disabled={!finishButton}>Finish Project</Button>
+      }
+
+      { data?.ReqAgency?.finalized && !data?.is_completed && !data?.is_rejected &&
+        <Button onClick={() => {handleDiscard(data?.id)}} negative disabled={!discardButton}>Discard Project</Button>
+      }
 
 
       <Comment.Group threaded>
