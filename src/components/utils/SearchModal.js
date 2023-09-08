@@ -68,15 +68,18 @@ export default function SearchModal({ open, setOpen }) {
     return (
         <div>
             <Modal scrollable show={open} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Search Anything...</Modal.Title>
-                </Modal.Header>
+                
+                    {/* <Modal.Title>Search Anything...</Modal.Title> */}
+
+                    <Input className='ms-4 me-4 mt-3 mb-3' value={searchText} onChange={onTextChange} name='search' fluid loading={false} placeholder='Search...' />
+
+            
                 <Modal.Body>
-                    <Input value={searchText} onChange={onTextChange} name='search' fluid loading={false} placeholder='Search...' />
-
-
-                    <br />
+                    {/* <Input value={searchText} onChange={onTextChange} name='search' fluid loading={false} placeholder='Search...' /> */}
+                    
+                  
                     <Loader active={loading} inline='centered' />
+
 
 
                     {searchResults.estimation?.map((item) => {
