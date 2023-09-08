@@ -17,10 +17,14 @@ import { NotificationDropdown } from './NotificatonDropdown';
 
 import ModalExampleModal from './SearchModal';
 import SearchModal from './SearchModal';
+import { regularApiRequest } from '../api/regularApiRequest';
+import { base_url } from '../..';
 
 function NavScrollExample() {
     const cookies = new Cookies();
     const navigate = useNavigate();
+
+    const [userType, setUserType] = useState(cookies.get('userType'));
 
     const [showNotifications, setShowNotifications] = useState(false);
 
@@ -39,9 +43,11 @@ function NavScrollExample() {
         showToast('Logged out successfully', 'success');
         navigate('/login');
     }
-  
+
 
     const [openSearchModal, setOpenSearchModal] = useState(false);
+
+    
 
     return (
         <Navbar expand="lg" className="bg-body-tertiary nav-style">
@@ -60,23 +66,12 @@ function NavScrollExample() {
                     </Nav>
 
 
-                    {/* <Form className="d-flex">
-                        <Form.Control
-                            type="search"
-                            placeholder="Search"
-                            className="me-2"
-                            aria-label="Search"
-                        />
-                        <Button variant="outline-success">Search</Button>
-                    </Form> */}
 
-                
+                    {userType === '2' &&
+                        <Input disabled={openSearchModal} onClick={() => { setOpenSearchModal(true) }} loading={false} placeholder='Search...' />
+                    }
+                    <SearchModal open={openSearchModal} setOpen={setOpenSearchModal} />
 
-                    {/* <SearchDropdown /> */}
-                    <Input disabled={openSearchModal} onClick={()=>{setOpenSearchModal(true)}} loading={false} placeholder='Search...' />
-
-                    <SearchModal open={openSearchModal} setOpen={setOpenSearchModal}/>
-                    
 
                     <NotificationDropdown />
 

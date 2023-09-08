@@ -14,32 +14,33 @@ import axios from 'axios';
 import { showToast } from '../../App';
 
 import Cookies from "universal-cookie";
+import { LoadAnimation } from '../utils/LoadAnimation';
 
 
-function CommentsLoadingAnim() {
-    const animationContainer = useRef(null);
+// function CommentsLoadingAnim() {
+//     const animationContainer = useRef(null);
 
-    useEffect(() => {
-        // Load the Lottie animation
-        const anim = lottie.loadAnimation({
-            container: animationContainer.current,
-            animationData: comments_loading,
-            renderer: 'svg', // Choose the renderer ('svg', 'canvas', 'html')
-            loop: true,
-            autoplay: true,
-        });
+//     useEffect(() => {
+//         // Load the Lottie animation
+//         const anim = lottie.loadAnimation({
+//             container: animationContainer.current,
+//             animationData: comments_loading,
+//             renderer: 'svg', // Choose the renderer ('svg', 'canvas', 'html')
+//             loop: true,
+//             autoplay: true,
+//         });
 
-        // Clean up animation resources when the component unmounts
-        return () => anim.destroy();
-    }, []);
+//         // Clean up animation resources when the component unmounts
+//         return () => anim.destroy();
+//     }, []);
 
-    return (
-        <div
-            ref={animationContainer}
-            style={{ width: '300px', height: '300px' }}
-        />
-    );
-}
+//     return (
+//         <div
+//             ref={animationContainer}
+//             style={{ width: '300px', height: '300px' }}
+//         />
+//     );
+// }
 
 const Comments = ({ estimationId }) => {
 
@@ -77,7 +78,7 @@ const Comments = ({ estimationId }) => {
     return (
         <div>
 
-            {dataLoading ? <CommentsLoadingAnim /> :
+            {dataLoading ? <LoadAnimation animData={comments_loading} /> :
 
 
                 globalComments?.map((currComment, index) => {

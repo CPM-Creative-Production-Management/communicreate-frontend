@@ -10,7 +10,7 @@ const EstimationSearchList = ({searchData}) => {
         {searchData?.map((estimation) => (
             <div>
                 {/* <h4>{estimation.ReqAgency.Request.name}</h4> */}
-                {/* <SingleEstimationCard estimationData={estimation} /> */}
+                <SingleEstimationCard estimationData={estimation} />
             </div>
         ))}
     </div>

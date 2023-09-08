@@ -72,7 +72,7 @@ const Notifications = () => {
 
             {queueItems.notifications?.map((notification) => {
                 return (
-                    <div >
+                    <div className='ms-2'>
 
                         <Comment.Group >
                             <SingleNotification singleNotification={notification} />
