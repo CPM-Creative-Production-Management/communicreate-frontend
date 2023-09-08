@@ -14,7 +14,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import SingleNotification from '../cards/SingleNotification';
 import { NotificationDropdown } from './NotificatonDropdown';
-import { SearchDropdown } from './SearchDropdown';
+
 import ModalExampleModal from './SearchModal';
 import SearchModal from './SearchModal';
 
