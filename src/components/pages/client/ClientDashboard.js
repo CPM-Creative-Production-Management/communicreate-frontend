@@ -16,37 +16,30 @@ const ClientDashboard = () => {
   return (
     <div>
 
-      { data && <Grid className='ms-2' columns={5}>
+      { data && <Grid className='ms-2' columns={4}>
         <Grid.Row>
             <Grid.Column>
-                <DashboardCard iconName='wait' colorName='blue' cardHeader='RequestPage'
-                                count={data.requests} entity='RequestPage'/>
-
-            </Grid.Column>
-
-            <Grid.Column>
-                <DashboardCard iconName='mail' colorName='yellow' cardHeader='Responses'
-                                count={data.responses} entity='Responses'/>
-            </Grid.Column>
-
-            <Grid.Column>
-
-                <DashboardCard iconName='circle notch' colorName='teal' cardHeader='Ongoing Negotiations'
-                                count='5' entity='Negotiations'/>
+                <DashboardCard iconName='wait' colorName='blue' cardHeader='Requests'
+                                count={data?.requests} entity='Request' onClick={() => navigate('/my-requests')}/>
 
             </Grid.Column>
 
             <Grid.Column>
 
+                <DashboardCard iconName='circle notch' colorName='teal' cardHeader='Ongoing Projects'
+                                count={data?.ongoingProjects} entity='Project' onClick={() => navigate('/ongoing-projects')}/>
 
+            </Grid.Column>
+
+            <Grid.Column>
                 <DashboardCard iconName='check' colorName='green' cardHeader='Completed Projects'
-                                count='2' entity='Projects'/>
+                                count={data?.completedProjects} entity='Project' onClick={() => navigate('/completed-projects')}/>
 
             </Grid.Column>
 
             <Grid.Column>
             <DashboardCard iconName='cancel' colorName='red' cardHeader='Rejected Projects'
-                                count='2' entity='Projects'/>
+                                count={data?.rejectedProjects} entity='Project' onClick={() => navigate('/rejected-projects')}/>
             </Grid.Column>
         </Grid.Row>
     </Grid>}

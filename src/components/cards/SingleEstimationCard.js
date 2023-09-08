@@ -8,12 +8,14 @@ import {useNavigate} from 'react-router-dom';
 import {useDispatch} from "react-redux";
 import {updateEstimation} from "../../actions";
 import WriteReviewModal from '../modals/WriteReviewModal';
+import SeeReviewModal from '../modals/SeeReviewModal';
 
-export const SingleEstimationCard = ({estimationData, isRejected, isOngoing, isArchived, isAgencyArchive}) => {
+export const SingleEstimationCard = ({estimationData, isRejected, isOngoing, isArchived, isAgencyArchive, isClientView}) => {
     const [showDetails, setShowDetails] = React.useState(false)
     const [showWriteReviewModal, setShowWriteReviewModal] = React.useState(false)
+    const [showSeeReviewModal, setShowSeeReviewModal] = React.useState(false)
+    const [reviewData, setReviewData] = React.useState({})
     const [writeReviewModalData, setWriteReviewModalData] = React.useState({})
-    const [see, setSee] = React.useState(false)
     const navigate = useNavigate()
 
     const acceptReq = async (reqId) => {
@@ -62,7 +64,7 @@ export const SingleEstimationCard = ({estimationData, isRejected, isOngoing, isA
                     {/*    View Details*/}
                     {/*</Button>*/}
 
-                    {(isOngoing || isAgencyArchive) && estimationData.estimationExists &&
+                    {(isOngoing || isAgencyArchive) && estimationData.estimationExists && !isClientView &&
                         <Button positive onClick={() => {
                             navigate(`/edit-estimation/${estimationData.Request.id}`)
                         }} primary icon labelPosition='left' floated='right'>
@@ -70,7 +72,7 @@ export const SingleEstimationCard = ({estimationData, isRejected, isOngoing, isA
                             View Estimation
                         </Button>}
 
-                        {isArchived && !isAgencyArchive &&
+                        {((isArchived && !isAgencyArchive) || isClientView) &&
                         <Button positive onClick={() => {
                             navigate(`/request/${estimationData.Request.id}/agency/${estimationData.AgencyId}/estimation`)
                         }} primary icon labelPosition='left' floated='right'>
@@ -84,7 +86,6 @@ export const SingleEstimationCard = ({estimationData, isRejected, isOngoing, isA
                                 requestId: estimationData.Request.id,
                                 agencyId: estimationData.AgencyId
                             }
-                            setSee(false)
                             setWriteReviewModalData(data)
                             setShowWriteReviewModal(true)
                             
@@ -93,9 +94,15 @@ export const SingleEstimationCard = ({estimationData, isRejected, isOngoing, isA
                             Write Review
                         </Button>}
 
-                        {isArchived && !isOngoing && estimationData.Review &&
+                        {isArchived && !isOngoing && estimationData.Review && estimationData.is_completed &&
                         <Button positive onClick={() => {
-                            console.log('dummy')
+                            const review = estimationData.Review
+                            const company = estimationData.Company
+                            const reviewData = { review, company }
+                            console.log('here')
+                            console.log(reviewData)
+                            setReviewData(reviewData)
+                            setShowSeeReviewModal(true)
                         }} primary icon labelPosition='left' floated='right'>
                             <Icon name='edit'/>
                             See Review
@@ -123,7 +130,7 @@ export const SingleEstimationCard = ({estimationData, isRejected, isOngoing, isA
 
                 </Card.Content>
 
-                {isArchived || <Card.Content extra>
+                {!isArchived && !isClientView && <Card.Content extra>
                     <List.Icon name='list alternate outline' size='large' verticalAlign='middle'/>
                     Task List
                     <List divided animated relaxed>
@@ -148,9 +155,12 @@ export const SingleEstimationCard = ({estimationData, isRejected, isOngoing, isA
                 </Card.Content>}
 
 
+
+
             </Card>
 
-            <WriteReviewModal show={showWriteReviewModal} setShow={setShowWriteReviewModal} data={writeReviewModalData} see={see}/>
+            <WriteReviewModal show={showWriteReviewModal} setShow={setShowWriteReviewModal} data={writeReviewModalData}/>
+            <SeeReviewModal show={showSeeReviewModal} setShow={setShowSeeReviewModal} data={reviewData}/>
         </div>
     )
 }

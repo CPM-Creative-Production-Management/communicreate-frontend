@@ -2,7 +2,7 @@ import React from "react";
 import {Sidebar, Menu, MenuItem, SubMenu} from 'react-pro-sidebar';
 import {Link} from 'react-router-dom';
 import {RxDashboard} from "react-icons/rx";
-import {BsArchive, BsPersonAdd, BsPersonWorkspace, BsFillFileRuledFill, BsFillPatchPlusFill, BsCardList, BsFillBuildingFill, BsBuildingFill, BsCashStack} from "react-icons/bs";
+import {BsArchive, BsPersonAdd, BsPersonWorkspace, BsFillFileRuledFill, BsFillPatchPlusFill, BsCardList, BsFillBuildingFill, BsBuildingFill, BsCashStack, BsProjectorFill} from "react-icons/bs";
 
 import {LuCalculator} from "react-icons/lu";
 import {AiOutlineInfoCircle} from "react-icons/ai";
@@ -49,7 +49,9 @@ export const SidebarClient = () => {
                     {/* <MenuItem component={<Link to="/archive"/>} icon={<BsArchive/>}> RequestPage </MenuItem> */}
                     <MenuItem component={<Link to="/agencies"/>} icon={<BsBuildingFill/>}> Agencies </MenuItem>
                     <MenuItem component={<Link to="/dues"/>} icon={<BsCashStack/>}> Dues </MenuItem>
-                    <MenuItem component={<Link to="/completed-projects"/>} icon={<BsCashStack/>}> Completed Projects </MenuItem>
+                    <MenuItem component={<Link to="/completed-projects"/>} icon={<BsProjectorFill/>}> Completed Projects </MenuItem>
+                    <MenuItem component={<Link to="/rejected-projects"/>} icon={<BsProjectorFill/>}> Rejected Projects </MenuItem>
+                    <MenuItem component={<Link to="/ongoing-projects"/>} icon={<BsProjectorFill/>}> Ongoing Projects </MenuItem>
                     <Divider/>
 
                     <MenuItem icon={<AiOutlineInfoCircle/>}> About Us </MenuItem>

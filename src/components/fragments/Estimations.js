@@ -6,12 +6,12 @@ import {SingleEstimationCard} from "../cards/SingleEstimationCard";
 import { regularApiRequest } from '../api/regularApiRequest';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { updateRequests } from '../../actions';
+import { updateEstimations } from '../../actions';
 
 export const Estimations = ({isOngoing, isRejected}) => {
     let urlSuffix
     const dispatch = useDispatch()
-    const globalRequests = useSelector(state => state.requests)
+    const globalRequests = useSelector(state => state.estimations)
     const [activePage, setActivePage] = useState(1)
 
     useEffect(() => {
@@ -27,7 +27,7 @@ export const Estimations = ({isOngoing, isRejected}) => {
 
     useEffect(() => {
         if (data) {
-            dispatch(updateRequests(data.requests))
+            dispatch(updateEstimations(data.requests))
         }
     }, [dataLoading])
 
@@ -68,11 +68,9 @@ return (
                 method: 'GET',
             })
             if (data) {
-                dispatch(updateRequests(data.requests))
+                dispatch(updateEstimations(data.requests))
             }
         }} />
-
-
     </div>
 );
 }
