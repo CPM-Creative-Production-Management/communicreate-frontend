@@ -12,10 +12,11 @@ import { base_url } from '../..';
 import { showToast } from '../../App';
 import { regularApiRequest } from '../api/regularApiRequest';
 import SingleSearchItem from '../cards/SingleSearchItem';
-import { Divide } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 export default function SearchModal({ open, setOpen }) {
+
+    const navigate = useNavigate()
     const [searchText, setSearchText] = React.useState('')
     const [loading, setLoading] = React.useState(false)
 
@@ -47,12 +48,10 @@ export default function SearchModal({ open, setOpen }) {
         setSearchText(e.target.value)
 
 
-
-
     }
 
     useEffect(() => {
-        if (searchText.length >= 0) {
+        if (searchText.length >= 1) {
             getSearchResults()
         } else {
             setSearchResults([])
@@ -84,9 +83,9 @@ export default function SearchModal({ open, setOpen }) {
 
                     {searchResults.estimation?.map((item) => {
                         return (
-                            <Link to={`${item.url}`} style={{textDecoration: 'none', color: 'black',}}>
-                            <SingleSearchItem data={item} type='estimation' />
-                            </Link>
+                            // <Link to={`${item.url}`} style={{textDecoration: 'none', color: 'black',}}>
+                            <SingleSearchItem data={item} type='estimation' closeModal={handleClose} />
+                            // </Link>
                         )
                     }
                     )}
@@ -113,16 +112,6 @@ export default function SearchModal({ open, setOpen }) {
                         )
                     }
                     )}
-
-
-
-
-
-
-
-
-
-
 
 
 

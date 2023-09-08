@@ -11,7 +11,7 @@ import Tooltip from '@mui/material/Tooltip';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
-import { Button, Comment, Grid, Icon } from 'semantic-ui-react';
+import { Button, Comment, Grid, Icon, Label } from 'semantic-ui-react';
 import SingleNotification from '../cards/SingleNotification';
 import { base_url } from '../..';
 import { useApiRequest } from '../api/useApiRequest';
@@ -69,7 +69,7 @@ export const NotificationDropdown = () => {
                 PaperProps={{
                     elevation: 0,
                     sx: {
-                        maxWidth: '400px',
+                        maxWidth: '500px',
                         overflow: 'hidden',
 
                         filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
@@ -108,11 +108,12 @@ export const NotificationDropdown = () => {
                 <List style={{ maxHeight: '500px', overflowY: 'auto' }}>
                     {notifications?.notifications.map((notification) => {
                         return (
-                            <div className='ms-3 me-4 mt-3'>
+                            <div className=' me-4 ms-4'>
 
                                 <Comment.Group >
+                                    
                                     <SingleNotification singleNotification={notification} />
-                                    <Divider />
+                                    
                                 </Comment.Group>
                             </div>
                         )

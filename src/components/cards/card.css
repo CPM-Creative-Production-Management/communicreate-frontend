@@ -64,6 +64,7 @@
 
 .element {
   /* Define the default styles */
+  cursor: pointer;
   
   transition: background-color 0.3s ease; /* Add a smooth transition effect */
   /* Other styles for the element */

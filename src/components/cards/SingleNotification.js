@@ -46,22 +46,26 @@ const SingleNotification = ({ singleNotification }) => {
     }
 
     return (
-        
-        <Comment>
+        <div>
 
-            {singleNotification.read ? null : <Label as='a' color='red' ribbon>
-          New
-        </Label>}
 
-            <Comment.Avatar src='https://react.semantic-ui.com/images/avatar/small/matt.jpg' />
-            <Comment.Content>
-                <Comment.Author as='a'><Typography variant="bold"> {singleNotification.message}</Typography></Comment.Author>
-                <br /><Comment.Metadata >
-                    <div>{getTimeOrDayDifference(singleNotification.createdAt)}</div>
-                </Comment.Metadata>
-            </Comment.Content>
+            {singleNotification.read ? null
+                : <Label as='a' color='red' ribbon>
+                    New
+                </Label>}
+            <Comment>
 
-        </Comment>
+
+                <Comment.Avatar src='https://react.semantic-ui.com/images/avatar/small/matt.jpg' />
+                <Comment.Content>
+                    <Comment.Author as='a'><Typography variant="bold"> {singleNotification.message}</Typography></Comment.Author>
+                    <br /><Comment.Metadata >
+                        <div>{getTimeOrDayDifference(singleNotification.createdAt)}</div>
+                    </Comment.Metadata>
+                </Comment.Content>
+
+            </Comment>
+        </div>
 
 
     )

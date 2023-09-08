@@ -10,11 +10,14 @@ import { Link } from 'react-router-dom'
 import './card.css'
 
 
-const SingleSearchItem = ({ data, type }) => {
+const SingleSearchItem = ({ data, type, closeModal }) => {
     const navigate = useNavigate()
     return (
 
-        <List className='ps-3 pe-3 pt-2 pb-2 element' divided relaxed>
+        <List onClick={()=>{
+            navigate(`${data.url}`)
+            closeModal()
+            }}  className='ps-3 pe-3 pt-2 pb-2 element' divided relaxed>
             
             {type === 'agency' &&
                 <AgencySearchItem data={data} />
