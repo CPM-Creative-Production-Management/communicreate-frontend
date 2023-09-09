@@ -8,7 +8,7 @@ import { base_url } from '../../..'
 const ClientDashboard = () => {
   let navigate = useNavigate()
 
-  const { data: data, loading: requestsLoading, error } = useApiRequest({
+  const { data, dataLoading: requestsLoading, error } = useApiRequest({
     url: base_url + 'dashboard',
     method: 'GET',
   })
