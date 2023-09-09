@@ -4,7 +4,7 @@ import {Estimations} from "../fragments/Estimations";
 
 const panes = [
     {
-        menuItem: 'Ongoing Estimations',
+        menuItem: 'Ongoing Projects',
         render: ({data}) => <Tab.Pane attached={false}><Estimations data={data} isOngoing={true} /></Tab.Pane>,
     },
 

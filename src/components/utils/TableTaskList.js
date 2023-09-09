@@ -5,7 +5,7 @@ import { regularApiRequest } from "../api/regularApiRequest";
 import { base_url } from '../../index';
 
 const TableTaskList = ({ paymentId, userType, taskData, paymentType }) => {
-
+    console.log(userType, paymentType)
     const initializePayment = async (taskId) => {
         const reqBody = {
             taskId: taskId
@@ -44,26 +44,26 @@ const TableTaskList = ({ paymentId, userType, taskData, paymentType }) => {
                             <Table.Cell>{currItem.name}</Table.Cell>
                             <Table.Cell>{currItem.cost} ৳</Table.Cell>
 
-                            {currItem.status === 2 && <Table.Cell style={{color:"green"}}><b>{"Completed"}</b></Table.Cell>}
-                            {(currItem.status === 0 || currItem.status === 1) && <Table.Cell style={{color:"red"}}><b>{"Incomplete"}</b></Table.Cell>}
+                            {currItem.status == 2 && <Table.Cell style={{color:"green"}}><b>{"Completed"}</b></Table.Cell>}
+                            {(currItem.status == 0 || currItem.status == 1) && <Table.Cell style={{color:"red"}}><b>{"Incomplete"}</b></Table.Cell>}
 
-                            {currItem.isPaid === 1 && userType === 1 && <Table.Cell>
+                            {currItem.isPaid == 1 && userType == 1 && <Table.Cell>
                                 <Button disabled>
                                     Paid
                                 </Button>
                                 </Table.Cell>}
-                            {currItem.isPaid === 0 && userType === 1 && paymentType === 1 && <Table.Cell>
+                            {currItem.isPaid == 0 && userType == 1 && paymentType == 1 && <Table.Cell>
                                 <Button color='green'
                                      onClick={()=>initializePayment(currItem.id)}>
                                     Pay Now
                                 </Button>
                                 </Table.Cell>}
-                            {currItem.isPaid === 0 && userType === 1 && paymentType === 0 && <Table.Cell>
+                            {currItem.isPaid == 0 && userType == 1 && paymentType == 0 && <Table.Cell>
                             <Button disabled>Make Full Payment</Button>
                             </Table.Cell>}
 
-                            {currItem.isPaid === 1 && userType === 2 && <Table.Cell style={{color:"green"}}><b>Paid</b></Table.Cell>}
-                            {currItem.isPaid === 0 && userType === 2 && <Table.Cell style={{color:"red"}}><b>Unpaid</b></Table.Cell>}
+                            {currItem.isPaid == 1 && userType == 2 && <Table.Cell style={{color:"green"}}><b>Paid</b></Table.Cell>}
+                            {currItem.isPaid == 0 && userType == 2 && <Table.Cell style={{color:"red"}}><b>Unpaid</b></Table.Cell>}
                         </Table.Row>
                     ))}
                 </Table.Body>
