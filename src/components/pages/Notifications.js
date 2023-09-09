@@ -6,11 +6,17 @@ import { Comment, Divider, Pagination } from 'semantic-ui-react'
 import axios from 'axios'
 import { regularApiRequest } from '../api/regularApiRequest'
 
+import not_found from '../../assets/not_found.json'
+import { LoadAnimation } from '../utils/LoadAnimation'
+
+
 const Notifications = () => {
 
     const [activePage, setActivePage] = useState(1)
     const [totalPages, setTotalPages] = useState(1)
-    const [queueItems, setQueueItems] = React.useState([]);
+    const [queueItems, setQueueItems] = React.useState({
+        notifications: [],
+    });
 
     const handlePaginationChange = (e, { activePage }) => {
         setActivePage(activePage)
@@ -69,39 +75,47 @@ const Notifications = () => {
 
             <br />
 
+            {queueItems.notifications.length === 0?
 
-            {queueItems.notifications?.map((notification) => {
-                return (
-                    <div className='ms-2'>
+                <LoadAnimation animData={not_found} />
+                :
+                <div>
 
-                        <Comment.Group >
-                            <SingleNotification singleNotification={notification} />
-                            <br />
-                            {/* <Divider /> */}
-                        </Comment.Group>
-                    </div>
-                )
-            })
+                    {queueItems.notifications?.map((notification) => {
+                        return (
+                            <div className='ms-2'>
+
+                                <Comment.Group >
+                                    <SingleNotification singleNotification={notification} />
+                                    <br />
+                                    {/* <Divider /> */}
+                                </Comment.Group>
+                            </div>
+                        )
+                    })
+                    }
+
+
+                    <Pagination
+                        pointing secondary
+                        activePage={activePage}
+                        boundaryRange={1}
+                        onPageChange={handlePaginationChange}
+                        size='mini'
+                        siblingRange={1}
+                        totalPages={totalPages}
+                        ellipsisItem={undefined}
+                        firstItem={true}
+                        lastItem={true}
+                        prevItem={undefined}
+                        nextItem={undefined}
+                    />
+
+                    <br />
+                    <br />
+                </div>
+
             }
-
-
-            <Pagination
-                pointing secondary
-                activePage={activePage}
-                boundaryRange={1}
-                onPageChange={handlePaginationChange}
-                size='mini'
-                siblingRange={1}
-                totalPages={totalPages}
-                ellipsisItem={undefined}
-                firstItem={true}
-                lastItem={true}
-                prevItem={undefined}
-                nextItem={undefined}
-            />
-
-            <br />
-            <br />
 
 
 
