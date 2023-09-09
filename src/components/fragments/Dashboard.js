@@ -132,11 +132,10 @@ export const Dashboard = () => {
 
             {/* <Button loading={uploadingImg} onClick={handleSaveChanges} color='blue' className='mt-3'>Save Changes</Button> */}
 
-            <Grid columns={2}>
-                
+
             {data?.review?.map((review) => {
                 return (
-                    <Grid.Column>
+
                     <div className='mb-3'>
                         <ReviewCard
                             companyName={review.Company.name}
@@ -147,11 +146,11 @@ export const Dashboard = () => {
                             key={review.id}
                         />
                     </div>
-                    </Grid.Column>
+
                 )
             })
             }
-            </Grid>
+
 
 
 

@@ -52,7 +52,8 @@ export default function SearchModal({ open, setOpen }) {
     }
 
     useEffect(() => {
-        if (searchText.length >= 1) {
+        // todo fix
+        if (searchText.length >= 0) {
             getSearchResults()
         } else {
             setSearchResults([])
@@ -68,12 +69,12 @@ export default function SearchModal({ open, setOpen }) {
         window.location.reload()
     }
 
-    const [currModalOpen, setCurrModalOpen] = React.useState(open)
-
 
     const handleClose = (url) => {
         setOpen(false);
-        setCurrModalOpen(false);
+
+        navigate(`${url}`)
+
 
         setTimeout(() => {
             window.location.reload()
@@ -86,11 +87,11 @@ export default function SearchModal({ open, setOpen }) {
         setOpen(false);
 
     }
-  
+
 
     return (
         <div>
-            <Modal className={`modal-${currModalOpen ? 'open' : 'closed'}`} scrollable show={open} onHide={handleClose}>
+            <Modal scrollable show={open} onHide={handleClose} backdrop="static">
 
                 {/* <Modal.Title>Search Anything...</Modal.Title> */}
 
@@ -100,13 +101,9 @@ export default function SearchModal({ open, setOpen }) {
 
                     {searchResults.estimation?.map((item) => {
                         return (
-                            <Link to={`${item.url}`} style={{ textDecoration: 'none', color: 'black', }}>
-                                <div onClick={() => {
-                                    handleClose()
-                                }} >
-                                    <SingleSearchItem data={item} type='estimation' closeModal={handleClose} />
-                                </div>
-                            </Link>
+
+                            <SingleSearchItem data={item} type='estimation' closeModal={handleClose} />
+
                         )
                     }
                     )}
