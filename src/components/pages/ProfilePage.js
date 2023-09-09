@@ -248,7 +248,7 @@ const ProfilePage = () => {
                                                 <Input disabled ref={emailRef} fluid icon='mail' iconPosition='left' placeholder='Email' />
                                             </Grid.Column>
                                         </Grid>
-                                        <Input ref={phoneRef} fluid icon='phone' iconPosition='left' placeholder='Phone' />
+                                        <Input  type='number' ref={phoneRef} fluid icon='phone' iconPosition='left' placeholder='Phone' />
                                         <Input ref={addressRef} fluid icon='map marker alternate' iconPosition='left' placeholder='Address' />
                                         {/* <Input ref={passwordRef} fluid icon='lock' iconPosition='left' placeholder='Password' />
                                         <Input ref={confirmPasswordRef} fluid icon='lock' iconPosition='left' placeholder='Confirm Password' /> */}
@@ -263,7 +263,7 @@ const ProfilePage = () => {
                                                 <Input ref={AssociationEmailRef} fluid icon='mail' iconPosition='left' placeholder='Association Email' />
                                             </Grid.Column>
                                             <Grid.Column>
-                                                <Input ref={AssociationPhoneRef} fluid icon='phone' iconPosition='left' placeholder='Association Phone' />
+                                                <Input type='number' ref={AssociationPhoneRef} fluid icon='phone' iconPosition='left' placeholder='Association Phone' />
                                             </Grid.Column>
                                         </Grid>
 

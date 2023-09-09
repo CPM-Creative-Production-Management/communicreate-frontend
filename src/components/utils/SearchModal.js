@@ -92,12 +92,12 @@ export default function SearchModal({ open, setOpen }) {
 
 
 
-                    {/* {searchResults.agency?.map((item) => {
+                    {searchResults.agency?.map((item) => {
                         return (
                             <SingleSearchItem data={item} type='agency' closeModal={handleClose} />
                         )
                     }
-                    )} */}
+                    )}
 
                     
 
