@@ -24,7 +24,7 @@ export const NotificationDropdown = () => {
 
     const navigate = useNavigate()
 
-
+    
     const { data: notifications, dataLoading, error } = useApiRequest({
         url: base_url + 'notification/?page=1',
         method: 'GET'
