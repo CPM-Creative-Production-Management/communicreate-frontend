@@ -251,7 +251,7 @@ const EmployeePage = () => {
                                         <Input ref={emailRef} fluid icon='mail' iconPosition='left' placeholder='Email' />
                                     </Grid.Column>
                                 </Grid>
-                                <Input ref={phoneRef} fluid icon='phone' iconPosition='left' placeholder='Phone' />
+                                <Input  type='number' ref={phoneRef} fluid icon='phone' iconPosition='left' placeholder='Phone' />
                                 <Input ref={addressRef} fluid icon='map marker alternate' iconPosition='left' placeholder='Address' />
                                 
                                 <br/>

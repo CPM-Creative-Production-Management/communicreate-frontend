@@ -45,7 +45,7 @@
     border-radius: 6px;
     padding: 2rem;
     /* give a thin border to the card */
-    border: 2px solid #ffffff;
+    border: 2px solid #dfdfdf90;
 }
 
 .rounded-circle{

@@ -16,10 +16,10 @@ const panes = [
         render: ({ searchData }) => <Tab.Pane attached={false}><RequestSearchList searchData={searchData.request} /></Tab.Pane>,
     },
 
-    // {
-    //     menuItem: 'Agency',
-    //     render: ({ searchData }) => <Tab.Pane attached={false}><AgencySearchList searchData={searchData.agency} /></Tab.Pane>,
-    // },
+    {
+        menuItem: 'Agency',
+        render: ({ searchData }) => <Tab.Pane attached={false}><AgencySearchList searchData={searchData.agency} /></Tab.Pane>,
+    },
 
     {
         menuItem: 'Employees',
