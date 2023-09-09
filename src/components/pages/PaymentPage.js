@@ -116,7 +116,8 @@ const PaymentPage = () => {
                             <hr />
                             <br />
                             <h1 style={{ textAlign: "center" }}>All Transaction Histories</h1>
-                            { responseHistory.length > 0 ? <TableTransactionList tableData={responseHistory} /> : <h2> No Transaction History </h2>}
+                            {/* { responseHistory.length > 0 ? <TableTransactionList tableData={responseHistory} /> : <h2> No Transaction History </h2>} */}
+                            <TableTransactionList tableData={responseHistory} />
                         </div>
                     </div>
                     <br />

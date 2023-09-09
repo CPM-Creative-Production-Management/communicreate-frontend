@@ -94,7 +94,7 @@ export const SingleEstimationCard = ({estimationData, isRejected, isOngoing, isA
                             Write Review
                         </Button>}
 
-                        {isArchived && !isOngoing && estimationData.Review && estimationData.is_completed &&
+                        {estimationData.Review &&
                         <Button positive onClick={() => {
                             const review = estimationData.Review
                             const company = estimationData.Company

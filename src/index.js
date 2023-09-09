@@ -29,7 +29,7 @@ export const base_url = 'https://cpm-backend.onrender.com/'
 export const base_s3_url = 'https://cpm-backend.s3.amazonaws.com'
 
 // export const base_url = 'https://75c0-59-153-103-227.ngrok-free.app/'
-// export const base_url = 'http://.localhost:3000/'
+// export const base_url = 'http://localhost:3000/'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

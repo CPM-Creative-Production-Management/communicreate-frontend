@@ -80,9 +80,9 @@ const CompletedProjects = ({ongoing, finished}) => {
               <SingleEstimationCard 
                 key={index} 
                 estimationData={currEstimation} 
-                isOngoing={true}
+                isOngoing={ongoing}
                 isRejected={false}
-                isArchived={false}
+                isArchived={true}
                 isClientView={true}
               />
             </div>
