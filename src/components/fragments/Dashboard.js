@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Grid, Icon } from "semantic-ui-react";
+import { Card, Divider, Grid, Icon, Message } from "semantic-ui-react";
 
 
 import '../../global.css'
@@ -13,12 +13,12 @@ import { base_url } from '../..';
 
 export const Dashboard = () => {
 
-    const { data: data, loading: requestsLoading, error } = useApiRequest({
+    let navigate = useNavigate();
+
+    const { data, dataLoading, error } = useApiRequest({
         url: base_url + 'dashboard',
         method: 'GET',
-    })
-
-    let navigate = useNavigate();
+      })
 
     const userData1 = [
         {
@@ -53,21 +53,57 @@ export const Dashboard = () => {
         },
     ];
 
+    const userData2 = [
+        {
+            id: 1,
+            year: 2016,
+            userGain: 8000,
+            userLost: 823,
+        },
+        {
+            id: 2,
+            year: 2017,
+            userGain: 4677,
+            userLost: 345,
+        },
+        {
+            id: 3,
+            year: 2018,
+            userGain: 7888,
+            userLost: 555,
+        },
+        {
+            id: 4,
+            year: 2019,
+            userGain: 9000,
+            userLost: 4555,
+        },
+        {
+            id: 5,
+            year: 2020,
+            userGain: 4300,
+            userLost: 234,
+        },
+    ];
+
 
     return (
-        <div>
+        <div className='ms-2'> 
             {/* <Button onClick={() => {
                         navigate("/add-estimation")
                     }} primary className='mt-3 fab' size='large' >Add new Estimation</Button> */}
 
 
 
-            <Grid className='ms-2' columns={5}>
+
+            <Grid columns={5}>
                 <Grid.Row>
                     <Grid.Column>
+
                         <DashboardCard iconName='forward' colorName='teal' cardHeader='Ongoing Projects'
                             cardDesc='These are the estimations that you have started but not yet completed. Negotiation is going on with the clients.'
                             count={data?.ongoingProjects} onClick={() => navigate('/estimations')} />
+
 
                     </Grid.Column>
 
@@ -76,6 +112,7 @@ export const Dashboard = () => {
                         <DashboardCard iconName='check' colorName='green' cardHeader='Completed Projects'
                             cardDesc='These are the estimations that have been accepted.
                                     You can now start working on the projects.'
+
                             count={data?.completedProjects} onClick={() => navigate('/archive')} />
 
                     </Grid.Column>
@@ -86,7 +123,9 @@ export const Dashboard = () => {
                         <DashboardCard iconName='close' colorName='red' cardHeader='Rejected Projects'
 
                             cardDesc='These are the estimations that have been rejected by the clients or by you.'
+
                             count={data?.rejectedProjects} onClick={() => navigate('/archive?type=1')} />
+
 
 
                     </Grid.Column>
@@ -97,7 +136,9 @@ export const Dashboard = () => {
 
             </Grid>
 
-            <Grid className='ms-2' columns={2}>
+
+
+            <Grid columns={2}>
                 <Grid.Row>
 
                     <Grid.Column width={5} >
@@ -105,7 +146,7 @@ export const Dashboard = () => {
 
                             <Card.Content header='Requests' />
                             <Card.Content>
-                                <GeneralChart userData={userData1}
+                                <GeneralChart userData1={userData1}
                                     labelFieldName={'year'} dataFieldName={'userGain'}
                                     type={'DOUGHNUT'} color={'rgba(53, 162, 235, 0.5)'}
                                 />
@@ -119,7 +160,7 @@ export const Dashboard = () => {
 
                             <Card.Content header='Estimations' />
                             <Card.Content>
-                                <GeneralChart userData={userData1}
+                                <GeneralChart userData1={userData1} userData2={userData2}
                                     labelFieldName={'year'} dataFieldName={'userGain'}
                                     type={'LINE'} color={'rgba(53, 162, 235, 0.5)'}
                                 />
@@ -137,7 +178,7 @@ export const Dashboard = () => {
 
                             <Card.Content header='Estimations' />
                             <Card.Content>
-                                <GeneralChart userData={userData1}
+                                <GeneralChart userData1={userData1}
                                     labelFieldName={'year'} dataFieldName={'userGain'}
                                     type={'LINE'} color={'rgba(53, 162, 235, 0.5)'}
                                 />
