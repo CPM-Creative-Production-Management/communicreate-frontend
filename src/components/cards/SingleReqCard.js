@@ -108,7 +108,7 @@ const SingleReqCard = ({reqData, isAccepted, isOffered}) => {
                 </Card.Content>
                 <Card.Content extra>
                     <Label>
-                        <Icon name='clock outline'/> Estimation Submission Deadline
+                        <Icon name='clock outline'/> Response Deadline
                         <Label.Detail>{reqData.Request?.res_deadline}</Label.Detail>
                     </Label>
 

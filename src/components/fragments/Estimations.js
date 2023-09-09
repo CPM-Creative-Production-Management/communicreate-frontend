@@ -27,7 +27,11 @@ export const Estimations = ({isOngoing, isRejected}) => {
 
     useEffect(() => {
         if (data) {
+            if (data.length === 0) {
+                dispatch(updateEstimations([]))
+            } else {
             dispatch(updateEstimations(data.requests))
+            }
         }
     }, [dataLoading])
 

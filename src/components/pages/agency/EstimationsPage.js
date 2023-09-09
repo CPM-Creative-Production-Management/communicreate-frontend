@@ -6,6 +6,7 @@ import { Button, Icon } from "semantic-ui-react";
 import { showToast } from "../../../App";
 
 import { useNavigate } from "react-router-dom";
+import { Estimations } from '../../fragments/Estimations';
 
 export const EstimationsPage = () => {
 
@@ -17,9 +18,10 @@ export const EstimationsPage = () => {
             
             <center>
                 <h1>Projects</h1>
+                <br />
             </center>
-
-            <EstimationTabs />
+            {/* <EstimationTabs /> */}
+            <Estimations  isOngoing={true} />
             <br/>
 
         </div>
