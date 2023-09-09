@@ -16,7 +16,7 @@ export const EstimationsPage = () => {
         <div>
             
             <center>
-                <h1>Estimations</h1>
+                <h1>Projects</h1>
             </center>
 
             <EstimationTabs />

@@ -47,6 +47,22 @@ const EmployeePage = () => {
         const file = imageRef.current.inputRef.current.files[0]
         const fileName = 'profile_pictures/employees/' + data.id + '.jpg'
 
+        if (!name || !email || !phone || !address || !salary || !rating) {
+            showToast('Please fill all fields', 'error')
+            return
+        }
+
+        if (rating < 1 || rating > 5) {
+            showToast('Rating must be between 1 and 5', 'error')
+            return
+        }
+
+        // if rating is not an integer
+        if (rating % 1 !== 0) {
+            showToast('Rating must be an integer', 'error')
+            return
+        }
+
         if (file) {
             try {
                 const params = {

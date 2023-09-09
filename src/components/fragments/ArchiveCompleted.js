@@ -5,10 +5,18 @@ import { base_url } from '../..';
 import { SingleEstimationCard } from '../cards/SingleEstimationCard';
 import { Pagination } from 'semantic-ui-react';
 
-export const ArchiveCompleted = () => {
+export const ArchiveCompleted = ({finished}) => {
+
+    let url_prefix
+    if (finished) {
+        url_prefix = `${base_url}request/agency/finished/`
+    } else {
+        url_prefix = `${base_url}request/agency/rejected/`
+    }
 
     const {data, dataLoading, error} = useApiRequest({
-        url: `${base_url}request/agency/finished/?page=1`,
+        // url: `${base_url}request/agency/finished/?page=1`
+        url: `${url_prefix}?page=1`,
         method: 'GET'
     })
 
@@ -23,7 +31,8 @@ export const ArchiveCompleted = () => {
 
     const handleActivePageChange = async (activePage) => {
         const response = await regularApiRequest({
-            url: `${base_url}request/agency/finished/?page=${activePage}`,
+            // url: `${base_url}request/agency/finished/?page=${activePage}`,
+            url: `${url_prefix}?page=${activePage}`,
             method: 'GET'
         })
         if (response.status === 200) {
@@ -49,7 +58,6 @@ export const ArchiveCompleted = () => {
                 })
            }
 
-              <center>
                 <Pagination
                     pointing
                     secondary
@@ -57,14 +65,13 @@ export const ArchiveCompleted = () => {
                     lastItem={null}
                     defaultActivePage={1} 
                     // totalPages={data? data.totalPages : 1}
-                    totalPages={3}
+                    totalPages={data? data.totalPages : 1}
                     activePage={activePage}
                     onPageChange={(e, { activePage }) => {
                         setActivePage(activePage)
                         handleActivePageChange(activePage)
                     }}
                 />
-            </center>
 
         </div>
     );

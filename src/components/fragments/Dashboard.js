@@ -12,6 +12,7 @@ import { base_url } from '../..';
 
 
 export const Dashboard = () => {
+
     let navigate = useNavigate();
 
     const { data, dataLoading, error } = useApiRequest({
@@ -98,28 +99,33 @@ export const Dashboard = () => {
             <Grid columns={5}>
                 <Grid.Row>
                     <Grid.Column>
-                        <DashboardCard iconName='forward' colorName='teal' cardHeader='Ongoing Estimations' url='estimations'
+
+                        <DashboardCard iconName='forward' colorName='teal' cardHeader='Ongoing Projects'
                             cardDesc='These are the estimations that you have started but not yet completed. Negotiation is going on with the clients.'
-                            count={data?.ongoingProjects} />
+                            count={data?.ongoingProjects} onClick={() => navigate('/estimations')} />
+
 
                     </Grid.Column>
 
                     <Grid.Column>
 
-                        <DashboardCard iconName='check' colorName='green' cardHeader='Finalized Estimations'
+                        <DashboardCard iconName='check' colorName='green' cardHeader='Completed Projects'
                             cardDesc='These are the estimations that have been accepted.
                                     You can now start working on the projects.'
-                            count={data?.completedProjects} />
+
+                            count={data?.completedProjects} onClick={() => navigate('/archive')} />
 
                     </Grid.Column>
 
                     <Grid.Column>
 
 
-                        <DashboardCard iconName='close' colorName='red' cardHeader='Rejected Estimations'
+                        <DashboardCard iconName='close' colorName='red' cardHeader='Rejected Projects'
 
                             cardDesc='These are the estimations that have been rejected by the clients or by you.'
-                            count={data?.rejectedProjects} />
+
+                            count={data?.rejectedProjects} onClick={() => navigate('/archive?type=1')} />
+
 
 
                     </Grid.Column>

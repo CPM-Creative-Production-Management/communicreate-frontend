@@ -18,6 +18,8 @@ const AddEmployeePage = () => {
     const addressRef = useRef('')
     const ratingRef = useRef('')
     const salaryRef = useRef('')
+    const phoneRef = useRef('')
+    const emailRef = useRef('')
     const imageRef = useRef('')
 
     let navigate = useNavigate()
@@ -33,14 +35,35 @@ const AddEmployeePage = () => {
         const address = addressRef.current.inputRef.current.value
         const rating = ratingRef.current.inputRef.current.value
         const salary = salaryRef.current.inputRef.current.value
+        const email = emailRef.current.inputRef.current.value
+        const phone = phoneRef.current.inputRef.current.value
         const dob = date
+
+        if (!firstName || !lastName || !address || !rating || !salary || !email || !phone || !dob) {
+            showToast('Please fill all fields', 'error')
+            return
+        }
+
+        if (rating < 1 || rating > 5) {
+            showToast('Rating must be between 1 and 5', 'error')
+            return
+        }
+
+        // if rating is not an integer
+        if (rating % 1 !== 0) {
+            showToast('Rating must be an integer', 'error')
+            return
+        }
+
         
         const reqBody = {
             name: firstName + ' ' + lastName,
             address: address,
             rating: rating,
             dob: dob,
-            salary: salary
+            salary: salary,
+            email: email,
+            phone: phone
         }
 
         const response = await regularApiRequest({
@@ -122,7 +145,7 @@ const AddEmployeePage = () => {
         </Grid>
         <Grid columns={2}>
             <Grid.Column>
-            <Input required ref={ratingRef} type='number' className='mt-0'
+            <Input required ref={ratingRef} type='number' max={5} min={1} className='mt-0'
                             fluid
                             size='large' placeholder='Rating'/>
             </Grid.Column>
@@ -132,7 +155,19 @@ const AddEmployeePage = () => {
                             size='large' placeholder='Salary'/>
             </Grid.Column>
         </Grid>
-
+        <Grid columns={2}>
+            <Grid.Column>
+            <Input required ref={emailRef} type='text' className='mt-0'
+                            fluid
+                            size='large' placeholder='Email'/>
+            </Grid.Column>
+            <Grid.Column>
+            <Input required ref={phoneRef} type='text' className='mt-0'
+                            fluid
+                            size='large' placeholder='Phone'/>
+            </Grid.Column>
+        </Grid>
+        <h4>Profile Picture</h4>
         <Grid>
             <Grid.Column>
                 <Input type="file" onChange={handleFile} ref={imageRef} />
@@ -141,7 +176,12 @@ const AddEmployeePage = () => {
         
         <br></br>
         Date of Birth <br/>
-        <SemanticDatepicker className={'mt-2'}  onChange={dateChange}></SemanticDatepicker>
+        <SemanticDatepicker className={'mt-2'}  onChange={dateChange} filterDate={(date) => {
+            const yesterday = new Date()
+            yesterday.setDate(yesterday.getDate() - 1)
+            return date <= yesterday
+            
+        }}></SemanticDatepicker>
         <br></br>
         <br></br>
         <Button primary onClick={addEmp}>Add Employee</Button>

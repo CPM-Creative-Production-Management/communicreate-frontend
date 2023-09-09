@@ -308,6 +308,16 @@ export const AddEstimationPage = (props) => {
                 </Message>
             }
 
+{
+                reqData?.ReqAgency?.Estimation?.is_rejected &&
+                <Message negative>
+                    <Message.Header>Estimation has been rejected</Message.Header>
+                    <p>
+                        This estimation has been rejected by the client. You can no longer edit this estimation.
+                    </p>
+                </Message>
+            }
+
             <Card className='p-4' fluid>
                 <Card.Meta>
                     <h3>Project Overview</h3>
@@ -327,16 +337,21 @@ export const AddEstimationPage = (props) => {
                         <Label.Detail>{requestData.res_deadline}</Label.Detail>
                     </Label>
                 </Card.Meta>
-
+                
                 <div className={'mb-2 mt-4'}>
 
                     <Stack direction="row" spacing={1}>
 
-                        {globalEstimation.tags?.map((currTag, index) => (
+                        {(reqData?.ReqAgency?.Estimation?.is_completed || reqData?.ReqAgency?.Estimation?.is_rejected) || globalEstimation.tags?.map((currTag, index) => (
                             <Chip key={currTag.id} label={currTag.tag} style={{backgroundColor: handleChangeColor(currTag.id)}}
                              onDelete={() => {
                                 handleDeleteTag(index)
                             }} />
+                        ))}
+
+                        {(reqData?.ReqAgency?.Estimation?.is_completed || reqData?.ReqAgency?.Estimation?.is_rejected) && globalEstimation.tags?.map((currTag, index) => (
+                            <Chip key={currTag.id} label={currTag.tag} style={{backgroundColor: handleChangeColor(currTag.id)}}
+                             />
                         ))}
 
                     </Stack>
@@ -344,6 +359,7 @@ export const AddEstimationPage = (props) => {
 
                 <div className='md-2 xs-2 mb-3'>
 
+                    {(reqData?.ReqAgency?.Estimation?.is_completed || reqData?.ReqAgency?.Estimation?.is_rejected) ||
                     <Dropdown icon='filter'
                         floating
                         labeled
@@ -359,7 +375,7 @@ export const AddEstimationPage = (props) => {
                             ))}
 
                         </Dropdown.Menu>
-                    </Dropdown>
+                    </Dropdown>}
                 </div>
 
 
@@ -393,7 +409,7 @@ export const AddEstimationPage = (props) => {
                         return (<div>
                             <SingleTaskCard show={openAddTaskModal} singleTask={task} taskIndex={index}
                                 setShow={setOpenAddTaskModal} edit={props.edit} finalized={reqData?.ReqAgency.finalized}
-                                finished={reqData?.ReqAgency?.Estimation?.is_completed}
+                                finished={(reqData?.ReqAgency?.Estimation?.is_completed || reqData?.ReqAgency?.Estimation?.is_rejected)}
                                 />
                             {index < globalEstimation.tasks?.length - 1 ? <Divider /> : null}
 
@@ -450,7 +466,7 @@ export const AddEstimationPage = (props) => {
 
                             <Input fluid name='extraCost' onChange={handleExtraCost} value={parseInt(extraCost)}
                                 className='mt-2'
-                                disabled={reqData?.ReqAgency?.Estimation?.is_completed}
+                                disabled={(reqData?.ReqAgency?.Estimation?.is_completed || reqData?.ReqAgency?.Estimation?.is_rejected)}
                                 label='Extra Cost' type='number' placeholder='Amount' />
 
                             <br />
@@ -459,13 +475,13 @@ export const AddEstimationPage = (props) => {
                                 <Grid item xs={6} md={6}>
                                     <Button fluid onClick={() => {
                                         setOpenAddTaskModal(true)
-                                    }} disabled={reqData?.ReqAgency?.Estimation?.is_completed}>
+                                    }} disabled={(reqData?.ReqAgency?.Estimation?.is_completed || reqData?.ReqAgency?.Estimation?.is_rejected)}>
                                         <Icon name='add' />
                                         Add Task
                                     </Button>
                                 </Grid>
                                 <Grid item xs={6} md={6}>
-                                    <Button fluid onClick={sendEstimation} positive animated disabled={reqData?.ReqAgency?.Estimation?.is_completed}>
+                                    <Button fluid onClick={sendEstimation} positive animated disabled={(reqData?.ReqAgency?.Estimation?.is_completed || reqData?.ReqAgency?.Estimation?.is_rejected)}>
 
                                         <Icon name='send' />
                                         Send Estimation
