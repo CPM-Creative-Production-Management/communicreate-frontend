@@ -17,6 +17,10 @@ import { base_url } from '../..';
 import { useApiRequest } from '../api/useApiRequest';
 import { useNavigate } from 'react-router-dom';
 
+import not_found from '../../assets/not_found.json'
+import { LoadAnimation } from '../utils/LoadAnimation'
+
+
 import '../cards/card.css'
 import { List } from '@mui/material';
 
@@ -24,7 +28,7 @@ export const NotificationDropdown = () => {
 
     const navigate = useNavigate()
 
-    
+
     const { data: notifications, dataLoading, error } = useApiRequest({
         url: base_url + 'notification/?page=1',
         method: 'GET'
@@ -105,20 +109,27 @@ export const NotificationDropdown = () => {
                 </div>
                 <Divider />
 
-                <List style={{ maxHeight: '500px', overflowY: 'auto' }}>
-                    {notifications?.notifications.map((notification) => {
-                        return (
-                            <div className=' me-3 ms-4' onClick={()=>{navigate(notification.link)}} style={{ cursor: 'pointer' }}>
+                {notifications?.notifications.length === 0 ?
 
-                                <SingleNotification singleNotification={notification} />
-                                <Divider />
+                    <LoadAnimation animData={not_found} />
 
-                            </div>
-                        )
-                    })
-                    }
+                    :
 
-                </List>
+                    <List style={{ maxHeight: '500px', overflowY: 'auto' }}>
+                        {notifications?.notifications.map((notification) => {
+                            return (
+                                <div className=' me-3 ms-4' onClick={() => { navigate(notification.link) }} style={{ cursor: 'pointer' }}>
+
+                                    <SingleNotification singleNotification={notification} />
+                                    <Divider />
+
+                                </div>
+                            )
+                        })
+                        }
+
+                    </List>
+                }
 
             </Menu>
         </React.Fragment>
