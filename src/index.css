@@ -57,7 +57,13 @@ code {
 
 .profile-img{
   object-fit: cover;
+  /* border: #4b8dff8c  solid 5px; */
+
+
+
 }
+
+
 
 .sq-img{
   width: 100px;
