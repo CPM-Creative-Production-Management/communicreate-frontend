@@ -10,6 +10,7 @@ import {LoginPage} from "./components/pages/LoginPage";
 import {RegisterPage} from "./components/pages/RegisterPage";
 import { useNavigate } from 'react-router-dom';
 import Cookies from "universal-cookie";
+import VerifyPage from './components/pages/VerifyPage';
 
 
 let showToast
@@ -34,15 +35,20 @@ function App() {
     setLoading = setL
     globalLoading = loading
 
-    let navigate = useNavigate();
+    let navigate = useNavigate()
+
+    // check current url
+    const currentUrl = window.location.href
+    console.log(currentUrl)
 
     useEffect(() => {
         // check cookies for logged in
         if (cookies.get("token") === undefined || cookies.get("token") == null) {
-            showToast('You must log in to continue', 'error')
-            navigate('/login')
+            if (!currentUrl.includes('verify')) {
+                showToast('You must log in to continue', 'error')
+                navigate('/login')
+            }
         }
-
     }, []);
 
     [mobile, setMobile] = useState(false)
@@ -87,6 +93,9 @@ function App() {
                 <Route exact path="*" element={ <HomePage/>}/>
                 <Route exact path="/login" element={<LoginPage/>}/>
                 <Route exact path="/register" element={<RegisterPage/>}/>
+
+
+                <Route exact path="/verify/:token" element={<VerifyPage/>}/>
             </Routes>
 
 

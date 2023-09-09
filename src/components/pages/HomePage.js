@@ -30,6 +30,9 @@ import ProfilePage from './ProfilePage';
 import CompletedProjects from './client/CompletedProjects';
 import Notifications from './Notifications';
 import SearchPage from './SearchPage';
+import VerifyPage from './VerifyPage';
+import { showToast } from '../../App';
+import { useNavigate } from 'react-router-dom';
 
 const cookies = new Cookies();
 
@@ -37,6 +40,7 @@ const cookies = new Cookies();
 export const HomePage = () => {
 
     const [userType, setUserType] = React.useState(1);
+    const navigate = useNavigate()
 
     useEffect(() => {
         if (cookies.get("userType") === '1'){
