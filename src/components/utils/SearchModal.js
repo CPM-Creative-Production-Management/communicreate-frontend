@@ -13,6 +13,7 @@ import { showToast } from '../../App';
 import { regularApiRequest } from '../api/regularApiRequest';
 import SingleSearchItem from '../cards/SingleSearchItem';
 import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
 
 export default function SearchModal({ open, setOpen }) {
 
@@ -60,38 +61,52 @@ export default function SearchModal({ open, setOpen }) {
 
 
     const navigateTo = (url) => {
-      
+
         navigate(`${url}`)
 
-        
+
         window.location.reload()
     }
 
+    const [currModalOpen, setCurrModalOpen] = React.useState(open)
+
 
     const handleClose = (url) => {
-        // document.body.classList.remove('modal-open');
+        setOpen(false);
+        setCurrModalOpen(false);
+
+        setTimeout(() => {
+            window.location.reload()
+        }, 10)
+
+        // navigateTo(url)
+    };
+
+    const handleCloseBtn = () => {
         setOpen(false);
 
-        navigateTo(url)
-    };
+    }
+  
 
     return (
         <div>
-            <Modal scrollable show={open} onHide={handleClose}>
+            <Modal className={`modal-${currModalOpen ? 'open' : 'closed'}`} scrollable show={open} onHide={handleClose}>
 
                 {/* <Modal.Title>Search Anything...</Modal.Title> */}
 
-                <Input loading={loading} className='ms-4 me-4 mt-3 mb-3' value={searchText} onChange={onTextChange} name='search' fluid placeholder='Search...' />
-
+                <Input loading={loading} className='ms-4 me-4 mt-4 mb-3' value={searchText} onChange={onTextChange} name='search' fluid placeholder='Search...' />
 
                 <Modal.Body>
 
-
                     {searchResults.estimation?.map((item) => {
                         return (
-                            // <Link to={`${item.url}`} style={{textDecoration: 'none', color: 'black',}}>
-                            <SingleSearchItem data={item} type='estimation' closeModal={handleClose} />
-                            // </Link>
+                            <Link to={`${item.url}`} style={{ textDecoration: 'none', color: 'black', }}>
+                                <div onClick={() => {
+                                    handleClose()
+                                }} >
+                                    <SingleSearchItem data={item} type='estimation' closeModal={handleClose} />
+                                </div>
+                            </Link>
                         )
                     }
                     )}
@@ -118,7 +133,7 @@ export default function SearchModal({ open, setOpen }) {
 
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
+                    <Button variant="secondary" onClick={handleCloseBtn}>
                         Close
                     </Button>
 

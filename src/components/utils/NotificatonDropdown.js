@@ -108,13 +108,11 @@ export const NotificationDropdown = () => {
                 <List style={{ maxHeight: '500px', overflowY: 'auto' }}>
                     {notifications?.notifications.map((notification) => {
                         return (
-                            <div className=' me-4 ms-4'>
+                            <div className=' me-3 ms-4' onClick={()=>{navigate(notification.link)}} style={{ cursor: 'pointer' }}>
 
-                                <Comment.Group >
-                                    
-                                    <SingleNotification singleNotification={notification} />
-                                    
-                                </Comment.Group>
+                                <SingleNotification singleNotification={notification} />
+                                <Divider />
+
                             </div>
                         )
                     })

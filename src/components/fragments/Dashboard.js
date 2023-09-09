@@ -145,7 +145,7 @@ export const Dashboard = () => {
                 <Grid.Row>
 
                     <Grid.Column width={6} >
-                        <Card style={{ height: '520px' }} fluid>
+                        <Card fluid>
 
                             <Card.Content header='Projects Per Year' />
                             <Card.Content>
@@ -159,7 +159,7 @@ export const Dashboard = () => {
                     </Grid.Column>
 
                     <Grid.Column width={10} >
-                        <Card style={{ height: '520px' }} fluid>
+                        <Card fluid>
 
                             <Card.Content header='Budget Per Year' />
                             <Card.Content>
@@ -199,9 +199,11 @@ export const Dashboard = () => {
 
             {/* <Button loading={uploadingImg} onClick={handleSaveChanges} color='blue' className='mt-3'>Save Changes</Button> */}
 
-
+            <Grid columns={2}>
+                
             {data?.review?.map((review) => {
                 return (
+                    <Grid.Column>
                     <div className='mb-3'>
                         <ReviewCard
                             companyName={review.Company.name}
@@ -212,9 +214,11 @@ export const Dashboard = () => {
                             key={review.id}
                         />
                     </div>
+                    </Grid.Column>
                 )
             })
             }
+            </Grid>
 
 
 
