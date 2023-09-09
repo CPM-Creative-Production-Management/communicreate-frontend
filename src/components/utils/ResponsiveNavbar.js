@@ -47,7 +47,9 @@ function NavScrollExample() {
 
     const [openSearchModal, setOpenSearchModal] = useState(false);
 
-    
+
+
+
 
     return (
         <Navbar expand="lg" className="bg-body-tertiary nav-style">
@@ -72,8 +74,9 @@ function NavScrollExample() {
                     }
                     <SearchModal open={openSearchModal} setOpen={setOpenSearchModal} />
 
-
-                    <NotificationDropdown />
+                    {cookies.get('token') &&
+                        <NotificationDropdown />
+                    }
 
 
 
