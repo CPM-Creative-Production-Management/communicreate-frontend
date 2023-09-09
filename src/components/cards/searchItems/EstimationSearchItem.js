@@ -9,13 +9,13 @@ export const EstimationSearchItem = ({ data }) => {
                 <List.Icon name='calculator' size='large' verticalAlign='middle' />
                 <List.Content>
                     <List.Header>
-                        {data.ReqAgency.Request.name}
+                        {data.Request.name}
 
                     </List.Header>
                     <List.Description as='a'>
                         Estimation
                         <div style={{ float: 'right' }}>
-                        {data.ReqAgency.Company.name}
+                        {data.Company.name}
                         </div>
                     </List.Description>
                 </List.Content>

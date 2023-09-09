@@ -94,21 +94,21 @@ export const Dashboard = () => {
             <Grid className='ms-2' columns={2}>
                 <Grid.Row>
 
-                    <Grid.Column>
+                    <Grid.Column width={5} >
                         <Card fluid>
 
                             <Card.Content header='Requests' />
                             <Card.Content>
                                 <GeneralChart userData={userData1}
                                     labelFieldName={'year'} dataFieldName={'userGain'}
-                                    type={'BAR'} color={'rgba(53, 162, 235, 0.5)'}
+                                    type={'DOUGHNUT'} color={'rgba(53, 162, 235, 0.5)'}
                                 />
                             </Card.Content>
 
                         </Card>
                     </Grid.Column>
 
-                    <Grid.Column>
+                    <Grid.Column width={9}>
                         <Card fluid>
 
                             <Card.Content header='Estimations' />
@@ -123,6 +123,25 @@ export const Dashboard = () => {
                     </Grid.Column>
 
                 </Grid.Row>
+
+                <Grid.Row>
+
+                <Grid.Column>
+                        <Card fluid>
+
+                            <Card.Content header='Estimations' />
+                            <Card.Content>
+                                <GeneralChart userData={userData1}
+                                    labelFieldName={'year'} dataFieldName={'userGain'}
+                                    type={'LINE'} color={'rgba(53, 162, 235, 0.5)'}
+                                />
+                            </Card.Content>
+
+                        </Card>
+                    </Grid.Column>
+
+                    </Grid.Row>
+
             </Grid>
 
 

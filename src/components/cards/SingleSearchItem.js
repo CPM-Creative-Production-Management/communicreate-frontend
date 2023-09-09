@@ -23,13 +23,10 @@ const SingleSearchItem = ({ data, type, closeModal }) => {
                 <AgencySearchItem data={data} />
             }
 
-            {type === 'company' &&
-                <EmployeeSearchItem data={data} />
-            }
 
-            {type === 'request' &&
+            {/* {type === 'request' &&
                 <RequestSearchItem data={data} />
-            }
+            } */}
 
             {type === 'estimation' &&
                 <EstimationSearchItem data={data} />
