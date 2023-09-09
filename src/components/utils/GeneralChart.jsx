@@ -30,7 +30,7 @@ ChartJS.register(
 );
 
 
-function GeneralChart({ userData1, userData2, labelFieldName, dataFieldName, label1, label2, type }) {
+function GeneralChart({ userData1, userData2, labelFieldName, dataFieldName,dataFieldName2, label1, label2, type }) {
 
     // generate a reproducible random color in rgba format
     const rand_color1 = `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.5)`;
@@ -38,11 +38,11 @@ function GeneralChart({ userData1, userData2, labelFieldName, dataFieldName, lab
 
     const data = {
         // get the labels from the userData
-        labels: userData1.map((data) => data[labelFieldName]),
+        labels: userData1?.map((data) => data[labelFieldName]),
         datasets: [
             {
                 label: label1,
-                data: userData1.map((data) => data[dataFieldName]),
+                data: userData1?.map((data) => data[dataFieldName]),
                 borderColor: rand_color1,
                 backgroundColor: rand_color1,
                 pointBackgroundColor: rand_color1,
@@ -55,7 +55,7 @@ function GeneralChart({ userData1, userData2, labelFieldName, dataFieldName, lab
         // append the second dataset
         data.datasets.push({
             label: label2,
-            data: userData2.map((data) => data[dataFieldName]),
+            data: userData2?.map((data) => data[dataFieldName2]),
             borderColor: rand_color2,
             backgroundColor: rand_color2,
             pointBackgroundColor: rand_color2,
@@ -70,7 +70,7 @@ function GeneralChart({ userData1, userData2, labelFieldName, dataFieldName, lab
 
 
         // set backgroundColor to an array of colors
-        data.datasets[0].data.forEach(() => {
+        data.datasets[0].data?.forEach(() => {
             const rand_color1 = `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.5)`;
             // make a new color with the same color as rand_color1 but with opacity 1
             const rand_color2 = `rgba(${rand_color1.split(',')[0].split('(')[1]}, ${rand_color1.split(',')[1]}, ${rand_color1.split(',')[2]}, 1)`;

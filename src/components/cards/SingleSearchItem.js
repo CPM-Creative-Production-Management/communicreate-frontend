@@ -15,8 +15,8 @@ const SingleSearchItem = ({ data, type, closeModal }) => {
     return (
 
         <List onClick={()=>{
-            navigate(`${data.url}`)
-            closeModal()
+            closeModal(`${data.url}`)
+            // navigate(`${data.url}`)
             }}  className='ps-3 pe-3 pt-2 pb-2 element' divided relaxed>
             
             {type === 'agency' &&

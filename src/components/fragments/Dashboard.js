@@ -9,6 +9,8 @@ import { Button } from 'semantic-ui-react'
 import GeneralChart from '../utils/GeneralChart'
 import { useApiRequest } from '../api/useApiRequest';
 import { base_url } from '../..';
+import { Stack } from 'react-bootstrap';
+import ReviewCard from '../cards/ReviewCard';
 
 
 export const Dashboard = () => {
@@ -18,7 +20,8 @@ export const Dashboard = () => {
     const { data, dataLoading, error } = useApiRequest({
         url: base_url + 'dashboard',
         method: 'GET',
-      })
+    })
+
 
     const userData1 = [
         {
@@ -88,7 +91,7 @@ export const Dashboard = () => {
 
 
     return (
-        <div className='ms-2'> 
+        <div className='ms-2'>
             {/* <Button onClick={() => {
                         navigate("/add-estimation")
                     }} primary className='mt-3 fab' size='large' >Add new Estimation</Button> */}
@@ -141,13 +144,13 @@ export const Dashboard = () => {
             <Grid columns={2}>
                 <Grid.Row>
 
-                    <Grid.Column width={5} >
-                        <Card fluid>
+                    <Grid.Column width={6} >
+                        <Card style={{ height: '520px' }} fluid>
 
-                            <Card.Content header='Requests' />
+                            <Card.Content header='Projects Per Year' />
                             <Card.Content>
-                                <GeneralChart userData1={userData1}
-                                    labelFieldName={'year'} dataFieldName={'userGain'}
+                                <GeneralChart userData1={data?.pieChart}
+                                    labelFieldName={'year'} dataFieldName={'projects'}
                                     type={'DOUGHNUT'} color={'rgba(53, 162, 235, 0.5)'}
                                 />
                             </Card.Content>
@@ -155,14 +158,14 @@ export const Dashboard = () => {
                         </Card>
                     </Grid.Column>
 
-                    <Grid.Column width={9}>
-                        <Card fluid>
+                    <Grid.Column width={10} >
+                        <Card style={{ height: '520px' }} fluid>
 
-                            <Card.Content header='Estimations' />
+                            <Card.Content header='Budget Per Year' />
                             <Card.Content>
-                                <GeneralChart userData1={userData1} userData2={userData2}
-                                    labelFieldName={'year'} dataFieldName={'userGain'}
-                                    type={'LINE'} color={'rgba(53, 162, 235, 0.5)'}
+                                <GeneralChart userData1={data?.barChart} label1='Budget'
+                                    labelFieldName={'year'} dataFieldName={'budget'}
+                                    type={'BAR'} color={'rgba(53, 162, 235, 0.5)'}
                                 />
                             </Card.Content>
 
@@ -173,13 +176,14 @@ export const Dashboard = () => {
 
                 <Grid.Row>
 
-                <Grid.Column>
+                    <Grid.Column width={16}>
                         <Card fluid>
 
-                            <Card.Content header='Estimations' />
+                            <Card.Content header='Success Trend' />
                             <Card.Content>
-                                <GeneralChart userData1={userData1}
-                                    labelFieldName={'year'} dataFieldName={'userGain'}
+                                <GeneralChart userData1={data?.lineChart} userData2={data?.lineChart}
+                                    label1='Accepted' label2='Rejected'
+                                    labelFieldName={'year'} dataFieldName={'accepted'} dataFieldName2={'rejected'}
                                     type={'LINE'} color={'rgba(53, 162, 235, 0.5)'}
                                 />
                             </Card.Content>
@@ -187,9 +191,31 @@ export const Dashboard = () => {
                         </Card>
                     </Grid.Column>
 
-                    </Grid.Row>
+                </Grid.Row>
 
             </Grid>
+
+            <h3>Reviews</h3>
+
+            {/* <Button loading={uploadingImg} onClick={handleSaveChanges} color='blue' className='mt-3'>Save Changes</Button> */}
+
+
+            {data?.review?.map((review) => {
+                return (
+                    <div className='mb-3'>
+                        <ReviewCard
+                            companyName={review.Company.name}
+                            title={review.title}
+                            text={review.description}
+                            companyLogo={review.Company.logo}
+                            rating={review.rating}
+                            key={review.id}
+                        />
+                    </div>
+                )
+            })
+            }
+
 
 
         </div>

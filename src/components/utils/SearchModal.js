@@ -59,9 +59,20 @@ export default function SearchModal({ open, setOpen }) {
     }, [searchText])
 
 
+    const navigateTo = (url) => {
+      
+        navigate(`${url}`)
 
-    const handleClose = () => {
+        
+        window.location.reload()
+    }
+
+
+    const handleClose = (url) => {
+        // document.body.classList.remove('modal-open');
         setOpen(false);
+
+        navigateTo(url)
     };
 
     return (
@@ -70,15 +81,10 @@ export default function SearchModal({ open, setOpen }) {
 
                 {/* <Modal.Title>Search Anything...</Modal.Title> */}
 
-                <Input className='ms-4 me-4 mt-3 mb-3' value={searchText} onChange={onTextChange} name='search' fluid loading={false} placeholder='Search...' />
+                <Input loading={loading} className='ms-4 me-4 mt-3 mb-3' value={searchText} onChange={onTextChange} name='search' fluid placeholder='Search...' />
 
 
                 <Modal.Body>
-                    {/* <Input value={searchText} onChange={onTextChange} name='search' fluid loading={false} placeholder='Search...' /> */}
-
-
-                    <Loader active={loading} inline='centered' />
-
 
 
                     {searchResults.estimation?.map((item) => {
@@ -99,7 +105,7 @@ export default function SearchModal({ open, setOpen }) {
                     }
                     )}
 
-                    
+
 
                     {searchResults.employee?.map((item) => {
                         return (
