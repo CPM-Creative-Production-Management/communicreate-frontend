@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 
-import { Line, Bar, Pie } from 'react-chartjs-2';
+import { Line, Bar, Pie, Doughnut } from 'react-chartjs-2';
 
 import {
     Chart as ChartJS,
@@ -9,6 +9,7 @@ import {
     LinearScale,   // y axis
     PointElement,
     BarElement,
+    ArcElement,
 
     Title,
     Tooltip,
@@ -22,6 +23,7 @@ ChartJS.register(
     LinearScale,
     PointElement,
     BarElement,
+    ArcElement,
     Title,
     Tooltip,
     Legend
@@ -93,6 +95,16 @@ function GeneralChart({ userData, labelFieldName, dataFieldName, type, color }) 
             {type === 'BAR' &&
                 <Bar data={data}
                     options={options} > </Bar>
+            }
+
+            {type === 'PIE' &&
+                <Pie data={data}
+                    options={options} > </Pie>
+            }
+
+            {type === 'DOUGHNUT' &&
+                <Doughnut data={data}
+                    options={options} > </Doughnut>
             }
         </div>
     );

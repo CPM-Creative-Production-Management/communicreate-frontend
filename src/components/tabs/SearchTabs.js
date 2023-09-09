@@ -1,25 +1,24 @@
 import React, { useEffect } from 'react'
 import { Tab } from 'semantic-ui-react'
-import { Estimations } from "../fragments/Estimations";
-import TestList from '../cards/searchItems/TestList';
 import EstimationSearchList from '../cards/searchItems/EstimationSearchList';
 import RequestSearchList from '../cards/searchItems/RequestSearchList';
 import EmployeeSearchList from '../cards/searchItems/EmployeeSearchList';
+import AgencySearchList from '../cards/searchItems/AgencySearchList';
 
 const panes = [
-    // {
-    //     menuItem: 'Estimations',
-    //     render: ({ searchData }) => <Tab.Pane attached={false}> <EstimationSearchList searchData={searchData.estimation} /></Tab.Pane>,
-    // },
+    {
+        menuItem: 'Estimations',
+        render: ({ searchData }) => <Tab.Pane attached={false}> <EstimationSearchList searchData={searchData.estimation} /></Tab.Pane>,
+    },
 
-    // {
-    //     menuItem: 'Requests',
-    //     render: ({ searchData }) => <Tab.Pane attached={false}>RequestSearchList searchData={searchData.request} /></Tab.Pane>,
-    // },
+    {
+        menuItem: 'Requests',
+        render: ({ searchData }) => <Tab.Pane attached={false}><RequestSearchList searchData={searchData.request} /></Tab.Pane>,
+    },
 
     // {
     //     menuItem: 'Agency',
-    //     render: ({ searchData }) => <Tab.Pane attached={false}><EstimationSearchList searchData={searchData.agency} /></Tab.Pane>,
+    //     render: ({ searchData }) => <Tab.Pane attached={false}><AgencySearchList searchData={searchData.agency} /></Tab.Pane>,
     // },
 
     {

@@ -99,8 +99,7 @@ export const AddSingleTaskCard = () => {
     const calculateTaskCost = () => {
         let totalCost = 0
         currTask.Employees?.map((currEmp) => {
-            // todo
-            // totalCost += currEmp.salary
+      
             let deadline = new Date(globalRequest.comp_deadline)
             let currDate = new Date(globalRequest.res_deadline)
             let diffTime = Math.abs(deadline - currDate);

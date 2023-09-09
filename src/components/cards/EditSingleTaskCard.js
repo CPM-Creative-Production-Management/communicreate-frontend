@@ -111,7 +111,7 @@ export const EditSingleTaskCard = (props) => {
     const calculateTaskCost = cT => {
         let totalCost = 0
         cT.Employees?.map((currEmp) => {
-            // todo
+    
             // cost per employee = salary * project_duration in months
             // get the duration from the global estimation.deadline
 

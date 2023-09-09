@@ -67,16 +67,16 @@ export default function SearchModal({ open, setOpen }) {
     return (
         <div>
             <Modal scrollable show={open} onHide={handleClose}>
-                
-                    {/* <Modal.Title>Search Anything...</Modal.Title> */}
 
-                    <Input className='ms-4 me-4 mt-3 mb-3' value={searchText} onChange={onTextChange} name='search' fluid loading={false} placeholder='Search...' />
+                {/* <Modal.Title>Search Anything...</Modal.Title> */}
 
-            
+                <Input className='ms-4 me-4 mt-3 mb-3' value={searchText} onChange={onTextChange} name='search' fluid loading={false} placeholder='Search...' />
+
+
                 <Modal.Body>
                     {/* <Input value={searchText} onChange={onTextChange} name='search' fluid loading={false} placeholder='Search...' /> */}
-                    
-                  
+
+
                     <Loader active={loading} inline='centered' />
 
 
@@ -92,23 +92,18 @@ export default function SearchModal({ open, setOpen }) {
 
 
 
-                    {searchResults.agency?.map((item) => {
+                    {/* {searchResults.agency?.map((item) => {
                         return (
-                            <SingleSearchItem data={item} type='agency' />
+                            <SingleSearchItem data={item} type='agency' closeModal={handleClose} />
                         )
                     }
-                    )}
+                    )} */}
 
-                    {searchResults.company?.map((item) => {
-                        return (
-                            <SingleSearchItem data={item} type='company' />
-                        )
-                    }
-                    )}
+                    
 
                     {searchResults.employee?.map((item) => {
                         return (
-                            <SingleSearchItem data={item} type='employee' />
+                            <SingleSearchItem data={item} type='employee' closeModal={handleClose} />
                         )
                     }
                     )}
