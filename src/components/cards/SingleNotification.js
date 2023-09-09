@@ -2,9 +2,11 @@ import React from 'react'
 import { Comment, Icon, Label } from 'semantic-ui-react';
 import './card.css'
 import { Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const SingleNotification = ({ singleNotification }) => {
 
+    const navigate = useNavigate()
     const getTimeOrDayDifference = (dateString) => {
         const currentTime = new Date();
         const targetTime = new Date(dateString);
@@ -46,7 +48,7 @@ const SingleNotification = ({ singleNotification }) => {
     }
 
     return (
-        <div>
+        <div className='element p-3' onClick={()=>{navigate(singleNotification.link)}} style={{ cursor: 'pointer' }} >
 
 
             {singleNotification.read ? null
@@ -55,14 +57,19 @@ const SingleNotification = ({ singleNotification }) => {
                 </Label>}
             <Comment>
 
+                {singleNotification.type === 'comment' && <Icon name='comments outline' />}
+                {singleNotification.type === 'estimation' && <Icon name='calculator' />}
+                {singleNotification.type === 'request' && <Icon name='fork' />}
+                {singleNotification.type === 'payment' && <Icon name='money bill alternate outline' />}
 
-                <Comment.Avatar src='https://react.semantic-ui.com/images/avatar/small/matt.jpg' />
-                <Comment.Content>
-                    <Comment.Author as='a'><Typography variant="bold"> {singleNotification.message}</Typography></Comment.Author>
-                    <br /><Comment.Metadata >
-                        <div>{getTimeOrDayDifference(singleNotification.createdAt)}</div>
-                    </Comment.Metadata>
-                </Comment.Content>
+
+                
+                <Typography as='h5'  variant="bold"> {singleNotification.message}</Typography>
+               
+
+                <div>{getTimeOrDayDifference(singleNotification.createdAt)}</div>
+
+
 
             </Comment>
         </div>
