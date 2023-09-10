@@ -34,8 +34,6 @@ const TableEmpList = ({ tableData, onAddTaskModal, onAddTaskList, onEmpList }) =
         calculateTaskCost({
             ...currTask, Employees: currTask.Employees.filter((emp, i) => i !== index)
         })
-
-
     }
 
     const [editEmployeeModal, setEditEmployeeModal] = useState(false)
@@ -48,7 +46,7 @@ const TableEmpList = ({ tableData, onAddTaskModal, onAddTaskList, onEmpList }) =
     return (
         <div>
 
-            <Table celled padded className='mt-3'>
+            <Table celled padded className='mt-3' sortable selectable striped >
 
                 <thead>
                     <tr>

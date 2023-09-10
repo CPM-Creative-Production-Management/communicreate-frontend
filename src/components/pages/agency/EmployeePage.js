@@ -50,7 +50,7 @@ const EmployeePage = () => {
         const file = imageRef.current.inputRef.current.files[0]
         const fileName = 'profile_pictures/employees/' + data.id + '.jpg'
 
-        if (!name || !email || !phone || !address || !salary || !rating) {
+        if (!name || !salary || !rating) {
             showToast('Please fill all fields', 'error')
             return
         }
