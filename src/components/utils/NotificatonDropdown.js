@@ -31,8 +31,11 @@ export const NotificationDropdown = () => {
     const navigate = useNavigate()
     const cookies = new Cookies();
 
-    const [notificationsState, setNotificationsState] = React.useState([])
+    const [newNotificationCount, setNewNotificationCount] = React.useState(0);
 
+
+    const [notificationsState, setNotificationsState] = React.useState([])
+    const [hasNewNotifications, setHasNewNotifications] = React.useState(false)
 
     const { data: notifications, dataLoading, error } = useApiRequest({
         url: base_url + 'notification/?page=1',
@@ -42,9 +45,12 @@ export const NotificationDropdown = () => {
     React.useEffect(() => {
         console.log('notifications', notifications)
         setNotificationsState(notifications)
+
+
+
     }, [notifications])
 
-    try {   
+    try {
         useInterval(async () => {
             // console.log('notification polling')
             // use axios directly
@@ -57,8 +63,55 @@ export const NotificationDropdown = () => {
                 }
             )
             // console.log('polledNotifications', polledNotifications)
+            // extract the ids of the current notifications
+            const currentIds = notificationsState?.notifications?.map((notification) => {
+                return notification.id
+            })
+
+            // extract the ids of the new notifications
+            const newIds = polledNotifications.data.notifications.map((notification) => {
+                return notification.id
+            })
+
+            // if newIds contains an id that is not in currentIds
+            // then there is a new notification
+            // set the state accordingly
+            if (newIds.some((id) => !currentIds.includes(id))) {
+                setHasNewNotifications(true)
+            }
+
+            // let unread = 0
+            // // extract the ids of notifications
+            // notifications?.notifications?.forEach((notification) => {
+            //     if (!notification.read) {
+            //         unread += 1
+            //     }
+            // }
+            // )
+            // setNewNotificationCount(unread)
+
+            // if (unread > 0) {
+            //     setHasNewNotifications(true)
+            //     console.log('has new notifications', newNotificationCount)
+            // } else {
+            //     // setHasNewNotifications(false)
+            // }
+
+            // only add to state if notificationsState does not contain
+            // the id of the new notification
+            // const toBeAddedNotifications = polledNotifications.data.notifications.filter((notification) => {
+            //     return !notificationsState?.notifications?.some((existingNotification) => {
+            //         return existingNotification.id === notification.id
+            //     })
+            // })
+            // setNotificationsState((prevState) => {
+            //     return {
+            //         ...prevState,
+            //         notifications: [...toBeAddedNotifications, ...prevState.notifications]
+            //     }
+            // })
             setNotificationsState(polledNotifications.data)
-        }, 2000)
+        }, 5000)
     } catch (err) {
         console.log('could not fetch notifications')
     }
@@ -79,12 +132,18 @@ export const NotificationDropdown = () => {
                     <IconButton
                         onClick={handleClick}
                         size="small"
+                        icon='bell outline'
                         sx={{ ml: 2 }}
                         aria-controls={open ? 'account-menu' : undefined}
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
                     >
-                        <Button icon='bell outline' />
+                        <Button onClick={() => { setHasNewNotifications(false) }} icon='bell outline' />
+                        {hasNewNotifications && <Label color='red' floating pointing={'below'} />}
+                        {/* <Label color='red' floating>
+                            {newNotificationCount}
+                        </Label> */}
+
                     </IconButton>
                 </Tooltip>
             </Box>

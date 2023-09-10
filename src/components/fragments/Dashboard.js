@@ -77,7 +77,7 @@ export const Dashboard = () => {
             <Grid columns={2}>
                 <Grid.Row>
 
-                    <Grid.Column width={6} >
+                    <Grid.Column width={4} >
                         <Card fluid>
 
                             <Card.Content header='Projects Per Year' />
@@ -91,7 +91,7 @@ export const Dashboard = () => {
                         </Card>
                     </Grid.Column>
 
-                    <Grid.Column width={10} >
+                    <Grid.Column width={8} >
                         <Card fluid>
 
                             <Card.Content header='Budget Per Year' />
@@ -109,7 +109,7 @@ export const Dashboard = () => {
 
                 <Grid.Row>
 
-                    <Grid.Column width={16}>
+                    <Grid.Column width={12}>
                         <Card fluid>
 
                             <Card.Content header='Success Trend' />
