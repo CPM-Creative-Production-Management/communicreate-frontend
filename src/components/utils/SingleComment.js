@@ -106,7 +106,7 @@ const SingleComment = ({ singleCommentData }) => {
                 <Image circular style={{ width: '40px', height: '40px' }} className='profile-img' src={singleCommentData.User.profile_picture || 'https://react.semantic-ui.com/images/avatar/small/matt.jpg'} /> */}
 
                 <Comment.Content>
-                    <Comment.Author as='a'>{singleCommentData.User.name} ({singleCommentData.User.association.name})</Comment.Author>
+                    <Comment.Author as='a'>{singleCommentData.User?.name} ({singleCommentData.User.association?.name})</Comment.Author>
                     <Comment.Metadata>
                         <div>{getTimeOrDayDifference(singleCommentData.createdAt)}</div>
                     </Comment.Metadata>

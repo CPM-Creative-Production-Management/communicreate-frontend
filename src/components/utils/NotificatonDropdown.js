@@ -16,17 +16,22 @@ import SingleNotification from '../cards/SingleNotification';
 import { base_url } from '../..';
 import { useApiRequest } from '../api/useApiRequest';
 import { useNavigate } from 'react-router-dom';
-
+import { regularApiRequest } from '../api/regularApiRequest';
 import not_found from '../../assets/not_found.json'
 import { LoadAnimation } from '../utils/LoadAnimation'
-
+import useInterval from '../api/useInterval';
+import axios from 'axios';
 
 import '../cards/card.css'
 import { List } from '@mui/material';
+import Cookies from 'universal-cookie';
 
 export const NotificationDropdown = () => {
 
     const navigate = useNavigate()
+    const cookies = new Cookies();
+
+    const [notificationsState, setNotificationsState] = React.useState([])
 
 
     const { data: notifications, dataLoading, error } = useApiRequest({
@@ -36,8 +41,27 @@ export const NotificationDropdown = () => {
 
     React.useEffect(() => {
         console.log('notifications', notifications)
+        setNotificationsState(notifications)
     }, [notifications])
 
+    try {   
+        useInterval(async () => {
+            // console.log('notification polling')
+            // use axios directly
+            const polledNotifications = await axios.get(base_url + 'notification/?page=1',
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${cookies.get("token")}`
+                    }
+                }
+            )
+            // console.log('polledNotifications', polledNotifications)
+            setNotificationsState(polledNotifications.data)
+        }, 2000)
+    } catch (err) {
+        console.log('could not fetch notifications')
+    }
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -109,14 +133,14 @@ export const NotificationDropdown = () => {
                 </div>
                 <Divider />
 
-                {notifications?.notifications.length === 0 ?
+                {notificationsState?.notifications?.length === 0 ?
 
                     <LoadAnimation animData={not_found} />
 
                     :
 
                     <List style={{ maxHeight: '500px', overflowY: 'auto' }}>
-                        {notifications?.notifications.map((notification) => {
+                        {notificationsState?.notifications?.map((notification) => {
                             return (
                                 <div className=' me-3 ms-4' onClick={() => { navigate(notification.link) }} style={{ cursor: 'pointer' }}>
 
