@@ -88,16 +88,15 @@ const PaymentPage = () => {
                                         {responseDues.overdue === 2 && <Message color='orange'>{responseDues.message}</Message>}
                                         {responseDues.overdue === 3 && <Message color='grey'>{responseDues.message}</Message>}
                                     </div>
+                                    <br />
                                 </div>
+                                {userType === 1 && responseDues.payment_type === 0 && responseDues.due_amount !== "0.00" &&
+                                    <Button align="center" color='green' onClick={() => initializePayment()}>
+                                        Make Full Payment
+                                    </Button>
+                                }
                             </div>
                         </div>
-                        <br />
-                        {responseDues.payment_type === 0 && responseDues.due_amount != "0.00" &&
-                            <Button fluid color='green' onClick={() => initializePayment}>
-                                Make Full Payment
-                            </Button>
-                        }
-                        <br />
                     </div>
                     <br />
                     <br />
