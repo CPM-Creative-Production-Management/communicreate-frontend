@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Card, Divider, Grid, Icon, Message } from "semantic-ui-react";
 
 
@@ -21,6 +21,11 @@ export const Dashboard = () => {
         url: base_url + 'dashboard',
         method: 'GET',
     })
+
+
+    useEffect(() => {
+        console.log('dashboard ata', data)
+    }, [data])
 
 
     return (
@@ -80,10 +85,10 @@ export const Dashboard = () => {
                     <Grid.Column width={4} >
                         <Card fluid>
 
-                            <Card.Content header='Projects Per Year' />
+                            <Card.Content header='Projects Per Month' />
                             <Card.Content>
                                 <GeneralChart userData1={data?.pieChart}
-                                    labelFieldName={'year'} dataFieldName={'projects'}
+                                    labelFieldName={'month'} dataFieldName={'projects'}
                                     type={'DOUGHNUT'} color={'rgba(53, 162, 235, 0.5)'}
                                 />
                             </Card.Content>
@@ -94,10 +99,10 @@ export const Dashboard = () => {
                     <Grid.Column width={8} >
                         <Card fluid>
 
-                            <Card.Content header='Budget Per Year' />
+                            <Card.Content header='Budget Per Month' />
                             <Card.Content>
                                 <GeneralChart userData1={data?.barChart} label1='Budget'
-                                    labelFieldName={'year'} dataFieldName={'budget'}
+                                    labelFieldName={'month'} dataFieldName={'budget'}
                                     type={'BAR'} color={'rgba(53, 162, 235, 0.5)'}
                                 />
                             </Card.Content>
@@ -116,7 +121,7 @@ export const Dashboard = () => {
                             <Card.Content>
                                 <GeneralChart userData1={data?.lineChart} userData2={data?.lineChart}
                                     label1='Accepted' label2='Rejected'
-                                    labelFieldName={'year'} dataFieldName={'accepted'} dataFieldName2={'rejected'}
+                                    labelFieldName={'month'} dataFieldName={'accepted'} dataFieldName2={'rejected'}
                                     type={'LINE'} color={'rgba(53, 162, 235, 0.5)'}
                                 />
                             </Card.Content>
