@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 import { updateCurrTask } from "../../actions";
 
-const TableEmpList = ({ tableData, onAddTaskModal, onAddTaskList, onEmpList }) => {
+const TableEmpList = ({ tableData, setTableData, onAddTaskModal, onAddTaskList, onEmpList }) => {
 
     const handleEdit = (index) => {
         console.log(index)
@@ -39,6 +39,16 @@ const TableEmpList = ({ tableData, onAddTaskModal, onAddTaskList, onEmpList }) =
     const [editEmployeeModal, setEditEmployeeModal] = useState(false)
     const [editData, setEditData] = useState({})
 
+    // const sortTable = (key) => {
+    //     return () => {
+    //         console.log('sortTable: ', key)
+    //         if (setTableData)
+    //             setTableData(tableData.sort((a, b) => a[key] - b[key]))
+    //     }
+    // }
+
+
+
     // useEffect(() => {
     //     console.log('currTask: ', tableData)
     // }, [tableData])
@@ -46,13 +56,13 @@ const TableEmpList = ({ tableData, onAddTaskModal, onAddTaskList, onEmpList }) =
     return (
         <div>
 
-            <Table celled padded className='mt-3' sortable selectable striped >
+            <Table celled padded className='mt-3' >
 
                 <thead>
                     <tr>
                         {onAddTaskModal ? <th scope="col"></th> : null}
                         <th scope={"col"}>#</th>
-                        <th scope="col">Employee</th>
+                        <th scope="col" >Employee</th>
                         <th scope="col">Rating</th>
                         <th scope="col">Salary</th>
 
@@ -91,7 +101,7 @@ const TableEmpList = ({ tableData, onAddTaskModal, onAddTaskList, onEmpList }) =
                             </Table.Cell>
 
                             <Table.Cell singleLine width={2}><Rating initialValue={currItem.rating} readonly allowFraction size={25} /></Table.Cell>
-                            <Table.Cell singleLine width={2}>{currItem.salary} ৳</Table.Cell>
+                            <Table.Cell singleLine width={2}> ${currItem.salary}</Table.Cell>
 
                             {onEmpList? <Table.Cell singleLine width={5}>{currItem.address}</Table.Cell> : null}
                             
