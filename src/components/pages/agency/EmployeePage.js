@@ -9,6 +9,7 @@ import s3 from '../../../config/s3'
 import { regularApiRequest } from '../../api/regularApiRequest'
 import { showToast } from '../../../App'
 import { Rating } from 'react-simple-star-rating'
+import { useNavigate } from 'react-router-dom'
 
 const EmployeePage = () => {
     const { id } = useParams()
@@ -20,6 +21,8 @@ const EmployeePage = () => {
     const addressRef = React.useRef('')
     const salaryRef = React.useRef('')
     const ratingRef = React.useRef('')
+
+    const navigate = useNavigate()
 
 
     const {data, dataLoading, error} = useApiRequest({
@@ -105,6 +108,19 @@ const EmployeePage = () => {
                 reqBody: reqBody
             })
             setSaveChanges(true)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    const handleDelete = (id) => {
+        try {
+            const response = regularApiRequest({
+                url: base_url + 'employee/' + id,
+                method: 'DELETE'
+            })
+            showToast('Employee removed', 'success')
+            navigate('/my-employees')
         } catch (err) {
             console.log(err)
         }
@@ -264,6 +280,9 @@ const EmployeePage = () => {
                                     </Grid.Column>
                                 </Grid>
                                 <Button loading={uploadingImg} onClick={handleSaveChanges} color='blue' className='mt-3'>Save Changes</Button>
+                                <Button onClick={() => {
+                                    handleDelete(data.id)
+                                }} negative className='mt-3'>Remove Employee</Button>
                             </Stack>
                         </div>
                     </Grid.Column>

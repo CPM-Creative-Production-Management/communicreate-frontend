@@ -25,21 +25,26 @@ export default function SearchModal({ open, setOpen }) {
 
     const getSearchResults = async () => {
         setLoading(true)
-        const response = await commentApiRequest({
-            url: base_url + `search?keyword=${searchText}`,
-            method: 'GET',
-        })
-
-
-        if (response.status === 200) {
-            console.log(response.data)
-
-            setSearchResults(response.data)
+        try {
+            const response = await commentApiRequest({
+                url: base_url + `search?keyword=${searchText}`,
+                method: 'GET',
+            })
+    
+    
+            if (response.status === 200) {
+                console.log(response.data)
+    
+                setSearchResults(response.data)
+                setLoading(false)
+            } else {
+                showToast('something went wrong', 'error')
+                setLoading(false)
+            }
+        } catch (error) {
+            // showToast('something went wrong', 'error')
             setLoading(false)
-        } else {
-            showToast('something went wrong', 'error')
-            setLoading(false)
-        }
+        }   
     }
 
 
