@@ -90,11 +90,11 @@ const PaymentPage = () => {
                                     </div>
                                     <br />
                                 </div>
-                                {userType === 1 && responseDues.payment_type === "0" && responseDues.due_amount !== "0.00" &&
-                                        <Button align="center" color='green' onClick={() => initializePayment}>
-                                            Make Full Payment
-                                        </Button>
-                                    }
+                                {userType === 1 && responseDues.payment_type === 0 && responseDues.due_amount !== "0.00" &&
+                                    <Button align="center" color='green' onClick={() => initializePayment()}>
+                                        Make Full Payment
+                                    </Button>
+                                }
                             </div>
                         </div>
                     </div>
