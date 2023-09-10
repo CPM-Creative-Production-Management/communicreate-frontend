@@ -76,7 +76,7 @@ export const NotificationDropdown = () => {
             // if newIds contains an id that is not in currentIds
             // then there is a new notification
             // set the state accordingly
-            if (newIds.some((id) => !currentIds.includes(id))) {
+            if (newIds?.some((id) => !currentIds?.includes(id))) {
                 setHasNewNotifications(true)
             }
 

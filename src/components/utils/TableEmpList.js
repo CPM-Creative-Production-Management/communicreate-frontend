@@ -101,7 +101,7 @@ const TableEmpList = ({ tableData, setTableData, onAddTaskModal, onAddTaskList, 
                             </Table.Cell>
 
                             <Table.Cell singleLine width={2}><Rating initialValue={currItem.rating} readonly allowFraction size={25} /></Table.Cell>
-                            <Table.Cell singleLine width={2}> ${currItem.salary}</Table.Cell>
+                            <Table.Cell singleLine width={2}>{currItem.salary} ৳</Table.Cell>
 
                             {onEmpList? <Table.Cell singleLine width={5}>{currItem.address}</Table.Cell> : null}
                             
