@@ -121,7 +121,7 @@ export const Dashboard = () => {
                             <Card.Content>
                                 <GeneralChart userData1={data?.lineChart} userData2={data?.lineChart}
                                     label1='Accepted' label2='Rejected'
-                                    labelFieldName={'month'} dataFieldName={'accepted'} dataFieldName2={'rejected'}
+                                    labelFieldName={'monthName'} dataFieldName={'accepted'} dataFieldName2={'rejected'}
                                     type={'LINE'} color={'rgba(53, 162, 235, 0.5)'}
                                 />
                             </Card.Content>

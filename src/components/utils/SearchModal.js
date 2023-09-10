@@ -57,8 +57,8 @@ export default function SearchModal({ open, setOpen }) {
     }
 
     useEffect(() => {
-        // todo fix
-        if (searchText.length >= 0) {
+      
+        if (searchText.length >= 1) {
             getSearchResults()
         } else {
             setSearchResults([])
