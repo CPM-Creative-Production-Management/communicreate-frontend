@@ -301,9 +301,9 @@ export const AddEstimationPage = (props) => {
             {
                 reqData?.ReqAgency?.Estimation?.is_completed &&
                 <Message positive>
-                    <Message.Header>Estimation has been finalized</Message.Header>
+                    <Message.Header>Projected has been completed</Message.Header>
                     <p>
-                        This estimation has been finalized by the client. You can no longer edit this estimation.
+                        This project has been finalized by the client. You can no longer edit this estimation.
                     </p>
                 </Message>
             }
@@ -311,9 +311,9 @@ export const AddEstimationPage = (props) => {
 {
                 reqData?.ReqAgency?.Estimation?.is_rejected &&
                 <Message negative>
-                    <Message.Header>Estimation has been rejected</Message.Header>
+                    <Message.Header>Project has been rejected</Message.Header>
                     <p>
-                        This estimation has been rejected by the client. You can no longer edit this estimation.
+                        This project has been rejected by the client. You can no longer edit this estimation.
                     </p>
                 </Message>
             }
