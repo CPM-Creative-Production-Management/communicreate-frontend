@@ -37,7 +37,7 @@ export const Dashboard = () => {
 
 
 
-            <Grid columns={5}>
+            <Grid columns={4}>
                 <Grid.Row>
                     <Grid.Column>
 

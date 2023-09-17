@@ -1,5 +1,5 @@
-import React from 'react'
-import { Card } from 'semantic-ui-react'
+import React, { useEffect } from 'react'
+import { Card, Checkbox, Grid, Icon } from 'semantic-ui-react'
 import { Form, TextArea, Button, Dropdown } from 'semantic-ui-react'
 import { useSelector, useDispatch } from 'react-redux'
 import { updateRequest } from '../../../actions'
@@ -10,13 +10,89 @@ import { useNavigate } from 'react-router-dom'
 import { showToast } from '../../../App'
 import { useApiRequest } from '../../api/useApiRequest'
 import { set } from 'lodash'
+import { Stack } from 'react-bootstrap'
 
 const AddRequestPage = () => {
+    const [agencyOptions, setAgencyOptions] = React.useState([])
 
-    const {data: agencyOptions, dataLoading, error} = useApiRequest({
+    const { data, dataLoading, error } = useApiRequest({
         url: base_url + 'agency',
         method: 'GET'
     })
+
+    React.useEffect(() => {
+        if (data) {
+            setAgencyOptions(data)
+        }
+    }, [data])
+
+    const [tags, setTags] = React.useState([])
+
+    // get the tags from agencyOptions
+    React.useEffect(() => {
+        if (agencyOptions) {
+            // each agency can have multiple tags inside Tags field
+            // so we need to extract all the tags from all the agencies
+            const allTags = agencyOptions.map((agency) => {
+                return agency.Tags
+            })
+            // now allTags is an array of arrays
+            // we need to flatten it
+            const flattenedTags = allTags.flat()
+            // now flattenedTags is an array of objects
+            // we need to remove duplicates
+            const uniqueTags = flattenedTags.filter((tag, index) => {
+                return flattenedTags.findIndex((tag2) => tag2.id === tag.id) === index
+            })
+
+            setTags(uniqueTags)
+
+
+
+        }
+    }, [data])
+
+    const [selectedTags, setSelectedTags] = React.useState([])
+
+    useEffect(() => {
+        console.log('selected tags', selectedTags)
+        // set agencyOptions to only those agencies which have the selected tag in their Tags field
+
+        if (selectedTags.length === 0) {
+            setAgencyOptions(data)
+            return
+        }
+
+        const filteredAgencies = data.filter((agency) => {
+            // check if the agency has all the selected tags
+            return selectedTags.every((selectedTag) => {
+                return agency.Tags.findIndex((tag) => tag.id === selectedTag.id) !== -1
+            })
+        })
+
+        setAgencyOptions(filteredAgencies)
+
+        console.log('filtered agencies', filteredAgencies)
+    }, [selectedTags])
+
+
+    const handleTagChange = (id) => {
+        console.log('tag changed', id)
+        // set agencyOptions to only those agencies which have the selected tag in their Tags field
+        // make sure to check if the tag is already selected or not
+        // if it is already selected, then remove it from the selected tags
+        
+        if (selectedTags.findIndex((tag) => tag.id === id) !== -1) {
+            // tag is already selected
+            // remove it from selected tags
+            setSelectedTags(selectedTags.filter((tag) => tag.id !== id))
+        } else {
+            // tag is not selected
+            // add it to selected tags
+            setSelectedTags([...selectedTags, tags.find((tag) => tag.id === id)])
+        }
+    }
+
 
     const [sendButtonDisabled, setSendButtonDisabled] = React.useState(true)
     const [completionDeadlineDisabled, setCompletionDeadlineDisabled] = React.useState(true)
@@ -50,7 +126,7 @@ const AddRequestPage = () => {
         }
         setCompletionDeadlineDisabled(false)
         const offset = date.getTimezoneOffset()
-        const dateOffset = new Date(date.getTime() - (offset*60*1000))
+        const dateOffset = new Date(date.getTime() - (offset * 60 * 1000))
         const dateString = dateOffset.toISOString().split('T')[0]
         dispatch(updateRequest({
             ...globalRequest, ['response_deadline']: dateString
@@ -63,7 +139,7 @@ const AddRequestPage = () => {
         console.log(event)
         if (!date) return
         const offset = date.getTimezoneOffset()
-        const dateOffset = new Date(date.getTime() - (offset*60*1000))
+        const dateOffset = new Date(date.getTime() - (offset * 60 * 1000))
         const dateString = dateOffset.toISOString().split('T')[0]
         dispatch(updateRequest({
             ...globalRequest, ['complete_deadline']: dateString
@@ -130,7 +206,7 @@ const AddRequestPage = () => {
             showToast('Completion deadline cannot be before response deadline', 'error')
             return
         }
-        
+
         console.log(reqBody)
         const response = await regularApiRequest({
             url: base_url + 'request',
@@ -175,16 +251,16 @@ const AddRequestPage = () => {
 
     return (
         <div>
-            <br></br>
+
             <h1>{globalRequest.name}</h1>
             <Card className='p-4' fluid>
                 <Card.Meta className='mb-3'>
                     <h3>New Request</h3>
                 </Card.Meta>
                 <Form>
-                <Form.Input name='name' onChange={handleUpdateRequest} fluid placeholder='Title'>
-                </Form.Input>
-                <TextArea name='description' placeholder="A detailed description of your project..." onChange={handleUpdateRequest}/>
+                    <Form.Input name='name' onChange={handleUpdateRequest} fluid placeholder='Title'>
+                    </Form.Input>
+                    <TextArea name='description' placeholder="A detailed description of your project..." onChange={handleUpdateRequest} />
                 </Form>
                 <h4>Response Deadline</h4>
                 <SemanticDatepicker filterDate={(date) => {
@@ -213,15 +289,39 @@ const AddRequestPage = () => {
                         <Button className='mt-3' primary name={index} onClick={handleDeleteTask}>Delete</Button>
                     </Card>
                 ))}
+
                 <Button className='mt-3' primary onClick={handleAddTask}>Add Task</Button>
                 <Button onClick={submitRequest} className='mt-3' positive>Broadcast</Button>
                 <h2 class="ui horizontal divider header">
-                        <i class="icon-usd"></i>
-                        Or
-                    </h2>
+                    <i class="icon-usd"></i>
+                    Or
+                </h2>
                 <center>
                     <h2>Send to a specific agency</h2>
                 </center>
+
+                <Grid className='ms-2' columns={2}>
+                    <Grid.Row>
+                        <Grid.Column width = {3}>
+
+                <h4> <Icon name='filter' /> Filter via tags</h4>
+
+
+                <Stack spacing={2} >
+                    {tags?.map((tag) => {
+                        return (
+                            <Checkbox className='mb-2' onChange={() => {
+                                handleTagChange(tag.id)
+                            }} label={tag.tag} />
+                        )
+                    })}
+                </Stack>
+
+                </Grid.Column>
+
+                <Grid.Column width = {13}>
+
+
                 <Dropdown
                     className='mt-3'
                     placeholder='Select Your Agency'
@@ -241,9 +341,15 @@ const AddRequestPage = () => {
                     submitSpecificRequest(associatedId, name)
 
                 }} className='mt-3' positive disabled={sendButtonDisabled}>Send</Button>
+                </Grid.Column>
+                </Grid.Row>
+                </Grid>
             </Card>
+
+            <br />
+            <br />
         </div>
     )
-    }
+}
 
 export default AddRequestPage
