@@ -5,7 +5,7 @@ import {RxDashboard} from "react-icons/rx";
 import {BsArchive, BsPersonAdd, BsPersonWorkspace, BsFillFileRuledFill, BsFillPatchPlusFill, BsCardList, BsFillBuildingFill, BsBuildingFill, BsCashStack, BsProjectorFill} from "react-icons/bs";
 
 import {LuCalculator} from "react-icons/lu";
-import {AiOutlineInfoCircle} from "react-icons/ai";
+import {AiOutlineCloseCircle, AiOutlineFolderAdd, AiOutlineInfoCircle, AiOutlinePlayCircle} from "react-icons/ai";
 import {HiOutlineMail} from "react-icons/hi";
 import {Divider} from "semantic-ui-react";
 import {RiTeamLine} from "react-icons/ri";
@@ -14,6 +14,8 @@ import Navbar from "react-bootstrap/Navbar";
 import {useDispatch} from "react-redux";
 import { updateRequest, resetRequest, resetRequests } from "../../actions";
 import { mobile } from "../../App";
+import { GrAddCircle } from "react-icons/gr";
+import { IoIosCloudDone } from "react-icons/io";
 
 
 
@@ -38,20 +40,20 @@ export const SidebarClient = () => {
 
                     <br/>
 
-                    <MenuItem component={<Link to="/"/>} icon={<SiAntdesign/>} disabled> CPM </MenuItem>
+                    <MenuItem component={<Link to="/"/>} icon={<SiAntdesign/>} disabled> CommuniCreate </MenuItem>
                     <MenuItem component={<Link to="/"/>} icon={<RxDashboard/>}> Dashboard </MenuItem>
                     <SubMenu label="Requests" icon={<BsFillFileRuledFill/>}>
                         <MenuItem icon={<BsCardList/>} component={<Link to="/my-requests"/>}> All Requests </MenuItem>
-                        <MenuItem icon={<BsFillPatchPlusFill/>} component={<Link to="/new-request"/>} onClick={() => {
+                        <MenuItem icon={<GrAddCircle/>} component={<Link to="/new-request"/>} onClick={() => {
                             dispatch(resetRequest())
                         }}> Create New Request </MenuItem>
                     </SubMenu>
                     {/* <MenuItem component={<Link to="/archive"/>} icon={<BsArchive/>}> RequestPage </MenuItem> */}
                     <MenuItem component={<Link to="/agencies"/>} icon={<BsBuildingFill/>}> Agencies </MenuItem>
                     <MenuItem component={<Link to="/dues"/>} icon={<BsCashStack/>}> Dues </MenuItem>
-                    <MenuItem component={<Link to="/completed-projects"/>} icon={<BsProjectorFill/>}> Completed Projects </MenuItem>
-                    <MenuItem component={<Link to="/rejected-projects"/>} icon={<BsProjectorFill/>}> Rejected Projects </MenuItem>
-                    <MenuItem component={<Link to="/ongoing-projects"/>} icon={<BsProjectorFill/>}> Ongoing Projects </MenuItem>
+                    <MenuItem component={<Link to="/completed-projects"/>} icon={<IoIosCloudDone/>}> Completed Projects </MenuItem>
+                    <MenuItem component={<Link to="/rejected-projects"/>} icon={<AiOutlineCloseCircle/>}> Rejected Projects </MenuItem>
+                    <MenuItem component={<Link to="/ongoing-projects"/>} icon={<AiOutlinePlayCircle/>}> Ongoing Projects </MenuItem>
                     <Divider/>
 
                     <MenuItem icon={<AiOutlineInfoCircle/>}> About Us </MenuItem>

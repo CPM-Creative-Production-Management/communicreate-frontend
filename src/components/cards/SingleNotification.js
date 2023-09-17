@@ -64,7 +64,7 @@ const SingleNotification = ({ singleNotification }) => {
 
 
                 
-                <Typography as='h5'  variant="bold"> {singleNotification.message}</Typography>
+                <Typography as='h5' variant="bold"> {singleNotification.message}</Typography>
                
 
                 <div>{getTimeOrDayDifference(singleNotification.createdAt)}</div>

@@ -184,12 +184,14 @@ export const NotificationDropdown = () => {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
+               
 
-                <div style={{ textAlign: 'right' }} className='me-2'>
+                <div style={{ textAlign: 'right'}} className='me-2'>
 
 
                     <Button onClick={() => { navigate('/notifications') }} className='mb-2' basic primary>See all</Button>
                 </div>
+               
                 <Divider />
 
                 {notificationsState?.notifications?.length === 0 ?
