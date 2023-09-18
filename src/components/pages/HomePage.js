@@ -5,6 +5,10 @@ import { Route, Routes } from "react-router-dom";
 import { Dashboard } from "../fragments/Dashboard";
 import { Archive } from "../fragments/Archive";
 import "./pages.css"
+
+import { AdminDashboard } from "./admin/AdminDashboard";
+import { SidebarAdmin } from "../utils/SidebarAdmin";
+
 import { AddEstimationPage } from "./agency/AddEstimationPage";
 import { EstimationsPage } from "./agency/EstimationsPage";
 import MyEmployeesPage from './agency/MyEmployeesPage';
@@ -47,8 +51,12 @@ export const HomePage = () => {
             setUserType(1)
         } else if (cookies.get("userType") === '2') {
             setUserType(2)
+        } else if (cookies.get("userType") === '3') {
+            setUserType(3)
         }
     }, []);
+
+    console.log("userType is : ", userType)
 
     return (
         <div>
@@ -57,16 +65,28 @@ export const HomePage = () => {
             <br />
 
             <div className="row pe-4">
-                <div className="col-xs-1 col-sm-1 col-md-2">{userType === 1 ? <SidebarClient /> : <SidebarAgency />}</div>
+                <div className="col-xs-1 col-sm-1 col-md-2">{
+                userType === 1 ? (
+                    <SidebarClient/>
+                ) : userType === 2 ? (
+                    <SidebarAgency/>
+                ) : userType === 3 ? (
+                    <SidebarAdmin/>
+                ) : null
+                }
+                </div>
                 <div className="col-xs-11 col-sm-10 col-md-10">
 
                     <Routes >
-                        {cookies.get('token') &&
-                            userType === 1 ?
-                            <Route exact path="/" element={<ClientDashboard />} /> :
-                            <Route exact path="/" element={<Dashboard />} />
-
-                        }
+                        {cookies.get('token') && (
+                            userType === 1 ? (
+                                <Route exact path="/" element={<ClientDashboard />} />
+                            ) : userType === 2 ? (
+                                <Route exact path="/" element={<Dashboard />} />
+                            ) : userType === 3 ? (
+                                <Route exact path="/" element={<AdminDashboard />} />
+                            ) : null
+                        )}
 
                         <Route exact path="/archive" element={<Archive />} />
                         <Route exact path="/requests" element={<RequestPage />} />

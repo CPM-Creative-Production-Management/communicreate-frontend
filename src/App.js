@@ -6,6 +6,7 @@ import {HomePage} from "./components/pages/HomePage";
 import {Route, Routes} from "react-router-dom";
 import {Dialog, DialogContent} from "@mui/material";
 import {BarLoader} from "react-spinners";
+import {AdminLoginPage} from "./components/pages/admin/AdminLoginPage";
 import {LoginPage} from "./components/pages/LoginPage";
 import {RegisterPage} from "./components/pages/RegisterPage";
 import { useNavigate } from 'react-router-dom';
@@ -93,7 +94,7 @@ function App() {
                 <Route exact path="*" element={ <HomePage/>}/>
                 <Route exact path="/login" element={<LoginPage/>}/>
                 <Route exact path="/register" element={<RegisterPage/>}/>
-
+                <Route exact path="/adminLogin" element={<AdminLoginPage/>}/>
 
                 <Route exact path="/verify/:token" element={<VerifyPage/>}/>
             </Routes>
