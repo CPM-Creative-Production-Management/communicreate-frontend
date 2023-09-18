@@ -2,8 +2,12 @@ import React, { useEffect } from 'react'
 import { Button, Table } from "semantic-ui-react";
 import { base_url } from '../../index';
 import { regularApiRequest } from "../api/regularApiRequest";
+import { showToast } from "../../App";
+import { useNavigate } from 'react-router-dom'
 
 const TableUnverifiedUserList = ({ tableData }) => {
+
+    let navigate = useNavigate()
 
     const verifyUser = async (id) => {
         const reqBody = {
@@ -15,6 +19,13 @@ const TableUnverifiedUserList = ({ tableData }) => {
             method: 'PUT',
             reqBody: reqBody
         })
+
+        if (response.success) {
+            showToast("User verified!", { toastType: 'success' })
+            window.location.reload()
+        } else {
+            showToast("User rejected!", { toastType: 'error' })
+        }
     }
 
     const rejectUser = async (id) => {
@@ -27,6 +38,7 @@ const TableUnverifiedUserList = ({ tableData }) => {
             method: 'POST',
             reqBody: reqBody
         })
+        window.location.reload()
     }
 
     return (
@@ -38,7 +50,6 @@ const TableUnverifiedUserList = ({ tableData }) => {
                     <tr>
                         <th scope={"col"}>#</th>
                         <th scope="col" >Name</th>
-                        <th scope="col" >Type</th>
                         <th scope="col">Email</th>
                         <th scope="col">Address</th>
                         <th scope="col">Phone</th>
@@ -54,24 +65,21 @@ const TableUnverifiedUserList = ({ tableData }) => {
                             <Table.Cell width={1}>
                                 {index + 1}
                             </Table.Cell>
-
                             <Table.Cell>{currItem.name}</Table.Cell>
-                            {currItem.type === 1 && <Table.Cell>Company</Table.Cell>}
-                            {currItem.type === 2 && <Table.Cell>Agency</Table.Cell>}
                             <Table.Cell>{currItem.email}</Table.Cell>
                             <Table.Cell>{currItem.address}</Table.Cell>
                             <Table.Cell>{currItem.phone}</Table.Cell>
-                            {currItem.type === 1 && <Table.Cell> {currItem.company.name}</Table.Cell>}
-                            {currItem.type === 1 && <Table.Cell> {currItem.company.email}</Table.Cell>}
+                            {currItem.type === 1 && <Table.Cell><b>Company:</b> {currItem.company.name}</Table.Cell>}
+                            {currItem.type === 1 && <Table.Cell>{currItem.company.email}</Table.Cell>}
 
-                            {currItem.type === 2 && <Table.Cell> {currItem.agency.name}</Table.Cell>}
-                            {currItem.type === 2 && <Table.Cell> {currItem.agency.email}</Table.Cell>}
+                            {currItem.type === 2 && <Table.Cell><b>Agency:</b> {currItem.agency.name}</Table.Cell>}
+                            {currItem.type === 2 && <Table.Cell>{currItem.agency.email}</Table.Cell>}
 
                             <Table.Cell>
                                 <Button color='green' onClick={() => verifyUser(currItem.id)}>Verify</Button>
                                 <Button color='red' onClick={() => rejectUser(currItem.id)}>Reject</Button>
                             </Table.Cell>
-                            
+
                         </Table.Row>
                     ))}
                 </Table.Body>
