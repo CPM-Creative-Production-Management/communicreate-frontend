@@ -1,13 +1,11 @@
 import React from "react";
-import {Sidebar, Menu, MenuItem, SubMenu} from 'react-pro-sidebar';
+import {Sidebar, Menu, MenuItem} from 'react-pro-sidebar';
 import {Link} from 'react-router-dom';
 import {RxDashboard} from "react-icons/rx";
-import {AiOutlineInfoCircle, AiOutlineSearch} from "react-icons/ai";
+import {AiOutlineInfoCircle} from "react-icons/ai";
 import {HiOutlineMail} from "react-icons/hi";
-import {Divider, Icon} from "semantic-ui-react";
-import {RiTeamLine} from "react-icons/ri";
+import {Divider} from "semantic-ui-react";
 import {SiAntdesign} from "react-icons/si";
-import {BiGitPullRequest} from "react-icons/bi";
 import {mobile} from "../../App";
 
 
