@@ -45,7 +45,7 @@ function App() {
     useEffect(() => {
         // check cookies for logged in
         if (cookies.get("token") === undefined || cookies.get("token") == null) {
-            if (!currentUrl.includes('verify')) {
+            if (!currentUrl.includes('verify') || currentUrl.includes('adminLogin')) {
                 showToast('You must log in to continue', 'error')
                 navigate('/login')
             }

@@ -40,6 +40,10 @@ function NavScrollExample() {
 
     const logout = () => {
         cookies.remove('token');
+        cookies.remove('userName');
+        cookies.remove('userType');
+        cookies.remove('userAssoc');
+        
         showToast('Logged out successfully', 'success');
         navigate('/login');
     }
