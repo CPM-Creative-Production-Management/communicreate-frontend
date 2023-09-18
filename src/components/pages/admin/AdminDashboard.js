@@ -89,17 +89,18 @@ const AdminDashboard = () => {
 
   return (
     <div>
-      <h1>Admin Dashboard</h1>
+      <center>
+      <h1>Admin Dashboard</h1> </center>
       <br />
-      <hr />
-      <br />
+    
       {data && data.unverifiedUsers.length > 0 && <h2>Unverified Users</h2>}
       {data && data.unverifiedUsers.length > 0 && <TableUnverifiedUserList tableData={data.unverifiedUsers} />}
       <br />
-      <hr />
+      <Divider/>
+
       <br />
-      <Segment>
-        <Grid columns={2} relaxed='very'>
+      
+        <Grid columns={2}>
           <Grid.Column width={10}>
             <div>
               <h2>All Agencies</h2>
@@ -164,12 +165,13 @@ const AdminDashboard = () => {
             </Form>
           </Grid.Column>
         </Grid>
-      </Segment>
+    
       <br />
       <br />
-      <Segment>
-        <Grid columns={2} relaxed='very'>
-          <Grid.Column width={8}>
+      <Divider/>
+      
+        <Grid columns={2} >
+          <Grid.Column width={10}>
           <div>
               <h2>All Companies</h2>
               <Table celled padded className='mt-3' style={{ textAlign: 'center' }}>
@@ -203,7 +205,8 @@ const AdminDashboard = () => {
               </Table>
             </div>
           </Grid.Column>
-          <Grid.Column width={8}>
+
+          <Grid.Column width={6}>
             <h2>Add New Company</h2>
             <Form onSubmit={handleAgencySubmit}>
               <Form.Field>
@@ -231,7 +234,7 @@ const AdminDashboard = () => {
             </Form>
           </Grid.Column>
         </Grid>
-      </Segment>
+     
     </div>
   )
 }

@@ -60,19 +60,21 @@ export const HomePage = () => {
 
     return (
         <div>
-            <ResponsiveNavbar />
+            {userType === 3 ? null :
+                <ResponsiveNavbar />
+            }
             <br />
             <br />
 
             <div className="row pe-4">
                 <div className="col-xs-1 col-sm-1 col-md-2">{
-                userType === 1 ? (
-                    <SidebarClient/>
-                ) : userType === 2 ? (
-                    <SidebarAgency/>
-                ) : userType === 3 ? (
-                    <SidebarAdmin/>
-                ) : null
+                    userType === 1 ? (
+                        <SidebarClient />
+                    ) : userType === 2 ? (
+                        <SidebarAgency />
+                    ) : userType === 3 ? (
+                        <SidebarAdmin />
+                    ) : null
                 }
                 </div>
                 <div className="col-xs-11 col-sm-10 col-md-10">
