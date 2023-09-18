@@ -43,7 +43,7 @@ const EstimationPage = (params) => {
         }
         return t
       }))
-      setFinishButton(tasks.every((t) => t.status === 2))
+      setFinishButton(tasks.every((t) => t.status === 2) && data.Payment.paid_amount === data.Payment.total_amount)
     } else {
       showToast('Task could not be approved', 'error')
     }
@@ -58,7 +58,7 @@ const EstimationPage = (params) => {
     if (data) {
       setTasks(data.Tasks)
       setDiscardButton(!data.is_completed)
-      setFinishButton(data.Tasks.every((t) => t.status === 2) && !data.is_completed)
+      setFinishButton(data.Tasks.every((t) => t.status === 2) && !data.is_completed && data.Payment.paid_amount === data.Payment.total_amount)
     }
   }, [data])
 

@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 import { updateCurrTask } from "../../actions";
 
-const TableEmpList = ({ tableData, onAddTaskModal, onAddTaskList, onEmpList }) => {
+const TableEmpList = ({ tableData, setTableData, onAddTaskModal, onAddTaskList, onEmpList }) => {
 
     const handleEdit = (index) => {
         console.log(index)
@@ -34,12 +34,20 @@ const TableEmpList = ({ tableData, onAddTaskModal, onAddTaskList, onEmpList }) =
         calculateTaskCost({
             ...currTask, Employees: currTask.Employees.filter((emp, i) => i !== index)
         })
-
-
     }
 
     const [editEmployeeModal, setEditEmployeeModal] = useState(false)
     const [editData, setEditData] = useState({})
+
+    // const sortTable = (key) => {
+    //     return () => {
+    //         console.log('sortTable: ', key)
+    //         if (setTableData)
+    //             setTableData(tableData.sort((a, b) => a[key] - b[key]))
+    //     }
+    // }
+
+
 
     // useEffect(() => {
     //     console.log('currTask: ', tableData)
@@ -48,13 +56,13 @@ const TableEmpList = ({ tableData, onAddTaskModal, onAddTaskList, onEmpList }) =
     return (
         <div>
 
-            <Table celled padded className='mt-3'>
+            <Table celled padded className='mt-3' >
 
                 <thead>
                     <tr>
                         {onAddTaskModal ? <th scope="col"></th> : null}
                         <th scope={"col"}>#</th>
-                        <th scope="col">Employee</th>
+                        <th scope="col" >Employee</th>
                         <th scope="col">Rating</th>
                         <th scope="col">Salary</th>
 

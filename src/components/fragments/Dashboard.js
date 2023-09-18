@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Card, Divider, Grid, Icon, Message } from "semantic-ui-react";
 
 
@@ -23,6 +23,11 @@ export const Dashboard = () => {
     })
 
 
+    useEffect(() => {
+        console.log('dashboard ata', data)
+    }, [data])
+
+
     return (
         <div className='ms-2'>
             {/* <Button onClick={() => {
@@ -32,7 +37,7 @@ export const Dashboard = () => {
 
 
 
-            <Grid columns={5}>
+            <Grid columns={4}>
                 <Grid.Row>
                     <Grid.Column>
 
@@ -77,13 +82,13 @@ export const Dashboard = () => {
             <Grid columns={2}>
                 <Grid.Row>
 
-                    <Grid.Column width={6} >
+                    <Grid.Column width={4} >
                         <Card fluid>
 
-                            <Card.Content header='Projects Per Year' />
+                            <Card.Content header='Projects Per Month' />
                             <Card.Content>
                                 <GeneralChart userData1={data?.pieChart}
-                                    labelFieldName={'year'} dataFieldName={'projects'}
+                                    labelFieldName={'month'} dataFieldName={'projects'}
                                     type={'DOUGHNUT'} color={'rgba(53, 162, 235, 0.5)'}
                                 />
                             </Card.Content>
@@ -91,13 +96,13 @@ export const Dashboard = () => {
                         </Card>
                     </Grid.Column>
 
-                    <Grid.Column width={10} >
+                    <Grid.Column width={8} >
                         <Card fluid>
 
-                            <Card.Content header='Budget Per Year' />
+                            <Card.Content header='Budget Per Month' />
                             <Card.Content>
                                 <GeneralChart userData1={data?.barChart} label1='Budget'
-                                    labelFieldName={'year'} dataFieldName={'budget'}
+                                    labelFieldName={'month'} dataFieldName={'budget'}
                                     type={'BAR'} color={'rgba(53, 162, 235, 0.5)'}
                                 />
                             </Card.Content>
@@ -109,14 +114,14 @@ export const Dashboard = () => {
 
                 <Grid.Row>
 
-                    <Grid.Column width={16}>
+                    <Grid.Column width={12}>
                         <Card fluid>
 
                             <Card.Content header='Success Trend' />
                             <Card.Content>
                                 <GeneralChart userData1={data?.lineChart} userData2={data?.lineChart}
                                     label1='Accepted' label2='Rejected'
-                                    labelFieldName={'year'} dataFieldName={'accepted'} dataFieldName2={'rejected'}
+                                    labelFieldName={'monthName'} dataFieldName={'accepted'} dataFieldName2={'rejected'}
                                     type={'LINE'} color={'rgba(53, 162, 235, 0.5)'}
                                 />
                             </Card.Content>
