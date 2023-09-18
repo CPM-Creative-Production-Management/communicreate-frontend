@@ -3,6 +3,7 @@ import { TableUnverifiedUserList } from '../../utils/TableUnverifiedUserList'
 import { useNavigate } from 'react-router-dom'
 import { Segment, Grid, Divider, Form, Button, Input, TextArea, Table } from "semantic-ui-react";
 import { useApiRequest } from '../../api/useApiRequest'
+import { regularApiRequest } from "../../api/regularApiRequest";
 import { base_url } from '../../..'
 import { showToast } from "../../../App";
 
@@ -26,15 +27,41 @@ const AdminDashboard = () => {
   })
 
   const deleteAgency = async (id) => {
-    const response = await fetch(base_url + 'agency/' + id, {
-      method: 'DELETE',
-    })
+    try {
+      const response = await regularApiRequest({
+        url: base_url + 'agency/' + id, 
+        method: 'DELETE',
+      });
+    
+      if (response.status === 200) {
+        showToast("Agency deleted!", { toastType: 'success' });
+        window.location.reload();
+      } else {
+        showToast("Couldn't delete agency!", { toastType: 'error' });
+      }
+    } catch (error) {
+      console.error('An error occurred while deleting agency:', error);
+      showToast("An error occurred while deleting agency.", { toastType: 'error' });
+    }
   }
 
   const deleteCompany = async (id) => {
-    const response = await fetch(base_url + 'company/' + id, {
-      method: 'DELETE',
-    })
+    try {
+      const response = await regularApiRequest({
+        url: base_url + 'company/' + id,
+        method: 'DELETE',
+      });
+    
+      if (response.status === 200) {
+        showToast("Company deleted!", { toastType: 'success' });
+        window.location.reload();
+      } else {
+        showToast("Couldn't delete company!", { toastType: 'error' });
+      }
+    } catch (error) {
+      console.error('An error occurred while deleting company:', error);
+      showToast("An error occurred while deleting company.", { toastType: 'error' });
+    }
   }
 
   const handleAgencySubmit = async (event) => {
@@ -161,7 +188,7 @@ const AdminDashboard = () => {
                 <Form.Input
                   fluid id='website' label='Website URL' placeholder='www.example.com' />
               </Form.Group>
-              <Button onSubmit primary>Add Agency</Button>
+              <Button type="submit" primary>Add Agency</Button>
             </Form>
           </Grid.Column>
         </Grid>
@@ -196,7 +223,7 @@ const AdminDashboard = () => {
                       <Table.Cell>{currItem.address}</Table.Cell>
                       <Table.Cell>{currItem.phone}</Table.Cell>
                       <Table.Cell>
-                        <Button color='red' onClick={() => deleteAgency(currItem.id)}>Delete</Button>
+                        <Button color='red' onClick={() => deleteCompany(currItem.id)}>Delete</Button>
                       </Table.Cell>
 
                     </Table.Row>
@@ -208,7 +235,7 @@ const AdminDashboard = () => {
 
           <Grid.Column width={6}>
             <h2>Add New Company</h2>
-            <Form onSubmit={handleAgencySubmit}>
+            <Form onSubmit={handleCompanySubmit}>
               <Form.Field>
                 <label>Name</label>
                 <Form.Input name="name" placeholder="name" required={true} />
@@ -230,7 +257,7 @@ const AdminDashboard = () => {
                 <Form.Input
                   fluid id='website' label='Website URL' placeholder='www.example.com' />
               </Form.Group>
-              <Button onSubmit primary>Add Company</Button>
+              <Button type="submit" primary>Add Company</Button>
             </Form>
           </Grid.Column>
         </Grid>

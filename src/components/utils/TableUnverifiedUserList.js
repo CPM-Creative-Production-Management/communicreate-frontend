@@ -19,12 +19,13 @@ const TableUnverifiedUserList = ({ tableData }) => {
             method: 'PUT',
             reqBody: reqBody
         })
+        console.log('response', response)
 
-        if (response.success) {
+        if (response.status === 200) {
             showToast("User verified!", { toastType: 'success' })
             window.location.reload()
         } else {
-            showToast("User rejected!", { toastType: 'error' })
+            showToast("User couldn't be verified!", { toastType: 'error' })
         }
     }
 
@@ -38,7 +39,12 @@ const TableUnverifiedUserList = ({ tableData }) => {
             method: 'POST',
             reqBody: reqBody
         })
-        window.location.reload()
+        if (response.status === 200) {
+            showToast("User rejected!", { toastType: 'success' })
+            window.location.reload()
+        } else {
+            showToast("User couldn't be rejected!", { toastType: 'error' })
+        }
     }
 
     return (
@@ -48,14 +54,14 @@ const TableUnverifiedUserList = ({ tableData }) => {
 
                 <thead>
                     <tr>
-                        <th scope={"col"}>#</th>
-                        <th scope="col" >Name</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Address</th>
-                        <th scope="col">Phone</th>
-                        <th scope="col">Association</th>
-                        <th scope="col">Association Email</th>
-                        <th scope="col">Action</th>
+                        <th scope={"col"} width="1%">#</th>
+                        <th scope="col" width="15%">Name</th>
+                        <th scope="col" width="10%">Email</th>
+                        <th scope="col" width="19%">Address</th>
+                        <th scope="col" width="10%">Phone</th>
+                        <th scope="col" width="10%">Association</th>
+                        <th scope="col" width="10%">Association Email</th>
+                        <th scope="col" width="25%">Action</th>
                     </tr>
                 </thead>
 
