@@ -1,9 +1,9 @@
 import axios from "axios";
-import {base_url} from "../../index";
+import { base_url } from "../../index";
 import Cookies from "universal-cookie";
-import {setLoading, showToast} from "../../App";
+import { setLoading, showToast } from "../../App";
 
-import {updateCurrProfile} from "../../actions";
+import { updateCurrProfile } from "../../actions";
 
 
 export const LoginReq = (reqBody, navigate, dispatch) => {
@@ -18,21 +18,25 @@ export const LoginReq = (reqBody, navigate, dispatch) => {
             const response = await axios.post(base_url + 'account/login', reqBody)
             console.log('login resp', response.data)
 
+
+
             dispatch(updateCurrProfile(response.data.user))
 
-            cookies.set('token', response.data.token, {path: '/'});
-            cookies.set('userName', response.data.user.name, {path: '/'})
-            cookies.set('userAssoc', response.data.user.association.name, {path: '/'})
-            cookies.set('userType', response.data.user.type, {path: '/'})
+            cookies.set('token', response.data.token, { path: '/' });
+            cookies.set('userName', response.data.user.name, { path: '/' })
+            cookies.set('userAssoc', response.data.user.association.name, { path: '/' })
+            cookies.set('userType', response.data.user.type, { path: '/' })
 
             showToast("Logged in successfully", "success")
             setLoading(false)
             navigate('/')
 
+
         } catch (error) {
             console.log(error)
             setLoading(false)
             showToast("Error logging in", "error")
+
 
         }
 
