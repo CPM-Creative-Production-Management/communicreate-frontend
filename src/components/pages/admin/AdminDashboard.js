@@ -160,7 +160,16 @@ const AdminDashboard = () => {
       {data && data.unverifiedUsers.length > 0 && <TableUnverifiedUserList tableData={data.unverifiedUsers} />}
       <br />
       <Divider />
+      <br />
 
+      <h2>Add New Tags</h2>
+      <Form>
+        
+      </Form>
+
+
+      <br />
+      <Divider />
       <br />
 
       <Grid columns={2}>
