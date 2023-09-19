@@ -1,6 +1,6 @@
 import { io } from 'socket.io-client';
-import Cookies from "universal-cookie";
+import { base_url } from '.';
 
-const URL = 'http://localhost:3000';
+const URL = base_url;
 
 export const socket = io(URL);
