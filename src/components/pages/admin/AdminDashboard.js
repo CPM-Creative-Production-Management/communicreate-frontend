@@ -1,7 +1,7 @@
 import React from 'react'
 import { TableUnverifiedUserList } from '../../utils/TableUnverifiedUserList'
 import { useState, useEffect, useRef } from 'react'
-import { Segment, Grid, Divider, Form, Button, Input, TextArea, Table } from "semantic-ui-react";
+import { Segment, Grid, Divider, Form, Button, Input, TextArea, Table, Menu, Dropdown } from "semantic-ui-react";
 import { useApiRequest } from '../../api/useApiRequest'
 import { regularApiRequest } from "../../api/regularApiRequest";
 import { base_url } from '../../..'
@@ -23,6 +23,32 @@ const AdminDashboard = () => {
     url: base_url + 'company',
     method: 'GET',
   })
+
+  const { data: tagsData, dataLoading: tagsLoading, error: tagsError } = useApiRequest({
+    url: base_url + 'tag',
+    method: 'GET',
+  })
+
+  const addNewTag = async (event) => {
+    event.preventDefault()
+    const reqBody = {
+      tag: event.target.tagName.value
+    }
+
+    const response = await regularApiRequest({
+      url: base_url + 'tag',
+      method: 'POST',
+      reqBody: reqBody,
+    })
+
+    if (response.status === 200) {
+      event.target.reset();
+      showToast("New Tag Added!", { toastType: 'success' })
+      window.location.reload()
+    } else {
+      showToast("Couldn't add Tag", { toastType: 'error' })
+    }
+  }
 
   const deleteAgency = async (id) => {
     try {
@@ -105,8 +131,6 @@ const AdminDashboard = () => {
     }
   }
 
-  
-
   const [companyFormData, setCompanyFormData] = useState({
     companyName: '',
     companyDescription: '',
@@ -162,11 +186,30 @@ const AdminDashboard = () => {
       <Divider />
       <br />
 
-      <h2>Add New Tags</h2>
-      <Form>
-        
-      </Form>
-
+      <h2>Add New Tag</h2>
+      <Grid columns={2}>
+        <Grid.Column width={3}>
+          <Menu compact>
+            {tagsData && (
+              <Dropdown text='List Of Existing Tags' simple item>
+                <Dropdown.Menu>
+                  {tagsData.tags.map((tag) => (
+                    <Dropdown.Item key={tag.id}>{tag.tag}</Dropdown.Item>
+                  ))}
+                </Dropdown.Menu>
+              </Dropdown>
+            )}
+          </Menu>
+        </Grid.Column>
+        <Grid.Column width={13}>
+          <Form onSubmit={addNewTag} style={{ display: 'flex', flexDirection: 'row' }}>
+            <Form.Field style={{ marginRight: '10px' }}>
+              <Input id="tagName" name="tagName" label="Tag Name" type="text" placeholder="new tag" required={true} />
+            </Form.Field>
+            <Button type="submit" primary style={{ width: 'auto', height: '35px' }}>Add Tag</Button>
+          </Form>
+        </Grid.Column>
+      </Grid>
 
       <br />
       <Divider />
@@ -213,23 +256,23 @@ const AdminDashboard = () => {
           <h2>Add New Agency</h2>
           <Form onSubmit={handleAgencySubmit}>
             <Form.Field>
-              <Form.Input id="agencyName" name="agencyName" label="Name" type="text" value={agencyFormData.name} placeholder="name" required={true}  onChange={handleAgencyChange}/>
+              <Form.Input id="agencyName" name="agencyName" label="Name" type="text" value={agencyFormData.name} placeholder="name" required={true} onChange={handleAgencyChange} />
             </Form.Field>
             <Form.Field>
               <TextArea
-               id="agencyDescription" name="agencyDescription" label="Description" value={agencyFormData.description} placeholder="write something about this agency..." onChange={handleAgencyChange}/>
+                id="agencyDescription" name="agencyDescription" label="Description" value={agencyFormData.description} placeholder="write something about this agency..." onChange={handleAgencyChange} />
             </Form.Field>
             <Form.Group widths='equal'>
               <Form.Input
-             id="agencyEmail" name="agencyEmail" label='Email' type="email" value={agencyFormData.email} placeholder='example@gmail.com' required={true} onChange={handleAgencyChange}/>
+                id="agencyEmail" name="agencyEmail" label='Email' type="email" value={agencyFormData.email} placeholder='example@gmail.com' required={true} onChange={handleAgencyChange} />
               <Form.Input
-             id="agencyPhone" name="agencyPhone" label='Phone' type="tel" value={agencyFormData.phone} placeholder='01xxxxxxxx' required={true} onChange={handleAgencyChange}/>
+                id="agencyPhone" name="agencyPhone" label='Phone' type="tel" value={agencyFormData.phone} placeholder='01xxxxxxxx' required={true} onChange={handleAgencyChange} />
             </Form.Group>
             <Form.Group widths='equal'>
               <Form.Input
-             id="agencyAddress" name="agencyAddress" label='Address' value={agencyFormData.address}  placeholder='Dhaka, Bangladesh' onChange={handleAgencyChange}/>
+                id="agencyAddress" name="agencyAddress" label='Address' value={agencyFormData.address} placeholder='Dhaka, Bangladesh' onChange={handleAgencyChange} />
               <Form.Input
-             id="agencyWebsite" name="agencyWebsite" label='Website URL' type="url" value={agencyFormData.website}  placeholder='www.example.com' onChange={handleAgencyChange}/>
+                id="agencyWebsite" name="agencyWebsite" label='Website URL' type="url" value={agencyFormData.website} placeholder='www.example.com' onChange={handleAgencyChange} />
             </Form.Group>
             <Button type="submit" primary>Add Agency</Button>
           </Form>
@@ -280,23 +323,23 @@ const AdminDashboard = () => {
           <h2>Add New Company</h2>
           <Form onSubmit={handleCompanySubmit}>
             <Form.Field>
-              <Form.Input id="companyName" name="companyName" label="Name" type="text" value={companyFormData.name} placeholder="name" required={true}  onChange={handleCompanyChange}/>
+              <Form.Input id="companyName" name="companyName" label="Name" type="text" value={companyFormData.name} placeholder="name" required={true} onChange={handleCompanyChange} />
             </Form.Field>
             <Form.Field>
               <TextArea
-               id="companyDescription" name="companyDescription" label="Description" value={companyFormData.description} placeholder="write something about this company..." onChange={handleCompanyChange}/>
+                id="companyDescription" name="companyDescription" label="Description" value={companyFormData.description} placeholder="write something about this company..." onChange={handleCompanyChange} />
             </Form.Field>
             <Form.Group widths='equal'>
               <Form.Input
-             id="companyEmail" name="companyEmail" label='Email' type="email" value={companyFormData.email} placeholder='example@gmail.com' required={true} onChange={handleCompanyChange}/>
+                id="companyEmail" name="companyEmail" label='Email' type="email" value={companyFormData.email} placeholder='example@gmail.com' required={true} onChange={handleCompanyChange} />
               <Form.Input
-             id="companyPhone" name="companyPhone" label='Phone' type="tel" value={companyFormData.phone} placeholder='01xxxxxxxx' required={true} onChange={handleCompanyChange}/>
+                id="companyPhone" name="companyPhone" label='Phone' type="tel" value={companyFormData.phone} placeholder='01xxxxxxxx' required={true} onChange={handleCompanyChange} />
             </Form.Group>
             <Form.Group widths='equal'>
               <Form.Input
-             id="companyAddress" name="companyAddress" label='Address' value={companyFormData.address}  placeholder='Dhaka, Bangladesh' onChange={handleCompanyChange}/>
+                id="companyAddress" name="companyAddress" label='Address' value={companyFormData.address} placeholder='Dhaka, Bangladesh' onChange={handleCompanyChange} />
               <Form.Input
-             id="companyWebsite" name="companyWebsite" label='Website URL' type="url" value={companyFormData.website}  placeholder='www.example.com' onChange={handleCompanyChange}/>
+                id="companyWebsite" name="companyWebsite" label='Website URL' type="url" value={companyFormData.website} placeholder='www.example.com' onChange={handleCompanyChange} />
             </Form.Group>
             <Button type="submit" primary>Add Company</Button>
           </Form>
