@@ -106,7 +106,7 @@ const SearchPage = () => {
                         <Input onChange={handleTextChange} fluid loading={false} placeholder='Search...' />
 
 
-                        <Button onClick={filteredSearch} fluid className='mt-3' >Search</Button>
+                        <Button onClick={filteredSearch} fluid className='mt-3'>Search</Button>
 
 
                         <h4> Resources</h4>
@@ -114,7 +114,7 @@ const SearchPage = () => {
                         <Stack spacing={2}>
 
                             <Checkbox onChange={handleResourceChange} label='Agency' name='Agency' />
-                            <Checkbox onChange={handleResourceChange} label='Estimation' name='Estimation' />
+                            <Checkbox onChange={handleResourceChange} label='Ongoing Project' name='Estimation' />
                             <Checkbox onChange={handleResourceChange} label='Request' name='Request' />
                             <Checkbox onChange={handleResourceChange} label='Employee' name='Employee' />
 

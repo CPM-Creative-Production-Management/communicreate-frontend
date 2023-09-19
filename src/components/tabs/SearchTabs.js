@@ -7,7 +7,7 @@ import AgencySearchList from '../cards/searchItems/AgencySearchList';
 
 const panes = [
     {
-        menuItem: 'Estimations',
+        menuItem: 'Ongoing Projects',
         render: ({ searchData }) => <Tab.Pane attached={false}> <EstimationSearchList searchData={searchData.estimation} /></Tab.Pane>,
     },
 

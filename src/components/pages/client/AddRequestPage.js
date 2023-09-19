@@ -289,6 +289,8 @@ const AddRequestPage = () => {
                 <center>
                     <h2>Send to a specific agency</h2>
                 </center>
+                <br />
+                <br />
 
                 <Grid className='ms-2' columns={2}>
                     <Grid.Row>
@@ -309,11 +311,11 @@ const AddRequestPage = () => {
 
                         </Grid.Column>
 
-                        <Grid.Column width={13}>
+                        <Grid.Column width={7}>
 
 
                             <Dropdown
-                                className='mt-3'
+                                className='mt-0'
                                 placeholder='Select Your Agency'
                                 fluid
                                 onChange={(e, data) => {
@@ -333,9 +335,9 @@ const AddRequestPage = () => {
 
                             }} className='mt-3' positive disabled={sendButtonDisabled}>Send</Button>
                         </Grid.Column>
-                    </Grid.Row>
 
-                    {currAgency &&
+                        <Grid.Column width={6}>
+                        {currAgency &&
                         <Grid.Row>
                             <Grid.Column width={3} />
                             <Grid.Column width={13}>
@@ -351,6 +353,10 @@ const AddRequestPage = () => {
                             </Grid.Column>
                         </Grid.Row>
                     }
+                        </Grid.Column>
+                    </Grid.Row>
+
+                    
 
 
                 </Grid>

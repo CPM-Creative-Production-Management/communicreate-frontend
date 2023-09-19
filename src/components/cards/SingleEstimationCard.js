@@ -151,7 +151,7 @@ export const SingleEstimationCard = ({ estimationData, isRejected, isOngoing, is
 
 
 
-                <div className='ms-3 me-3'>
+                <div className='ms-3 me-3 mb-3'>
                     {currProgress}% Completed
 
                     <ProgressBar variant="success" animated className='mt-2' now={currProgress} />
