@@ -105,7 +105,7 @@ export const SingleTaskCard = (props) => {
                             <Icon name='trash alternate outline' /> Delete
                         </Button>
 
-                        {props.edit && props.finalized && (props.singleTask.status === 0 ? <Button onClick={() => sendApprovalRequest(props.singleTask.id)}>
+                        {props.edit && props.finalized && !props.finished && (props.singleTask.status === 0 ? <Button onClick={() => sendApprovalRequest(props.singleTask.id)}>
                             <Icon name='send' /> Request Approval
                         </Button> : props.singleTask.status === 1 ? <Button disabled> Awaiting Approval </Button> : (props.singleTask.status === 2 && <Button disabled> Approved </Button>))}
 
