@@ -1,13 +1,10 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Button, Table } from "semantic-ui-react";
 import { base_url } from '../../index';
 import { regularApiRequest } from "../api/regularApiRequest";
 import { showToast } from "../../App";
-import { useNavigate } from 'react-router-dom'
 
 const TableUnverifiedUserList = ({ tableData }) => {
-
-    let navigate = useNavigate()
 
     const verifyUser = async (id) => {
         const reqBody = {
