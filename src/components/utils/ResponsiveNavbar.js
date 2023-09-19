@@ -110,7 +110,7 @@ function NavScrollExample() {
                                 } />
                             }
                             {userType === '3' ? null :
-                                <Dropdown.Item onClick={() => { navigate('/estimations') }} icon='calculator' text='My Estimations' />
+                                <Dropdown.Item onClick={() => { navigate('/estimations') }} icon='calculator' text='My Projects' />
                             }
                             <Dropdown.Divider />
                             <Dropdown.Item onClick={logout} icon='log out' color='red' text='Logout' />
