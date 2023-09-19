@@ -3,16 +3,20 @@ import { Button, Grid, Icon, Label, Message, Dropdown } from "semantic-ui-react"
 import { Stack } from "@mui/material";
 import TableEmpList from "../utils/TableEmpList";
 import EditTaskModal from "../modals/EditTaskModal";
+import RequestApprovalModal from "../modals/RequestApprovalModal";
 
 import { useSelector, useDispatch } from "react-redux";
 import { updateEstimation } from "../../actions";
 import { showToast } from "../../App";
-import { base_url } from "../..";
+import { base_url, base_s3_url } from "../..";
 import { regularApiRequest } from "../api/regularApiRequest";
 
 export const SingleTaskCard = (props) => {
 
+
     const [openEditTaskModal, setOpenEditTaskModal] = useState(false)
+    const [openRequestApprovalModal, setOpenRequestApprovalModal] = useState(false)
+    const [file, setFile] = useState(null)
     const globalEstimation = useSelector(state => state.currEstimation)
     const dispatch = useDispatch()
 
@@ -44,11 +48,15 @@ export const SingleTaskCard = (props) => {
     }
 
         
-    const sendApprovalRequest = async (id) => {
-        console.log(id)
+    const sendApprovalRequest = async (id, sample_link) => {
+        // console.log(id)
+        const reqBody = {
+            sample_link: sample_link,
+        }
         const response = await regularApiRequest({
             url: `${base_url}estimation/task/request/${id}`,
-            method: 'PUT'
+            method: 'PUT',
+            reqBody: reqBody
         })
         if (response.status === 200) {
             showToast('Approval request sent', 'success')
@@ -105,7 +113,10 @@ export const SingleTaskCard = (props) => {
                             <Icon name='trash alternate outline' /> Delete
                         </Button>
 
-                        {props.edit && props.finalized && !props.finished && (props.singleTask.status === 0 ? <Button onClick={() => sendApprovalRequest(props.singleTask.id)}>
+                        {props.edit && props.finalized && !props.finished && (props.singleTask.status === 0 ? <Button onClick={() => 
+                            // sendApprovalRequest(props.singleTask.id)
+                            setOpenRequestApprovalModal(true)
+                        }>
                             <Icon name='send' /> Request Approval
                         </Button> : props.singleTask.status === 1 ? <Button disabled> Awaiting Approval </Button> : (props.singleTask.status === 2 && <Button disabled> Approved </Button>))}
 
@@ -131,6 +142,8 @@ export const SingleTaskCard = (props) => {
 
             <EditTaskModal show={openEditTaskModal} editTaskIndex={props.taskIndex} singleTask={props.singleTask}
                 setShow={setOpenEditTaskModal}/>
+            
+            <RequestApprovalModal show={openRequestApprovalModal} setShow={setOpenRequestApprovalModal} singleTask={props.singleTask} sendApprovalRequest={sendApprovalRequest} setFile={setFile}/>
 
         </div>
 

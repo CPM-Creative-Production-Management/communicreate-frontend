@@ -191,7 +191,11 @@ const EstimationPage = (params) => {
               </Table.Cell>
 
               {data?.ReqAgency.finalized && !data?.is_completed && !data?.is_rejected && <Table.Cell>
-                {task.status === 0 ? null : task.status === 1 ? <span><Button positive onClick={() => handleApprove(task)}>Approve</Button> <Button negative onClick={() => handleRevise(task.id)}>Review</Button></span> : <Button negative onClick={() => {handleRevise(task)}}>Review</Button>}
+                {task.status === 0 ? null : task.status === 1 ? <span>
+                  <Button positive onClick={() => handleApprove(task)}>Approve</Button> 
+                  <Button negative onClick={() => handleRevise(task)}>Review</Button>
+                  {task.sample_link && <Button primary onClick={() => window.open(task.sample_link)}>View Sample</Button>}
+                  </span> : <Button negative onClick={() => {handleRevise(task)}}>Review</Button>}
 
               </Table.Cell>}
             </Table.Row>
