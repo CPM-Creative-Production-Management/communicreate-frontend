@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import ProfileBg from '../../assets/profile-bg.jpg'
 import './pages.css'
-import { Button, Card, Divider, Grid, Icon, Image, Input, Label, Message } from 'semantic-ui-react'
+import { Button, Card, Divider, Dropdown, Grid, Icon, Image, Input, Label, Message } from 'semantic-ui-react'
 import { useApiRequest } from '../api/useApiRequest'
 import { base_s3_url, base_url } from '../..'
-import { Stack } from '@mui/material'
+import { Chip, Stack } from '@mui/material'
 import s3 from '../../config/s3'
 import { regularApiRequest } from '../api/regularApiRequest'
 import { showToast } from '../../App'
+import Cookies from 'universal-cookie'
+
 
 const ProfilePage = () => {
+    const cookies = new Cookies();
+    const [userType, setUserType] = useState(cookies.get('userType'));
+
     const nameRef = React.useRef('')
     const emailRef = React.useRef('')
     const phoneRef = React.useRef('')
@@ -100,7 +105,7 @@ const ProfilePage = () => {
             s3.putObject(params).promise().then((res) => {
                 console.log('file uploaded', res)
                 setUploadingImg(false)
-                
+
                 window.location.reload()
 
             }).catch((err) => {
@@ -129,7 +134,10 @@ const ProfilePage = () => {
                 "address": AssociationAddress,
                 "email": AssociationEmail,
                 "website": AssociationWebsite,
-                "phone": AssociationPhone
+                "phone": AssociationPhone,
+                "tags": selectedTags?.map((currTag) => {
+                    return currTag.id
+                })
 
             }
         }
@@ -151,6 +159,63 @@ const ProfilePage = () => {
 
     }
 
+    const pastelColors = [
+        '#FFB6C1', // Pink
+        '#FCFA60', // Yellow
+        '#87D697', // Mint
+        '#ADD8E6', // Blue
+        '#FFA07A', // Salmon
+        '#C999DE', // Lavender
+    ];
+
+    const handleChangeColor = (id) => {
+        return pastelColors[id % pastelColors.length];
+    };
+
+    let { data: allTags, dataLoading: tagDataLoading, error: tagError } = useApiRequest({
+        url: base_url + 'tag',
+        method: 'GET',
+    });
+    allTags = allTags?.tags
+
+    useEffect(() => {
+
+        console.log('all tags', allTags)
+
+    }, [allTags]);
+
+
+    // get the selected tags from data
+    // const [selectedTags, setSelectedTags] = useState(data?.association.tags)
+    const [selectedTags, setSelectedTags] = useState([])
+
+
+
+    const addTag = (index) => {
+        // check if tag already exists
+        const tagExists = selectedTags?.find((currTag) => {
+            return currTag.id === allTags[index].id
+        })
+
+        if (!tagExists) {
+            setSelectedTags([...selectedTags, allTags[index]])
+        } else {
+            showToast('Tag already exists', 'error')
+        }
+
+
+    }
+
+    const handleDeleteTag = (index) => {
+        const newTags = selectedTags?.filter((currTag, currIndex) => {
+            return currIndex !== index
+        })
+
+        setSelectedTags(newTags)
+    }
+
+
+
 
 
 
@@ -167,7 +232,7 @@ const ProfilePage = () => {
                         <Grid.Column width={4}>
                             <div className='profile-card'>
                                 <center>
-                                    <Image circular style={{width: '100px', height: '100px' }} alt='profile' className='profile-img'
+                                    <Image circular style={{ width: '100px', height: '100px' }} alt='profile' className='profile-img'
                                         src={data.profile_picture ? data.profile_picture : 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'} />
 
                                     <div className='profile-card-content mt-3'>
@@ -248,7 +313,7 @@ const ProfilePage = () => {
                                                 <Input disabled ref={emailRef} fluid icon='mail' iconPosition='left' placeholder='Email' />
                                             </Grid.Column>
                                         </Grid>
-                                        <Input  type='number' ref={phoneRef} fluid icon='phone' iconPosition='left' placeholder='Phone' />
+                                        <Input type='number' ref={phoneRef} fluid icon='phone' iconPosition='left' placeholder='Phone' />
                                         <Input ref={addressRef} fluid icon='map marker alternate' iconPosition='left' placeholder='Address' />
                                         {/* <Input ref={passwordRef} fluid icon='lock' iconPosition='left' placeholder='Password' />
                                         <Input ref={confirmPasswordRef} fluid icon='lock' iconPosition='left' placeholder='Confirm Password' /> */}
@@ -256,7 +321,46 @@ const ProfilePage = () => {
                                         <Divider />
 
                                         <h4>Association Details</h4>
-                                        <br />
+                                        
+
+                                        {userType === '2' &&
+                                        <div>
+
+                                        <Dropdown icon='filter'
+                                            floating
+                                            labeled
+                                            button
+
+                                            className='icon' text='Add tag'>
+                                            <Dropdown.Menu>
+
+                                                {allTags?.map((currTag, index) => (
+                                                    <Dropdown.Item onClick={() => {
+                                                        addTag(index)
+                                                    }} key={currTag.id} icon='tag' text={currTag.tag} />
+                                                ))}
+
+                                            </Dropdown.Menu>
+                                        </Dropdown>
+
+
+                                        <div className={'mb-4 mt-2'}>
+
+                                            <Stack direction="row" spacing={1}>
+
+                                                {selectedTags?.map((currTag, index) => (
+                                                    <Chip key={currTag.id} label={currTag.tag} style={{ backgroundColor: handleChangeColor(currTag.id) }}
+                                                        onDelete={() => {
+                                                            handleDeleteTag(index)
+                                                        }} />
+                                                ))}
+
+
+
+                                            </Stack>
+                                        </div>
+                                        </div>
+                                        }
 
                                         <Grid columns={2}>
                                             <Grid.Column>
