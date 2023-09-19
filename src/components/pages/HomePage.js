@@ -37,6 +37,7 @@ import SearchPage from './SearchPage';
 import VerifyPage from './VerifyPage';
 import { showToast } from '../../App';
 import { useNavigate } from 'react-router-dom';
+import {socket} from '../../socket';
 
 const cookies = new Cookies();
 
@@ -54,6 +55,7 @@ export const HomePage = () => {
         } else if (cookies.get("userType") === '3') {
             setUserType(3)
         }
+        socket.emit('join', cookies.get('token'))
     }, []);
 
     console.log("userType is : ", userType)
