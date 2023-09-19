@@ -22,10 +22,10 @@ const AgencyCard = ({name, address, details, website, tags, id, logo}) => {
                     {name}
                 </Card.Header>
                 <Card.Meta>
-                    {details.length > 50 ? details.slice(0, 50) + '...' : details}
+                    {details?.length > 50 ? details?.slice(0, 50) + '...' : details}
                 </Card.Meta>
                 <Card.Description>
-                    {address.length < 30 ? address : address.slice(0, 30) + '...'}
+                    {address?.length < 30 ? address : address?.slice(0, 30) + '...'}
                 </Card.Description>
             </Card.Content>
             <Card.Content extra>
@@ -37,7 +37,7 @@ const AgencyCard = ({name, address, details, website, tags, id, logo}) => {
             <Card.Content extra>
                 <div>
                     <Icon name='tags' />
-                    {tags.slice(0, 2).map((tag, index) => (
+                    {tags?.slice(0, 2).map((tag, index) => (
                         <Label className='ms-2' as='a' color={colors[index % 3]} key={index}>{tag.tag}</Label>
                     ))}
 

@@ -11,6 +11,7 @@ import { showToast } from '../../../App'
 import { useApiRequest } from '../../api/useApiRequest'
 import { set } from 'lodash'
 import { Stack } from 'react-bootstrap'
+import AgencyCard from '../../cards/AgencyCard'
 
 const AddRequestPage = () => {
     const [agencyOptions, setAgencyOptions] = React.useState([])
@@ -26,31 +27,20 @@ const AddRequestPage = () => {
         }
     }, [data])
 
-    const [tags, setTags] = React.useState([])
+    const [currAgency, setCurrAgency] = React.useState(null)
 
-    // get the tags from agencyOptions
-    React.useEffect(() => {
-        if (agencyOptions) {
-            // each agency can have multiple tags inside Tags field
-            // so we need to extract all the tags from all the agencies
-            const allTags = agencyOptions.map((agency) => {
-                return agency.Tags
-            })
-            // now allTags is an array of arrays
-            // we need to flatten it
-            const flattenedTags = allTags.flat()
-            // now flattenedTags is an array of objects
-            // we need to remove duplicates
-            const uniqueTags = flattenedTags.filter((tag, index) => {
-                return flattenedTags.findIndex((tag2) => tag2.id === tag.id) === index
-            })
+    let { data: tags, dataLoading: tagDataLoading, error: tagError } = useApiRequest({
+        url: base_url + 'tag',
+        method: 'GET',
+    });
+    tags = tags?.tags
 
-            setTags(uniqueTags)
+    useEffect(() => {
 
+        console.log('all tags', tags)
 
+    }, [tags]);
 
-        }
-    }, [data])
 
     const [selectedTags, setSelectedTags] = React.useState([])
 
@@ -81,7 +71,7 @@ const AddRequestPage = () => {
         // set agencyOptions to only those agencies which have the selected tag in their Tags field
         // make sure to check if the tag is already selected or not
         // if it is already selected, then remove it from the selected tags
-        
+
         if (selectedTags.findIndex((tag) => tag.id === id) !== -1) {
             // tag is already selected
             // remove it from selected tags
@@ -302,47 +292,67 @@ const AddRequestPage = () => {
 
                 <Grid className='ms-2' columns={2}>
                     <Grid.Row>
-                        <Grid.Column width = {3}>
+                        <Grid.Column width={3}>
 
-                <h4> <Icon name='filter' /> Filter via tags</h4>
-
-
-                <Stack spacing={2} >
-                    {tags?.map((tag) => {
-                        return (
-                            <Checkbox className='mb-2' onChange={() => {
-                                handleTagChange(tag.id)
-                            }} label={tag.tag} />
-                        )
-                    })}
-                </Stack>
-
-                </Grid.Column>
-
-                <Grid.Column width = {13}>
+                            <h4> <Icon name='filter' /> Filter via tags</h4>
 
 
-                <Dropdown
-                    className='mt-3'
-                    placeholder='Select Your Agency'
-                    fluid
-                    onChange={(e, data) => {
-                        console.log('selected', data.value)
-                        setAssociatedId(data.value)
-                        setSendButtonDisabled(false)
-                    }}
-                    search
-                    selection
-                    options={agencyOptions}
-                />
-                <Button onClick={() => {
-                    // find agency name from assoicated id
-                    const name = agencyOptions.find((agency) => agency.value == associatedId).name
-                    submitSpecificRequest(associatedId, name)
+                            <Stack spacing={2} >
+                                {tags?.map((tag) => {
+                                    return (
+                                        <Checkbox className='mb-2' onChange={() => {
+                                            handleTagChange(tag.id)
+                                        }} label={tag.tag} />
+                                    )
+                                })}
+                            </Stack>
 
-                }} className='mt-3' positive disabled={sendButtonDisabled}>Send</Button>
-                </Grid.Column>
-                </Grid.Row>
+                        </Grid.Column>
+
+                        <Grid.Column width={13}>
+
+
+                            <Dropdown
+                                className='mt-3'
+                                placeholder='Select Your Agency'
+                                fluid
+                                onChange={(e, data) => {
+                                    console.log('selected', data.value)
+                                    setAssociatedId(data.value)
+                                    setSendButtonDisabled(false)
+                                    setCurrAgency(agencyOptions.find((agency) => agency.value == data.value))
+                                }}
+                                search
+                                selection
+                                options={agencyOptions}
+                            />
+                            <Button onClick={() => {
+                                // find agency name from assoicated id
+                                const name = agencyOptions.find((agency) => agency.value == associatedId).name
+                                submitSpecificRequest(associatedId, name)
+
+                            }} className='mt-3' positive disabled={sendButtonDisabled}>Send</Button>
+                        </Grid.Column>
+                    </Grid.Row>
+
+                    {currAgency &&
+                        <Grid.Row>
+                            <Grid.Column width={3} />
+                            <Grid.Column width={13}>
+                                <AgencyCard
+                                    name={currAgency.name}
+                                    address={currAgency.address}
+                                    details={currAgency.details}
+                                    website={currAgency.website}
+                                    tags={currAgency.Tags}
+                                    id={currAgency.id}
+                                    logo={currAgency.logo}
+                                />
+                            </Grid.Column>
+                        </Grid.Row>
+                    }
+
+
                 </Grid>
             </Card>
 

@@ -12,6 +12,7 @@ import '../pages.css'
 
 const AgencyPage = () => {
     const { id } = useParams()
+    const colors = ['teal', 'orange', 'blue']
 
     const {data: agencyData, dataLoading: agencyDataLoading, error} = useApiRequest({
         url: base_url + 'agency/' + id + '/details',
@@ -65,12 +66,24 @@ const AgencyPage = () => {
                                 </Stack>
                                 <Stack direction="row" spacing={2}>
                                 <Icon name='linkify' />
-                                <h4>{agencyData.website}</h4>
+                                <a style={{cursor: "pointer"}} href={agencyData.website} target='_blank'> {agencyData.website}</a>
                                 </Stack>
                                 {/* <Input ref={passwordRef} fluid icon='lock' iconPosition='left' placeholder='Password' />
                                 <Input ref={confirmPasswordRef} fluid icon='lock' iconPosition='left' placeholder='Confirm Password' /> */}
 
                                 <Divider />
+
+                                <h3>Tags</h3>
+                                <Stack direction="row" spacing={2}>
+                                    {
+                                        agencyData.Tags?.map((tag, index) => {
+                                            return (
+                                                <Label color={colors[index % 3]}>
+                                                    <Icon name='tag' />{tag.tag}</Label>
+                                            )
+                                        })
+                                    }
+                                </Stack>
 
                                 <h3>Recent Projects with {agencyData.name}</h3>
                                 <br />

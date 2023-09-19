@@ -86,8 +86,6 @@ function NavScrollExample() {
                     }
 
 
-
-
                     <Dropdown pointing
                         text={userName}
                         icon='user circle'

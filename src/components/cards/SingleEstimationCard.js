@@ -58,12 +58,12 @@ export const SingleEstimationCard = ({ estimationData, isRejected, isOngoing, is
             // set the progress percentage based on the tasks
             const tasks = estimationData.Estimation.Tasks
             let completed = 0
-            tasks.forEach(task => {
+            tasks?.forEach(task => {
                 if (task.status === 2) {
                     completed += 1
                 }
             })
-            setCurrProgress((completed / tasks.length) * 100)
+            setCurrProgress((completed / tasks?.length) * 100)
         }
     }, [estimationData]);
 
@@ -149,11 +149,12 @@ export const SingleEstimationCard = ({ estimationData, isRejected, isOngoing, is
 
                 </Card.Content>
 
+
+
                 <div className='ms-3 me-3'>
-                {currProgress}% Completed
+                    {currProgress}% Completed
 
-                <ProgressBar variant="success" animated  className='mt-2' now={currProgress} /> 
-
+                    <ProgressBar variant="success" animated className='mt-2' now={currProgress} />
                 </div>
                 {!isArchived && !isClientView && <Card.Content extra>
                     <List.Icon name='list alternate outline' size='large' verticalAlign='middle' />
