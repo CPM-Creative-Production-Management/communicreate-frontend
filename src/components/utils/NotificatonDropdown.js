@@ -1,30 +1,24 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
+
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
-import PersonAdd from '@mui/icons-material/PersonAdd';
-import Settings from '@mui/icons-material/Settings';
-import Logout from '@mui/icons-material/Logout';
-import { Button, Comment, Grid, Icon, Label } from 'semantic-ui-react';
+import { Button, Label } from 'semantic-ui-react';
 import SingleNotification from '../cards/SingleNotification';
 import { base_url } from '../..';
 import { useApiRequest } from '../api/useApiRequest';
 import { useNavigate } from 'react-router-dom';
-import { regularApiRequest } from '../api/regularApiRequest';
 import not_found from '../../assets/not_found.json'
 import { LoadAnimation } from '../utils/LoadAnimation'
-import useInterval from '../api/useInterval';
 import axios from 'axios';
+import {socket} from '../../socket';
 
 import '../cards/card.css'
 import { List } from '@mui/material';
 import Cookies from 'universal-cookie';
+import { showToast } from '../../App';
 
 export const NotificationDropdown = () => {
 
@@ -45,76 +39,85 @@ export const NotificationDropdown = () => {
     React.useEffect(() => {
         console.log('notifications', notifications)
         setNotificationsState(notifications)
-
-
-
     }, [notifications])
 
-    try {
-        useInterval(async () => {
-            // console.log('notification polling')
-            // use axios directly
-            const polledNotifications = await axios.get(base_url + 'notification/?page=1',
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${cookies.get("token")}`
-                    }
+    React.useEffect(() => {
+        socket.on('notification', (notification) => {
+            setHasNewNotifications(true)
+            setNotificationsState((prevState) => {
+                return {
+                    ...prevState,
+                    notifications: [notification, ...prevState.notifications]
                 }
-            )
-            // console.log('polledNotifications', polledNotifications)
-            // extract the ids of the current notifications
-            const currentIds = notificationsState?.notifications?.map((notification) => {
-                return notification.id
             })
+        })
+    }, [])
 
-            // extract the ids of the new notifications
-            const newIds = polledNotifications.data.notifications.map((notification) => {
-                return notification.id
-            })
+    // try {
+    //     useInterval(async () => {
+    //         // console.log('notification polling')
+    //         // use axios directly
+    //         const polledNotifications = await axios.get(base_url + 'notification/?page=1',
+    //             {
+    //                 headers: {
+    //                     'Content-Type': 'application/json',
+    //                     Authorization: `Bearer ${cookies.get("token")}`
+    //                 }
+    //             }
+    //         )
+    //         // console.log('polledNotifications', polledNotifications)
+    //         // extract the ids of the current notifications
+    //         const currentIds = notificationsState?.notifications?.map((notification) => {
+    //             return notification.id
+    //         })
 
-            // if newIds contains an id that is not in currentIds
-            // then there is a new notification
-            // set the state accordingly
-            if (newIds?.some((id) => !currentIds?.includes(id))) {
-                setHasNewNotifications(true)
-            }
+    //         // extract the ids of the new notifications
+    //         const newIds = polledNotifications.data.notifications.map((notification) => {
+    //             return notification.id
+    //         })
 
-            // let unread = 0
-            // // extract the ids of notifications
-            // notifications?.notifications?.forEach((notification) => {
-            //     if (!notification.read) {
-            //         unread += 1
-            //     }
-            // }
-            // )
-            // setNewNotificationCount(unread)
+    //         // if newIds contains an id that is not in currentIds
+    //         // then there is a new notification
+    //         // set the state accordingly
+    //         if (newIds?.some((id) => !currentIds?.includes(id))) {
+    //             setHasNewNotifications(true)
+    //         }
 
-            // if (unread > 0) {
-            //     setHasNewNotifications(true)
-            //     console.log('has new notifications', newNotificationCount)
-            // } else {
-            //     // setHasNewNotifications(false)
-            // }
+    //         // let unread = 0
+    //         // // extract the ids of notifications
+    //         // notifications?.notifications?.forEach((notification) => {
+    //         //     if (!notification.read) {
+    //         //         unread += 1
+    //         //     }
+    //         // }
+    //         // )
+    //         // setNewNotificationCount(unread)
 
-            // only add to state if notificationsState does not contain
-            // the id of the new notification
-            // const toBeAddedNotifications = polledNotifications.data.notifications.filter((notification) => {
-            //     return !notificationsState?.notifications?.some((existingNotification) => {
-            //         return existingNotification.id === notification.id
-            //     })
-            // })
-            // setNotificationsState((prevState) => {
-            //     return {
-            //         ...prevState,
-            //         notifications: [...toBeAddedNotifications, ...prevState.notifications]
-            //     }
-            // })
-            setNotificationsState(polledNotifications.data)
-        }, 5000)
-    } catch (err) {
-        console.log('could not fetch notifications')
-    }
+    //         // if (unread > 0) {
+    //         //     setHasNewNotifications(true)
+    //         //     console.log('has new notifications', newNotificationCount)
+    //         // } else {
+    //         //     // setHasNewNotifications(false)
+    //         // }
+
+    //         // only add to state if notificationsState does not contain
+    //         // the id of the new notification
+    //         // const toBeAddedNotifications = polledNotifications.data.notifications.filter((notification) => {
+    //         //     return !notificationsState?.notifications?.some((existingNotification) => {
+    //         //         return existingNotification.id === notification.id
+    //         //     })
+    //         // })
+    //         // setNotificationsState((prevState) => {
+    //         //     return {
+    //         //         ...prevState,
+    //         //         notifications: [...toBeAddedNotifications, ...prevState.notifications]
+    //         //     }
+    //         // })
+    //         setNotificationsState(polledNotifications.data)
+    //     }, 5000)
+    // } catch (err) {
+    //     console.log('could not fetch notifications')
+    // }
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);

@@ -56,11 +56,6 @@ const CompletedProjects = ({ongoing, finished}) => {
 
   }
 
-
-  useEffect(() => {
-    console.log('this is printed still') 
-  }, [])
-
   useEffect(() => {
     if (data) {
       dispatch(updateArchives(data.requests))

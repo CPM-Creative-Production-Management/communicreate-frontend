@@ -33,6 +33,7 @@ import SearchPage from './SearchPage';
 import VerifyPage from './VerifyPage';
 import { showToast } from '../../App';
 import { useNavigate } from 'react-router-dom';
+import {socket} from '../../socket';
 
 const cookies = new Cookies();
 
@@ -48,6 +49,7 @@ export const HomePage = () => {
         } else if (cookies.get("userType") === '2') {
             setUserType(2)
         }
+        socket.emit('join', cookies.get('token'))
     }, []);
 
     return (
