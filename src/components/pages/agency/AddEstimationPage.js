@@ -132,7 +132,7 @@ export const AddEstimationPage = (props) => {
             ReqAgencyId: requestData.ReqAgency.id,
 
             // get only the ids of the tags
-            tags: globalEstimation.tags.map((tag) => tag.id),
+            tags: globalEstimation.tags?.map((tag) => tag.id),
             tasks: globalEstimation.tasks?.map((task) => {
                 return {
                     id: task.id ? task.id : 0,
@@ -140,9 +140,9 @@ export const AddEstimationPage = (props) => {
                     // description: task.description,
                     cost: task.cost,
                     // get only the ids of the employees
-                    employees: task.Employees.map((emp) => emp.id),
+                    employees: task.Employees?.map((emp) => emp.id),
                     // get only the ids of the tags
-                    tags: task.tags.map((tag) => tag.id),
+                    tags: task.tags?.map((tag) => tag.id),
                 }
             })
         }

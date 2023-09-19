@@ -37,7 +37,7 @@ const EstimationPage = (params) => {
 
     if (response.status === 200) {
       showToast('Task approved', 'success')
-      setTasks(tasks.map((t) => {
+      setTasks(tasks?.map((t) => {
         if (t.id === task.id) {
           t.status = 2
         }
@@ -98,7 +98,7 @@ const EstimationPage = (params) => {
     })
     if (response.status === 200) {
       showToast('Task sent for reviewing', 'success')
-      setTasks(tasks.map((t) => {
+      setTasks(tasks?.map((t) => {
         if (t.id === task.id) {
           t.status = 0
         }
@@ -178,7 +178,7 @@ const EstimationPage = (params) => {
         </thead>
 
         <Table.Body>
-          {tasks.map((task, index) => (
+          {tasks?.map((task, index) => (
             <Table.Row>
               <Table.Cell>
                 {task.name}
