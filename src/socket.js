@@ -1,6 +1,5 @@
 import { io } from 'socket.io-client';
-import { base_url } from '.';
 
-const URL = base_url;
+const URL = 'https://cpm-backend.onrender.com/';
 
 export const socket = io(URL);
