@@ -308,7 +308,7 @@ export const AddEstimationPage = (props) => {
                 </Message>
             }
 
-{
+            {
                 reqData?.ReqAgency?.Estimation?.is_rejected &&
                 <Message negative>
                     <Message.Header>Project has been rejected</Message.Header>
@@ -337,21 +337,21 @@ export const AddEstimationPage = (props) => {
                         <Label.Detail>{requestData.res_deadline}</Label.Detail>
                     </Label>
                 </Card.Meta>
-                
+
                 <div className={'mb-2 mt-4'}>
 
                     <Stack direction="row" spacing={1}>
 
                         {(reqData?.ReqAgency?.Estimation?.is_completed || reqData?.ReqAgency?.Estimation?.is_rejected) || globalEstimation.tags?.map((currTag, index) => (
-                            <Chip key={currTag.id} label={currTag.tag} style={{backgroundColor: handleChangeColor(currTag.id)}}
-                             onDelete={() => {
-                                handleDeleteTag(index)
-                            }} />
+                            <Chip key={currTag.id} label={currTag.tag} style={{ backgroundColor: handleChangeColor(currTag.id) }}
+                                onDelete={() => {
+                                    handleDeleteTag(index)
+                                }} />
                         ))}
 
                         {(reqData?.ReqAgency?.Estimation?.is_completed || reqData?.ReqAgency?.Estimation?.is_rejected) && globalEstimation.tags?.map((currTag, index) => (
-                            <Chip key={currTag.id} label={currTag.tag} style={{backgroundColor: handleChangeColor(currTag.id)}}
-                             />
+                            <Chip key={currTag.id} label={currTag.tag} style={{ backgroundColor: handleChangeColor(currTag.id) }}
+                            />
                         ))}
 
                     </Stack>
@@ -360,22 +360,22 @@ export const AddEstimationPage = (props) => {
                 <div className='md-2 xs-2 mb-3'>
 
                     {(reqData?.ReqAgency?.Estimation?.is_completed || reqData?.ReqAgency?.Estimation?.is_rejected) ||
-                    <Dropdown icon='filter'
-                        floating
-                        labeled
-                        button
+                        <Dropdown icon='filter'
+                            floating
+                            labeled
+                            button
 
-                        className='icon' text='Add tag'>
-                        <Dropdown.Menu>
+                            className='icon' text='Add tag'>
+                            <Dropdown.Menu>
 
-                            {allEstimationTags?.map((currTag, index) => (
-                                <Dropdown.Item onClick={() => {
-                                    addTag(index)
-                                }} key={currTag.id} icon='tag' text={currTag.tag} />
-                            ))}
+                                {allEstimationTags?.map((currTag, index) => (
+                                    <Dropdown.Item onClick={() => {
+                                        addTag(index)
+                                    }} key={currTag.id} icon='tag' text={currTag.tag} />
+                                ))}
 
-                        </Dropdown.Menu>
-                    </Dropdown>}
+                            </Dropdown.Menu>
+                        </Dropdown>}
                 </div>
 
 
@@ -410,7 +410,7 @@ export const AddEstimationPage = (props) => {
                             <SingleTaskCard show={openAddTaskModal} singleTask={task} taskIndex={index}
                                 setShow={setOpenAddTaskModal} edit={props.edit} finalized={reqData?.ReqAgency.finalized}
                                 finished={(reqData?.ReqAgency?.Estimation?.is_completed || reqData?.ReqAgency?.Estimation?.is_rejected)}
-                                />
+                            />
                             {index < globalEstimation.tasks?.length - 1 ? <Divider /> : null}
 
                         </div>
