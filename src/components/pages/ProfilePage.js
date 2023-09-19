@@ -186,8 +186,13 @@ const ProfilePage = () => {
 
 
     // get the selected tags from data
-    // const [selectedTags, setSelectedTags] = useState(data?.association.tags)
-    const [selectedTags, setSelectedTags] = useState([])
+    const [selectedTags, setSelectedTags] = useState(data?.association.Tags)
+    // const [selectedTags, setSelectedTags] = useState([])
+
+    useEffect(() => {
+        setSelectedTags(data?.association.Tags)
+        console.log('selected tags', selectedTags)
+    }, [data])
 
 
 
