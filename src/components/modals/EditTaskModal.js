@@ -51,7 +51,7 @@ const EditTaskModal = (props) => {
         // })
         // update the global estimation with the edited task, make sure to replace the old task with the new one
         dispatch(updateEstimation({
-            ...globalEstimation, tasks: globalEstimation.tasks.map((task, index) => {
+            ...globalEstimation, tasks: globalEstimation.tasks?.map((task, index) => {
                 if (index === props.editTaskIndex) {
                     return currTask
                 }

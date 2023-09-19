@@ -157,7 +157,7 @@ const AddRequestPage = () => {
     const handleUpdateTask = (event) => {
         const taskId = event.target.name.split('-')[2]
         const taskField = event.target.name.split('-')[1]
-        const newTasks = globalRequest.tasks.map((task, index) => {
+        const newTasks = globalRequest.tasks?.map((task, index) => {
             if (index == taskId) {
                 return {
                     ...task, [taskField]: event.target.value
@@ -266,7 +266,7 @@ const AddRequestPage = () => {
                     yesterday.setDate(yesterday.getDate() - 1)
                     return date >= yesterday
                 }} onChange={handleUpdateRequestCompleteDate} />
-                {globalRequest.tasks.map((currTask, index) => (
+                {globalRequest.tasks?.map((currTask, index) => (
                     <Card className='p-4' fluid>
                         <Card.Meta className='mb-3'>
                             {currTask.name ? <p>{currTask.name}</p> : <p>New Task</p>}

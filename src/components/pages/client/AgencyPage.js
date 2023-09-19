@@ -89,7 +89,7 @@ const AgencyPage = () => {
                                 <br />
                                 <Stack direction="column" spacing={2}>
                                     {
-                                        agencyData.ReqAgencies.map((reqAgency) => {
+                                        agencyData.ReqAgencies?.map((reqAgency) => {
                                             return (
                                                 <Segment raised>
                                                     {
@@ -132,7 +132,7 @@ const AgencyPage = () => {
                                 {/* <Button loading={uploadingImg} onClick={handleSaveChanges} color='blue' className='mt-3'>Save Changes</Button> */}
                                 <Stack direction="column" spacing={2}>
                                     {
-                                        agencyData.Reviews.map((review) => {
+                                        agencyData.Reviews?.map((review) => {
                                             return (
                                                 <ReviewCard 
                                                     companyName={review.Company.name} 

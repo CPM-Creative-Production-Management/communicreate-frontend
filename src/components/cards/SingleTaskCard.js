@@ -53,7 +53,7 @@ export const SingleTaskCard = (props) => {
         if (response.status === 200) {
             showToast('Approval request sent', 'success')
             dispatch(updateEstimation({
-                ...globalEstimation, tasks: globalEstimation.tasks.map((task, index) => {
+                ...globalEstimation, tasks: globalEstimation.tasks?.map((task, index) => {
                     if (task.id === id) {
                         return {
                             ...task, status: 1
