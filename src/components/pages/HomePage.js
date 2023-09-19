@@ -60,9 +60,9 @@ export const HomePage = () => {
 
     return (
         <div>
-            {userType === 3 ? null :
-                <ResponsiveNavbar />
-            }
+
+            <ResponsiveNavbar />
+
             <br />
             <br />
 

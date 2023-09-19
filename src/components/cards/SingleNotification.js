@@ -41,8 +41,8 @@ const SingleNotification = ({ singleNotification }) => {
 
 
     const trimMessage = (message) => {
-        if (message.length > 60) {
-            return message.slice(0, 60) + '...'
+        if (message?.length > 60) {
+            return message?.slice(0, 60) + '...'
         }
         return message
     }

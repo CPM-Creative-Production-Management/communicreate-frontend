@@ -34,6 +34,7 @@ function NavScrollExample() {
     useEffect(() => {
         setUserName(cookies.get('userName'))
         setUserAssociation((cookies.get('userAssoc')))
+        setUserType(cookies.get('userType'))
     }, []);
 
 
@@ -43,7 +44,7 @@ function NavScrollExample() {
         cookies.remove('userName');
         cookies.remove('userType');
         cookies.remove('userAssoc');
-        
+
         showToast('Logged out successfully', 'success');
         navigate('/login');
     }
@@ -79,11 +80,10 @@ function NavScrollExample() {
                     }
                     <SearchModal open={openSearchModal} setOpen={setOpenSearchModal} />
 
-                    {cookies.get('token') &&
+                    {userType === '3' ||
+
                         <NotificationDropdown />
                     }
-
-
 
 
                     <Dropdown pointing
@@ -97,17 +97,21 @@ function NavScrollExample() {
                         <Dropdown.Menu >
 
                             <center>
-                                <Dropdown.Item className='m-3' text={userAssociation} />
+                                {userType === '3' ? <Dropdown.Item className='m-3' text='Admin' /> :
+                                    <Dropdown.Item className='m-3' text={userAssociation} />}
                             </center>
 
 
                             <Dropdown.Divider />
-                            <Dropdown.Item icon='user circle' text='My Profile' onClick={() => {
-                                navigate("/profile")
+                            {userType === '3' ? null :
+                                <Dropdown.Item icon='user circle' text='My Profile' onClick={() => {
+                                    navigate("/profile")
+                                }
+                                } />
                             }
-                            } />
-                            <Dropdown.Item onClick={() => { navigate('/estimations') }} icon='calculator' text='My Estimations' />
-
+                            {userType === '3' ? null :
+                                <Dropdown.Item onClick={() => { navigate('/estimations') }} icon='calculator' text='My Estimations' />
+                            }
                             <Dropdown.Divider />
                             <Dropdown.Item onClick={logout} icon='log out' color='red' text='Logout' />
                         </Dropdown.Menu>
@@ -116,7 +120,7 @@ function NavScrollExample() {
 
                 </Navbar.Collapse>
             </Container>
-        </Navbar>
+        </Navbar >
     );
 }
 
