@@ -115,10 +115,10 @@ const SearchPage = () => {
 
                             <Checkbox onChange={handleResourceChange} label='Agency' name='Agency' />
                             <Checkbox onChange={handleResourceChange} label='Ongoing Project' name='Estimation' />
-                            
+
                             <Checkbox onChange={handleResourceChange} label='Archive' name='Archive' />
 
-                            <Checkbox onChange={handleResourceChange} label='Request' name='Request' />
+                            {/* <Checkbox onChange={handleResourceChange} label='Request' name='Request' /> */}
                             <Checkbox onChange={handleResourceChange} label='Employee' name='Employee' />
 
                         </Stack>
