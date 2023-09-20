@@ -80,9 +80,9 @@ function NavScrollExample() {
                     }
                     <SearchModal open={openSearchModal} setOpen={setOpenSearchModal} />
 
-                    {userType === '3' ||
+                    {userType === '1' || userType === '2' ?
 
-                        <NotificationDropdown />
+                        <NotificationDropdown /> : null
                     }
 
 
