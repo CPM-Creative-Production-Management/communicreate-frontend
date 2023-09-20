@@ -26,8 +26,7 @@ export const LoginPage = () => {
         let password = passwordRef.current.inputRef.current.value;
         let email = emailRef.current.inputRef.current.value
 
-        console.log('email', email)
-        console.log('password', password)
+      
 
         if (email.length === 0 || !validateEmail(email)) {
             showToast("Please enter a valid email", "error")

@@ -41,8 +41,6 @@ export const RegisterPage = () => {
         let email = emailRef.current.inputRef.current.value
         let confirmPassword = confirmPasswordRef.current.inputRef.current.value
 
-        console.log('email', email)
-        console.log('password', password)
 
         if (email.length === 0 || !validateEmail(email)) {
             showToast("Please enter a valid email", "error")
@@ -66,7 +64,7 @@ export const RegisterPage = () => {
 
         }
 
-        console.log('reg body', registerBody)
+        // console.log('reg body', registerBody)
 
 
         axios.post(base_url + 'account/signup', registerBody).then((res) => {
