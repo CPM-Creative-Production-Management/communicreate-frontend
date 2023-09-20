@@ -17,7 +17,7 @@ const RequestSearchList = ({ searchData }) => {
 
         :
         searchData?.map((estimation) => (
-          <div>
+          <div className='mb-3'>
             <SingleReqCard reqData={estimation} isOffered={!estimation.accepted} isAccepted={estimation.accepted} />
           </div>
         ))
