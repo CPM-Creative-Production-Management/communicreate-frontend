@@ -17,7 +17,7 @@ export const EstimationsPage = () => {
         <div>
             
             <center>
-                <h1>Projects</h1>
+                <h1>Ongoing Projects</h1>
                 <br />
             </center>
             {/* <EstimationTabs /> */}

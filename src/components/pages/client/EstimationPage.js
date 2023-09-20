@@ -192,10 +192,10 @@ const EstimationPage = (params) => {
 
               {data?.ReqAgency.finalized && !data?.is_completed && !data?.is_rejected && <Table.Cell>
                 {task.status === 0 ? null : task.status === 1 ? <span>
-                  <Button positive onClick={() => handleApprove(task)}>Approve</Button> 
-                  <Button negative onClick={() => handleRevise(task)}>Review</Button>
-                  {task.sample_link && <Button primary onClick={() => window.open(task.sample_link)}>View Sample</Button>}
-                  </span> : <Button negative onClick={() => {handleRevise(task)}}>Review</Button>}
+                  <Button positive onClick={() => handleApprove(task)}><Icon name='thumbs up outline' />Approve</Button> 
+                  <Button negative onClick={() => handleRevise(task)}><Icon name='redo' />Revise</Button>
+                  {task.sample_link && <Button primary onClick={() => window.open(task.sample_link)}><Icon name='attach' />View Attachment</Button>}
+                  </span> : <Button negative onClick={() => {handleRevise(task)}}><Icon name='redo' />Revise</Button>}
 
               </Table.Cell>}
             </Table.Row>
@@ -212,13 +212,13 @@ const EstimationPage = (params) => {
       </Card>
 
       { data?.ReqAgency.finalized || <Button onClick={handleFinalize} primary>Finalize</Button>}
-      { data?.Payment && <Button onClick={() => navigate('/payment/' + data?.Payment?.id)} primary>View Payment Status</Button> }
+      { data?.Payment && <Button onClick={() => navigate('/payment/' + data?.Payment?.id)} primary><Icon name='money bill alternate outline' />View Payment Status</Button> }
       { data?.ReqAgency?.finalized && !data?.is_completed && !data?.is_rejected &&
-        <Button onClick={() => {handleFinish(data?.id)}} primary disabled={!finishButton}>Finish Project</Button>
+        <Button onClick={() => {handleFinish(data?.id)}} primary disabled={!finishButton}><Icon name='forward' />Finish Project</Button>
       }
 
       { data?.ReqAgency?.finalized && !data?.is_completed && !data?.is_rejected &&
-        <Button onClick={() => {handleDiscard(data?.id)}} negative disabled={!discardButton}>Discard Project</Button>
+        <Button onClick={() => {handleDiscard(data?.id)}} negative disabled={!discardButton}><Icon name='close' />Discard Project</Button>
       }
 
 

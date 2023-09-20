@@ -4,11 +4,17 @@ import EstimationSearchList from '../cards/searchItems/EstimationSearchList';
 import RequestSearchList from '../cards/searchItems/RequestSearchList';
 import EmployeeSearchList from '../cards/searchItems/EmployeeSearchList';
 import AgencySearchList from '../cards/searchItems/AgencySearchList';
+import ArchiveSearchList from '../cards/searchItems/ArchiveSearchList';
 
 const panes = [
     {
         menuItem: 'Ongoing Projects',
         render: ({ searchData }) => <Tab.Pane attached={false}> <EstimationSearchList searchData={searchData.estimation} /></Tab.Pane>,
+    },
+
+    {
+        menuItem: 'Archive',
+        render: ({ searchData }) => <Tab.Pane attached={false}> <ArchiveSearchList searchData={searchData.archive} /></Tab.Pane>,
     },
 
     {
