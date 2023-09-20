@@ -150,12 +150,13 @@ export const SingleEstimationCard = ({ estimationData, isRejected, isOngoing, is
                 </Card.Content>
 
 
+                {isArchived ? null :
+                    <div className='ms-3 me-3 mb-3'>
+                        {currProgress}% Completed
 
-                <div className='ms-3 me-3 mb-3'>
-                    {currProgress}% Completed
-
-                    <ProgressBar variant="success" animated className='mt-2' now={currProgress} />
-                </div>
+                        <ProgressBar variant="success" animated className='mt-2' now={currProgress} />
+                    </div>
+                }
                 {!isArchived && !isClientView && <Card.Content extra>
                     <List.Icon name='list alternate outline' size='large' verticalAlign='middle' />
                     Task List
