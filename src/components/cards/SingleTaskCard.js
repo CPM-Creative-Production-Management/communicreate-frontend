@@ -103,15 +103,15 @@ export const SingleTaskCard = (props) => {
 
 
                     <Stack direction="row" spacing={2}>
-                        <Button onClick={() => {
+                        {props.finalized || <Button onClick={() => {
                             editTask()
                         }} disabled={props.finished} >
                             <Icon name='edit' /> Edit
-                        </Button>
+                        </Button>}
 
-                        <Button onClick={deleteTask} disabled={props.finished}>
+                        {props.finalized || <Button onClick={deleteTask} disabled={props.finished}>
                             <Icon name='trash alternate outline' /> Delete
-                        </Button>
+                        </Button>}
 
                         {props.edit && props.finalized && !props.finished && (props.singleTask.status === 0 ? <Button onClick={() => 
                             // sendApprovalRequest(props.singleTask.id)
