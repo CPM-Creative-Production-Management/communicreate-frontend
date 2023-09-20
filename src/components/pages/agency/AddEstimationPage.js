@@ -475,13 +475,13 @@ export const AddEstimationPage = (props) => {
                                 <Grid item xs={6} md={6}>
                                     <Button fluid onClick={() => {
                                         setOpenAddTaskModal(true)
-                                    }} disabled={(reqData?.ReqAgency?.Estimation?.is_completed || reqData?.ReqAgency?.Estimation?.is_rejected)}>
+                                    }} disabled={(reqData?.ReqAgency?.Estimation?.is_completed || reqData?.ReqAgency?.Estimation?.is_rejected || reqData?.ReqAgency?.finalized)}>
                                         <Icon name='add' />
                                         Add Task
                                     </Button>
                                 </Grid>
                                 <Grid item xs={6} md={6}>
-                                    <Button fluid onClick={sendEstimation} positive animated disabled={(reqData?.ReqAgency?.Estimation?.is_completed || reqData?.ReqAgency?.Estimation?.is_rejected)}>
+                                    <Button fluid onClick={sendEstimation} positive animated disabled={(reqData?.ReqAgency?.Estimation?.is_completed || reqData?.ReqAgency?.Estimation?.is_rejected || reqData?.ReqAgency?.finalized)}>
 
                                         <Icon name='send' />
                                         Send Estimation
